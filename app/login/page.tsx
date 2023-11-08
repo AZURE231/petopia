@@ -1,12 +1,13 @@
 import React from "react";
 import Image from "next/image";
 import LoginForm from "@/components/LoginForm";
+import RegisterForm from "@/components/RegisterForm";
 
 export default function page() {
   return (
     <div className="">
       <div className="absolute m-auto left-0 right-0 z-50">
-        <LoginForm />
+        <RegisterForm />
       </div>
       {/* Background */}
       <div className="flex">
