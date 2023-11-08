@@ -97,36 +97,13 @@ export default function RegisterForm() {
                 required
               />
             </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-start">
-                <div className="flex items-center h-5">
-                  <input
-                    id="remember"
-                    aria-describedby="remember"
-                    type="checkbox"
-                    className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 "
-                    required
-                  />
-                </div>
-                <div className="ml-3 text-sm">
-                  <label htmlFor="remember" className="text-gray-500 ">
-                    Nhớ đăng nhập
-                  </label>
-                </div>
-              </div>
-              <a
-                href="#"
-                className="text-sm font-medium text-primary-600 hover:underline "
-              >
-                Quên mật khẩu?
-              </a>
-            </div>
+
             <button
               type="submit"
               className="w-full text-black bg-yellow-300 hover:bg-primary-700 focus:ring-4 focus:outline-none 
                 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             >
-              Đăng nhập
+              Đăng ký
             </button>
             <button className="w-full content-end py-2 border flex border-slate-200  rounded-lg text-slate-700  hover:border-slate-400  hover:text-slate-900  hover:shadow transition duration-150">
               <div className="flex gap-2 mx-auto">
@@ -139,15 +116,6 @@ export default function RegisterForm() {
                 <span className="">Đăng nhập với Google</span>
               </div>
             </button>
-            <p className="text-sm font-light text-gray-500 ">
-              Chưa có tài khoản?{" "}
-              <a
-                href="#"
-                className="font-medium text-primary-600 hover:underline "
-              >
-                Đăng ký
-              </a>
-            </p>
           </form>
         </div>
       </div>
