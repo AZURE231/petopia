@@ -1,4 +1,40 @@
+"use client";
+import { useState } from "react";
+
 export default function RegisterForm() {
+  const [registerData, setRegisterData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const [error, setError] = useState("");
+
+  const handleConfirmPassword = (event: any) => {
+    let { name, value } = event.target;
+    if (value !== registerData.password) {
+      setError("Mật khẩu không khớp");
+    } else {
+      setError("");
+    }
+  };
+
+  const handleInputChange = (event: any) => {
+    const { name, value } = event.target;
+    setRegisterData((prevProps) => ({
+      ...prevProps,
+      [name]: value,
+    }));
+    handleConfirmPassword(event);
+  };
+
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    console.log(registerData);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto my-auto h-screen">
       <div className="w-full bg-white rounded-lg shadow  md:mt-0 sm:max-w-md xl:p-0 ">
@@ -12,7 +48,7 @@ export default function RegisterForm() {
               Đăng ký
             </h1>
           </div>
-          <form className="space-y-4 md:space-y-6" action="#">
+          <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
             {/* Họ */}
             <div>
               <label
@@ -27,6 +63,7 @@ export default function RegisterForm() {
                 id="lastname"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 :bg-gray-700 "
                 placeholder="Nguyễn Văn"
+                onChange={handleInputChange}
                 required
               />
             </div>
@@ -44,6 +81,7 @@ export default function RegisterForm() {
                 id="firstname"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 :bg-gray-700 "
                 placeholder="A"
+                onChange={handleInputChange}
                 required
               />
             </div>
@@ -61,6 +99,7 @@ export default function RegisterForm() {
                 id="email"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 :bg-gray-700 "
                 placeholder="name@company.com"
+                onChange={handleInputChange}
                 required
               />
             </div>
@@ -78,6 +117,7 @@ export default function RegisterForm() {
                 id="password"
                 placeholder="••••••••"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
+                onChange={handleInputChange}
                 required
               />
             </div>
@@ -89,13 +129,15 @@ export default function RegisterForm() {
                 Nhập lại mật khẩu
               </label>
               <input
-                type="repeatPassword"
+                type="password"
                 name="repeatPassword"
                 id="repeatPassword"
                 placeholder="••••••••"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
+                onChange={handleInputChange}
                 required
               />
+              {error && <span className="text-sm text-red-500">{error}</span>}
             </div>
 
             <button
