@@ -6,7 +6,7 @@ import SuccessToast from "./SuccessToast";
 
 export default function RegisterForm() {
   const [message, setMessage] = useState("");
-  const [registerData, setRegisterData] = useState({
+  const [registerData, setRegisterData] = useState<IUserRegister>({
     firstName: "",
     lastName: "",
     email: "",
@@ -36,15 +36,23 @@ export default function RegisterForm() {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     try {
-      let res = await fetch("https://httpbin.org/post", {
-        method: "POST",
-        body: JSON.stringify({
-          firstName: registerData.firstName,
-          lastName: registerData.lastName,
-          email: registerData.email,
-          password: registerData.password,
-        }),
-      });
+      let res = await fetch(
+        "https://48af-203-205-32-159.ngrok-free.app/api/Authentication/Register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "ngrok-skip-browser-warning": "true",
+          },
+          body: JSON.stringify({
+            firstName: registerData.firstName,
+            lastName: registerData.lastName,
+            email: registerData.email,
+            password: registerData.password,
+            googleRecaptchaToken: "string",
+          }),
+        }
+      );
       let resJson = await res.json();
       if (res.status === 200) {
         setMessage("User created successfully");
@@ -54,6 +62,7 @@ export default function RegisterForm() {
     } catch (err) {
       console.log(err);
     }
+    console.log(registerData);
   };
 
   return (
@@ -88,8 +97,8 @@ export default function RegisterForm() {
               </label>
               <input
                 type="text"
-                name="lastname"
-                id="lastname"
+                name="lastName"
+                id="lastName"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 :bg-gray-700 "
                 placeholder="Nguyễn Văn"
                 onChange={handleInputChange}
@@ -106,8 +115,8 @@ export default function RegisterForm() {
               </label>
               <input
                 type="text"
-                name="firstname"
-                id="firstname"
+                name="firstName"
+                id="firstName"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 :bg-gray-700 "
                 placeholder="A"
                 onChange={handleInputChange}
@@ -159,8 +168,8 @@ export default function RegisterForm() {
               </label>
               <input
                 type="password"
-                name="repeatPassword"
-                id="repeatPassword"
+                name="confirmPassword"
+                id="confirmPassword"
                 placeholder="••••••••"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
                 onChange={handleInputChange}
