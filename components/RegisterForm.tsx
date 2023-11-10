@@ -1,15 +1,18 @@
 "use client";
 import { useState } from "react";
+import { IUserRegister } from "@/interface/IUserRegister";
+import RegisterApi from "@/api/RegisterApi";
+import SuccessToast from "./SuccessToast";
 
 export default function RegisterForm() {
+  const [message, setMessage] = useState("");
   const [registerData, setRegisterData] = useState({
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
-
   const [error, setError] = useState("");
 
   const handleConfirmPassword = (event: any) => {
@@ -30,23 +33,49 @@ export default function RegisterForm() {
     handleConfirmPassword(event);
   };
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
-    console.log(registerData);
+    try {
+      let res = await fetch("https://httpbin.org/post", {
+        method: "POST",
+        body: JSON.stringify({
+          firstName: registerData.firstName,
+          lastName: registerData.lastName,
+          email: registerData.email,
+          password: registerData.password,
+        }),
+      });
+      let resJson = await res.json();
+      if (res.status === 200) {
+        setMessage("User created successfully");
+      } else {
+        setMessage("Some error occured");
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto my-auto h-screen">
       <div className="w-full bg-white rounded-lg shadow  md:mt-0 sm:max-w-md xl:p-0 ">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-          <div>
-            <h2 className="">
-              <span className="text-yellow-300 font-bold">Pet</span>opia xin
-              chào
-            </h2>
-            <h1 className="text-4xl font-bold leading-tight tracking-tight text-gray-900 md:text-4xl ">
-              Đăng ký
-            </h1>
+          <div className="flex justify-between">
+            <div>
+              <h2 className="">
+                <span className="text-yellow-300 font-bold">Pet</span>opia xin
+                chào
+              </h2>
+              <h1 className="text-4xl font-bold leading-tight tracking-tight text-gray-900 md:text-4xl ">
+                Đăng ký
+              </h1>
+            </div>
+            <div>
+              <p>Đã có tài khoản?</p>
+              <a className="text-yellow-600" href="/login">
+                Đăng nhập
+              </a>
+            </div>
           </div>
           <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
             {/* Họ */}
@@ -147,6 +176,7 @@ export default function RegisterForm() {
             >
               Đăng ký
             </button>
+            <p>{message}</p>
             <button className="w-full content-end py-2 border flex border-slate-200  rounded-lg text-slate-700  hover:border-slate-400  hover:text-slate-900  hover:shadow transition duration-150">
               <div className="flex gap-2 mx-auto">
                 <img
