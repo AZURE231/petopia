@@ -37,12 +37,13 @@ export default function RegisterForm() {
     event.preventDefault();
     try {
       let res = await fetch(
-        "https://48af-203-205-32-159.ngrok-free.app/api/Authentication/Register",
+        "https://dd64-203-205-32-159.ngrok-free.app/api/Authentication/Register",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             "ngrok-skip-browser-warning": "true",
+            "Access-Control-Allow-Origin": "*",
           },
           body: JSON.stringify({
             firstName: registerData.firstName,
