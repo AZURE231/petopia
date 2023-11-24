@@ -1,1 +1,1 @@
-export const API_ROUTE = "https://6dd8-2402-800-63ed-7c70-c41d-9222-d6a5-b7b6.ngrok-free.app/api";
+export const API_ROUTE = "https://127.0.0.1:8888/api";

@@ -1,17 +1,34 @@
-import { MutationFunction, useMutation as useMutationDefault } from "react-query"
-import { IApiErrorResponse, IApiResponse } from "../interfaces/common"
+
+import { IApiErrorResponse } from '../interfaces/common';
+import {
+	useMutation as useMutationLib,
+	useQuery as useQueryLib,
+	UseMutationOptions,
+	UseMutationResult,
+	UseQueryOptions,
+	UseQueryResult,
+	QueryKey} from 'react-query';
+import { AxiosResponse } from 'axios';
 
 /*----------------------------- USE MUTATION ----------------------------- */
-interface IUserMutation<TRes, TReq> {
-  mutationFn: MutationFunction<IApiResponse<TRes>, TReq>,
-  onSuccess: (res: IApiResponse<TRes>) => void,
-  onError: (err: IApiErrorResponse) => void,
+export function useMutation<TData = any, TVariables = any, TContext = unknown>(
+	mutationFn: any,
+	options?: Omit<
+		UseMutationOptions<AxiosResponse<TData>, AxiosResponse<IApiErrorResponse>, TVariables, TContext>,
+		'mutationFn'
+	>
+): UseMutationResult<AxiosResponse<TData>, AxiosResponse<IApiErrorResponse>, TVariables, TContext> {
+	return useMutationLib(mutationFn, options);
 }
-export function useMutation<TRes, TReq>(props: IUserMutation<TRes, TReq>) {
-  const {mutationFn, onError, onSuccess} = props;
-  return useMutationDefault<IApiResponse<TRes>, IApiErrorResponse, TReq>({
-    mutationFn: mutationFn,
-    onError: onError,
-    onSuccess: onSuccess,
-  })
+
+/*------------------------------ USE QUERY ------------------------------ */
+export function useQuery<TData = any, TQueryFnData = any, TQueryKey extends QueryKey = QueryKey>(
+	queryKey: TQueryKey,
+	queryFn: any,
+	options?: Omit<
+		UseQueryOptions<TQueryFnData, AxiosResponse<IApiErrorResponse>, AxiosResponse<TData>, TQueryKey>,
+		'queryKey' | 'queryFn'
+	>
+): UseQueryResult<AxiosResponse<TData>, AxiosResponse<IApiErrorResponse>> {
+	return useQueryLib(queryKey, queryFn, options);
 }

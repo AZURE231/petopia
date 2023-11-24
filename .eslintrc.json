@@ -1,6 +1,13 @@
 {
   "extends": "next/core-web-vitals",
   "rules": {
-    "react-hooks/exhaustive-deps": "off"
+    "quotes": [1, "single"],
+    "no-var": "error",
+    "no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
+    "no-duplicate-imports": "error",
+    "react-hooks/exhaustive-deps": "off",
+    "@typescript-eslint/no-empty-interface": "off",
+    "@typescript-eslint/no-inferrable-types": "off",
+    "semi": ["error", "always"]
   }
 }

@@ -1,46 +1,52 @@
-"use client";
-import { useEffect, useState } from "react";
-import Image from "next/image";
+'use client';
+import { ChangeEvent, useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useForm } from 'react-hook-form';
-import { IRegisterForm, IRegisterRequest } from "../interfaces/authentication";
-import { STATIC_URLS } from "../utils/constants";
-import { IApiResponse } from "../interfaces/common";
-import { register } from "../api/authentication";
-import { QueryProvider } from "./QueryProvider";
-import { useMutation } from "../utils/hooks";
+import { IRegisterForm, IRegisterRequest } from '../interfaces/authentication';
+import { STATIC_URLS } from '../utils/constants';
+import { IApiResponse } from '../interfaces/common';
+import { QueryProvider } from './QueryProvider';
+import { useMutation } from '../utils/hooks';
+import { register } from '../services/authentication.api';
+import { getErrorMessage } from '../helpers/getErrorMessage';
 
 export const RegisterForm = QueryProvider(() => {
-  const [message, setMessage] = useState<string>("");
-  const [error, setError] = useState<string>("");
+  const [message, setMessage] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
   const { getValues, setValue, watch } = useForm<IRegisterForm>({
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      googleRecaptchaToken: "",
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      googleRecaptchaToken: '',
     }
   });
 
-  const registerMutation = useMutation<IApiResponse<boolean>, IRegisterRequest>({
-    mutationFn: register,
+  const registerMutation = useMutation<IApiResponse<boolean>, IRegisterRequest>(
+    register, {
     onError: (err) => {
-      setMessage("Có lỗi")
+      setError(getErrorMessage(err.data.errorCode.toString()));
     },
     onSuccess: (res) => {
-      setMessage("Xác nhận Email của bạn để hoàn thành đăng ký")
+      setMessage('Xác nhận Email của bạn để hoàn thành đăng ký');
     }
-  })
+  });
+
+  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    !error && registerMutation.mutate(getValues());
+  };
 
   useEffect(() => {
     if (getValues('confirmPassword') !== getValues('password')) {
-      setError("Mật khẩu không khớp");
+      setError('Mật khẩu không khớp');
     } else {
-      setError("");
+      setError('');
     }
-  }, [watch('confirmPassword')])
+  }, [watch('confirmPassword')]);
 
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto my-auto h-screen">
@@ -63,9 +69,9 @@ export const RegisterForm = QueryProvider(() => {
               </a>
             </div>
           </div>
-          <form 
+          <form
             className="space-y-4 md:space-y-6"
-            onSubmit={() => registerMutation.mutate(getValues())}
+            onSubmit={handleSubmit}
           >
             {/* Họ */}
             <div>
@@ -98,7 +104,7 @@ export const RegisterForm = QueryProvider(() => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 :bg-gray-700 "
                 placeholder="A"
                 required
-                onChange={(e) => setValue("firstName", e.target.value)}
+                onChange={(e) => setValue('firstName', e.target.value)}
               />
             </div>
             {/* Email */}
@@ -181,4 +187,4 @@ export const RegisterForm = QueryProvider(() => {
       </div>
     </div >
   );
-})
+});

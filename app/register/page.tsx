@@ -1,7 +1,7 @@
-import React from "react";
-import Image from "next/image";
-import { RegisterForm } from "@/src/components/RegisterForm";
-import { STATIC_URLS } from "@/src/utils/constants";
+import React from 'react';
+import Image from 'next/image';
+import { RegisterForm } from '@/src/components/RegisterForm';
+import { STATIC_URLS } from '@/src/utils/constants';
 
 export default function page() {
   return (
