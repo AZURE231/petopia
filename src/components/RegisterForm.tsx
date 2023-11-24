@@ -1,70 +1,46 @@
 "use client";
-import { useState } from "react";
-import { IUserRegister } from "@/interface/IUserRegister";
-import RegisterApi from "@/api/RegisterApi";
-import SuccessToast from "./SuccessToast";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { useForm } from 'react-hook-form';
+import { IRegisterForm, IRegisterRequest } from "../interfaces/authentication";
+import { STATIC_URLS } from "../utils/constants";
+import { IApiResponse } from "../interfaces/common";
+import { register } from "../api/authentication";
+import { QueryProvider } from "./QueryProvider";
+import { useMutation } from "../utils/hooks";
 
-export default function RegisterForm() {
-  const [message, setMessage] = useState("");
-  const [registerData, setRegisterData] = useState<IUserRegister>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+export const RegisterForm = QueryProvider(() => {
+  const [message, setMessage] = useState<string>("");
+  const [error, setError] = useState<string>("");
+
+  const { getValues, setValue, watch } = useForm<IRegisterForm>({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      googleRecaptchaToken: "",
+    }
   });
-  const [error, setError] = useState("");
 
-  const handleConfirmPassword = (event: any) => {
-    let { name, value } = event.target;
-    if (value !== registerData.password) {
+  const registerMutation = useMutation<IApiResponse<boolean>, IRegisterRequest>({
+    mutationFn: register,
+    onError: (err) => {
+      setMessage("Có lỗi")
+    },
+    onSuccess: (res) => {
+      setMessage("Xác nhận Email của bạn để hoàn thành đăng ký")
+    }
+  })
+
+  useEffect(() => {
+    if (getValues('confirmPassword') !== getValues('password')) {
       setError("Mật khẩu không khớp");
     } else {
       setError("");
     }
-  };
-
-  const handleInputChange = (event: any) => {
-    const { name, value } = event.target;
-    setRegisterData((prevProps) => ({
-      ...prevProps,
-      [name]: value,
-    }));
-    handleConfirmPassword(event);
-  };
-
-  const handleSubmit = async (event: any) => {
-    event.preventDefault();
-    try {
-      let res = await fetch(
-        "https://dd64-203-205-32-159.ngrok-free.app/api/Authentication/Register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "ngrok-skip-browser-warning": "true",
-            "Access-Control-Allow-Origin": "*",
-          },
-          body: JSON.stringify({
-            firstName: registerData.firstName,
-            lastName: registerData.lastName,
-            email: registerData.email,
-            password: registerData.password,
-            googleRecaptchaToken: "string",
-          }),
-        }
-      );
-      let resJson = await res.json();
-      if (res.status === 200) {
-        setMessage("User created successfully");
-      } else {
-        setMessage("Some error occured");
-      }
-    } catch (err) {
-      console.log(err);
-    }
-    console.log(registerData);
-  };
+  }, [watch('confirmPassword')])
 
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto my-auto h-screen">
@@ -87,7 +63,10 @@ export default function RegisterForm() {
               </a>
             </div>
           </div>
-          <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+          <form 
+            className="space-y-4 md:space-y-6"
+            onSubmit={() => registerMutation.mutate(getValues())}
+          >
             {/* Họ */}
             <div>
               <label
@@ -97,13 +76,12 @@ export default function RegisterForm() {
                 Họ của bạn
               </label>
               <input
-                type="text"
-                name="lastName"
-                id="lastName"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 :bg-gray-700 "
-                placeholder="Nguyễn Văn"
-                onChange={handleInputChange}
+                type="text"
+                id="lastName"
                 required
+                placeholder="Nguyễn Văn"
+                onChange={(e) => setValue('lastName', e.target.value)}
               />
             </div>
             {/* Tên */}
@@ -116,12 +94,11 @@ export default function RegisterForm() {
               </label>
               <input
                 type="text"
-                name="firstName"
                 id="firstName"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 :bg-gray-700 "
                 placeholder="A"
-                onChange={handleInputChange}
                 required
+                onChange={(e) => setValue("firstName", e.target.value)}
               />
             </div>
             {/* Email */}
@@ -138,7 +115,7 @@ export default function RegisterForm() {
                 id="email"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 :bg-gray-700 "
                 placeholder="name@company.com"
-                onChange={handleInputChange}
+                onChange={(e) => setValue('email', e.target.value)}
                 required
               />
             </div>
@@ -156,7 +133,7 @@ export default function RegisterForm() {
                 id="password"
                 placeholder="••••••••"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
-                onChange={handleInputChange}
+                onChange={(e) => setValue('password', e.target.value)}
                 required
               />
             </div>
@@ -173,7 +150,7 @@ export default function RegisterForm() {
                 id="confirmPassword"
                 placeholder="••••••••"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
-                onChange={handleInputChange}
+                onChange={(e) => setValue('confirmPassword', e.target.value)}
                 required
               />
               {error && <span className="text-sm text-red-500">{error}</span>}
@@ -189,9 +166,10 @@ export default function RegisterForm() {
             <p>{message}</p>
             <button className="w-full content-end py-2 border flex border-slate-200  rounded-lg text-slate-700  hover:border-slate-400  hover:text-slate-900  hover:shadow transition duration-150">
               <div className="flex gap-2 mx-auto">
-                <img
-                  className="w-6 h-6"
-                  src="https://www.svgrepo.com/show/475656/google-color.svg"
+                <Image
+                  width={24}
+                  height={24}
+                  src={STATIC_URLS.GOOGLE_LOGIN}
                   loading="lazy"
                   alt="google logo"
                 />
@@ -201,6 +179,6 @@ export default function RegisterForm() {
           </form>
         </div>
       </div>
-    </div>
+    </div >
   );
-}
+})

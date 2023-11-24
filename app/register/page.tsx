@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import LoginForm from "@/components/LoginForm";
-import RegisterForm from "@/components/RegisterForm";
+import { RegisterForm } from "@/src/components/RegisterForm";
+import { STATIC_URLS } from "@/src/utils/constants";
 
 export default function page() {
   return (
@@ -16,7 +16,7 @@ export default function page() {
             <Image
               className="object-cover"
               alt="girl and dog"
-              src={"/img/girl_dog.webp"}
+              src={STATIC_URLS.GIRL_DOG}
               fill={true}
             ></Image>
           </div>
@@ -26,7 +26,7 @@ export default function page() {
             <Image
               className="object-cover"
               alt="golden_retriever"
-              src={"/img/pexels-gilberto-reyes.png"}
+              src={STATIC_URLS.GOLDEN_RETRIEVER}
               fill={true}
             ></Image>
           </div>

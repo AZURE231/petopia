@@ -1,3 +1,6 @@
+import Image from 'next/image';
+import { STATIC_URLS } from '../utils/constants';
+
 export default function LoginForm() {
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto my-auto h-screen">
@@ -78,9 +81,10 @@ export default function LoginForm() {
             </button>
             <button className="w-full content-end py-2 border flex border-slate-200  rounded-lg text-slate-700  hover:border-slate-400  hover:text-slate-900  hover:shadow transition duration-150">
               <div className="flex gap-2 mx-auto">
-                <img
-                  className="w-6 h-6"
-                  src="https://www.svgrepo.com/show/475656/google-color.svg"
+                <Image
+                  width={24}
+                  height={24}
+                  src={STATIC_URLS.GOOGLE_LOGIN}
                   loading="lazy"
                   alt="google logo"
                 />
