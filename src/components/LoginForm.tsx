@@ -1,5 +1,5 @@
 'use client';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import Image from 'next/image';
 import { STATIC_URLS } from '../utils/constants';
 import { useMutation } from '../utils/hooks';
@@ -12,10 +12,9 @@ import { QueryProvider } from './QueryProvider';
 import Link from 'next/link';
 
 export const LoginForm = QueryProvider(() => {
-  const [message, setMessage] = useState<string>('');
   const [error, setError] = useState<string>('');
 
-  const { getValues, setValue, watch } = useForm<ILoginRequest>({
+  const { getValues, setValue } = useForm<ILoginRequest>({
     defaultValues: {
       email: '',
       password: '',
@@ -25,13 +24,8 @@ export const LoginForm = QueryProvider(() => {
   const registerMutation = useMutation<IApiResponse<boolean>, ILoginRequest>(
     login,
     {
-      onError: (err) => {
-        setError(getErrorMessage(err.data.errorCode.toString()));
-      },
-      onSuccess: (res) => {
-        setMessage('dang nhap thanh cong');
-        window.location.replace('/home');
-      },
+      onError: (err) => setError(getErrorMessage(err.data.errorCode.toString())),
+      onSuccess: () => window.location.replace('/home'),
     }
   );
 
@@ -63,7 +57,6 @@ export const LoginForm = QueryProvider(() => {
               </label>
               <input
                 type="email"
-                name="email"
                 id="email"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 :bg-gray-700 "
                 placeholder="name@company.com"
@@ -80,7 +73,6 @@ export const LoginForm = QueryProvider(() => {
               </label>
               <input
                 type="password"
-                name="password"
                 id="password"
                 placeholder="••••••••"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
@@ -130,7 +122,6 @@ export const LoginForm = QueryProvider(() => {
                 <span className="">Đăng nhập với Google</span>
               </div>
             </button>
-            <p>{message}</p>
             <p className="text-sm font-light text-gray-500 ">
               Chưa có tài khoản?{' '}
               <Link
