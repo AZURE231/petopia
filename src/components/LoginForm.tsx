@@ -10,7 +10,6 @@ import { login } from '../services/authentication.api';
 import { useForm } from 'react-hook-form';
 import { QueryProvider } from './QueryProvider';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
 
 export const LoginForm = QueryProvider(() => {
   const [message, setMessage] = useState<string>('');
@@ -30,8 +29,8 @@ export const LoginForm = QueryProvider(() => {
         setError(getErrorMessage(err.data.errorCode.toString()));
       },
       onSuccess: (res) => {
-        redirect('/home');
         setMessage('dang nhap thanh cong');
+        window.location.replace('/home');
       },
     }
   );
