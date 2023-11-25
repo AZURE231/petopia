@@ -9,6 +9,8 @@ import { ILoginRequest } from '../interfaces/authentication';
 import { login } from '../services/authentication.api';
 import { useForm } from 'react-hook-form';
 import { QueryProvider } from './QueryProvider';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 export const LoginForm = QueryProvider(() => {
   const [message, setMessage] = useState<string>('');
@@ -28,6 +30,7 @@ export const LoginForm = QueryProvider(() => {
         setError(getErrorMessage(err.data.errorCode.toString()));
       },
       onSuccess: (res) => {
+        redirect('/home');
         setMessage('dang nhap thanh cong');
       },
     }
@@ -131,12 +134,12 @@ export const LoginForm = QueryProvider(() => {
             <p>{message}</p>
             <p className="text-sm font-light text-gray-500 ">
               Chưa có tài khoản?{' '}
-              <a
-                href="#"
+              <Link
+                href="/register"
                 className="font-medium text-primary-600 hover:underline "
               >
                 Đăng ký
-              </a>
+              </Link>
             </p>
           </form>
         </div>

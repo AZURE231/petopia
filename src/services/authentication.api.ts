@@ -1,4 +1,3 @@
-import exp from 'constants';
 import { IRegisterRequest, ILoginRequest } from '../interfaces/authentication';
 import { http } from './http';
 
