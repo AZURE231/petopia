@@ -1,7 +1,43 @@
+'use client';
+import { ChangeEvent, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { STATIC_URLS } from '../utils/constants';
+import { useMutation } from '../utils/hooks';
+import { getErrorMessage } from '../helpers/getErrorMessage';
+import { IApiResponse } from '../interfaces/common';
+import { ILoginRequest } from '../interfaces/authentication';
+import { login } from '../services/authentication.api';
+import { useForm } from 'react-hook-form';
+import { QueryProvider } from './QueryProvider';
 
-export default function LoginForm() {
+export const LoginForm = QueryProvider(() => {
+  const [message, setMessage] = useState<string>('');
+  const [error, setError] = useState<string>('');
+
+  const { getValues, setValue, watch } = useForm<ILoginRequest>({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const registerMutation = useMutation<IApiResponse<boolean>, ILoginRequest>(
+    login,
+    {
+      onError: (err) => {
+        setError(getErrorMessage(err.data.errorCode.toString()));
+      },
+      onSuccess: (res) => {
+        setMessage('dang nhap thanh cong');
+      },
+    }
+  );
+
+  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    !error && registerMutation.mutate(getValues());
+  };
+
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto my-auto h-screen">
       <div className="w-full bg-white rounded-lg shadow  md:mt-0 sm:max-w-md xl:p-0 ">
@@ -15,13 +51,13 @@ export default function LoginForm() {
               Đăng nhập
             </h1>
           </div>
-          <form className="space-y-4 md:space-y-6" action="#">
+          <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
             <div>
               <label
                 htmlFor="email"
                 className="block mb-2 text-sm font-medium text-gray-900 "
               >
-                Emal của bạn
+                Email của bạn
               </label>
               <input
                 type="email"
@@ -30,6 +66,7 @@ export default function LoginForm() {
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 :bg-gray-700 "
                 placeholder="name@company.com"
                 required
+                onChange={(e) => setValue('email', e.target.value)}
               />
             </div>
             <div>
@@ -46,6 +83,7 @@ export default function LoginForm() {
                 placeholder="••••••••"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
                 required
+                onChange={(e) => setValue('password', e.target.value)}
               />
             </div>
             <div className="flex items-center justify-between">
@@ -56,7 +94,6 @@ export default function LoginForm() {
                     aria-describedby="remember"
                     type="checkbox"
                     className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 "
-                    required
                   />
                 </div>
                 <div className="ml-3 text-sm">
@@ -91,6 +128,7 @@ export default function LoginForm() {
                 <span className="">Đăng nhập với Google</span>
               </div>
             </button>
+            <p>{message}</p>
             <p className="text-sm font-light text-gray-500 ">
               Chưa có tài khoản?{' '}
               <a
@@ -105,4 +143,4 @@ export default function LoginForm() {
       </div>
     </div>
   );
-}
+});

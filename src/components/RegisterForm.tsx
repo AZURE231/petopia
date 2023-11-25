@@ -9,6 +9,7 @@ import { QueryProvider } from './QueryProvider';
 import { useMutation } from '../utils/hooks';
 import { register } from '../services/authentication.api';
 import { getErrorMessage } from '../helpers/getErrorMessage';
+import SuccessToast from './SuccessToast';
 
 export const RegisterForm = QueryProvider(() => {
   const [message, setMessage] = useState<string>('');
@@ -22,18 +23,20 @@ export const RegisterForm = QueryProvider(() => {
       password: '',
       confirmPassword: '',
       googleRecaptchaToken: '',
-    }
+    },
   });
 
   const registerMutation = useMutation<IApiResponse<boolean>, IRegisterRequest>(
-    register, {
-    onError: (err) => {
-      setError(getErrorMessage(err.data.errorCode.toString()));
-    },
-    onSuccess: (res) => {
-      setMessage('Xác nhận Email của bạn để hoàn thành đăng ký');
+    register,
+    {
+      onError: (err) => {
+        setError(getErrorMessage(err.data.errorCode.toString()));
+      },
+      onSuccess: (res) => {
+        setMessage('Xác nhận Email của bạn để hoàn thành đăng ký');
+      },
     }
-  });
+  );
 
   const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -69,10 +72,7 @@ export const RegisterForm = QueryProvider(() => {
               </a>
             </div>
           </div>
-          <form
-            className="space-y-4 md:space-y-6"
-            onSubmit={handleSubmit}
-          >
+          <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
             {/* Họ */}
             <div>
               <label
@@ -169,6 +169,7 @@ export const RegisterForm = QueryProvider(() => {
             >
               Đăng ký
             </button>
+            {/* <SuccessToast message={message} /> */}
             <p>{message}</p>
             <button className="w-full content-end py-2 border flex border-slate-200  rounded-lg text-slate-700  hover:border-slate-400  hover:text-slate-900  hover:shadow transition duration-150">
               <div className="flex gap-2 mx-auto">
@@ -185,6 +186,6 @@ export const RegisterForm = QueryProvider(() => {
           </form>
         </div>
       </div>
-    </div >
+    </div>
   );
 });
