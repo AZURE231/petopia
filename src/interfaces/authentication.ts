@@ -9,3 +9,8 @@ export interface IRegisterRequest {
   password: string;
   googleRecaptchaToken: string;
 }
+
+export interface ILoginRequest {
+  email: string;
+  password: string;
+}

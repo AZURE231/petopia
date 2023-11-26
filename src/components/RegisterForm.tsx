@@ -9,10 +9,12 @@ import { QueryProvider } from './QueryProvider';
 import { useMutation } from '../utils/hooks';
 import { register } from '../services/authentication.api';
 import { getErrorMessage } from '../helpers/getErrorMessage';
+import { Alert } from './Alert';
+import Link from 'next/link';
 
 export const RegisterForm = QueryProvider(() => {
-  const [message, setMessage] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const { getValues, setValue, watch } = useForm<IRegisterForm>({
     defaultValues: {
@@ -22,18 +24,16 @@ export const RegisterForm = QueryProvider(() => {
       password: '',
       confirmPassword: '',
       googleRecaptchaToken: '',
-    }
+    },
   });
 
   const registerMutation = useMutation<IApiResponse<boolean>, IRegisterRequest>(
-    register, {
-    onError: (err) => {
-      setError(getErrorMessage(err.data.errorCode.toString()));
-    },
-    onSuccess: (res) => {
-      setMessage('Xác nhận Email của bạn để hoàn thành đăng ký');
+    register,
+    {
+      onError: (err) => setError(getErrorMessage(err.data.errorCode.toString())),
+      onSuccess: () => setShowModal(true)
     }
-  });
+  );
 
   const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -64,15 +64,12 @@ export const RegisterForm = QueryProvider(() => {
             </div>
             <div>
               <p>Đã có tài khoản?</p>
-              <a className="text-yellow-600" href="/login">
+              <Link className="text-yellow-600" href="/login">
                 Đăng nhập
-              </a>
+              </Link>
             </div>
           </div>
-          <form
-            className="space-y-4 md:space-y-6"
-            onSubmit={handleSubmit}
-          >
+          <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
             {/* Họ */}
             <div>
               <label
@@ -169,7 +166,6 @@ export const RegisterForm = QueryProvider(() => {
             >
               Đăng ký
             </button>
-            <p>{message}</p>
             <button className="w-full content-end py-2 border flex border-slate-200  rounded-lg text-slate-700  hover:border-slate-400  hover:text-slate-900  hover:shadow transition duration-150">
               <div className="flex gap-2 mx-auto">
                 <Image
@@ -185,6 +181,11 @@ export const RegisterForm = QueryProvider(() => {
           </form>
         </div>
       </div>
-    </div >
+      <Alert
+        message='Kiểm tra email để hoàn thành đăng ký.'
+        show={showModal}
+        setShow={setShowModal}
+      />
+    </div>
   );
 });
