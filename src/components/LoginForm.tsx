@@ -1,7 +1,5 @@
 'use client';
 import { ChangeEvent, useState } from 'react';
-import Image from 'next/image';
-import { STATIC_URLS } from '../utils/constants';
 import { useMutation } from '../utils/hooks';
 import { getErrorMessage } from '../helpers/getErrorMessage';
 import { IApiResponse } from '../interfaces/common';
@@ -10,6 +8,7 @@ import { login } from '../services/authentication.api';
 import { useForm } from 'react-hook-form';
 import { QueryProvider } from './QueryProvider';
 import Link from 'next/link';
+import { GoogleLoginButton } from './GoogleLoginButton';
 
 export const LoginForm = QueryProvider(() => {
   const [error, setError] = useState<string>('');
@@ -21,6 +20,11 @@ export const LoginForm = QueryProvider(() => {
     },
   });
 
+  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    !error && registerMutation.mutate(getValues());
+  };
+
   const registerMutation = useMutation<IApiResponse<boolean>, ILoginRequest>(
     login,
     {
@@ -28,11 +32,6 @@ export const LoginForm = QueryProvider(() => {
       onSuccess: () => window.location.replace('/home'),
     }
   );
-
-  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    !error && registerMutation.mutate(getValues());
-  };
 
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto my-auto h-screen">
@@ -110,18 +109,9 @@ export const LoginForm = QueryProvider(() => {
             >
               Đăng nhập
             </button>
-            <button className="w-full content-end py-2 border flex border-slate-200  rounded-lg text-slate-700  hover:border-slate-400  hover:text-slate-900  hover:shadow transition duration-150">
-              <div className="flex gap-2 mx-auto">
-                <Image
-                  width={24}
-                  height={24}
-                  src={STATIC_URLS.GOOGLE_LOGIN}
-                  loading="lazy"
-                  alt="google logo"
-                />
-                <span className="">Đăng nhập với Google</span>
-              </div>
-            </button>
+
+            <GoogleLoginButton />
+
             <p className="text-sm font-light text-gray-500 ">
               Chưa có tài khoản?{' '}
               <Link

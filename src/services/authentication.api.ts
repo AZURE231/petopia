@@ -1,4 +1,4 @@
-import { IRegisterRequest, ILoginRequest } from '../interfaces/authentication';
+import { IRegisterRequest, ILoginRequest, IGoogleLoginRequest } from '../interfaces/authentication';
 import { http } from './http';
 
 export const register = async (data: IRegisterRequest) =>
@@ -6,3 +6,12 @@ export const register = async (data: IRegisterRequest) =>
 
 export const login = async (data: ILoginRequest) =>
   await http.post('/Authentication/Login', data);
+
+export const getGoogleRecaptchaSiteKey = async () =>
+  await http.get('/Authentication/GoogleRecaptchaSiteKey');
+
+export const googleLogin = async (data: IGoogleLoginRequest) =>
+  await http.post('/Authentication/GoogleLogin', data);
+
+export const getGoogleAuthClientId = async () =>
+  await http.get('/Authentication/GoogleAuthClientId');

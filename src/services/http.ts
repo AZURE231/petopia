@@ -1,33 +1,17 @@
-import { getCookie } from 'cookies-next';
+import Cookies from 'js-cookie';
 import { COOKIES_NAME } from '../utils/constants';
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { IApiErrorResponse } from '../interfaces/common';
 import { logout } from '../helpers/logout';
 import { API_ROUTE } from '@/settings';
+
+const UNAUTHORIZED = 401;
 
 const headers: Readonly<Record<string, string | boolean>> = {
   'Accept': 'application/json',
   'Content-Type': 'application/json; charset=utf-8',
   'Access-Control-Allow-Credentials': true,
   'ngrok-skip-browser-warning': true,
-};
-
-const UNAUTHORIZED = 401;
-
-const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
-  try {
-    const token = getCookie(COOKIES_NAME.ACCESS_TOKEN);
-
-    if (token) {
-      config.headers = {
-        ...config.headers,
-        Authorization: `Bearer ${token}`,
-      };
-    }
-    return config;
-  } catch (error: any) {
-    throw new Error(error);
-  }
 };
 
 class Http {
@@ -67,12 +51,8 @@ class Http {
     });
     http.interceptors.request.use(
       (config) => {
-        const newHeaders = injectToken(config).headers;
-        const newConfig = injectToken(config);
-        return {
-          ...newConfig,
-          headers: {...newHeaders}
-        } as InternalAxiosRequestConfig<any>;
+        config.headers.Authorization = `Bearer ${Cookies.get(COOKIES_NAME.ACCESS_TOKEN)}`;
+        return config;
       }
     );
 

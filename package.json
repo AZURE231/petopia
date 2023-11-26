@@ -9,19 +9,23 @@
     "lint": "next lint --fix"
   },
   "dependencies": {
+    "@react-oauth/google": "^0.12.1",
     "axios": "^1.6.1",
-    "cookies-next": "^4.1.0",
+    "js-cookie": "^3.0.5",
     "next": "13.5.5",
     "react": "^18",
     "react-dom": "^18",
+    "react-google-recaptcha": "^3.1.0",
     "react-hook-form": "^7.48.2",
     "react-query": "^3.39.3",
     "ts-transformer-keys": "^0.4.4"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-google-recaptcha": "^2.1.8",
     "autoprefixer": "^10",
     "eslint": "^8",
     "eslint-config-next": "13.5.5",

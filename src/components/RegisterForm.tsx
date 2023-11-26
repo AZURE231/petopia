@@ -1,9 +1,7 @@
 'use client';
 import { ChangeEvent, useEffect, useState } from 'react';
-import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { IRegisterForm, IRegisterRequest } from '../interfaces/authentication';
-import { STATIC_URLS } from '../utils/constants';
 import { IApiResponse } from '../interfaces/common';
 import { QueryProvider } from './QueryProvider';
 import { useMutation } from '../utils/hooks';
@@ -11,6 +9,7 @@ import { register } from '../services/authentication.api';
 import { getErrorMessage } from '../helpers/getErrorMessage';
 import { Alert } from './Alert';
 import Link from 'next/link';
+import { GoogleRecaptchaInput } from './GoogleRecaptchaInput';
 
 export const RegisterForm = QueryProvider(() => {
   const [error, setError] = useState<string>('');
@@ -27,26 +26,37 @@ export const RegisterForm = QueryProvider(() => {
     },
   });
 
-  const registerMutation = useMutation<IApiResponse<boolean>, IRegisterRequest>(
-    register,
-    {
-      onError: (err) => setError(getErrorMessage(err.data.errorCode.toString())),
-      onSuccess: () => setShowModal(true)
-    }
-  );
-
   const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     !error && registerMutation.mutate(getValues());
   };
 
+  const handleClickGoogleCaptcha = (value: string) => {
+    setValue('googleRecaptchaToken', value);
+    setError('');
+  };
+
+  const registerMutation = useMutation<IApiResponse<boolean>, IRegisterRequest>(
+    register,
+    {
+      onError: (err) => {
+        const message = getErrorMessage(err.data.errorCode.toString());
+        setError(message);
+        console.log(message);
+      },
+      onSuccess: () => setShowModal(true)
+    }
+  );
+
   useEffect(() => {
-    if (getValues('confirmPassword') !== getValues('password')) {
-      setError('Mật khẩu không khớp');
+    if(getValues('confirmPassword')) {
+      setError(getValues(
+        'confirmPassword') === getValues('password') ? ''
+        : 'Mật khẩu không khớp.');
     } else {
       setError('');
-    }
-  }, [watch('confirmPassword')]);
+    } 
+  }, [watch('confirmPassword'), watch('password')]);
 
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto my-auto h-screen">
@@ -156,8 +166,11 @@ export const RegisterForm = QueryProvider(() => {
                 onChange={(e) => setValue('confirmPassword', e.target.value)}
                 required
               />
-              {error && <span className="text-sm text-red-500">{error}</span>}
             </div>
+
+            <GoogleRecaptchaInput setToken={handleClickGoogleCaptcha} />
+
+            <span className="text-sm text-red-500 mt-2">{error}</span>
 
             <button
               type="submit"
@@ -165,18 +178,6 @@ export const RegisterForm = QueryProvider(() => {
                 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             >
               Đăng ký
-            </button>
-            <button className="w-full content-end py-2 border flex border-slate-200  rounded-lg text-slate-700  hover:border-slate-400  hover:text-slate-900  hover:shadow transition duration-150">
-              <div className="flex gap-2 mx-auto">
-                <Image
-                  width={24}
-                  height={24}
-                  src={STATIC_URLS.GOOGLE_LOGIN}
-                  loading="lazy"
-                  alt="google logo"
-                />
-                <span className="">Đăng nhập với Google</span>
-              </div>
             </button>
           </form>
         </div>
