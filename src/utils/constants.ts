@@ -15,4 +15,10 @@ export const DOMAIN_ERROR_MESSAGES = {
   '10002': 'Email đã sử dụng để đăng ký',
   '10003': 'Link đăng ký đã hết hạn',
   '10004': 'Link khôi phục mật khẩu hết hạn',
+  '10005': 'Google captcha không hợp lệ.',
+};
+
+export const QUERY_KEYS = {
+  GET_GOOGLE_RECAPTCHA_TOKEN: 'GET_GOOGLE_RECAPTCHA_TOKEN',
+  GET_GOOGLE_AUTH_CLIENT_ID: 'GET_GOOGLE_AUTH_CLIENT_ID',
 };
