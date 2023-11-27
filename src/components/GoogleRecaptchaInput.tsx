@@ -1,9 +1,10 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Recaptcha from 'react-google-recaptcha';
 import { useQuery } from '../utils/hooks';
-import { QUERY_KEYS } from '../utils/constants';
+import { EVENT_NAMES, QUERY_KEYS } from '../utils/constants';
 import { IApiResponse } from '../interfaces/common';
 import { getGoogleRecaptchaSiteKey } from '../services/authentication.api';
+import { subscribe, unsubscribe } from '../services/event';
 
 interface IGoogleRecaptchaInput {
   setToken: (value: string) => void,
@@ -12,10 +13,10 @@ interface IGoogleRecaptchaInput {
 export const GoogleRecaptchaInput = (props: IGoogleRecaptchaInput) => {
   const { setToken } = props;
   const [siteKey, setSiteKey] = useState<string>('');
-  const recaptchaRef = useRef<Recaptcha>(null);
+  const ref = useRef<Recaptcha>(null);
 
   const handleOnchange = () => {
-    const value = recaptchaRef.current?.getValue();
+    const value = ref.current?.getValue();
     value && setToken(value);
   };
 
@@ -28,11 +29,29 @@ export const GoogleRecaptchaInput = (props: IGoogleRecaptchaInput) => {
     }
   );
 
+  useEffect(() => {
+    subscribe(
+      EVENT_NAMES.RESET_RECAPTCHA,
+      () => {
+        ref.current?.reset();
+      }
+    );
+
+    return () => {
+      unsubscribe(
+        EVENT_NAMES.RESET_RECAPTCHA,
+        () => {
+          ref.current?.reset();
+        }
+      );
+    };
+  }, []);
+
   return (
     <div className='w-full flex justify-center'>
       {
         siteKey && <Recaptcha
-          ref={recaptchaRef}
+          ref={ref}
           sitekey={siteKey}
           size='normal'
           onChange={handleOnchange}

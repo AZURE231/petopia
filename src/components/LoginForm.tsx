@@ -1,17 +1,19 @@
 'use client';
-import { ChangeEvent, useState } from 'react';
+import Link from 'next/link';
+import { ChangeEvent, SetStateAction, useState } from 'react';
 import { useMutation } from '../utils/hooks';
 import { getErrorMessage } from '../helpers/getErrorMessage';
 import { IApiResponse } from '../interfaces/common';
-import { ILoginRequest } from '../interfaces/authentication';
-import { login } from '../services/authentication.api';
+import { IGoogleLoginRequest, ILoginRequest } from '../interfaces/authentication';
+import { googleLogin, login } from '../services/authentication.api';
 import { useForm } from 'react-hook-form';
 import { QueryProvider } from './QueryProvider';
-import Link from 'next/link';
 import { GoogleLoginButton } from './GoogleLoginButton';
+import { Alert } from './Alert';
 
 export const LoginForm = QueryProvider(() => {
-  const [error, setError] = useState<string>('');
+  const [showAlert, setShowALert] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>('');
 
   const { getValues, setValue } = useForm<ILoginRequest>({
     defaultValues: {
@@ -22,15 +24,29 @@ export const LoginForm = QueryProvider(() => {
 
   const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    !error && registerMutation.mutate(getValues());
+    loginMutation.mutate(getValues());
   };
 
-  const registerMutation = useMutation<IApiResponse<boolean>, ILoginRequest>(
+  const loginMutation = useMutation<IApiResponse<boolean>, ILoginRequest>(
     login,
     {
-      onError: (err) => setError(getErrorMessage(err.data.errorCode.toString())),
+      onError: (err) => {
+        setAlertMessage(getErrorMessage(err.data.errorCode.toString()));
+        setShowALert(true);
+      },
       onSuccess: () => window.location.replace('/home'),
     }
+  );
+
+  const googleLoginMutation = useMutation<IApiResponse<boolean>, IGoogleLoginRequest>(
+    googleLogin,
+    {
+      onError: (err) => {
+        setAlertMessage(getErrorMessage(err.data.errorCode.toString()));
+        setShowALert(true);
+      },
+      onSuccess: () => window.location.replace('/home'),
+    },
   );
 
   return (
@@ -110,7 +126,9 @@ export const LoginForm = QueryProvider(() => {
               Đăng nhập
             </button>
 
-            <GoogleLoginButton />
+            <GoogleLoginButton
+              onSuccess={(tokenId) => googleLoginMutation.mutate({ tokenId: tokenId })}
+            />
 
             <p className="text-sm font-light text-gray-500 ">
               Chưa có tài khoản?{' '}
@@ -124,6 +142,12 @@ export const LoginForm = QueryProvider(() => {
           </form>
         </div>
       </div>
+      <Alert
+        show={showAlert}
+        setShow={setShowALert}
+        message={alertMessage}
+        failed
+      />
     </div>
   );
 });
