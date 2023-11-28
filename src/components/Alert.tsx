@@ -1,14 +1,14 @@
 'use client';
 import { Dispatch, SetStateAction, useState } from 'react';
 
-interface ISuccessModal {
+interface IAlert {
   failed?: boolean,
   message: string,
   show: boolean,
   setShow: Dispatch<SetStateAction<boolean>>,
 }
 
-export function Alert(props: ISuccessModal) {
+export function Alert(props: IAlert) {
   const { message, show, setShow, failed = false } = props;
   const [className, setClassName] = useState<string>('animate-fade_in');
 
