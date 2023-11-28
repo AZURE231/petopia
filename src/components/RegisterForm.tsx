@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { IRegisterForm, IRegisterRequest } from '../interfaces/authentication';
@@ -8,12 +9,15 @@ import { useMutation } from '../utils/hooks';
 import { register } from '../services/authentication.api';
 import { getErrorMessage } from '../helpers/getErrorMessage';
 import { Alert } from './Alert';
-import Link from 'next/link';
-import { GoogleRecaptchaInput } from './GoogleRecaptchaInput';
+import { GoogleRecaptcha } from './GoogleRecaptcha';
+import { publish } from '../services/event';
+import { EVENT_NAMES } from '../utils/constants';
 
 export const RegisterForm = QueryProvider(() => {
   const [error, setError] = useState<string>('');
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [alertFailed, setAlertFailed] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>('');
 
   const { getValues, setValue, watch } = useForm<IRegisterForm>({
     defaultValues: {
@@ -31,31 +35,33 @@ export const RegisterForm = QueryProvider(() => {
     !error && registerMutation.mutate(getValues());
   };
 
-  const handleClickGoogleCaptcha = (value: string) => {
-    setValue('googleRecaptchaToken', value);
-    setError('');
-  };
-
   const registerMutation = useMutation<IApiResponse<boolean>, IRegisterRequest>(
     register,
     {
       onError: (err) => {
         const message = getErrorMessage(err.data.errorCode.toString());
-        setError(message);
-        console.log(message);
+        setAlertFailed(true);
+        setAlertMessage(message);
+        setShowAlert(true);
+        publish(EVENT_NAMES.RESET_RECAPTCHA);
       },
-      onSuccess: () => setShowModal(true)
+      onSuccess: () => {
+        setShowAlert(true);
+        setAlertFailed(true);
+        setAlertMessage('Kiểm tra Email của bạn để hoàn thành đăng ký.');
+        setShowAlert(true);
+      }
     }
   );
 
   useEffect(() => {
-    if(getValues('confirmPassword')) {
+    if (getValues('confirmPassword')) {
       setError(getValues(
         'confirmPassword') === getValues('password') ? ''
         : 'Mật khẩu không khớp.');
     } else {
       setError('');
-    } 
+    }
   }, [watch('confirmPassword'), watch('password')]);
 
   return (
@@ -168,7 +174,7 @@ export const RegisterForm = QueryProvider(() => {
               />
             </div>
 
-            <GoogleRecaptchaInput setToken={handleClickGoogleCaptcha} />
+            <GoogleRecaptcha setToken={(value) => setValue('googleRecaptchaToken', value)} />
 
             <span className="text-sm text-red-500 mt-2">{error}</span>
 
@@ -183,9 +189,10 @@ export const RegisterForm = QueryProvider(() => {
         </div>
       </div>
       <Alert
-        message='Kiểm tra email để hoàn thành đăng ký.'
-        show={showModal}
-        setShow={setShowModal}
+        message={alertMessage}
+        show={showAlert}
+        setShow={setShowAlert}
+        failed={alertFailed}
       />
     </div>
   );

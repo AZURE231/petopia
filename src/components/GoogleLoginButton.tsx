@@ -1,53 +1,19 @@
 import Image from 'next/image';
-import { GoogleOAuthProvider as Provider, useGoogleLogin } from '@react-oauth/google';
-import { QUERY_KEYS, STATIC_URLS } from '../utils/constants';
-import { useMutation, useQuery } from '../utils/hooks';
-import { IApiResponse } from '../interfaces/common';
-import { IGoogleLoginRequest } from '../interfaces/authentication';
-import { getGoogleAuthClientId, googleLogin } from '../services/authentication.api';
-import { useState } from 'react';
+import { useGoogleLogin } from '@react-oauth/google';
+import { STATIC_URLS } from '../utils/constants';
+import { GoogleOAuthProvider } from './GoogleOAuthProvider';
 
-const GoogleOAuthProvider = (Children: () => JSX.Element) => {
-  const Result = () => {
+export interface IGoogleLogin {
+  onSuccess: (tokenId: string) => void,
+}
 
-    const [clientId, setClientId] = useState<string>('');
-
-    useQuery<IApiResponse<string>>(
-      [QUERY_KEYS.GET_GOOGLE_AUTH_CLIENT_ID],
-      getGoogleAuthClientId,
-      {
-        onSuccess: res => setClientId(res.data.data),
-        refetchOnWindowFocus: false,
-      }
-    );
-
-    return (
-      <>
-        {
-          clientId && <Provider clientId={clientId} >
-            <Children />
-          </Provider>
-        }
-      </>
-    );
-  };
-  return Result;
-};
-
-export const GoogleLoginButton = GoogleOAuthProvider(() => {
+export const GoogleLoginButton = GoogleOAuthProvider((props: IGoogleLogin) => {
   const login = useGoogleLogin({
     onSuccess: res => {
       const tokenId = res.access_token;
-      googleLoginMutation.mutate({ tokenId: tokenId });
+      props.onSuccess(tokenId);
     }
   });
-
-  const googleLoginMutation = useMutation<IApiResponse<boolean>, IGoogleLoginRequest>(
-    googleLogin,
-    {
-      onSuccess: () => window.location.replace('/home'),
-    },
-  );
 
   return (
     <div

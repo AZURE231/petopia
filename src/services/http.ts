@@ -2,7 +2,6 @@ import Cookies from 'js-cookie';
 import { COOKIES_NAME } from '../utils/constants';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { IApiErrorResponse } from '../interfaces/common';
-import { logout } from '../helpers/logout';
 import { API_ROUTE } from '@/settings';
 
 const UNAUTHORIZED = 401;
@@ -103,7 +102,7 @@ class Http {
   }
 
   private handleError(error: AxiosResponse<IApiErrorResponse>) {
-    if(error) error.status === UNAUTHORIZED && logout();
+    if(error) error.status === UNAUTHORIZED && window.location.replace('/login');
   }
 }
 
