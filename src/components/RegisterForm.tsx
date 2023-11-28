@@ -174,7 +174,7 @@ export const RegisterForm = QueryProvider(() => {
               />
             </div>
 
-            <GoogleRecaptchaInput setToken={(value) => setValue('googleRecaptchaToken', value)} />
+            <GoogleRecaptcha setToken={(value) => setValue('googleRecaptchaToken', value)} />
 
             <span className="text-sm text-red-500 mt-2">{error}</span>
 
