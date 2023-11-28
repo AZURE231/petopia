@@ -6,11 +6,11 @@ import { IApiResponse } from '../interfaces/common';
 import { getGoogleRecaptchaSiteKey } from '../services/authentication.api';
 import { subscribe, unsubscribe } from '../services/event';
 
-interface IGoogleRecaptchaInput {
+interface IGoogleRecaptcha{
   setToken: (value: string) => void,
 }
 
-export const GoogleRecaptchaInput = (props: IGoogleRecaptchaInput) => {
+export const GoogleRecaptcha = (props: IGoogleRecaptcha) => {
   const { setToken } = props;
   const [siteKey, setSiteKey] = useState<string>('');
   const ref = useRef<Recaptcha>(null);

@@ -9,7 +9,7 @@ import { useMutation } from '../utils/hooks';
 import { register } from '../services/authentication.api';
 import { getErrorMessage } from '../helpers/getErrorMessage';
 import { Alert } from './Alert';
-import { GoogleRecaptchaInput } from './GoogleRecaptchaInput';
+import { GoogleRecaptcha } from './GoogleRecaptcha';
 import { publish } from '../services/event';
 import { EVENT_NAMES } from '../utils/constants';
 
@@ -53,10 +53,6 @@ export const RegisterForm = QueryProvider(() => {
       }
     }
   );
-
-  useEffect(() => {
-    document.createEvent('Event');
-  }, []);
 
   useEffect(() => {
     if (getValues('confirmPassword')) {
