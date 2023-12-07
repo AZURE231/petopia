@@ -64,7 +64,7 @@ export const RegisterForm = QueryProvider(() => {
       },
       onSuccess: () => {
         setShowAlert(true);
-        setAlertFailed(true);
+        setAlertFailed(false);
         setAlertMessage('Kiểm tra Email của bạn để hoàn thành đăng ký.');
         setShowAlert(true);
       }
