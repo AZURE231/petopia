@@ -12,13 +12,20 @@ import { Alert } from './Alert';
 import { GoogleRecaptcha } from './GoogleRecaptcha';
 import { publish } from '../services/event';
 import { EVENT_NAMES } from '../utils/constants';
+import { checkPasswordFormat, checkPasswords, isEmail, isPassword } from '../helpers/inputValidator';
 
 export const RegisterForm = QueryProvider(() => {
-  const [error, setError] = useState<string>('');
+  // FORM ERROR STATES
+  const [errorEmail, setErrorEmail] = useState<string>('');
+  const [errorPassword, setErrorPassword] = useState<string>('');
+  const [errorConfirm, setErrorConfirm] = useState<string>('');
+
+  // ALERT STATES
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [alertFailed, setAlertFailed] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
 
+  // REGISTER FORM
   const { getValues, setValue, watch } = useForm<IRegisterForm>({
     defaultValues: {
       firstName: '',
@@ -30,11 +37,21 @@ export const RegisterForm = QueryProvider(() => {
     },
   });
 
-  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    !error && registerMutation.mutate(getValues());
+  const isDisabled = () => {
+    return errorConfirm || errorEmail || errorPassword ? true : false;
   };
 
+  // EVENT HANDLING FUNCTIONS
+  const handleValidateEmail = (email: string) => {
+    setErrorEmail(isEmail(email) ? '' : 'Email không hợp lệ');
+  };
+
+  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    registerMutation.mutate(getValues());
+  };
+
+  // REGISTER MUTATION
   const registerMutation = useMutation<IApiResponse<boolean>, IRegisterRequest>(
     register,
     {
@@ -47,21 +64,17 @@ export const RegisterForm = QueryProvider(() => {
       },
       onSuccess: () => {
         setShowAlert(true);
-        setAlertFailed(true);
+        setAlertFailed(false);
         setAlertMessage('Kiểm tra Email của bạn để hoàn thành đăng ký.');
         setShowAlert(true);
       }
     }
   );
 
+  // PASSWORD VALIDATORS
   useEffect(() => {
-    if (getValues('confirmPassword')) {
-      setError(getValues(
-        'confirmPassword') === getValues('password') ? ''
-        : 'Mật khẩu không khớp.');
-    } else {
-      setError('');
-    }
+    checkPasswords(getValues('password'), getValues('confirmPassword'), setErrorConfirm);
+    checkPasswordFormat(getValues('password'), setErrorPassword);
   }, [watch('confirmPassword'), watch('password')]);
 
   return (
@@ -135,8 +148,10 @@ export const RegisterForm = QueryProvider(() => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 :bg-gray-700 "
                 placeholder="name@company.com"
                 onChange={(e) => setValue('email', e.target.value)}
+                onBlur={(e) => handleValidateEmail(e.target.value)}
                 required
               />
+              <span className="text-sm text-red-500 mt-2">{errorEmail}</span>
             </div>
             {/* Mật khẩu */}
             <div>
@@ -155,6 +170,7 @@ export const RegisterForm = QueryProvider(() => {
                 onChange={(e) => setValue('password', e.target.value)}
                 required
               />
+              <span className="text-sm text-red-500 mt-2">{errorPassword}</span>
             </div>
             <div>
               <label
@@ -172,16 +188,18 @@ export const RegisterForm = QueryProvider(() => {
                 onChange={(e) => setValue('confirmPassword', e.target.value)}
                 required
               />
+              <span className="text-sm text-red-500 mt-2">{errorConfirm}</span>
             </div>
 
             <GoogleRecaptcha setToken={(value) => setValue('googleRecaptchaToken', value)} />
 
-            <span className="text-sm text-red-500 mt-2">{error}</span>
-
             <button
               type="submit"
-              className="w-full text-black bg-yellow-300 hover:bg-primary-700 focus:ring-4 focus:outline-none 
-                focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              className={`
+                w-full text-black bg-yellow-300 hover:bg-primary-700 focus:ring-4 focus:outline-none 
+                focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  
+                ${isDisabled() && 'cursor-not-allowed'}`}
+              disabled={isDisabled()}
             >
               Đăng ký
             </button>
