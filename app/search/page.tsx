@@ -1,10 +1,32 @@
 import Breadscrum from '@/src/components/Breadscrum';
 import FilterBar from '@/src/components/FilterBar';
-import FilterBarMobile from '@/src/components/FilterBarMobile';
 import Image from 'next/image';
 import { IFilter } from '@/src/interfaces/filter';
 
 const filterContent: IFilter[] = [
+  {
+    id: 5,
+    title: 'Loài',
+    items: [
+      {
+        id: 1,
+        title: 'Chó',
+      },
+      {
+        id: 2,
+        title: 'Mèo',
+      },
+      {
+        id: 3,
+        title: 'Khác',
+      },
+    ],
+  },
+  {
+    id: 7,
+    title: 'Giống',
+    items: [],
+  },
   {
     id: 1,
     title: 'Giới tính',
@@ -82,24 +104,6 @@ const filterContent: IFilter[] = [
     ],
   },
   {
-    id: 5,
-    title: 'Loài',
-    items: [
-      {
-        id: 1,
-        title: 'Chó',
-      },
-      {
-        id: 2,
-        title: 'Mèo',
-      },
-      {
-        id: 3,
-        title: 'Khác',
-      },
-    ],
-  },
-  {
     id: 6,
     title: 'Tiêm chủng',
     items: [
@@ -132,7 +136,6 @@ export default function page() {
         ></Image>
       </div>
       <div>
-        <FilterBarMobile />
         <FilterBar filterContent={filterContent} />
       </div>
     </div>
