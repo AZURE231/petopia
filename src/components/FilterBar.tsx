@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { IFilter, IItem } from '../interfaces/filter';
 import FilterBarMobile from './FilterBarMobile';
 import SearchBar from './SearchBar';
+import PetCard from './PetCard';
 
 export default function FilterBar({
   filterContent,
@@ -112,6 +113,7 @@ export default function FilterBar({
                 </div>
               ))}
             </form>
+            {/* <!-- Content --> */}
             <div className="lg:col-span-3">
               {/* <!-- Sort --> */}
               <div className="mb-10">
@@ -197,6 +199,18 @@ export default function FilterBar({
                     />
                   </svg>
                 </button>
+              </div>
+              {/* <!-- Product grid --> */}
+              <div className="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 xl:gap-x-8">
+                <PetCard />
+                <PetCard />
+                <PetCard />
+                <PetCard />
+                <PetCard />
+                <PetCard />
+                <PetCard />
+                <PetCard />
+                <PetCard />
               </div>
             </div>
           </div>
