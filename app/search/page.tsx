@@ -1,7 +1,7 @@
 import Breadscrum from '@/src/components/Breadscrum';
 import FilterBar from '@/src/components/FilterBar';
 import Image from 'next/image';
-import { IFilter } from '@/src/interfaces/filter';
+import { IFilter, IItem } from '@/src/interfaces/filter';
 
 const filterContent: IFilter[] = [
   {
@@ -123,11 +123,26 @@ const filterContent: IFilter[] = [
   },
 ];
 
+const sortCriteria: IItem[] = [
+  {
+    id: 1,
+    title: 'Phổ biến',
+  },
+  {
+    id: 2,
+    title: 'Đánh giá',
+  },
+  {
+    id: 3,
+    title: 'Mới nhất',
+  },
+];
+
 export default function page() {
   return (
-    <div className="container mx-auto my-5">
+    <div className="container mx-auto my-10">
       <Breadscrum />
-      <div>
+      <div className="flex items-center justify-center mt-5">
         <Image
           alt="banner search"
           src={'/img/Banner.png'}
@@ -136,7 +151,7 @@ export default function page() {
         ></Image>
       </div>
       <div>
-        <FilterBar filterContent={filterContent} />
+        <FilterBar filterContent={filterContent} sortCriteria={sortCriteria} />
       </div>
     </div>
   );
