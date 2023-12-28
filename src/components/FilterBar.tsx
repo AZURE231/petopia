@@ -5,6 +5,7 @@ import { IFilter, IItem } from '../interfaces/filter';
 import FilterBarMobile from './FilterBarMobile';
 import SearchBar from './SearchBar';
 import PetCard from './PetCard';
+import Pagination from './Pagination';
 
 export default function FilterBar({
   filterContent,
@@ -42,7 +43,7 @@ export default function FilterBar({
             Tìm thú cưng UwU
           </h1>
         </div>
-        <section aria-labelledby="products-heading" className="pb-24 pt-6">
+        <section className="pb-24 pt-6">
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
             {/* <!-- Filters --> */}
             <form className="hidden lg:block">
@@ -211,6 +212,9 @@ export default function FilterBar({
                 <PetCard />
                 <PetCard />
                 <PetCard />
+              </div>
+              <div className="flex items-center justify-center mt-5">
+                <Pagination />
               </div>
             </div>
           </div>
