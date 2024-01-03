@@ -2,6 +2,7 @@ import Breadscrum from '@/src/components/Breadscrum';
 import FilterBar from '@/src/components/FilterBar';
 import Image from 'next/image';
 import { IFilter, IItem } from '@/src/interfaces/filter';
+import Navbar from '@/src/components/Navbar';
 
 const filterContent: IFilter[] = [
   {
@@ -140,18 +141,24 @@ const sortCriteria: IItem[] = [
 
 export default function page() {
   return (
-    <div className="container mx-auto my-10">
-      <Breadscrum />
-      <div className="flex items-center justify-center mt-5">
-        <Image
-          alt="banner search"
-          src={'/img/Banner.png'}
-          width={1180}
-          height={378}
-        ></Image>
-      </div>
-      <div>
-        <FilterBar filterContent={filterContent} sortCriteria={sortCriteria} />
+    <div>
+      <Navbar />
+      <div className="container mx-auto my-10">
+        <Breadscrum />
+        <div className="flex items-center justify-center mt-5">
+          <Image
+            alt="banner search"
+            src={'/img/Banner.png'}
+            width={1180}
+            height={378}
+          ></Image>
+        </div>
+        <div>
+          <FilterBar
+            filterContent={filterContent}
+            sortCriteria={sortCriteria}
+          />
+        </div>
       </div>
     </div>
   );
