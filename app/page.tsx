@@ -1,3 +1,4 @@
+import Footer from '@/src/components/Footer';
 import { url } from 'inspector';
 import Image from 'next/image';
 
@@ -7,13 +8,15 @@ export default function Home() {
       {/* Hero */}
       <div className="flex flex-col md:flex-row">
         <div className="basis-2/5 relative">
-          <Image
-            src={'/img/cat_hero.png'}
-            alt="cat_hero"
-            width={400}
-            height={500}
-            className="mx-auto object-contain"
-          />
+          <div className="bg-yellow-300 rounded-full">
+            <Image
+              src={'/img/cat_hero.png'}
+              alt="cat_hero"
+              width={400}
+              height={500}
+              className="mx-auto object-contain z-10"
+            />
+          </div>
           <div className="absolute top-12 right-5 bg-white p-4 rounded-lg shadow-lg">
             Nhận nuôi
           </div>
@@ -143,6 +146,7 @@ export default function Home() {
       </div>
       {/* CTA */}
       {/* Footer */}
+      <Footer />
     </div>
   );
 }
