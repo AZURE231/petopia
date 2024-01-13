@@ -27,3 +27,8 @@ export const QUERY_KEYS = {
 export const EVENT_NAMES = {
   RESET_RECAPTCHA: 'RESET_RECAPTCHA',
 };
+
+export const SEARCH_PARAMS = {
+  EMAIL: 'email',
+  VALIDATE_REGISTER_TOKEN: 'validateRegisterToken',
+};
