@@ -7,7 +7,7 @@ import { API_ROUTE } from '@/settings';
 const UNAUTHORIZED = 401;
 
 const headers: Readonly<Record<string, string | boolean>> = {
-  'Accept': 'application/json',
+  Accept: 'application/json',
   'Content-Type': 'application/json; charset=utf-8',
   'Access-Control-Allow-Credentials': true,
   'ngrok-skip-browser-warning': true,
@@ -25,7 +25,11 @@ class Http {
     for (const p in params) {
       if (typeof params[p] === 'object') {
         for (const v in params[p]) {
-          str.push(encodeURIComponent(`${p}.${v}`) + '=' + encodeURIComponent(params[p][v]));
+          str.push(
+            encodeURIComponent(`${p}.${v}`) +
+              '=' +
+              encodeURIComponent(params[p][v])
+          );
         }
       } else {
         str.push(encodeURIComponent(p) + '=' + encodeURIComponent(params[p]));
@@ -48,19 +52,19 @@ class Http {
       headers,
       withCredentials: true,
     });
-    http.interceptors.request.use(
-      (config) => {
-        config.headers.Authorization = `Bearer ${Cookies.get(COOKIES_NAME.ACCESS_TOKEN)}`;
-        return config;
-      }
-    );
+    http.interceptors.request.use((config) => {
+      config.headers.Authorization = `Bearer ${Cookies.get(
+        COOKIES_NAME.ACCESS_TOKEN
+      )}`;
+      return config;
+    });
 
     http.interceptors.response.use(
       (response) => response,
       (error) => {
         const { response } = error;
         this.handleError(response);
-        if(response) return Promise.reject(response);
+        if (response) return Promise.reject(response);
         return Promise.reject();
       }
     );
@@ -102,7 +106,8 @@ class Http {
   }
 
   private handleError(error: AxiosResponse<IApiErrorResponse>) {
-    if(error) error.status === UNAUTHORIZED && window.location.replace('/login');
+    if (error)
+      error.status === UNAUTHORIZED && window.location.replace('/login');
   }
 }
 

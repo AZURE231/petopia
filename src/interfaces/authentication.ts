@@ -18,3 +18,8 @@ export interface ILoginRequest {
 export interface IGoogleLoginRequest {
   tokenId: string;
 }
+
+export interface IRegisterValidate {
+  email: string;
+  validateRegisterToken: string;
+}
