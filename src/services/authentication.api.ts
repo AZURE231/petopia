@@ -2,7 +2,7 @@ import {
   IRegisterRequest,
   ILoginRequest,
   IGoogleLoginRequest,
-  IRegisterValidate,
+  IValidateRegisterRequest,
 } from '../interfaces/authentication';
 import { http } from './http';
 
@@ -12,8 +12,8 @@ export const register = async (data: IRegisterRequest) =>
 export const login = async (data: ILoginRequest) =>
   await http.post('/Authentication/Login', data);
 
-export const validateRegister = async (data: IRegisterValidate) =>
-  await http.get('/Authentication/ValidateRegister', data);
+export const validateRegister = async (data: IValidateRegisterRequest) =>
+  await http.post('/Authentication/ValidateRegister', data);
 
 export const getGoogleRecaptchaSiteKey = async () =>
   await http.get('/Authentication/GoogleRecaptchaSiteKey');

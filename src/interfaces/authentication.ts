@@ -19,7 +19,7 @@ export interface IGoogleLoginRequest {
   tokenId: string;
 }
 
-export interface IRegisterValidate {
+export interface IValidateRegisterRequest {
   email: string;
   validateRegisterToken: string;
 }
