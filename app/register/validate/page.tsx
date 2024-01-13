@@ -31,7 +31,6 @@ export const Validate = QueryProvider(() => {
         setAlertMessage(getErrorMessage(err.data.errorCode.toString()));
         setShowALert(true);
       },
-      onSuccess: () => setAlertMessage('success'),
     }
   );
   useEffect(() => {
@@ -50,9 +49,11 @@ export const Validate = QueryProvider(() => {
           Petopia
         </p>
         <div className="text-center py-4 ">
-          <button className="border border-black p-3 rounded-lg font-bold shadow-md bg-yellow-300 hover:bg-yellow-400">
-            <Link href={'/login'}>Đăng nhập vào tài khoản mới</Link>
-          </button>
+          <Link href={'/login'}>
+            <button className="border border-black p-3 rounded-lg font-bold shadow-md bg-yellow-300 hover:bg-yellow-400">
+              Đăng nhập vào tài khoản mới
+            </button>
+          </Link>
         </div>
       </div>
       <Alert
