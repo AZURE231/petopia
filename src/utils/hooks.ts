@@ -36,23 +36,17 @@ export function useQuery<TData = any, TQueryFnData = any, TQueryKey extends Quer
 }
 
 /*----------------------------- USE RUN ONCE ---------------------------- */
-export const useRunOnce = (fn: () => any, sessionKey?: string) => {
+export const useRunOnce = (fn: () => any) => {
   const triggered = useRef<boolean>(false);
 
   useEffect(() => {
-    const hasBeenTriggered = sessionKey
-      ? sessionStorage.getItem(sessionKey)
-      : triggered.current;
+    const hasBeenTriggered = triggered.current;
 
     if (!hasBeenTriggered) {
       fn();
       triggered.current = true;
-
-      if (sessionKey) {
-        sessionStorage.setItem(sessionKey, 'true');
-      }
     }
-  }, [fn, sessionKey]);
+  }, [fn]);
 
   return null;
 };

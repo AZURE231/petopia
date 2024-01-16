@@ -2,6 +2,14 @@ export const STATIC_URLS = {
   GIRL_DOG: '/img/girl_dog.webp',
   GOLDEN_RETRIEVER: '/img/pexels-gilberto-reyes.png',
   GOOGLE_LOGIN: 'https://www.svgrepo.com/show/475656/google-color.svg',
+  CAT_HERO: '/img/cat_hero.png',
+  CAT_INTRO: '/img/cat_intro.png',
+  ADOPT: '/img/Adopt.svg',
+  RECEIVE: '/img/Receive.svg',
+  BLOG: '/img/Blog.svg',
+  CAT_AND_DOG: '/img/Cat_and_dog.png',
+  CAT_ATRONAULT: '/img/Cat_astronaut.png',
+  CAT_VASE: '/img/Cat_throwing_vase.png',
 };
 
 export const COOKIES_NAME = {
