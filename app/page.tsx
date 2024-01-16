@@ -1,5 +1,4 @@
-import Footer from '@/src/components/Footer';
-import { url } from 'inspector';
+import { STATIC_URLS } from '@/src/utils/constants';
 import Image from 'next/image';
 
 export default function Home() {
@@ -10,7 +9,7 @@ export default function Home() {
         <div className="basis-2/5 relative">
           <div className="bg-yellow-300 rounded-full">
             <Image
-              src={'/img/cat_hero.png'}
+              src={STATIC_URLS.CAT_HERO}
               alt="cat_hero"
               width={400}
               height={500}
@@ -45,11 +44,12 @@ export default function Home() {
           </div>
         </div>
       </div>
+
       {/* Introduction */}
       <div
         className="bg-cover bg-center bg-no-repeat p-20 space-y-5"
         style={{
-          backgroundImage: 'url("/img/cat_intro.png")',
+          backgroundImage: `url("${STATIC_URLS.CAT_INTRO}")`,
           height: '600px',
           objectFit: 'cover',
         }}
@@ -75,7 +75,7 @@ export default function Home() {
           <div className="flex flex-col justify-center items-center space-y-3">
             <div className="bg-white rounded-full h-36 w-36 flex items-center justify-center shadow-lg">
               <Image
-                src={'/img/Adopt.svg'}
+                src={STATIC_URLS.ADOPT}
                 alt="adopt pet"
                 height={144}
                 width={144}
@@ -86,7 +86,7 @@ export default function Home() {
           <div className="flex flex-col justify-center items-center space-y-3">
             <div className="flex bg-white rounded-full h-36 w-36 items-center justify-center shadow-lg">
               <Image
-                src={'/img/Receive.svg'}
+                src={STATIC_URLS.RECEIVE}
                 alt="adopt pet"
                 height={128}
                 width={128}
@@ -97,7 +97,7 @@ export default function Home() {
           <div className="flex flex-col justify-center items-center space-y-3">
             <div className="bg-white rounded-full h-36 w-36 flex items-center justify-center shadow-lg">
               <Image
-                src={'/img/Blog.svg'}
+                src={STATIC_URLS.BLOG}
                 alt="adopt pet"
                 height={128}
                 width={128}
@@ -114,7 +114,7 @@ export default function Home() {
         <div className="flex space-x-10">
           <div className="flex flex-col justify-center items-center">
             <Image
-              src={'/img/Cat_and_dog.png'}
+              src={STATIC_URLS.CAT_AND_DOG}
               alt="cat and dog"
               height={400}
               width={400}
@@ -124,7 +124,7 @@ export default function Home() {
           </div>
           <div className="flex flex-col justify-center items-center">
             <Image
-              src={'/img/Cat_astronaut.png'}
+              src={STATIC_URLS.CAT_ATRONAULT}
               alt="cat and dog"
               height={400}
               width={400}
@@ -134,7 +134,7 @@ export default function Home() {
           </div>
           <div className="flex flex-col justify-center items-center">
             <Image
-              src={'/img/Cat_throwing_vase.png'}
+              src={STATIC_URLS.CAT_VASE}
               alt="cat and dog"
               height={400}
               width={400}
@@ -144,9 +144,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-      {/* CTA */}
-      {/* Footer */}
-      <Footer />
     </div>
   );
 }
