@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { ChangeEvent, SetStateAction, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useMutation } from '../utils/hooks';
 import { getErrorMessage } from '../helpers/getErrorMessage';
 import { IApiResponse } from '../interfaces/common';
