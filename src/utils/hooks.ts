@@ -10,7 +10,11 @@ import {
   QueryKey
 } from 'react-query';
 import { AxiosResponse } from 'axios';
-import { useEffect, useRef } from 'react';
+import {
+  RefObject,
+  useEffect,
+  useRef
+} from 'react';
 
 /*----------------------------- USE MUTATION ----------------------------- */
 export function useMutation<TData = any, TVariables = any, TContext = unknown>(
@@ -41,7 +45,6 @@ export const useRunOnce = (fn: () => any) => {
 
   useEffect(() => {
     const hasBeenTriggered = triggered.current;
-
     if (!hasBeenTriggered) {
       fn();
       triggered.current = true;
@@ -49,4 +52,20 @@ export const useRunOnce = (fn: () => any) => {
   }, [fn]);
 
   return null;
+};
+
+/*--------------------------- USE CLICK OUTSIDE ------------------------- */
+export const useClickOutside = (
+  action: () => void,
+  dependencyList: RefObject<HTMLElement>[]
+) => {
+  useEffect(() => {
+    document.addEventListener('mousedown', async (event) => {
+      const isOutSide = dependencyList.every(ref =>
+        ref.current && !ref.current.contains(event.target as HTMLElement)
+      );
+      isOutSide && action();
+    });
+    return () => document.removeEventListener('mousedown', () => { });
+  }, []);
 };
