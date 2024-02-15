@@ -9,7 +9,7 @@ module.exports = {
         protocol: 'https',
         hostname: 'placekitten.com',
         port: '',
-        pathname: '/image/upload/**',
+        pathname: '**',
       },
     ],
   },

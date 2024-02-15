@@ -1,5 +1,7 @@
 // Carousel.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
 
 interface CarouselProps {
   images: string[];
@@ -8,12 +10,7 @@ interface CarouselProps {
 const Carousel: React.FC<CarouselProps> = ({ images }) => {
   const [startIndex, setStartIndex] = useState(0);
 
-  useEffect(() => {
-    console.log('startIndex changed:', startIndex);
-  }, [startIndex]);
-
   const nextImages = () => {
-    console.log('Next Clicked');
     setStartIndex((prevIndex) => Math.min(prevIndex + 1, images.length - 5));
   };
 
@@ -24,30 +21,30 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
   return (
     <div className="relative">
       <button
-        className="absolute left-0 top-1/2 transform -translate-y-1/2"
+        className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-black bg-opacity-60"
         onClick={prevImages}
       >
-        Previous
+        <SlArrowLeft size={30} color="white" />
       </button>
       <button
-        className="absolute right-0 top-1/2 transform -translate-y-1/2"
+        className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10"
         onClick={nextImages}
       >
-        Next
+        <SlArrowRight size={30} color="white" />
       </button>
       <div className="grid grid-cols-5 gap-x-3">
         {images.slice(startIndex, startIndex + 5).map((url, index) => (
-          <div key={index} className="flex-shrink-0 w-full">
-            <img
-              src={url}
+          <div key={index} className="w-full relative pt-[100%]">
+            <Image
               alt={`Image ${startIndex + index + 1}`}
-              className="w-full h-auto"
+              src={url}
+              fill
+              className="w-full h-3/4 top-0 left-0 rounded-lg"
               style={{ aspectRatio: '1/1', objectFit: 'cover' }}
-            />
+            ></Image>
           </div>
         ))}
       </div>
-      {startIndex}
     </div>
   );
 };
