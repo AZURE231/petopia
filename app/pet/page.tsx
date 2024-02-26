@@ -1,5 +1,6 @@
 'use client';
 import Carousel from '@/src/components/Carousel';
+import SeeMore from '@/src/components/SeeMore';
 import Image from 'next/image';
 
 const images = [
@@ -107,7 +108,7 @@ export default function page() {
           </div>
         </div>
       </div>
-      <div>lmao</div>
+      <SeeMore />
     </div>
   );
 }
