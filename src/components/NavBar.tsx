@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
-export default function Navbar() {
+export function Navbar() {
   const pathname = usePathname();
   const activeTab =
     'bg-yellow-300 md:underline md:decoration-yellow-300 md:decoration-4';
@@ -17,7 +17,7 @@ export default function Navbar() {
   };
 
   const toggleMenu = () => setIsOpenMenu(!isOpenMenu);
-
+  
   return (
     <nav className=" border-gray-200 w-full fixed top-0 bg-white z-50">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -119,7 +119,7 @@ export default function Navbar() {
         </div>
 
         {/* Login and register button, show hide on cookie */}
-        <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        {/* <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           <Link href="/register">
             <button className="mx-4">Đăng kí</button>
           </Link>
@@ -128,7 +128,7 @@ export default function Navbar() {
               Đăng nhập
             </button>
           </Link>
-        </div>
+        </div> */}
         <div
           className={`items-center ${isOpenMenu ? '' : 'hidden'
             } justify-between w-full md:flex md:w-auto md:order-1`}
