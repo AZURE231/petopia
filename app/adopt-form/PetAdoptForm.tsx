@@ -1,10 +1,16 @@
-// "use client";
-// import { useState } from "react";
-// import { FaLongArrowAltRight, FaLongArrowAltLeft } from "react-icons/fa";
+import React from "react";
 
-export default function PetAdoptForm() {
+interface Props {
+  handleClose: () => void;
+}
+
+export default function PetAdoptForm({ handleClose }: Props) {
   const houseType = ["Nhà riêng", "Chung cư", "Kí túc xá", "Nhà trọ", "Khác"];
   const adoptTime = ["Ngay lập tức", "1 ngày", "Vài ngày", "1 tuần", "Khác"];
+  const handleSubmit = () => {
+    console.log("Submit form");
+    handleClose();
+  };
   return (
     <div className="container w-5/6 p-5 mx-auto">
       <div>
@@ -24,7 +30,7 @@ export default function PetAdoptForm() {
                   name="owner-name"
                   type="text"
                   placeholder="Nguyễn Văn A"
-                  className="w-full p-3 border border-gray-300 rounded-lg"
+                  className="w-full p-2 border border-gray-300 rounded-lg"
                 />
               </div>
 
@@ -38,7 +44,7 @@ export default function PetAdoptForm() {
                   name="owner-phone"
                   type="tel"
                   placeholder="0987654321"
-                  className="w-full p-3 border border-gray-300 rounded-lg"
+                  className="w-full p-2 border border-gray-300 rounded-lg"
                 />
               </div>
 
@@ -52,7 +58,7 @@ export default function PetAdoptForm() {
                   name="owner-email"
                   type="email"
                   placeholder="abc@gmail.com"
-                  className="w-full p-3 border border-gray-300 rounded-lg"
+                  className="w-full p-2 border border-gray-300 rounded-lg"
                 />
               </div>
 
@@ -113,7 +119,7 @@ export default function PetAdoptForm() {
                   name="owner-address"
                   type="text"
                   placeholder="497 Hoà hảo, Phường 7, Quận 10, TP.HCM"
-                  className="w-full p-3 border border-gray-300 rounded-lg"
+                  className="w-full p-2 border border-gray-300 rounded-lg"
                 />
               </div>
               <div className="flex flex-col space-y-2">
@@ -179,7 +185,11 @@ export default function PetAdoptForm() {
             </form>
           </div>
           <div className="flex justify-center">
-            <button className="w-fit p-3 flex text-black bg-yellow-300 hover:bg-yellow-400 rounded-lg font-bold">
+            <button
+              type="button"
+              className="w-fit p-3 flex text-black bg-yellow-300 hover:bg-yellow-400 rounded-lg font-bold"
+              onClick={handleSubmit}
+            >
               Hoàn thành
             </button>
           </div>
