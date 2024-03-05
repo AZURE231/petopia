@@ -1,14 +1,16 @@
 import { IPetFilterRequest } from '@/src/interfaces/pet';
 import { PET_FILTERS } from '@/src/utils/constants';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
 interface IFilterBar {
-  filterForm: UseFormReturn<IPetFilterRequest, any, undefined>
+  filterForm: UseFormReturn<IPetFilterRequest, any, undefined>,
+  isFetching: boolean,
 }
 
 export const FilterBar = (props: IFilterBar) => {
-  const { getValues, setValue, watch } = props.filterForm;
+  const { getValues, setValue } = props.filterForm;
+  const { isFetching } = props;
   const [showFilter, setShowFilter] = useState({});
 
   const handleShowFilter = (id: number) => {
@@ -123,6 +125,7 @@ export const FilterBar = (props: IFilterBar) => {
                       type="checkbox"
                       className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                       onClick={() => handleClickFilter(filter.id, item.value)}
+                      disabled={isFetching}
                     />
                     <label
                       htmlFor={`filter-${filter.label}-${item.id}`}

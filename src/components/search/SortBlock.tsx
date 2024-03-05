@@ -6,10 +6,11 @@ interface ISortBlock {
   setShowFilterMobile: Dispatch<SetStateAction<boolean>>,
   orderBy: 'newest' | 'popular',
   setOrderBy: Dispatch<SetStateAction<'newest' | 'popular'>>,
+  isFetching: boolean,
 }
 
 export const SortBlock = (props: ISortBlock) => {
-  const { setShowFilterMobile, orderBy, setOrderBy } = props;
+  const { setShowFilterMobile, orderBy, setOrderBy, isFetching } = props;
 
   const [showSort, setShowSort] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -25,7 +26,7 @@ export const SortBlock = (props: ISortBlock) => {
   };
 
   const handleOnClickSort = (order: 'newest' | 'popular') => {
-    order!== orderBy && setOrderBy(order);
+    !isFetching && order!== orderBy && setOrderBy(order);
     setShowSort(false);
   };
 
