@@ -3,11 +3,13 @@ import { IPaginationModel } from '../interfaces/common';
 import { useEffect } from 'react';
 
 interface IPagination {
-  paginationForm: UseFormReturn<IPaginationModel, any, undefined>
+  paginationForm: UseFormReturn<IPaginationModel, any, undefined>,
+  isFetching: boolean,
 }
 
 export default function Pagination(props: IPagination) {
   const { getValues, setValue, watch } = props.paginationForm;
+  const { isFetching } = props;
 
   const handleClickNavigate = (action: 'up' | 'down') => {
     const pageIndex = getValues('pageIndex');
@@ -22,7 +24,7 @@ export default function Pagination(props: IPagination) {
     const pageIndex = getValues('pageIndex');
     const pageNumber = getValues('pageNumber');
     if (value >= 1 && value <= pageNumber && value != pageIndex)
-      setValue('pageIndex', value);
+      !isFetching && setValue('pageIndex', value);
   };
 
   const getBlocks = (pageIndex: number, pageNumber: number) => {

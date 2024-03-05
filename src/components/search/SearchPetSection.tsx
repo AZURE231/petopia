@@ -12,14 +12,17 @@ import { FilterBar } from './FilterBar';
 import { useForm } from 'react-hook-form';
 import {
   IApiResponse,
-  IPaginationModel} from '@/src/interfaces/common';
+  IPaginationModel
+} from '@/src/interfaces/common';
 import { useQuery } from '@/src/utils/hooks';
 import { getPets } from '@/src/services/pet';
 
 export const SearchPetSection = QueryProvider(() => {
+  // STATES
   const [showFilterMobile, setShowFilterMobile] = useState(false);
   const [pets, setPets] = useState<IPetResponse[]>([]);
 
+  // FORMS
   const [orderBy, setOrderBy] = useState<'newest' | 'popular'>('newest');
   const filterFrom = useForm<IPetFilterRequest>();
   const paginationForm = useForm<IPaginationModel>({
@@ -29,6 +32,7 @@ export const SearchPetSection = QueryProvider(() => {
     }
   });
 
+  // GET PETS QUERY
   const getPetsQuery = useQuery<IApiResponse<IPetResponse[]>>(
     [QUERY_KEYS.GET_PETS, orderBy, filterFrom.watch(), paginationForm.watch('pageIndex')],
     () => getPets({
@@ -66,7 +70,10 @@ export const SearchPetSection = QueryProvider(() => {
         <section className="pb-24 pt-6">
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
 
-            <FilterBar filterForm={filterFrom} />
+            <FilterBar
+              filterForm={filterFrom}
+              isFetching={getPetsQuery.isFetching}
+            />
 
             <div className="lg:col-span-3">
 
@@ -78,6 +85,7 @@ export const SearchPetSection = QueryProvider(() => {
                 setShowFilterMobile={setShowFilterMobile}
                 orderBy={orderBy}
                 setOrderBy={setOrderBy}
+                isFetching={getPetsQuery.isFetching}
               />
 
               <div className="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 xl:gap-x-8">
@@ -87,7 +95,10 @@ export const SearchPetSection = QueryProvider(() => {
               </div>
 
               <div className="flex items-center justify-center mt-5">
-                <Pagination paginationForm={paginationForm} />
+                <Pagination
+                  paginationForm={paginationForm}
+                  isFetching={getPetsQuery.isFetching}
+                />
               </div>
             </div>
           </div>

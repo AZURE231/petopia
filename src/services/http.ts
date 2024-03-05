@@ -52,6 +52,7 @@ class Http {
       headers,
       withCredentials: true,
     });
+
     http.interceptors.request.use((config) => {
       config.headers.Authorization = `Bearer ${Cookies.get(
         COOKIES_NAME.ACCESS_TOKEN
@@ -62,8 +63,8 @@ class Http {
     http.interceptors.response.use(
       (response) => response,
       (error) => {
-        const { response } = error;
-        this.handleError(response);
+        const { response, status } = error;
+        status === UNAUTHORIZED && window.location.replace('/login');
         if (response) return Promise.reject(response);
         return Promise.reject();
       }
@@ -103,11 +104,6 @@ class Http {
     config?: AxiosRequestConfig
   ): Promise<AxiosResponse<R>> {
     return this.http.delete<T, AxiosResponse<R>>(url, config);
-  }
-
-  private handleError(error: AxiosResponse<IApiErrorResponse>) {
-    if (error)
-      error.status === UNAUTHORIZED && window.location.replace('/login');
   }
 }
 
