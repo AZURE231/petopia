@@ -1,15 +1,20 @@
 'use client';
 import { ChangeEvent, useState, useEffect } from 'react';
 import { FaLongArrowAltRight, FaLongArrowAltLeft } from 'react-icons/fa';
-import { useForm } from 'react-hook-form';
-import { ICreatePetProfileRequest } from '@/src/interfaces/petProfile';
-import { useMutation } from '@/src/utils/hooks';
-import { register } from '@/src/services/authentication.api';
+import { set, useForm } from 'react-hook-form';
+import {
+  ICreatePetProfileRequest,
+  ILocationRequest,
+  ILocationResponse,
+} from '@/src/interfaces/petProfile';
+import { useMutation, useQuery } from '@/src/utils/hooks';
 import { IApiResponse } from '@/src/interfaces/common';
 import { QueryProvider } from './QueryProvider';
 import AttributeSelect from './AttributeSelect';
 import ProvinceDropdown from './ProvinceDropdown';
 import DistrictDropdown from './DistrictDropdown';
+import { getProvince } from '../services/petprofile.api';
+import { QUERY_KEYS } from '../utils/constants';
 
 const RegisterForm = QueryProvider(() => {
   const dogBreeds = [
@@ -18,13 +23,6 @@ const RegisterForm = QueryProvider(() => {
     'Golden Retriever',
     // Add more dog breeds as needed
   ];
-
-  const province = fetch(
-    'https://vn-public-apis.fpo.vn/provinces/getAll?limit=-1'
-  );
-  const district = fetch(
-    'https://vn-public-apis.fpo.vn/districts/getAll?limit=-1'
-  );
 
   const petSex = ['Đực', 'Cái', 'Không biết'];
   const petAge = ['Dưới 1 năm', '1 - 3 năm', 'Trên 3 năm'];
@@ -78,34 +76,53 @@ const RegisterForm = QueryProvider(() => {
   const registerMutation = useMutation<
     IApiResponse<boolean>,
     ICreatePetProfileRequest
-  >(register, {
+  >(getProvince, {
     onError: (err) => {},
     onSuccess: () => {},
   });
 
   // HANDLE ADDRESS CHANGE
-  const [provinces, setProvinces] = useState([]);
-  const [selectedProvince, setSelectedProvince] = useState('');
-  const [districts, setDistricts] = useState([]);
+  const [provinces, setProvinces] = useState<ILocationResponse[]>();
+  const [districts, setDistricts] = useState<ILocationResponse[]>();
+  const [wards, setWards] = useState<ILocationResponse[]>();
+  const locationForm = useForm<ILocationRequest>({
+    defaultValues: { Level: 1 },
+  });
 
-  useEffect(() => {
-    // Fetch provinces
-    fetch('https://vn-public-apis.fpo.vn/provinces/getAll?limit=-1')
-      .then((response) => response.json())
-      .then((data) => setProvinces(data));
-  }, []);
+  // use http.get to fetch provinces
+  useQuery<IApiResponse<ILocationResponse[]>>(
+    [
+      QUERY_KEYS.GET_LOCATION,
+      locationForm.watch('Code'),
+      locationForm.watch('Level'),
+    ],
+    () => getProvince(locationForm.getValues()),
+    {
+      onSuccess: (res) => {
+        console.log(locationForm.getValues('Level'));
+        if (locationForm.getValues('Level') === 1) {
+          setProvinces(res.data.data);
+        } else if (locationForm.getValues('Level') === 2) {
+          setWards([]);
+          setDistricts(res.data.data);
+        } else setWards(res.data.data);
+      },
+      refetchOnWindowFocus: false,
+    }
+  );
 
   const handleProvinceChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const provinceCode = e.target.value;
-    setSelectedProvince(provinceCode);
-
-    // Fetch districts based on selected province
-    fetch(
-      `https://vn-public-apis.fpo.vn/districts/getByProvince?provinceCode=${provinceCode}&limit=-1`
-    )
-      .then((response) => response.json())
-      .then((data) => setDistricts(data));
+    locationForm.setValue('Code', provinceCode);
+    locationForm.setValue('Level', 2);
   };
+
+  const handleDistrictChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const provinceCode = e.target.value;
+    locationForm.setValue('Code', provinceCode);
+    locationForm.setValue('Level', 3);
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       {/* breadscrum stepper */}
@@ -434,8 +451,9 @@ const RegisterForm = QueryProvider(() => {
                   Tỉnh/Thành phố
                 </label>
                 <ProvinceDropdown
-                  provinces={provinces}
+                  provinces={provinces!}
                   onChange={handleProvinceChange}
+                  title="Chọn Tỉnh/Thành phố"
                 />
               </div>
 
@@ -446,7 +464,11 @@ const RegisterForm = QueryProvider(() => {
                 >
                   Quận/Huyện
                 </label>
-                <DistrictDropdown districts={districts} />
+                <ProvinceDropdown
+                  provinces={districts!}
+                  onChange={handleDistrictChange}
+                  title="Chọn Quận/huyện"
+                />
               </div>
 
               <div className="flex flex-col space-y-2">
@@ -456,17 +478,8 @@ const RegisterForm = QueryProvider(() => {
                 >
                   Xã/Phường
                 </label>
-                <select
-                  name="owner-address-ward"
-                  className="text-black hover:bg-slate-100 border border-gray-300  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  <option value="">Chọn xã/phường</option>
-                  {dogBreeds.map((breed) => (
-                    <option key={breed} value={breed}>
-                      {breed}
-                    </option>
-                  ))}
-                </select>
+
+                <DistrictDropdown districts={wards!} />
               </div>
 
               <div className="flex flex-col space-y-2">

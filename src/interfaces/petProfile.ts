@@ -17,3 +17,13 @@ export interface ICreatePetProfileRequest {
     address: string;
   };
 }
+
+export interface ILocationResponse {
+  name: string;
+  code: string;
+}
+
+export interface ILocationRequest {
+  Level: 1 | 2 | 3;
+  Code?: string;
+}
