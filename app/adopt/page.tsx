@@ -1,4 +1,4 @@
-import PetProfileForm from '@/src/components/PetProfileForm';
+import PetProfileForm from '@/src/components/petProfileForm/PetProfileForm';
 
 export default function Adopt() {
   return (
