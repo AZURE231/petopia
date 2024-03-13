@@ -17,7 +17,7 @@ export function Navbar() {
   };
 
   const toggleMenu = () => setIsOpenMenu(!isOpenMenu);
-  
+
   return (
     <nav className=" border-gray-200 w-full fixed top-0 bg-white z-50">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -48,8 +48,9 @@ export function Navbar() {
             </button>
             {/* <!-- Dropdown menu user--> */}
             <div
-              className={`absolute right-0 top-10 z-50 ${isOpenProfile ? '' : 'hidden'
-                } text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow `}
+              className={`absolute right-0 top-10 z-50 ${
+                isOpenProfile ? '' : 'hidden'
+              } text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow `}
             >
               <div className="px-4 py-3">
                 <span className="block text-sm text-gray-900 ">
@@ -130,16 +131,18 @@ export function Navbar() {
           </Link>
         </div> */}
         <div
-          className={`items-center ${isOpenMenu ? '' : 'hidden'
-            } justify-between w-full md:flex md:w-auto md:order-1`}
+          className={`items-center ${
+            isOpenMenu ? '' : 'hidden'
+          } justify-between w-full md:flex md:w-auto md:order-1`}
           id="navbar-user"
         >
           <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white ">
             <li>
               <Link
                 href="/"
-                className={`block py-2 px-3 ${pathname == '/' ? activeTab : 'md:hover:text-yellow-400'
-                  } text-black  rounded md:bg-transparent md:text-black  md:p-0 `}
+                className={`block py-2 px-3 ${
+                  pathname == '/' ? activeTab : 'md:hover:text-yellow-400'
+                } text-black  rounded md:bg-transparent md:text-black  md:p-0 `}
                 aria-current="page"
               >
                 Trang chủ
@@ -148,16 +151,19 @@ export function Navbar() {
             <li>
               <Link
                 href="/search"
-                className={`block py-2 px-3 ${pathname == '/search' ? activeTab : 'md:hover:text-yellow-400'
-                  } text-black  rounded md:bg-transparent md:text-black  md:p-0 `}
+                className={`block py-2 px-3 ${
+                  pathname == '/search' ? activeTab : 'md:hover:text-yellow-400'
+                } text-black  rounded md:bg-transparent md:text-black  md:p-0 `}
               >
                 Nhận nuôi
               </Link>
             </li>
             <li>
               <Link
-                href="#"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-yellow-400 md:p-0 "
+                href="/adopt"
+                className={`block py-2 px-3 ${
+                  pathname == '/adopt' ? activeTab : 'md:hover:text-yellow-400'
+                } text-black  rounded md:bg-transparent md:text-black  md:p-0 `}
               >
                 Cho thú cưng
               </Link>

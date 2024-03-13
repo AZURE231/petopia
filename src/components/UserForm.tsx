@@ -9,7 +9,7 @@ export default function UserForm() {
     setIsEdit(!isEdit);
   };
   return (
-    <div className="container max-w-3xl p-5 mx-auto shadow-2xl rounded-2xl">
+    <div className="container max-w-3xl p-5 mx-auto shadow-2xl rounded-2xl mt-36">
       <div className="flex relative">
         <div className="relative h-52 w-52 bottom-20">
           <Image
