@@ -1,8 +1,8 @@
 'use client';
+import { IPetFilter } from '@/src/interfaces/pet';
 import { useState } from 'react';
-import { IPetFilter } from '../../interfaces/pet';
 
-export default function FilterBarMobile({
+export function PetFilterBarMobile({
   filterContent,
   showFilterMobile,
   setShowFilterMobile,

@@ -12,6 +12,7 @@ export const STATIC_URLS = {
   CAT_AND_DOG: '/img/Cat_and_dog.png',
   CAT_ATRONAULT: '/img/Cat_astronaut.png',
   CAT_VASE: '/img/Cat_throwing_vase.png',
+  NO_RESULT: '/img/no-result.png',
 };
 
 export const COOKIES_NAME = {
