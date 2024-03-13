@@ -1,9 +1,12 @@
+import { Footer } from '@/src/components/Footer';
+import { Navbar } from '@/src/components/NavBar';
 import { STATIC_URLS } from '@/src/utils/constants';
 import Image from 'next/image';
 
 export default function Home() {
   return (
     <div>
+      <Navbar />
       {/* Hero */}
       <div className="flex flex-col md:flex-row">
         <div className="basis-2/5 relative">
@@ -44,7 +47,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
       {/* Introduction */}
       <div
         className="bg-cover bg-center bg-no-repeat p-20 space-y-5"
@@ -144,6 +146,9 @@ export default function Home() {
           </div>
         </div>
       </div>
+      {/* CTA */}
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

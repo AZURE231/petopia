@@ -34,7 +34,7 @@ export const LoginForm = QueryProvider(() => {
         setAlertMessage(getErrorMessage(err.data.errorCode.toString()));
         setShowALert(true);
       },
-      onSuccess: () => window.location.replace('/home'),
+      onSuccess: () => window.location.replace('/'),
     }
   );
 
@@ -45,7 +45,7 @@ export const LoginForm = QueryProvider(() => {
         setAlertMessage(getErrorMessage(err.data.errorCode.toString()));
         setShowALert(true);
       },
-      onSuccess: () => window.location.replace('/home'),
+      onSuccess: () => window.location.replace('/'),
     },
   );
 
