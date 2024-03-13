@@ -1,6 +1,6 @@
+import { getPetAgeText, getPetSexText } from '@/src/helpers/getPetTextDetails';
+import { IPetResponse } from '@/src/interfaces/pet';
 import Image from 'next/image';
-import { IPetResponse } from '../interfaces/pet';
-import { getPetAgeText, getPetSexText } from '../helpers/getPetTextDetails';
 
 export function PetCard(props: IPetResponse) {
   const {

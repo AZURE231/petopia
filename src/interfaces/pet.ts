@@ -27,6 +27,7 @@ export interface IPetFilterRequest {
   age?: PET_AGE[],
   isVaccinated?: PET_MEDICAL_STATUS[],
   isSterillized?: PET_MEDICAL_STATUS[],
+  text: string,
 };
 
 export interface IPetResponse {
