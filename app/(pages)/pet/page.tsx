@@ -1,6 +1,7 @@
 'use client';
 import Carousel from '@/src/components/Carousel';
 import SeeMore from '@/src/components/SeeMore';
+import PetAdoptButton from '@/src/components/petAdoptForm/PetAdoptButton';
 import Image from 'next/image';
 
 const images = [
@@ -34,9 +35,7 @@ export default function page() {
           </div>
           <div className="md:pl-10">
             <h1 className="text-2xl font-bold">Yasuoba</h1>
-            <button className="w-fit p-3 px-8 rounded-full font-bold shadow-md bg-yellow-300 hover:bg-yellow-400 my-5">
-              Nhận nuôi
-            </button>
+            <PetAdoptButton />
             <div className="flex flex-col divide-y">
               <div className="flex flex-row py-2">
                 <div className="w-1/3">Giống</div>
