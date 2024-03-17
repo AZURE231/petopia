@@ -5,8 +5,8 @@ interface Props {
 }
 
 export default function PetAdoptForm({ handleClose }: Props) {
-  const houseType = ["Nhà riêng", "Chung cư", "Kí túc xá", "Nhà trọ", "Khác"];
-  const adoptTime = ["Ngay lập tức", "1 ngày", "Vài ngày", "1 tuần", "Khác"];
+  const houseType = ["Khác", "Nhà riêng", "Chung cư", "Kí túc xá", "Nhà trọ"];
+  const adoptTime = ["Khác", "Ngay lập tức", "1 ngày", "Vài ngày", "1 tuần"];
   const handleSubmit = () => {
     console.log("Submit form");
     handleClose();
