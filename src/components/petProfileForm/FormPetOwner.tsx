@@ -35,26 +35,26 @@ export default function FormPetOwner({
   });
 
   // use http.get to fetch provinces
-  useQuery<IApiResponse<ILocationResponse[]>>(
-    [
-      QUERY_KEYS.GET_LOCATION,
-      locationForm.watch('Code'),
-      locationForm.watch('Level'),
-    ],
-    () => getProvince(locationForm.getValues()),
-    {
-      onSuccess: (res) => {
-        console.log(locationForm.getValues('Level'));
-        if (locationForm.getValues('Level') === 1) {
-          setProvinces(res.data.data);
-        } else if (locationForm.getValues('Level') === 2) {
-          setWards([]);
-          setDistricts(res.data.data);
-        } else setWards(res.data.data);
-      },
-      refetchOnWindowFocus: false,
-    }
-  );
+  // useQuery<IApiResponse<ILocationResponse[]>>(
+  //   [
+  //     QUERY_KEYS.GET_LOCATION,
+  //     locationForm.watch('Code'),
+  //     locationForm.watch('Level'),
+  //   ],
+  //   () => getProvince(locationForm.getValues()),
+  //   {
+  //     onSuccess: (res) => {
+  //       // console.log(locationForm.getValues('Level'));
+  //       if (locationForm.getValues('Level') === 1) {
+  //         setProvinces(res.data.data);
+  //       } else if (locationForm.getValues('Level') === 2) {
+  //         setWards([]);
+  //         setDistricts(res.data.data);
+  //       } else setWards(res.data.data);
+  //     },
+  //     refetchOnWindowFocus: false,
+  //   }
+  // );
 
   const handleProvinceChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const provinceCode = e.target.value;

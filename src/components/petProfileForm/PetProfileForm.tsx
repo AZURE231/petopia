@@ -30,6 +30,7 @@ const RegisterForm = QueryProvider(() => {
     defaultValues: {
       petInfo: {
         name: '',
+        files: [],
         species: '',
         breed: '',
         sex: '',
@@ -172,7 +173,13 @@ const RegisterForm = QueryProvider(() => {
       </ol>
 
       {/* form upload images */}
-      {activeStep === 0 && <FormUploadImage handleNext={handleNext} />}
+      {activeStep === 0 && (
+        <FormUploadImage
+          handleNext={handleNext}
+          setValue={setValue}
+          getValue={getValues}
+        />
+      )}
 
       {/* form pet detail */}
       {activeStep === 1 && (

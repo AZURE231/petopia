@@ -1,6 +1,7 @@
 export interface ICreatePetProfileRequest {
   petInfo: {
     name: string;
+    files: string[];
     species: string;
     breed: string;
     sex: string;

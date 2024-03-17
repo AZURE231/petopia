@@ -1,11 +1,47 @@
-import { FaLongArrowAltRight } from 'react-icons/fa';
+'use client';
+import { use, useEffect, useState } from 'react';
 import ControlForm from './ControlForm';
+import Image from 'next/image';
+import {
+  UseFormGetValues,
+  UseFormSetValue,
+  UseFormWatch,
+} from 'react-hook-form';
+import { ICreatePetProfileRequest } from '@/src/interfaces/petProfile';
 
 export default function FormUploadImage({
   handleNext,
+  setValue,
+  getValue,
 }: {
   handleNext: () => void;
+  setValue: UseFormSetValue<ICreatePetProfileRequest>;
+  getValue: UseFormGetValues<ICreatePetProfileRequest>;
 }) {
+  const [files, setFiles] = useState<string[]>([]);
+  useEffect(() => {
+    setFiles(getValue('petInfo.files'));
+  }, []);
+  const handleAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileList = e.target.files;
+    if (fileList) {
+      const ImagesArray = Object.entries(fileList).map((e) =>
+        URL.createObjectURL(e[1])
+      );
+      setFiles([...files, ...ImagesArray]);
+      setValue('petInfo.files', [...files, ...ImagesArray]);
+      console.log('files', files);
+    }
+  };
+
+  const deleteFile = (e: number) => {
+    const newFiles = files.filter((item, index) => index !== e);
+    setFiles(newFiles);
+    setValue('petInfo.files', newFiles);
+    console.log('delete', newFiles);
+    console.log('number', e);
+  };
+
   return (
     <div className="w-full rounded-2xl bg-blue-200 p-5">
       <h2 className="font-bold mb-2">Hình thú cưng của bạn</h2>
@@ -40,8 +76,49 @@ export default function FormUploadImage({
               SVG, PNG, JPG or GIF (MAX. 800x400px)
             </p>
           </div>
-          <input id="dropzone-file" type="file" className="hidden" />
+          <input
+            id="dropzone-file"
+            disabled={files.length === 3}
+            multiple
+            type="file"
+            className="hidden"
+            onChange={handleAddImage}
+          />
         </label>
+      </div>
+      {/* Image preview */}
+      <div className="flex gap-3 mb-5">
+        {files.length > 0 &&
+          files.map((file, index) => (
+            <div key={index} className="relative w-1/3 h-24">
+              <Image
+                src={file}
+                alt="preview"
+                fill
+                className="object-cover rounded-lg"
+              ></Image>
+              <button
+                onClick={() => deleteFile(index)}
+                className="absolute top-0 right-0 p-1 bg-red-500 rounded-full"
+              >
+                <svg
+                  className="w-4 h-4 text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+          ))}
       </div>
 
       {/* Controller */}
