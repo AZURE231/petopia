@@ -1,8 +1,6 @@
-import Cookies from 'js-cookie';
-import { COOKIES_NAME } from '../utils/constants';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { IApiErrorResponse } from '../interfaces/common';
 import { API_ROUTE } from '@/settings';
+import { COOKIES_NAME } from '../utils/constants';
 
 const UNAUTHORIZED = 401;
 
@@ -54,9 +52,7 @@ class Http {
     });
 
     http.interceptors.request.use((config) => {
-      config.headers.Authorization = `Bearer ${Cookies.get(
-        COOKIES_NAME.ACCESS_TOKEN
-      )}`;
+      config.headers.Authorization = `Bearer ${sessionStorage.getItem(COOKIES_NAME.ACCESS_TOKEN)}`;
       return config;
     });
 
@@ -64,7 +60,11 @@ class Http {
       (response) => response,
       (error) => {
         const { response, status } = error;
-        status === UNAUTHORIZED && window.location.replace('/login');
+        if(status === UNAUTHORIZED) {
+          sessionStorage.removeItem(COOKIES_NAME.ACCESS_TOKEN);
+          sessionStorage.removeItem(COOKIES_NAME.REFRESH_TOKEN);
+          window.location.replace('/login');
+        }
         if (response) return Promise.reject(response);
         return Promise.reject();
       }

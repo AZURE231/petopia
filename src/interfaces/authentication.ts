@@ -23,3 +23,10 @@ export interface IValidateRegisterRequest {
   email: string;
   validateRegisterToken: string;
 }
+
+export interface ILoginResponse {
+  accessToken: string;
+  refreshToken: string;
+  accessTokenExpiredDate: string;
+  refreshTokenExpiredDate: string;
+}
