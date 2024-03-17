@@ -19,7 +19,7 @@ export default function page() {
       <div className="container mx-auto p-5 shadow-2xl rounded-2xl">
         <div className="grid md:grid-cols-2 grid-cols-1">
           <div>
-            <div className="w-full relative pt-[100%]">
+            {/* <div className="w-full relative pt-[100%]">
               <Image
                 alt="pet-avatar"
                 src={'/img/cat-pet-detail.jpg'}
@@ -27,10 +27,10 @@ export default function page() {
                 fill
                 className="w-full h-3/4 top-0 left-0 object-cover rounded-lg"
               ></Image>
-            </div>
-            <div className="p-5">
+            </div> */}
+            {/* <div className="p-5">
               <Carousel images={images}></Carousel>
-            </div>
+            </div> */}
           </div>
           <div className="md:pl-10">
             <h1 className="text-2xl font-bold">Yasuoba</h1>

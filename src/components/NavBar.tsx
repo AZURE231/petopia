@@ -21,10 +21,7 @@ export function Navbar() {
   return (
     <nav className=" border-gray-200 w-full fixed top-0 bg-white z-50">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a
-          href="https://flowbite.com/"
-          className="flex items-center space-x-3 rtl:space-x-reverse"
-        >
+        <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <span className="self-center text-2xl whitespace-nowrap ">
             <span className="text-yellow-300">Pet</span>opia
           </span>
