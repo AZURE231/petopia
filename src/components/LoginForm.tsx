@@ -4,12 +4,13 @@ import { ChangeEvent, useState } from 'react';
 import { useMutation } from '../utils/hooks';
 import { getErrorMessage } from '../helpers/getErrorMessage';
 import { IApiResponse } from '../interfaces/common';
-import { IGoogleLoginRequest, ILoginRequest } from '../interfaces/authentication';
+import { IGoogleLoginRequest, ILoginRequest, ILoginResponse } from '../interfaces/authentication';
 import { googleLogin, login } from '../services/authentication.api';
 import { useForm } from 'react-hook-form';
 import { QueryProvider } from './QueryProvider';
 import { GoogleLoginButton } from './GoogleLoginButton';
 import { Alert } from './Alert';
+import { COOKIES_NAME } from '../utils/constants';
 
 export const LoginForm = QueryProvider(() => {
   const [showAlert, setShowALert] = useState<boolean>(false);
@@ -27,25 +28,40 @@ export const LoginForm = QueryProvider(() => {
     loginMutation.mutate(getValues());
   };
 
-  const loginMutation = useMutation<IApiResponse<boolean>, ILoginRequest>(
+  const handleOnLoginSuccess = (tokens: ILoginResponse) => {
+    sessionStorage.setItem(COOKIES_NAME.ACCESS_TOKEN, tokens.accessToken);
+    sessionStorage.setItem(COOKIES_NAME.REFRESH_TOKEN, tokens.refreshToken);
+    sessionStorage.setItem(COOKIES_NAME.ACCESS_TOKEN_EXPIRED_DATE, tokens.accessTokenExpiredDate);
+    sessionStorage.setItem(COOKIES_NAME.REFRESH_TOKEN_EXPIRED_DATE, tokens.refreshTokenExpiredDate);
+    const redirect = sessionStorage.getItem(COOKIES_NAME.REDIRECT);
+    if(redirect) {
+      sessionStorage.removeItem(COOKIES_NAME.REDIRECT);
+      window.location.replace(redirect);
+    } 
+    else {
+      window.location.replace('/');
+    }
+  };
+
+  const loginMutation = useMutation<IApiResponse<ILoginResponse>, ILoginRequest>(
     login,
     {
       onError: (err) => {
         setAlertMessage(getErrorMessage(err.data.errorCode.toString()));
         setShowALert(true);
       },
-      onSuccess: () => window.location.replace('/'),
+      onSuccess: (res) => handleOnLoginSuccess(res.data.data),
     }
   );
 
-  const googleLoginMutation = useMutation<IApiResponse<boolean>, IGoogleLoginRequest>(
+  const googleLoginMutation = useMutation<IApiResponse<ILoginResponse>, IGoogleLoginRequest>(
     googleLogin,
     {
       onError: (err) => {
         setAlertMessage(getErrorMessage(err.data.errorCode.toString()));
         setShowALert(true);
       },
-      onSuccess: () => window.location.replace('/'),
+      onSuccess: (res) => handleOnLoginSuccess(res.data.data),
     },
   );
 
