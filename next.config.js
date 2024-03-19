@@ -4,9 +4,9 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: '127.0.0.1',
-        port: '10000',
+        protocol: 'https',
+        hostname: 'i.ibb.co',
+        port: '',
         pathname: '/**/**',
       },
     ],
