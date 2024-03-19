@@ -10,6 +10,8 @@ import FormUploadImage from './FormUploadImage';
 import FormPetDetail from './FormPetDetail';
 import FormPetOwner from './FormPetOwner';
 import FormRules from './FormRules';
+import { http } from '@/src/services/http';
+import axios from 'axios';
 
 const RegisterForm = QueryProvider(() => {
   const activeStepper = 'text-blue-600';
@@ -31,6 +33,7 @@ const RegisterForm = QueryProvider(() => {
       petInfo: {
         name: '',
         files: [],
+        imagesFile: null,
         species: '',
         breed: '',
         sex: '',
@@ -49,9 +52,39 @@ const RegisterForm = QueryProvider(() => {
     },
   });
 
+  const uploadImage = () => {
+    const imagesFile = getValues('petInfo.imagesFile');
+    const formData = new FormData();
+    console.log('imagesFile', imagesFile);
+    // if (imagesFile) {
+    //   for (let i = 0; i < imagesFile.length; i++) {
+    imagesFile && formData.append('image', imagesFile);
+    console.log('formData', formData);
+    //
+
+    axios
+      .post(
+        'https://api.imgbb.com/1/upload?key=375280be5017acaf5d4d8561abc4f13b',
+        formData
+      )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // http.setUrlAPI('https://api.imgbb.com/1/upload?key=375280be5017acaf5d4d8561abc4f13b');
+    // http.post
+    //     }
+    //   }
+    //   // return formData;
+  };
+
   const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    registerMutation.mutate(getValues());
+    uploadImage();
+    // registerMutation.mutate(getValues());
   };
 
   // REGISTER MUTATION
@@ -202,7 +235,9 @@ const RegisterForm = QueryProvider(() => {
       )}
 
       {/* rules */}
-      {activeStep === 3 && <FormRules handleBack={handleBack} />}
+      {activeStep === 3 && (
+        <FormRules handleSubmit={handleSubmit} handleBack={handleBack} />
+      )}
     </form>
   );
 });

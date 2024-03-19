@@ -1,12 +1,8 @@
 'use client';
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ControlForm from './ControlForm';
 import Image from 'next/image';
-import {
-  UseFormGetValues,
-  UseFormSetValue,
-  UseFormWatch,
-} from 'react-hook-form';
+import { UseFormGetValues, UseFormSetValue, set } from 'react-hook-form';
 import { ICreatePetProfileRequest } from '@/src/interfaces/petProfile';
 
 export default function FormUploadImage({
@@ -19,6 +15,7 @@ export default function FormUploadImage({
   getValue: UseFormGetValues<ICreatePetProfileRequest>;
 }) {
   const [files, setFiles] = useState<string[]>([]);
+  const [imagesFile, setImagesFile] = useState<FileList>();
   useEffect(() => {
     setFiles(getValue('petInfo.files'));
   }, []);
@@ -30,6 +27,7 @@ export default function FormUploadImage({
       );
       setFiles([...files, ...ImagesArray]);
       setValue('petInfo.files', [...files, ...ImagesArray]);
+      setValue('petInfo.imagesFile', fileList[0]);
       console.log('files', files);
     }
   };
@@ -38,6 +36,9 @@ export default function FormUploadImage({
     const newFiles = files.filter((item, index) => index !== e);
     setFiles(newFiles);
     setValue('petInfo.files', newFiles);
+
+    const newImagesFile = getValue('petInfo.imagesFile');
+
     console.log('delete', newFiles);
     console.log('number', e);
   };
