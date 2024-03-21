@@ -12,7 +12,8 @@ import { Alert } from './Alert';
 import { GoogleRecaptcha } from './GoogleRecaptcha';
 import { publish } from '../services/event';
 import { EVENT_NAMES } from '../utils/constants';
-import { checkPasswordFormat, checkPasswords, isEmail, isPassword } from '../helpers/inputValidator';
+import { checkPasswordFormat, checkPasswords, isEmail } from '../helpers/inputValidator';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 export const RegisterForm = QueryProvider(() => {
   // FORM ERROR STATES
@@ -202,6 +203,14 @@ export const RegisterForm = QueryProvider(() => {
               disabled={isDisabled()}
             >
               Đăng ký
+              <span className='ml-2 leading-5'>
+                <ClipLoader
+                  color={'#000000'}
+                  loading={registerMutation.isLoading}
+                  size={14}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                /></span>
             </button>
           </form>
         </div>

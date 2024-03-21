@@ -11,6 +11,7 @@ import { QueryProvider } from './QueryProvider';
 import { GoogleLoginButton } from './GoogleLoginButton';
 import { Alert } from './Alert';
 import { COOKIES_NAME } from '../utils/constants';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 export const LoginForm = QueryProvider(() => {
   const [showAlert, setShowALert] = useState<boolean>(false);
@@ -34,10 +35,10 @@ export const LoginForm = QueryProvider(() => {
     sessionStorage.setItem(COOKIES_NAME.ACCESS_TOKEN_EXPIRED_DATE, tokens.accessTokenExpiredDate);
     sessionStorage.setItem(COOKIES_NAME.REFRESH_TOKEN_EXPIRED_DATE, tokens.refreshTokenExpiredDate);
     const redirect = sessionStorage.getItem(COOKIES_NAME.REDIRECT);
-    if(redirect) {
+    if (redirect) {
       sessionStorage.removeItem(COOKIES_NAME.REDIRECT);
       window.location.replace(redirect);
-    } 
+    }
     else {
       window.location.replace('/');
     }
@@ -140,6 +141,14 @@ export const LoginForm = QueryProvider(() => {
               focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             >
               Đăng nhập
+              <span className='ml-2 leading-5'>
+                <ClipLoader
+                  color={'#000000'}
+                  loading={loginMutation.isLoading}
+                  size={14}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                /></span>
             </button>
 
             <GoogleLoginButton
