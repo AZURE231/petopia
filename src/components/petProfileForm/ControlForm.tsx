@@ -4,10 +4,12 @@ export default function ControlForm({
   handleBack,
   handleNext,
   type,
+  handleSubmit,
 }: {
   handleBack: () => void;
   handleNext: () => void;
   type: 1 | 2 | 3 | 4;
+  handleSubmit?: (event: any) => void;
 }) {
   return (
     <div className="w-full bg-white rounded-lg p-5 flex">
@@ -39,8 +41,9 @@ export default function ControlForm({
       )}
       {type === 4 && (
         <button
-          className="w-fit p-3 flex text-black bg-yellow-300 hover:bg-yellow-400 rounded-lg"
+          className="whitespace-nowrap whitespace-no-wrap p-3 flex text-black bg-yellow-300 hover:bg-yellow-400 rounded-lg"
           type="submit"
+          onClick={handleSubmit}
         >
           Hoàn thành
         </button>

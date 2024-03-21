@@ -1,4 +1,4 @@
-import { IPetFilter, IPetFilterItem } from '../interfaces/pet';
+import { IPetFilter, IPetSelect } from '../interfaces/pet';
 
 export const STATIC_URLS = {
   GIRL_DOG: '/img/girl_dog.webp',
@@ -50,7 +50,7 @@ export enum PET_SEX {
   MALE = 0,
   FEMALE = 1,
   UNKNOWN = 2,
-};
+}
 
 export enum PET_COLOR {
   BLACK = 0,
@@ -59,25 +59,25 @@ export enum PET_COLOR {
   YELLOW = 3,
   SILVER = 4,
   OTHER = 5,
-};
+}
 
 export enum PET_SPECIES {
   DOG = 0,
   CAT = 1,
   OTHER = 2,
-};
+}
 
 export enum PET_SIZE {
   SMALL = 0,
   MEDIUM = 1,
   BIG = 2,
-};
+}
 
 export enum PET_AGE {
   LESS_THAN_ONE_YEAR = 0,
   ONE_TO_THREE_YEAR = 1,
   MORE_THAN_THREE_YEAR = 2,
-};
+}
 
 export enum PET_SORT_CRITERIA {
   POPULAR = 0,
@@ -91,169 +91,207 @@ export enum PET_MEDICAL_STATUS {
   UNKNOWN = 2,
 }
 
+export const PET_SPECIES_FILTER: IPetFilter = {
+  id: 1,
+  label: 'Loài',
+  items: [
+    {
+      id: 1,
+      label: 'Chó',
+      value: PET_SPECIES.DOG,
+    },
+    {
+      id: 2,
+      label: 'Mèo',
+      value: PET_SPECIES.CAT,
+    },
+    {
+      id: 3,
+      label: 'Khác',
+      value: PET_SPECIES.OTHER,
+    },
+  ],
+};
+
+export const PET_SEX_FILTER: IPetFilter = {
+  id: 2,
+  label: 'Giới tính',
+  items: [
+    {
+      id: 1,
+      label: 'Đực',
+      value: PET_SEX.MALE,
+    },
+    {
+      id: 2,
+      label: 'Cái',
+      value: PET_SEX.FEMALE,
+    },
+    {
+      id: 3,
+      label: 'Không rõ',
+      value: PET_SEX.UNKNOWN,
+    },
+  ],
+};
+
+export const PET_COLOR_FILTER: IPetFilter = {
+  id: 3,
+  label: 'Màu sắc',
+  items: [
+    {
+      id: 1,
+      label: 'Đen',
+      value: PET_COLOR.BLACK,
+    },
+    {
+      id: 2,
+      label: 'Trắng',
+      value: PET_COLOR.WHITE,
+    },
+    {
+      id: 3,
+      label: 'Vàng',
+      value: PET_COLOR.YELLOW,
+    },
+    {
+      id: 4,
+      label: 'Nâu',
+      value: PET_COLOR.BROWN,
+    },
+    {
+      id: 5,
+      label: 'Xám',
+      value: PET_COLOR.SILVER,
+    },
+    {
+      id: 6,
+      label: 'Khác',
+      value: PET_COLOR.OTHER,
+    },
+  ],
+};
+
+export const PET_SIZE_FILTER: IPetFilter = {
+  id: 4,
+  label: 'Kích thước',
+  items: [
+    {
+      id: 1,
+      label: 'Nhỏ',
+      value: PET_SIZE.SMALL,
+    },
+    {
+      id: 2,
+      label: 'Trung bình',
+      value: PET_SIZE.MEDIUM,
+    },
+    {
+      id: 3,
+      label: 'Lớn',
+      value: PET_SIZE.BIG,
+    },
+  ],
+};
+
+export const PET_AGE_FILTER: IPetFilter = {
+  id: 5,
+  label: 'Độ tuổi',
+  items: [
+    {
+      id: 1,
+      label: 'Dưới 1 năm',
+      value: PET_AGE.LESS_THAN_ONE_YEAR,
+    },
+    {
+      id: 2,
+      label: 'Từ 1 đến 3 năm',
+      value: PET_AGE.ONE_TO_THREE_YEAR,
+    },
+    {
+      id: 3,
+      label: 'Hơn 3 năm',
+      value: PET_AGE.MORE_THAN_THREE_YEAR,
+    },
+  ],
+};
+
+export const PET_VACCINATED_FILTER: IPetFilter = {
+  id: 6,
+  label: 'Tiêm chủng',
+  items: [
+    {
+      id: 1,
+      label: 'Đã tiêm',
+      value: PET_MEDICAL_STATUS.YES,
+    },
+    {
+      id: 2,
+      label: 'Chưa tiêm',
+      value: PET_MEDICAL_STATUS.NO,
+    },
+    {
+      id: 3,
+      label: 'Chưa rõ',
+      value: PET_MEDICAL_STATUS.UNKNOWN,
+    },
+  ],
+};
+
+export const PET_STERILIZED_FILTER: IPetFilter = {
+  id: 7,
+  label: 'Triệt sản',
+  items: [
+    {
+      id: 1,
+      label: 'Đã triệt sản',
+      value: PET_MEDICAL_STATUS.YES,
+    },
+    {
+      id: 2,
+      label: 'Chưa triệt sản',
+      value: PET_MEDICAL_STATUS.NO,
+    },
+    {
+      id: 3,
+      label: 'Chưa rõ',
+      value: PET_MEDICAL_STATUS.UNKNOWN,
+    },
+  ],
+};
+
+export const PET_BREED_FILTER: IPetFilter = {
+  id: 8,
+  label: 'Giống',
+  items: [
+    {
+      id: 1,
+      label: 'Chưa rõ',
+      value: PET_MEDICAL_STATUS.YES,
+    },
+  ],
+};
+
 export const PET_FILTERS: IPetFilter[] = [
-  {
-    id: 1,
-    label: 'Loài',
-    items: [
-      {
-        id: 1,
-        label: 'Chó',
-        value: PET_SPECIES.DOG,
-      },
-      {
-        id: 2,
-        label: 'Mèo',
-        value: PET_SPECIES.CAT,
-      },
-      {
-        id: 3,
-        label: 'Khác',
-        value: PET_SPECIES.OTHER,
-      },
-    ],
-  },
-  {
-    id: 2,
-    label: 'Giới tính',
-    items: [
-      {
-        id: 1,
-        label: 'Đực',
-        value: PET_SEX.MALE,
-      },
-      {
-        id: 2,
-        label: 'Cái',
-        value: PET_SEX.FEMALE,
-      },
-      {
-        id: 3,
-        label: 'Không rõ',
-        value: PET_SEX.UNKNOWN,
-      }
-    ],
-  },
-  {
-    id: 3,
-    label: 'Màu sắc',
-    items: [
-      {
-        id: 1,
-        label: 'Đen',
-        value: PET_COLOR.BLACK,
-      },
-      {
-        id: 2,
-        label: 'Trắng',
-        value: PET_COLOR.WHITE,
-      },
-      {
-        id: 3,
-        label: 'Vàng',
-        value: PET_COLOR.YELLOW,
-      },
-      {
-        id: 4,
-        label: 'Nâu',
-        value: PET_COLOR.BROWN,
-      },
-      {
-        id: 5,
-        label: 'Xám',
-        value: PET_COLOR.SILVER,
-      },
-      {
-        id: 6,
-        label: 'Khác',
-        value: PET_COLOR.OTHER,
-      }
-    ],
-  },
-  {
-    id: 4,
-    label: 'Kích thước',
-    items: [
-      {
-        id: 1,
-        label: 'Nhỏ',
-        value: PET_SIZE.SMALL,
-      },
-      {
-        id: 2,
-        label: 'Trung bình',
-        value: PET_SIZE.MEDIUM,
-      },
-      {
-        id: 3,
-        label: 'Lớn',
-        value: PET_SIZE.BIG,
-      },
-    ],
-  },
-  {
-    id: 5,
-    label: 'Độ tuổi',
-    items: [
-      {
-        id: 1,
-        label: 'Dưới 1 năm',
-        value: PET_AGE.LESS_THAN_ONE_YEAR,
-      },
-      {
-        id: 2,
-        label: 'Từ 1 đến 3 năm',
-        value: PET_AGE.MORE_THAN_THREE_YEAR,
-      },
-      {
-        id: 3,
-        label: 'Hơn 3 năm',
-        value: PET_AGE.MORE_THAN_THREE_YEAR,
-      },
-    ],
-  },
-  {
-    id: 6,
-    label: 'Tiêm chủng',
-    items: [
-      {
-        id: 1,
-        label: 'Đã tiêm',
-        value: PET_MEDICAL_STATUS.YES,
-      },
-      {
-        id: 2,
-        label: 'Chưa tiêm',
-        value: PET_MEDICAL_STATUS.NO,
-      },
-      {
-        id: 3,
-        label: 'Chưa rõ',
-        value: PET_MEDICAL_STATUS.UNKNOWN,
-      },
-    ],
-  },
-  {
-    id: 7,
-    label: 'Triệt sản',
-    items: [
-      {
-        id: 1,
-        label: 'Đã triệt sản',
-        value: PET_MEDICAL_STATUS.YES,
-      },
-      {
-        id: 2,
-        label: 'Chưa triệt sản',
-        value: PET_MEDICAL_STATUS.NO,
-      },
-      {
-        id: 3,
-        label: 'Chưa rõ',
-        value: PET_MEDICAL_STATUS.UNKNOWN,
-      },
-    ],
-  },
+  PET_SPECIES_FILTER,
+  PET_AGE_FILTER,
+  PET_COLOR_FILTER,
+  PET_SEX_FILTER,
+  PET_SIZE_FILTER,
+  PET_VACCINATED_FILTER,
+  PET_STERILIZED_FILTER,
+  PET_BREED_FILTER,
+];
+
+export const PET_SELECT: IPetSelect[] = [
+  { ...PET_SPECIES_FILTER, kind: 'species' },
+  { ...PET_BREED_FILTER, kind: 'breed' },
+  { ...PET_SEX_FILTER, kind: 'sex' },
+  { ...PET_COLOR_FILTER, kind: 'color' },
+  { ...PET_SIZE_FILTER, kind: 'size' },
+  { ...PET_AGE_FILTER, kind: 'age' },
+  { ...PET_VACCINATED_FILTER, kind: 'isVaccinated' },
+  { ...PET_STERILIZED_FILTER, kind: 'isSterillized' },
 ];
 
 export const SEARCH_PARAMS = {

@@ -1,12 +1,10 @@
 import { Footer } from '@/src/components/Footer';
-import { Navbar } from '@/src/components/NavBar';
 import { STATIC_URLS } from '@/src/utils/constants';
 import Image from 'next/image';
 
 export default function Home() {
   return (
     <div>
-      <Navbar />
       {/* Hero */}
       <div className="flex flex-col md:flex-row">
         <div className="basis-2/5 relative">
