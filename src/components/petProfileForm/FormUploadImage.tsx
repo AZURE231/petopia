@@ -15,7 +15,6 @@ export default function FormUploadImage({
   getValue: UseFormGetValues<ICreatePetProfileRequest>;
 }) {
   const [files, setFiles] = useState<string[]>([]);
-  const [imagesFile, setImagesFile] = useState<FileList>();
   useEffect(() => {
     setFiles(getValue('files'));
   }, []);
@@ -73,15 +72,14 @@ export default function FormUploadImage({
               <span className="font-semibold">Click to upload</span> or drag and
               drop
             </p>
-            <p className="text-xs text-gray-500 ">
-              SVG, PNG, JPG or GIF (MAX. 800x400px)
-            </p>
+            <p className="text-xs text-gray-500 ">PNG, JPG, JPEG</p>
           </div>
           <input
             id="dropzone-file"
             disabled={files.length === 3}
             multiple
             type="file"
+            accept="image/png, image/jpeg, image/jpg"
             className="hidden"
             onChange={handleAddImage}
           />
