@@ -41,7 +41,7 @@ export default function ControlForm({
       )}
       {type === 4 && (
         <button
-          className="w-fit p-3 flex text-black bg-yellow-300 hover:bg-yellow-400 rounded-lg"
+          className="whitespace-nowrap whitespace-no-wrap p-3 flex text-black bg-yellow-300 hover:bg-yellow-400 rounded-lg"
           type="submit"
           onClick={handleSubmit}
         >

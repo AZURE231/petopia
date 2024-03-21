@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
 interface IFilterBar {
-  filterForm: UseFormReturn<IPetFilterRequest, any, undefined>,
-  disable: boolean,
+  filterForm: UseFormReturn<IPetFilterRequest, any, undefined>;
+  disable: boolean;
 }
 
 export const PetFilterBar = (props: IFilterBar) => {
@@ -21,13 +21,10 @@ export const PetFilterBar = (props: IFilterBar) => {
   };
 
   const setFilter = (array: any[] | undefined, itemValue: number) => {
-    if (array === undefined)
-      array = [];
+    if (array === undefined) array = [];
     const index = array.indexOf(itemValue);
-    if (index !== -1)
-      array.splice(index, 1);
-    else
-      array.push(itemValue);
+    if (index !== -1) array.splice(index, 1);
+    else array.push(itemValue);
     return array;
   };
 
@@ -38,7 +35,7 @@ export const PetFilterBar = (props: IFilterBar) => {
         setValue('species', setFilter(species, itemValue));
         break;
 
-      case 2:
+      case 4:
         let sex = getValues('sex');
         setValue('sex', setFilter(sex, itemValue));
         break;
@@ -48,12 +45,12 @@ export const PetFilterBar = (props: IFilterBar) => {
         setValue('color', setFilter(color, itemValue));
         break;
 
-      case 4:
+      case 5:
         let size = getValues('size');
         setValue('size', setFilter(size, itemValue));
         break;
 
-      case 5:
+      case 2:
         let age = getValues('age');
         setValue('age', setFilter(age, itemValue));
         break;
@@ -81,9 +78,7 @@ export const PetFilterBar = (props: IFilterBar) => {
               className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500"
               onClick={() => handleShowFilter(filter.id)}
             >
-              <span className="font-medium text-gray-900">
-                {filter.label}
-              </span>
+              <span className="font-medium text-gray-900">{filter.label}</span>
               <span className="ml-6 flex items-center">
                 {/* <!-- Expand icon, show/hide based on section open state. --> */}
                 {!showFilter[filter.id as keyof typeof showFilter] && (

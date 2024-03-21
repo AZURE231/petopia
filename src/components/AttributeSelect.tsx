@@ -1,18 +1,19 @@
 import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import { ICreatePetProfileRequest } from '@/src/interfaces/petProfile';
-
+import { PET_FILTERS } from '@/src/utils/constants';
+import { IPetFilterItem } from '../interfaces/pet';
 interface AttributeSelectProps {
   label: string;
-  options: string[];
+  options: IPetFilterItem[];
   value:
-    | 'petInfo.breed'
-    | 'petInfo.species'
-    | 'petInfo.sex'
-    | 'petInfo.age'
-    | 'petInfo.color'
-    | 'petInfo.size'
-    | 'petInfo.isVaccinated'
-    | 'petInfo.isNeutered';
+    | 'breed'
+    | 'species'
+    | 'sex'
+    | 'age'
+    | 'color'
+    | 'size'
+    | 'isVaccinated'
+    | 'isSterillized';
   setValue: UseFormSetValue<ICreatePetProfileRequest>;
   watch: UseFormWatch<ICreatePetProfileRequest>;
 }
@@ -30,14 +31,14 @@ export default function AttributeSelect({
         {label}
       </label>
       <select
-        name="breed"
         onChange={(e) => setValue(value, e.target.value)}
         className="text-black hover:bg-slate-100 border border-gray-300  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+        defaultValue={watch(value)}
       >
-        <option value="">Chọn {label}</option>
+        <option value="-1">Chọn {label}</option>
         {options.map((opt) => (
-          <option key={opt} value={opt} selected={watch(value) === opt}>
-            {opt}
+          <option key={opt.id} value={opt.value}>
+            {opt.label}
           </option>
         ))}
       </select>

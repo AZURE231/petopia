@@ -1,23 +1,19 @@
 export interface ICreatePetProfileRequest {
-  petInfo: {
-    name: string;
-    files: string[];
-    imagesFile: File | null;
-    species: string;
-    breed: string;
-    sex: string;
-    age: string;
-    color: string;
-    size: string;
-    isVaccinated: string;
-    isNeutered: string;
-  };
-  userInfo: {
-    name: string;
-    phone: string;
-    email: string;
-    address: string;
-  };
+  name: string;
+  description: string;
+  sex: number;
+  age: number;
+  color: number;
+  species: number;
+  size: number;
+  isSterillized: number;
+  isVaccinated: number;
+  isAvailable: boolean;
+  address: string;
+  breed: string;
+  files: string[];
+  imagesFile: FileList | null;
+  images: string[];
 }
 
 export interface ILocationResponse {

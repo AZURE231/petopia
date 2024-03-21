@@ -1,8 +1,8 @@
-import { FaLongArrowAltLeft, FaLongArrowAltRight } from 'react-icons/fa';
 import AttributeSelect from '../AttributeSelect';
 import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import { ICreatePetProfileRequest } from '@/src/interfaces/petProfile';
 import ControlForm from './ControlForm';
+import { PET_SELECT } from '@/src/utils/constants';
 
 export default function FormPetDetail({
   handleNext,
@@ -15,19 +15,6 @@ export default function FormPetDetail({
   setValue: UseFormSetValue<ICreatePetProfileRequest>;
   watch: UseFormWatch<ICreatePetProfileRequest>;
 }) {
-  const dogBreeds = [
-    'Labrador Retriever',
-    'German Shepherd',
-    'Golden Retriever',
-    // Add more dog breeds as needed
-  ];
-
-  const petSex = ['Đực', 'Cái', 'Không biết'];
-  const petAge = ['Dưới 1 năm', '1 - 3 năm', 'Trên 3 năm'];
-  const petColor = ['Vàng', 'Đen', 'Đỏ'];
-  const petVaccination = ['7 mũi', 'Dại', 'Uốn ván'];
-  const petSize = ['Nhỏ', 'Trung bình', 'Lớn'];
-  const petSpecies = ['Chó', 'Mèo', 'Chim', 'Cá', 'Khác'];
   return (
     <div className="w-full rounded-2xl bg-blue-200 p-5">
       <h2 className="font-bold mb-2">Thông tin về thú cưng của bạn</h2>
@@ -44,57 +31,50 @@ export default function FormPetDetail({
               id="pet-name"
               name="pet-name"
               type="text"
-              value={watch('petInfo.name')}
-              onChange={(e) => setValue('petInfo.name', e.target.value)}
+              value={watch('name')}
+              onChange={(e) => setValue('name', e.target.value)}
               placeholder='Ví dụ: "Miu" hoặc "Lulu"'
               className="w-full p-3 border border-gray-300 rounded-lg"
               required
             />
           </div>
 
-          {/* Giới tính */}
-          <AttributeSelect
-            setValue={setValue}
-            watch={watch}
-            label="Giới tính"
-            value="petInfo.sex"
-            options={petSex}
-          />
+          {PET_SELECT.map((filter) => (
+            <AttributeSelect
+              key={filter.id}
+              setValue={setValue}
+              watch={watch}
+              label={filter.label}
+              value={filter.kind}
+              options={filter.items}
+            />
+          ))}
 
-          {/* Giống */}
-          <AttributeSelect
-            setValue={setValue}
-            watch={watch}
-            label="Giống loại"
-            value="petInfo.breed"
-            options={dogBreeds}
-          />
-
-          {/* Độ tuổi */}
-          <AttributeSelect
-            setValue={setValue}
-            watch={watch}
-            label="Độ tuổi"
-            value="petInfo.age"
-            options={petAge}
-          />
-
-          {/* Màu sắc */}
-          <AttributeSelect
-            setValue={setValue}
-            watch={watch}
-            label="Màu sắc"
-            value="petInfo.color"
-            options={petColor}
-          />
-
-          {/* Tiêm chủng */}
-          <AttributeSelect
-            setValue={setValue}
-            watch={watch}
-            label="Tiêm chủng"
-            value="petInfo.isVaccinated"
-            options={petVaccination}
+          <div className="flex flex-col space-y-2">
+            <label htmlFor="pet-description" className="text-sm font-medium">
+              Giới thiệu về thú cưng
+            </label>
+            <textarea
+              id="pet-description"
+              name="pet-description"
+              value={watch('description')}
+              onChange={(e) => setValue('description', e.target.value)}
+              placeholder='Ví dụ: "Milu rất nghịch ngợm"'
+              className="w-full p-3 border border-gray-300 rounded-lg"
+              required
+            />
+          </div>
+        </div>
+        <div className="space-x-2">
+          <label className="text-sm font-medium" htmlFor="isAvailable">
+            Sẵn sàng để cho
+          </label>
+          <input
+            type="checkbox"
+            id="isAvailable"
+            name="isAvailable"
+            onChange={(e) => setValue('isAvailable', e.target.checked)}
+            checked={watch('isAvailable')}
           />
         </div>
       </div>

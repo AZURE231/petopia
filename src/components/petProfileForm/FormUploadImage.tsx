@@ -17,7 +17,7 @@ export default function FormUploadImage({
   const [files, setFiles] = useState<string[]>([]);
   const [imagesFile, setImagesFile] = useState<FileList>();
   useEffect(() => {
-    setFiles(getValue('petInfo.files'));
+    setFiles(getValue('files'));
   }, []);
   const handleAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
@@ -26,8 +26,8 @@ export default function FormUploadImage({
         URL.createObjectURL(e[1])
       );
       setFiles([...files, ...ImagesArray]);
-      setValue('petInfo.files', [...files, ...ImagesArray]);
-      setValue('petInfo.imagesFile', fileList[0]);
+      setValue('files', [...files, ...ImagesArray]);
+      setValue('imagesFile', fileList);
       console.log('files', files);
     }
   };
@@ -35,9 +35,9 @@ export default function FormUploadImage({
   const deleteFile = (e: number) => {
     const newFiles = files.filter((item, index) => index !== e);
     setFiles(newFiles);
-    setValue('petInfo.files', newFiles);
+    setValue('files', newFiles);
 
-    const newImagesFile = getValue('petInfo.imagesFile');
+    const newImagesFile = getValue('imagesFile');
 
     console.log('delete', newFiles);
     console.log('number', e);
