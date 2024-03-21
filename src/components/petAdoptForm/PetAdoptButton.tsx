@@ -1,7 +1,7 @@
-"use client";
-import React, { useState } from "react";
-import Popup from "reactjs-popup";
-import PetAdoptForm from "./PetAdoptForm";
+'use client';
+import React, { useState } from 'react';
+import Popup from 'reactjs-popup';
+import PetAdoptForm from './PetAdoptForm';
 
 export default function PetAdoptButton() {
   const [open, setOpen] = useState(false);
@@ -22,7 +22,7 @@ export default function PetAdoptButton() {
   return (
     <Popup
       modal
-      overlayStyle={{ background: "rgba(0, 0, 0, 0.5)" }}
+      overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
       open={open}
       onClose={handleClose}
       trigger={

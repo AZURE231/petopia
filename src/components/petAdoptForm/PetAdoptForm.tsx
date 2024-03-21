@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react';
 
 interface Props {
   handleClose: () => void;
 }
 
 export default function PetAdoptForm({ handleClose }: Props) {
-  const houseType = ["Khác","Nhà riêng", "Chung cư", "Kí túc xá", "Nhà trọ", ];
-  const adoptTime = [ "Khác","Ngay lập tức", "1 ngày", "Vài ngày", "1 tuần",];
+  const houseType = ['Khác','Nhà riêng', 'Chung cư', 'Kí túc xá', 'Nhà trọ', ];
+  const adoptTime = [ 'Khác','Ngay lập tức', '1 ngày', 'Vài ngày', '1 tuần',];
   const handleSubmit = () => {
-    console.log("Submit form");
+    console.log('Submit form');
     handleClose();
   };
   return (
@@ -18,7 +18,7 @@ export default function PetAdoptForm({ handleClose }: Props) {
         <div className="w-full rounded-2xl bg-blue-200 p-5">
           <h2 className="font-bold mb-2">Đơn nhận nuôi thú cưng</h2>
           {/* form */}
-          <div className="w-full p-5 mb-5 bg-gray-50 rounded-lg overflow-auto" style={{ maxHeight: "400px" }}>
+          <div className="w-full p-5 mb-5 bg-gray-50 rounded-lg overflow-auto" style={{ maxHeight: '400px' }}>
             <form className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {/* Tên chủ nhân */}
               <div className="flex flex-col space-y-2">
