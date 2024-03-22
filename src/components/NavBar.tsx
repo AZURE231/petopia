@@ -1,13 +1,13 @@
-'use client';
-import { useState } from 'react';
-import Image from 'next/image';
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
+"use client";
+import { useState } from "react";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export function Navbar() {
   const pathname = usePathname();
   const activeTab =
-    'bg-yellow-300 md:underline md:decoration-yellow-300 md:decoration-4';
+    "bg-yellow-300 md:underline md:decoration-yellow-300 md:decoration-4";
 
   const [isOpenProfile, setIsOpenProfile] = useState(false);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
@@ -46,7 +46,7 @@ export function Navbar() {
             {/* <!-- Dropdown menu user--> */}
             <div
               className={`absolute right-0 top-10 z-50 ${
-                isOpenProfile ? '' : 'hidden'
+                isOpenProfile ? "" : "hidden"
               } text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow `}
             >
               <div className="px-4 py-3">
@@ -129,7 +129,7 @@ export function Navbar() {
         </div> */}
         <div
           className={`items-center ${
-            isOpenMenu ? '' : 'hidden'
+            isOpenMenu ? "" : "hidden"
           } justify-between w-full md:flex md:w-auto md:order-1`}
           id="navbar-user"
         >
@@ -138,7 +138,7 @@ export function Navbar() {
               <Link
                 href="/"
                 className={`block py-2 px-3 ${
-                  pathname == '/' ? activeTab : 'md:hover:text-yellow-400'
+                  pathname == "/" ? activeTab : "md:hover:text-yellow-400"
                 } text-black  rounded md:bg-transparent md:text-black  md:p-0 `}
                 aria-current="page"
               >
@@ -149,7 +149,7 @@ export function Navbar() {
               <Link
                 href="/search"
                 className={`block py-2 px-3 ${
-                  pathname == '/search' ? activeTab : 'md:hover:text-yellow-400'
+                  pathname == "/search" ? activeTab : "md:hover:text-yellow-400"
                 } text-black  rounded md:bg-transparent md:text-black  md:p-0 `}
               >
                 Nhận nuôi
@@ -159,7 +159,7 @@ export function Navbar() {
               <Link
                 href="/adopt"
                 className={`block py-2 px-3 ${
-                  pathname == '/adopt' ? activeTab : 'md:hover:text-yellow-400'
+                  pathname == "/adopt" ? activeTab : "md:hover:text-yellow-400"
                 } text-black  rounded md:bg-transparent md:text-black  md:p-0 `}
               >
                 Cho thú cưng
@@ -167,10 +167,10 @@ export function Navbar() {
             </li>
             <li>
               <Link
-                href="#"
+                href="blog"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-yellow-400 md:p-0  "
               >
-                Tin tức
+                Blog
               </Link>
             </li>
             <li>

@@ -1,12 +1,18 @@
 "use client";
 import React, { useState } from "react";
-import Image from "next/image"; // Assuming you're using Next.js for image optimization
+import Image from "next/image";
 import BlogCard from "./BlogCard";
 
 interface BlogSectionProps {
   categories: string[];
   bannerImage: string;
-  blogs: { id: string; [key: string]: any }[];
+  blogs: {
+    id: string;
+    category: string;
+    title: string;
+    excerpt: string;
+    image: string;
+  }[];
 }
 
 const BlogSection: React.FC<BlogSectionProps> = ({
@@ -15,8 +21,32 @@ const BlogSection: React.FC<BlogSectionProps> = ({
   blogs,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>(
-    categories[0] // Initially select the first category
+    categories[0]
   );
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const blogsPerPage = 9;
+
+  // Filter blogs based on selected category
+  const filteredBlogs = blogs.filter(
+    (blog) => blog.category === selectedCategory
+  );
+
+  // Calculate total number of pages
+  const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
+
+  // Calculate index of the last blog on the current page
+  const indexOfLastBlog = currentPage * blogsPerPage;
+
+  // Calculate index of the first blog on the current page
+  const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
+
+  // Get current blogs to display on the current page
+  const currentBlogs = filteredBlogs.slice(indexOfFirstBlog, indexOfLastBlog);
+
+  // Function to handle page change
+  const onPageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
     <section className="blog-section">
@@ -54,15 +84,71 @@ const BlogSection: React.FC<BlogSectionProps> = ({
         </div>
       </div>
 
-      {/* Blog Cards */}
-      {/* <div className="blog-grid">
-        {blogs.map((blog) => (
-          <BlogCard key={blog.id} {...blog} />
-        ))}
-      </div> */}
+      {/* Blog Cards Grid */}
+      <div className="flex justify-center mt-8">
+        <div className="blog-grid grid grid-cols-3 gap-12">
+          {currentBlogs.map((blog) => (
+            <BlogCard
+              key={blog.id}
+              image={blog.image}
+              category={blog.category}
+              title={blog.title}
+              excerpt={blog.excerpt}
+            />
+          ))}
+        </div>
+      </div>
 
       {/* Pagination */}
-      <div className="pagination">{/* Add Pagination component here */}</div>
+      <div className="pagination mt-10 flex justify-center">
+        <nav aria-label="Page navigation example">
+          <ul className="flex items-center -space-x-px h-10 text-base">
+            {/* Previous Button */}
+            <li>
+              <button
+                onClick={() => onPageChange(currentPage - 1)}
+                className={`flex items-center justify-center px-4 h-10 leading-tight border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}
+                disabled={currentPage === 1}
+              >
+                <img
+                  src="/img/left_arrow.svg"
+                  alt="Previous"
+                  className="h-5 w-5 text-003459"
+                />
+              </button>
+            </li>
+            {/* Page Buttons */}
+            {Array.from({ length: totalPages }, (_, index) => (
+              <li key={index}>
+                <button
+                  onClick={() => onPageChange(index + 1)}
+                  className={`flex items-center justify-center px-4 h-10 leading-tight ${
+                    currentPage === index + 1
+                      ? "text-white bg-black"
+                      : "text-black bg-white"
+                  } border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}
+                >
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+            {/* Next Button */}
+            <li>
+              <button
+                onClick={() => onPageChange(currentPage + 1)}
+                className={`flex items-center justify-center px-4 h-10 leading-tight border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}
+                disabled={currentPage === totalPages}
+              >
+                <img
+                  src="/img/right_arrow.svg"
+                  alt="Next"
+                  className="h-5 w-5 text-003459"
+                />
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
 
       <style jsx>{`
         .underline {
