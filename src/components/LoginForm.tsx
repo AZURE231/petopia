@@ -14,9 +14,11 @@ import { COOKIES_NAME } from '../utils/constants';
 import ClipLoader from 'react-spinners/ClipLoader';
 
 export const LoginForm = QueryProvider(() => {
+  // STATES
   const [showAlert, setShowALert] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
 
+  // FORMS
   const { getValues, setValue } = useForm<ILoginRequest>({
     defaultValues: {
       email: '',
@@ -24,6 +26,7 @@ export const LoginForm = QueryProvider(() => {
     },
   });
 
+  // HANDLERS
   const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     loginMutation.mutate(getValues());
@@ -44,6 +47,7 @@ export const LoginForm = QueryProvider(() => {
     }
   };
 
+  // LOGIN
   const loginMutation = useMutation<IApiResponse<ILoginResponse>, ILoginRequest>(
     login,
     {
@@ -55,6 +59,7 @@ export const LoginForm = QueryProvider(() => {
     }
   );
 
+  // LOGIN WITH GOOGLE
   const googleLoginMutation = useMutation<IApiResponse<ILoginResponse>, IGoogleLoginRequest>(
     googleLogin,
     {
@@ -129,8 +134,8 @@ export const LoginForm = QueryProvider(() => {
                 </div>
               </div>
               <a
-                href="#"
                 className="text-sm font-medium text-primary-600 hover:underline "
+                href='/login/forgot-password'
               >
                 Quên mật khẩu?
               </a>

@@ -30,7 +30,7 @@ export const DOMAIN_ERROR_MESSAGES = {
   '10003': 'Link đăng ký đã hết hạn',
   '10004': 'Link khôi phục mật khẩu hết hạn.',
   '10005': 'Google captcha không hợp lệ.',
-  '10006': 'Phương thức đăng nhập không hợp lệ.',
+  '10006': 'Email được sử dụng cho phương thức đăng nhập khác.',
 };
 
 export const QUERY_KEYS = {
@@ -297,4 +297,5 @@ export const PET_SELECT: IPetSelect[] = [
 export const SEARCH_PARAMS = {
   EMAIL: 'email',
   VALIDATE_REGISTER_TOKEN: 'validateRegisterToken',
+  PASSWORD_TOKEN: 'passwordToken',
 };
