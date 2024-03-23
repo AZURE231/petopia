@@ -1,14 +1,15 @@
 // Desc: This file contains the form rules of the pet profile form
-import { FaLongArrowAltLeft } from 'react-icons/fa';
 import ControlForm from './ControlForm';
 import { ChangeEvent } from 'react';
 
 export default function FormRules({
   handleBack,
   handleSubmit,
+  isLoading
 }: {
   handleBack: () => void;
   handleSubmit: (event: ChangeEvent<HTMLFormElement>) => void;
+  isLoading: boolean;
 }) {
   return (
     <div className="w-full rounded-2xl bg-blue-200 p-5">
@@ -20,6 +21,7 @@ export default function FormRules({
         handleNext={() => {}}
         type={4}
         handleSubmit={handleSubmit}
+        isLoading={isLoading}
       />
     </div>
   );

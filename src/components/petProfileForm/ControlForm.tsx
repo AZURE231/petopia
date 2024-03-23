@@ -1,15 +1,18 @@
 import { FaLongArrowAltLeft, FaLongArrowAltRight } from 'react-icons/fa';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 export default function ControlForm({
   handleBack,
   handleNext,
   type,
   handleSubmit,
+  isLoading,
 }: {
   handleBack: () => void;
   handleNext: () => void;
   type: 1 | 2 | 3 | 4;
   handleSubmit?: (event: any) => void;
+  isLoading?: boolean;
 }) {
   return (
     <div className="w-full bg-white rounded-lg p-5 flex">
@@ -41,11 +44,19 @@ export default function ControlForm({
       )}
       {type === 4 && (
         <button
-          className="whitespace-nowrap whitespace-no-wrap p-3 flex text-black bg-yellow-300 hover:bg-yellow-400 rounded-lg"
+          className="whitespace-nowrap whitespace-no-wrap p-3 flex text-black bg-yellow-300 hover:bg-yellow-400 rounded-lg items-center"
           type="submit"
           onClick={handleSubmit}
         >
           Hoàn thành
+          <span className='ml-2 leading-5'>
+            <ClipLoader
+              color={'#000000'}
+              loading={isLoading}
+              size={14}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            /></span>
         </button>
       )}
     </div>

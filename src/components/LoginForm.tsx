@@ -11,11 +11,14 @@ import { QueryProvider } from './QueryProvider';
 import { GoogleLoginButton } from './GoogleLoginButton';
 import { Alert } from './Alert';
 import { COOKIES_NAME } from '../utils/constants';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 export const LoginForm = QueryProvider(() => {
+  // STATES
   const [showAlert, setShowALert] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
 
+  // FORMS
   const { getValues, setValue } = useForm<ILoginRequest>({
     defaultValues: {
       email: '',
@@ -23,6 +26,7 @@ export const LoginForm = QueryProvider(() => {
     },
   });
 
+  // HANDLERS
   const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     loginMutation.mutate(getValues());
@@ -34,15 +38,16 @@ export const LoginForm = QueryProvider(() => {
     sessionStorage.setItem(COOKIES_NAME.ACCESS_TOKEN_EXPIRED_DATE, tokens.accessTokenExpiredDate);
     sessionStorage.setItem(COOKIES_NAME.REFRESH_TOKEN_EXPIRED_DATE, tokens.refreshTokenExpiredDate);
     const redirect = sessionStorage.getItem(COOKIES_NAME.REDIRECT);
-    if(redirect) {
+    if (redirect) {
       sessionStorage.removeItem(COOKIES_NAME.REDIRECT);
       window.location.replace(redirect);
-    } 
+    }
     else {
       window.location.replace('/');
     }
   };
 
+  // LOGIN
   const loginMutation = useMutation<IApiResponse<ILoginResponse>, ILoginRequest>(
     login,
     {
@@ -54,6 +59,7 @@ export const LoginForm = QueryProvider(() => {
     }
   );
 
+  // LOGIN WITH GOOGLE
   const googleLoginMutation = useMutation<IApiResponse<ILoginResponse>, IGoogleLoginRequest>(
     googleLogin,
     {
@@ -128,8 +134,8 @@ export const LoginForm = QueryProvider(() => {
                 </div>
               </div>
               <a
-                href="#"
                 className="text-sm font-medium text-primary-600 hover:underline "
+                href='/login/forgot-password'
               >
                 Quên mật khẩu?
               </a>
@@ -140,6 +146,14 @@ export const LoginForm = QueryProvider(() => {
               focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             >
               Đăng nhập
+              <span className='ml-2 leading-5'>
+                <ClipLoader
+                  color={'#000000'}
+                  loading={loginMutation.isLoading}
+                  size={14}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                /></span>
             </button>
 
             <GoogleLoginButton
