@@ -11,6 +11,7 @@ import { QueryProvider } from './QueryProvider';
 import { GoogleLoginButton } from './GoogleLoginButton';
 import { Alert } from './Alert';
 import { COOKIES_NAME } from '../utils/constants';
+import { getCookie, setCookie } from 'cookies-next';
 import ClipLoader from 'react-spinners/ClipLoader';
 
 export const LoginForm = QueryProvider(() => {
@@ -32,14 +33,16 @@ export const LoginForm = QueryProvider(() => {
     loginMutation.mutate(getValues());
   };
 
-  const handleOnLoginSuccess = (tokens: ILoginResponse) => {
-    sessionStorage.setItem(COOKIES_NAME.ACCESS_TOKEN, tokens.accessToken);
-    sessionStorage.setItem(COOKIES_NAME.REFRESH_TOKEN, tokens.refreshToken);
-    sessionStorage.setItem(COOKIES_NAME.ACCESS_TOKEN_EXPIRED_DATE, tokens.accessTokenExpiredDate);
-    sessionStorage.setItem(COOKIES_NAME.REFRESH_TOKEN_EXPIRED_DATE, tokens.refreshTokenExpiredDate);
-    const redirect = sessionStorage.getItem(COOKIES_NAME.REDIRECT);
+  const handleOnLoginSuccess = (data: ILoginResponse) => {
+    setCookie(
+      COOKIES_NAME.ACCESS_TOKEN_SERVER,
+      data.accessToken,
+      {
+        expires: new Date(data.accessTokenExpiredDate)
+      }
+    );
+    const redirect = getCookie(COOKIES_NAME.REDIRECT);
     if (redirect) {
-      sessionStorage.removeItem(COOKIES_NAME.REDIRECT);
       window.location.replace(redirect);
     }
     else {

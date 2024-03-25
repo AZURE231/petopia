@@ -1,6 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { API_ROUTE } from '@/settings';
-import { COOKIES_NAME } from '../utils/constants';
 
 const UNAUTHORIZED = 401;
 
@@ -25,8 +24,8 @@ class Http {
         for (const v in params[p]) {
           str.push(
             encodeURIComponent(`${p}.${v}`) +
-              '=' +
-              encodeURIComponent(params[p][v])
+            '=' +
+            encodeURIComponent(params[p][v])
           );
         }
       } else {
@@ -40,10 +39,6 @@ class Http {
     this.urlAPI = urlAPI;
   }
 
-  getUrlAPI() {
-    return this.urlAPI;
-  }
-
   initHttp() {
     const http = axios.create({
       baseURL: this.urlAPI,
@@ -51,20 +46,11 @@ class Http {
       withCredentials: true,
     });
 
-    http.interceptors.request.use((config) => {
-      config.headers.Authorization = `Bearer ${sessionStorage.getItem(COOKIES_NAME.ACCESS_TOKEN)}`;
-      return config;
-    });
-
     http.interceptors.response.use(
       (response) => response,
       (error) => {
         const { response, status } = error;
-        if(status === UNAUTHORIZED) {
-          sessionStorage.removeItem(COOKIES_NAME.ACCESS_TOKEN);
-          sessionStorage.removeItem(COOKIES_NAME.REFRESH_TOKEN);
-          window.location.replace('/login');
-        }
+        if (status === UNAUTHORIZED) window.location.replace('/login');
         if (response) return Promise.reject(response);
         return Promise.reject();
       }

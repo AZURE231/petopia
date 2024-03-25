@@ -16,11 +16,8 @@ export const STATIC_URLS = {
 };
 
 export const COOKIES_NAME = {
-  ACCESS_TOKEN: 'accessToken',
-  REFRESH_TOKEN: 'refreshToken',
+  ACCESS_TOKEN_SERVER: 'accessTokenServer',
   REDIRECT: 'redirect',
-  ACCESS_TOKEN_EXPIRED_DATE: 'accessTokenExpiredDate',
-  REFRESH_TOKEN_EXPIRED_DATE: 'refreshTokenExpiredDate',
 };
 
 export const DOMAIN_ERROR_MESSAGES = {

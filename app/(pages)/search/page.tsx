@@ -1,7 +1,6 @@
 import Breadscrum from '@/src/components/Breadscrum';
 import Image from 'next/image';
 import { Footer } from '@/src/components/Footer';
-import { Navbar } from '@/src/components/NavBar';
 import { SearchPetSection } from '@/src/components/search/SearchPetSection';
 
 export default function page() {
