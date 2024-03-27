@@ -277,7 +277,6 @@ export const PET_FILTERS: IPetFilter[] = [
   PET_SIZE_FILTER,
   PET_VACCINATED_FILTER,
   PET_STERILIZED_FILTER,
-  PET_BREED_FILTER,
 ];
 
 export const PET_SELECT: IPetSelect[] = [
