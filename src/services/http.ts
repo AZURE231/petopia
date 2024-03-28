@@ -1,5 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { API_ROUTE } from '@/settings';
+import { deleteCookie } from 'cookies-next';
+import { COOKIES_NAME } from '../utils/constants';
 
 const UNAUTHORIZED = 401;
 
@@ -49,9 +51,15 @@ class Http {
     http.interceptors.response.use(
       (response) => response,
       (error) => {
-        const { response, status } = error;
-        if (status === UNAUTHORIZED) window.location.replace('/login');
-        if (response) return Promise.reject(response);
+        const { response } = error;
+        if (response) {
+          const { status } = response;
+          if (status === UNAUTHORIZED) {
+            deleteCookie(COOKIES_NAME.ACCESS_TOKEN_SERVER);
+            window.location.replace('/login');
+          };
+          if (response) return Promise.reject(response);
+        }
         return Promise.reject();
       }
     );

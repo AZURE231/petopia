@@ -1,8 +1,6 @@
 'use client';
-import Carousel from '@/src/components/Carousel';
-import SeeMore from '@/src/components/SeeMore';
+import SeeMore from '@/src/components/general/SeeMore';
 import PetAdoptButton from '@/src/components/petAdoptForm/PetAdoptButton';
-import Image from 'next/image';
 
 const images = [
   'https://placekitten.com/800/400',

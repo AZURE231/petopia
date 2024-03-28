@@ -1,6 +1,6 @@
 import React from 'react';
-import { LoginForm } from '@/src/components/LoginForm';
-import { Background } from '@/src/components/Background';
+import { LoginForm } from '@/src/components/login/LoginForm';
+import { Background } from '@/src/components/general/Background';
 
 export default function page() {
   return (

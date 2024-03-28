@@ -1,5 +1,5 @@
 import { UseFormReturn } from 'react-hook-form';
-import { IPaginationModel } from '../interfaces/common';
+import { IPaginationModel } from '../../interfaces/common';
 import { useEffect } from 'react';
 
 interface IPagination {

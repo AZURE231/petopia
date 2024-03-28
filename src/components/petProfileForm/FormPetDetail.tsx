@@ -1,4 +1,4 @@
-import AttributeSelect from '../AttributeSelect';
+import AttributeSelect from './AttributeSelect';
 import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import { ICreatePetProfileRequest } from '@/src/interfaces/petProfile';
 import ControlForm from './ControlForm';

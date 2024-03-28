@@ -23,3 +23,6 @@ export const googleLogin = async (data: IGoogleLoginRequest) =>
 
 export const getGoogleAuthClientId = async () =>
   await http.get('/Authentication/GoogleAuthClientId');
+
+export const logout = async () =>
+  await http.get('/Authentication/Logout');

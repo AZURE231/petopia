@@ -6,9 +6,9 @@ import { IApiResponse } from '@/src/interfaces/common';
 import { validateRegister } from '@/src/services/authentication.api';
 import { IValidateRegisterRequest } from '@/src/interfaces/authentication';
 import { useState } from 'react';
-import { QueryProvider } from '@/src/components/QueryProvider';
+import { QueryProvider } from '@/src/components/general/QueryProvider';
 import { getErrorMessage } from '@/src/helpers/getErrorMessage';
-import { Alert } from '@/src/components/Alert';
+import { Alert } from '@/src/components/general/Alert';
 import Link from 'next/link';
 import { SEARCH_PARAMS } from '@/src/utils/constants';
 
