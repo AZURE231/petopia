@@ -1,7 +1,7 @@
 'use client';
 
-import { Alert } from '@/src/components/Alert';
-import { QueryProvider } from '@/src/components/QueryProvider';
+import { Alert } from '@/src/components/general/Alert';
+import { QueryProvider } from '@/src/components/general/QueryProvider';
 import { getErrorMessage } from '@/src/helpers/getErrorMessage';
 import { isEmail } from '@/src/helpers/inputValidator';
 import { IApiResponse } from '@/src/interfaces/common';

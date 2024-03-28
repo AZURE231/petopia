@@ -4,14 +4,14 @@ import { useForm } from 'react-hook-form';
 import { ICreatePetProfileRequest } from '@/src/interfaces/petProfile';
 import { useMutation } from '@/src/utils/hooks';
 import { IApiResponse } from '@/src/interfaces/common';
-import { QueryProvider } from '../QueryProvider';
+import { QueryProvider } from '../general/QueryProvider';
 import { postPet } from '../../services/petprofile.api';
 import FormUploadImage from './FormUploadImage';
 import FormPetDetail from './FormPetDetail';
 import FormRules from './FormRules';
 import axios from 'axios';
 import { isEmpty, isNotChecked } from '@/src/helpers/inputValidator';
-import { Alert } from '../Alert';
+import { Alert } from '../general/Alert';
 
 const RegisterForm = QueryProvider(() => {
   const [error, setError] = useState<string>('');

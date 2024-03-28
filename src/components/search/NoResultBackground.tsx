@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { STATIC_URLS } from '../utils/constants';
+import { STATIC_URLS } from '../../utils/constants';
 
 interface INoResultBackground {
   show: boolean,

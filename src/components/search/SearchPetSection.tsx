@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { PetFilterBarMobile } from './PetFilterBarMobile';
 import { PetSearchBar } from './PetSearchBar';
 import { PetCard } from './PetCard';
-import Pagination from '../Pagination';
-import { QueryProvider } from '../QueryProvider';
+import Pagination from '../general/Pagination';
+import { QueryProvider } from '../general/QueryProvider';
 import { PetSortBlock } from './PetSortBlock';
 import { PetFilterBar } from './PetFilterBar';
 import { useForm } from 'react-hook-form';
@@ -13,8 +13,8 @@ import {
   IPaginationModel
 } from '@/src/interfaces/common';
 import { useQuery } from '@/src/utils/hooks';
-import { getPets } from '@/src/services/pet';
-import { NoResultBackgound } from '../NoResultBackground';
+import { getPets } from '@/src/services/pet.api';
+import { NoResultBackgound } from './NoResultBackground';
 import { IPetFilterRequest, IPetResponse } from '@/src/interfaces/pet';
 import { PAGE_SIZE, PET_FILTERS, QUERY_KEYS } from '@/src/utils/constants';
 

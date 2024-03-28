@@ -1,4 +1,4 @@
-import { Footer } from '@/src/components/Footer';
+import { Footer } from '@/src/components/general/Footer';
 import { STATIC_URLS } from '@/src/utils/constants';
 import Image from 'next/image';
 

@@ -2,17 +2,17 @@
 import Link from 'next/link';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { IRegisterForm, IRegisterRequest } from '../interfaces/authentication';
-import { IApiResponse } from '../interfaces/common';
-import { QueryProvider } from './QueryProvider';
-import { useMutation } from '../utils/hooks';
-import { register } from '../services/authentication.api';
-import { getErrorMessage } from '../helpers/getErrorMessage';
-import { Alert } from './Alert';
+import { IRegisterForm, IRegisterRequest } from '../../interfaces/authentication';
+import { IApiResponse } from '../../interfaces/common';
+import { QueryProvider } from '../general/QueryProvider';
+import { useMutation } from '../../utils/hooks';
+import { register } from '../../services/authentication.api';
+import { getErrorMessage } from '../../helpers/getErrorMessage';
+import { Alert } from '../general/Alert';
 import { GoogleRecaptcha } from './GoogleRecaptcha';
-import { publish } from '../services/event';
-import { EVENT_NAMES } from '../utils/constants';
-import { checkPasswordFormat, checkPasswords, isEmail } from '../helpers/inputValidator';
+import { publish } from '../../services/event';
+import { EVENT_NAMES } from '../../utils/constants';
+import { checkPasswordFormat, checkPasswords, isEmail } from '../../helpers/inputValidator';
 import ClipLoader from 'react-spinners/ClipLoader';
 
 export const RegisterForm = QueryProvider(() => {

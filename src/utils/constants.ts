@@ -13,14 +13,12 @@ export const STATIC_URLS = {
   CAT_ATRONAULT: '/img/Cat_astronaut.png',
   CAT_VASE: '/img/Cat_throwing_vase.png',
   NO_RESULT: '/img/no-result.png',
+  NO_AVATAR: '/img/no-avatar.png',
 };
 
 export const COOKIES_NAME = {
-  ACCESS_TOKEN: 'accessToken',
-  REFRESH_TOKEN: 'refreshToken',
+  ACCESS_TOKEN_SERVER: 'accessTokenServer',
   REDIRECT: 'redirect',
-  ACCESS_TOKEN_EXPIRED_DATE: 'accessTokenExpiredDate',
-  REFRESH_TOKEN_EXPIRED_DATE: 'refreshTokenExpiredDate',
 };
 
 export const DOMAIN_ERROR_MESSAGES = {
@@ -38,6 +36,7 @@ export const QUERY_KEYS = {
   GET_GOOGLE_AUTH_CLIENT_ID: 'GET_GOOGLE_AUTH_CLIENT_ID',
   GET_PETS: 'GET_PETS',
   GET_LOCATION: 'GET_LOCATION',
+  GET_CURRENT_USER_CORE: 'GET_CURRENT_USER_CORE',
 };
 
 export const EVENT_NAMES = {
@@ -299,3 +298,9 @@ export const SEARCH_PARAMS = {
   VALIDATE_REGISTER_TOKEN: 'validateRegisterToken',
   PASSWORD_TOKEN: 'passwordToken',
 };
+
+export enum USER_ROLE {
+  STANDARD_USER = 0,
+  SYSTEM_ADMIN = 1,
+  ORGANIZATION = 2,
+}
