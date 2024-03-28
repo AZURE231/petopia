@@ -9,7 +9,7 @@ export default function ListCards({
   data: IPetResponse[];
 }) {
   return (
-    <div className="container max-w-3xl p-5 mx-auto shadow-2xl rounded-2xl mt-20">
+    <div className="container max-w-3xl p-5 mx-auto rounded-2xl mt-20">
       <div className="text-lg font-bold mb-5">{title}</div>
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
         {data?.map((item) => (

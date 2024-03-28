@@ -3,13 +3,13 @@ import { ILocationResponse } from '../interfaces/petProfile';
 import { UseFormWatch } from 'react-hook-form';
 import { IUserUpdate } from '../interfaces/user';
 
-const ProvinceDropdown = ({
-  provinces,
+const WardDropdown = ({
+  wards,
   onChange,
   title,
   watch,
 }: {
-  provinces: ILocationResponse[];
+  wards: ILocationResponse[];
   onChange: any;
   title: string;
   watch: UseFormWatch<IUserUpdate>;
@@ -21,13 +21,13 @@ const ProvinceDropdown = ({
       defaultValue={watch('provinceCode')}
     >
       <option value="">{title}</option>
-      {provinces?.map((province) => (
-        <option key={province.code} value={province.code}>
-          {province.name}
+      {wards?.map((ward) => (
+        <option key={ward.code} value={ward.code}>
+          {ward.name}
         </option>
       ))}
     </select>
   );
 };
 
-export default ProvinceDropdown;
+export default WardDropdown;
