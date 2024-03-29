@@ -1,14 +1,9 @@
 import AddressDropdown from './AddressDropdown';
 import { IUserInfo, IUserUpdate } from '../interfaces/user';
-import { set, useForm } from 'react-hook-form';
-import { ILocationRequest, ILocationResponse } from '../interfaces/petProfile';
+import { useForm } from 'react-hook-form';
 import { ChangeEvent, useState } from 'react';
-import { useMutation, useQuery } from '../utils/hooks';
+import { useMutation } from '../utils/hooks';
 import { IApiResponse } from '../interfaces/common';
-import { QUERY_KEYS } from '../utils/constants';
-import { getProvince } from '../services/petprofile.api';
-import DistrictDropdown from './DistrictDropdown';
-import ProvinceDropdown from './Address';
 import { updateUser } from '../services/user.api';
 import { Alert } from './Alert';
 

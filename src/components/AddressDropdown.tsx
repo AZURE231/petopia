@@ -6,7 +6,13 @@ import { useQuery } from '../utils/hooks';
 import { IApiResponse } from '../interfaces/common';
 import { QUERY_KEYS } from '../utils/constants';
 import { getProvince } from '../services/petprofile.api';
-import Address from './Address';
+import { AddressInput } from './AddressInput';
+
+enum LOCATION_LEVEL {
+  PROVINCE = 1,
+  DISTRICT = 2,
+  WARD = 3,
+}
 
 export default function AddressDropdown({
   setValue,
@@ -20,35 +26,30 @@ export default function AddressDropdown({
   const [districts, setDistricts] = useState<ILocationResponse[]>();
   const [wards, setWards] = useState<ILocationResponse[]>();
   const locationForm = useForm<ILocationRequest>({
-    defaultValues: { Level: 1 },
+    defaultValues: { Level: LOCATION_LEVEL.PROVINCE },
   });
 
-  const handleProvinceChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const provinceCode = e.target.value;
-    locationForm.setValue('Code', provinceCode);
-    locationForm.setValue('Level', 2);
-    setValue('provinceCode', provinceCode);
-    console.log('provinceCode', provinceCode);
+  const handleProvinceChange = (code: string) => {
+    locationForm.setValue('Code', code);
+    locationForm.setValue('Level', LOCATION_LEVEL.DISTRICT);
+    code != watch('provinceCode') && setValue('provinceCode', code);
   };
 
-  const handleDistrictChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const provinceCode = e.target.value;
-    locationForm.setValue('Code', provinceCode);
-    locationForm.setValue('Level', 3);
-    setValue('districtCode', provinceCode);
+  const handleDistrictChange = (code: string) => {
+    locationForm.setValue('Code', code);
+    locationForm.setValue('Level', LOCATION_LEVEL.WARD);
+    code != watch('districtCode') && setValue('districtCode', code);
   };
 
-  const handleWardChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setValue('wardCode', e.target.value);
+  const handleWardChange = (code: string) => {
+    code != watch('wardCode') && setValue('wardCode', code);
   };
 
-  useQuery<IApiResponse<ILocationResponse[]>>(
+  const locationQuery = useQuery<IApiResponse<ILocationResponse[]>>(
     [
       QUERY_KEYS.GET_LOCATION,
       locationForm.watch('Code'),
       locationForm.watch('Level'),
-      watch('provinceCode'),
-      watch('districtCode'),
     ],
     () => getProvince(locationForm.getValues()),
     {
@@ -64,6 +65,7 @@ export default function AddressDropdown({
       refetchOnWindowFocus: false,
     }
   );
+
   return (
     <div className="flex flex-row gap-3">
       <div>
@@ -73,12 +75,14 @@ export default function AddressDropdown({
         >
           Tỉnh thành
         </label>
-        <Address
-          locations={provinces!}
+        <AddressInput
+          options={provinces!}
           onChange={handleProvinceChange}
           title="Chọn Tỉnh/Thành phố"
-          watch={watch}
-          watchValue="provinceCode"
+          value={watch('provinceCode')}
+          level={LOCATION_LEVEL.PROVINCE}
+          isLocationLoading={locationQuery.isFetching}
+          currentLevel={locationForm.watch('Level')}
         />
       </div>
       <div>
@@ -88,12 +92,14 @@ export default function AddressDropdown({
         >
           Quận huyện
         </label>
-        <Address
-          locations={districts!}
+        <AddressInput
+          options={districts!}
           onChange={handleDistrictChange}
           title="Chọn Quận/huyện"
-          watch={watch}
-          watchValue="districtCode"
+          value={watch('districtCode')}
+          level={LOCATION_LEVEL.DISTRICT}
+          isLocationLoading={locationQuery.isFetching}
+          currentLevel={locationForm.watch('Level')}
         />
       </div>
       <div>
@@ -103,12 +109,14 @@ export default function AddressDropdown({
         >
           Phường xã
         </label>
-        <Address
-          locations={wards!}
+        <AddressInput
+          options={wards!}
           onChange={handleWardChange}
           title="Chọn xã/phường"
-          watch={watch}
-          watchValue="wardCode"
+          value={watch('wardCode')}
+          level={LOCATION_LEVEL.WARD}
+          isLocationLoading={locationQuery.isFetching}
+          currentLevel={locationForm.watch('Level')}
         />
       </div>
     </div>

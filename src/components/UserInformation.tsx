@@ -4,15 +4,12 @@ import { useState } from 'react';
 import { FaRegEdit } from 'react-icons/fa';
 import { useQuery } from '../utils/hooks';
 import { IApiResponse } from '../interfaces/common';
-import { IUserInfo, IUserUpdate } from '../interfaces/user';
+import { IUserInfo } from '../interfaces/user';
 import { getUserInfo } from '../services/userprofile.api';
-import { COOKIES_NAME, QUERY_KEYS } from '../utils/constants';
+import { QUERY_KEYS } from '../utils/constants';
 import { QueryProvider } from './QueryProvider';
 import ListCards from './ListCards';
-import ProvinceDropdown from './Address';
-import AddressDropdown from './AddressDropdown';
 import UserUpdateForm from './UserUpdateForm';
-import { useForm } from 'react-hook-form';
 
 export const UserInformation = QueryProvider(() => {
   const [isEdit, setIsEdit] = useState(false);
