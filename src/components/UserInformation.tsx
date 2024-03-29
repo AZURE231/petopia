@@ -9,7 +9,7 @@ import { getUserInfo } from '../services/userprofile.api';
 import { COOKIES_NAME, QUERY_KEYS } from '../utils/constants';
 import { QueryProvider } from './QueryProvider';
 import ListCards from './ListCards';
-import ProvinceDropdown from './ProvinceDropdown';
+import ProvinceDropdown from './Address';
 import AddressDropdown from './AddressDropdown';
 import UserUpdateForm from './UserUpdateForm';
 import { useForm } from 'react-hook-form';

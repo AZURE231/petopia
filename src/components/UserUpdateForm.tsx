@@ -8,8 +8,9 @@ import { IApiResponse } from '../interfaces/common';
 import { QUERY_KEYS } from '../utils/constants';
 import { getProvince } from '../services/petprofile.api';
 import DistrictDropdown from './DistrictDropdown';
-import ProvinceDropdown from './ProvinceDropdown';
+import ProvinceDropdown from './Address';
 import { updateUser } from '../services/user.api';
+import { Alert } from './Alert';
 
 export default function UserUpdateForm({
   userInfo,
@@ -34,32 +35,6 @@ export default function UserUpdateForm({
     },
   });
 
-  // HANDLE ADDRESS CHANGE
-  const [provinces, setProvinces] = useState<ILocationResponse[]>();
-  const [districts, setDistricts] = useState<ILocationResponse[]>();
-  const [wards, setWards] = useState<ILocationResponse[]>();
-  const locationForm = useForm<ILocationRequest>({
-    defaultValues: { Level: 1 },
-  });
-
-  const handleProvinceChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const provinceCode = e.target.value;
-    locationForm.setValue('Code', provinceCode);
-    locationForm.setValue('Level', 2);
-    setValue('provinceCode', provinceCode);
-  };
-
-  const handleDistrictChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const provinceCode = e.target.value;
-    locationForm.setValue('Code', provinceCode);
-    locationForm.setValue('Level', 3);
-    setValue('districtCode', provinceCode);
-  };
-
-  const handleWardChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setValue('wardCode', e.target.value);
-  };
-
   const updateUserMutation = useMutation<IApiResponse<IUserInfo>, IUserUpdate>(
     updateUser,
     {
@@ -80,27 +55,6 @@ export default function UserUpdateForm({
     event.preventDefault();
     updateUserMutation.mutate(getValues());
   };
-
-  useQuery<IApiResponse<ILocationResponse[]>>(
-    [
-      QUERY_KEYS.GET_LOCATION,
-      locationForm.watch('Code'),
-      locationForm.watch('Level'),
-    ],
-    () => getProvince(locationForm.getValues()),
-    {
-      onSuccess: (res) => {
-        // console.log(locationForm.getValues('Level'));
-        if (locationForm.getValues('Level') === 1) {
-          setProvinces(res.data.data);
-        } else if (locationForm.getValues('Level') === 2) {
-          setWards([]);
-          setDistricts(res.data.data);
-        } else setWards(res.data.data);
-      },
-      refetchOnWindowFocus: false,
-    }
-  );
 
   return (
     <div>
@@ -156,15 +110,7 @@ export default function UserUpdateForm({
                 />
               </div>
             </div>
-            <AddressDropdown
-              province={provinces!}
-              district={districts!}
-              ward={wards!}
-              handleDistrictChange={handleDistrictChange}
-              handleProvinceChange={handleProvinceChange}
-              handleWardChange={handleWardChange}
-              watch={watch}
-            />
+            <AddressDropdown setValue={setValue} watch={watch} />
             <div className="mb-4">
               <label
                 className="block text-gray-700 text-lg font-bold mb-2"
@@ -192,6 +138,18 @@ export default function UserUpdateForm({
           </div>
         </form>
       )}
+      <Alert
+        message={error!}
+        show={showAlert}
+        setShow={setShowAlert}
+        failed={true}
+      />
+      <Alert
+        message={'Cập nhật thông tin thành công'}
+        show={showSuccess}
+        setShow={setShowSuccess}
+        failed={false}
+      />
     </div>
   );
 }
