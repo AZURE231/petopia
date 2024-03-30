@@ -1,7 +1,6 @@
 import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import { ICreatePetProfileRequest } from '@/src/interfaces/petProfile';
-import { PET_FILTERS } from '@/src/utils/constants';
-import { IPetFilterItem } from '../interfaces/pet';
+import { IPetFilterItem } from '@/src/interfaces/pet';
 interface AttributeSelectProps {
   label: string;
   options: IPetFilterItem[];

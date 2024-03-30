@@ -35,7 +35,7 @@ export const PetFilterBar = (props: IFilterBar) => {
         setValue('species', setFilter(species, itemValue));
         break;
 
-      case 4:
+      case 2:
         let sex = getValues('sex');
         setValue('sex', setFilter(sex, itemValue));
         break;
@@ -45,12 +45,12 @@ export const PetFilterBar = (props: IFilterBar) => {
         setValue('color', setFilter(color, itemValue));
         break;
 
-      case 5:
+      case 4:
         let size = getValues('size');
         setValue('size', setFilter(size, itemValue));
         break;
 
-      case 2:
+      case 5:
         let age = getValues('age');
         setValue('age', setFilter(age, itemValue));
         break;

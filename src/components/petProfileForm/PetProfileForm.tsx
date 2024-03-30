@@ -1,17 +1,17 @@
 'use client';
-import { ChangeEvent, useState, useEffect, use } from 'react';
-import { set, useForm } from 'react-hook-form';
+import { ChangeEvent, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { ICreatePetProfileRequest } from '@/src/interfaces/petProfile';
 import { useMutation } from '@/src/utils/hooks';
 import { IApiResponse } from '@/src/interfaces/common';
-import { QueryProvider } from '../QueryProvider';
+import { QueryProvider } from '../general/QueryProvider';
 import { postPet } from '../../services/petprofile.api';
 import FormUploadImage from './FormUploadImage';
 import FormPetDetail from './FormPetDetail';
 import FormRules from './FormRules';
 import axios from 'axios';
 import { isEmpty, isNotChecked } from '@/src/helpers/inputValidator';
-import { Alert } from '../Alert';
+import { Alert } from '../general/Alert';
 
 const RegisterForm = QueryProvider(() => {
   const [error, setError] = useState<string>('');
@@ -124,15 +124,15 @@ const RegisterForm = QueryProvider(() => {
     event.preventDefault();
     await uploadImage();
     let errorMessage = inputValidator();
-    if (!errorMessage) registerMutation.mutate(getValues());
+    if (!errorMessage) createPetMutation.mutate(getValues());
     else {
       setError(errorMessage);
       setShowAlert(true);
     }
   };
 
-  // REGISTER MUTATION
-  const registerMutation = useMutation<
+  // CREATE PET MUTATION
+  const createPetMutation = useMutation<
     IApiResponse<boolean>,
     ICreatePetProfileRequest
   >(postPet, {
@@ -248,19 +248,13 @@ const RegisterForm = QueryProvider(() => {
         />
       )}
 
-      {/* form pet owner */}
-      {/* {activeStep === 2 && (
-        <FormPetOwner
-          handleNext={handleNext}
-          handleBack={handleBack}
-          setValue={setValue}
-          watch={watch}
-        />
-      )} */}
-
       {/* rules */}
       {activeStep === 2 && (
-        <FormRules handleSubmit={handleSubmit} handleBack={handleBack} />
+        <FormRules
+          handleSubmit={handleSubmit}
+          handleBack={handleBack}
+          isLoading={createPetMutation.isLoading}
+        />
       )}
       <Alert
         message={error!}

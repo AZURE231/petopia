@@ -1,6 +1,6 @@
 import React from 'react';
-import { RegisterForm } from '@/src/components/RegisterForm';
-import { Background } from '@/src/components/Background';
+import { RegisterForm } from '@/src/components/login/RegisterForm';
+import { Background } from '@/src/components/general/Background';
 
 export default function page() {
   return (

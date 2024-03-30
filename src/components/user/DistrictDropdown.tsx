@@ -1,6 +1,6 @@
 // components/DistrictDropdown.js
+import { ILocationResponse } from '@/src/interfaces/petProfile';
 import React from 'react';
-import { ILocationResponse } from '../interfaces/petProfile';
 
 const DistrictDropdown = ({
   districts,

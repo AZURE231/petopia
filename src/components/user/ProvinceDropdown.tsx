@@ -1,5 +1,5 @@
+import { ILocationResponse } from '@/src/interfaces/petProfile';
 import React from 'react';
-import { ILocationResponse } from '../interfaces/petProfile';
 
 const ProvinceDropdown = ({
   provinces,

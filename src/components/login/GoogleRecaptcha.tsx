@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import Recaptcha from 'react-google-recaptcha';
-import { useQuery } from '../utils/hooks';
-import { EVENT_NAMES, QUERY_KEYS } from '../utils/constants';
-import { IApiResponse } from '../interfaces/common';
-import { getGoogleRecaptchaSiteKey } from '../services/authentication.api';
-import { subscribe, unsubscribe } from '../services/event';
+import { useQuery } from '../../utils/hooks';
+import { EVENT_NAMES, QUERY_KEYS } from '../../utils/constants';
+import { IApiResponse } from '../../interfaces/common';
+import { getGoogleRecaptchaSiteKey } from '../../services/authentication.api';
+import { subscribe, unsubscribe } from '../../services/event';
 
 interface IGoogleRecaptcha{
   setToken: (value: string) => void,

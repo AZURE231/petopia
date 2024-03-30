@@ -1,4 +1,4 @@
-import { STATIC_URLS } from '../utils/constants';
+import { STATIC_URLS } from '../../utils/constants';
 import Image from 'next/image';
 
 export const Background = () => {

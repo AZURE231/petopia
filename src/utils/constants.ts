@@ -13,14 +13,12 @@ export const STATIC_URLS = {
   CAT_ATRONAULT: '/img/Cat_astronaut.png',
   CAT_VASE: '/img/Cat_throwing_vase.png',
   NO_RESULT: '/img/no-result.png',
+  NO_AVATAR: '/img/no-avatar.png',
 };
 
 export const COOKIES_NAME = {
-  ACCESS_TOKEN: 'accessToken',
-  REFRESH_TOKEN: 'refreshToken',
+  ACCESS_TOKEN_SERVER: 'accessTokenServer',
   REDIRECT: 'redirect',
-  ACCESS_TOKEN_EXPIRED_DATE: 'accessTokenExpiredDate',
-  REFRESH_TOKEN_EXPIRED_DATE: 'refreshTokenExpiredDate',
 };
 
 export const DOMAIN_ERROR_MESSAGES = {
@@ -30,7 +28,7 @@ export const DOMAIN_ERROR_MESSAGES = {
   '10003': 'Link đăng ký đã hết hạn',
   '10004': 'Link khôi phục mật khẩu hết hạn.',
   '10005': 'Google captcha không hợp lệ.',
-  '10006': 'Phương thức đăng nhập không hợp lệ.',
+  '10006': 'Email được sử dụng cho phương thức đăng nhập khác.',
 };
 
 export const QUERY_KEYS = {
@@ -38,6 +36,7 @@ export const QUERY_KEYS = {
   GET_GOOGLE_AUTH_CLIENT_ID: 'GET_GOOGLE_AUTH_CLIENT_ID',
   GET_PETS: 'GET_PETS',
   GET_LOCATION: 'GET_LOCATION',
+  GET_CURRENT_USER_CORE: 'GET_CURRENT_USER_CORE',
 };
 
 export const EVENT_NAMES = {
@@ -297,4 +296,11 @@ export const PET_SELECT: IPetSelect[] = [
 export const SEARCH_PARAMS = {
   EMAIL: 'email',
   VALIDATE_REGISTER_TOKEN: 'validateRegisterToken',
+  PASSWORD_TOKEN: 'passwordToken',
 };
+
+export enum USER_ROLE {
+  STANDARD_USER = 0,
+  SYSTEM_ADMIN = 1,
+  ORGANIZATION = 2,
+}

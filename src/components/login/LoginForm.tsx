@@ -1,21 +1,25 @@
 'use client';
 import Link from 'next/link';
 import { ChangeEvent, useState } from 'react';
-import { useMutation } from '../utils/hooks';
-import { getErrorMessage } from '../helpers/getErrorMessage';
-import { IApiResponse } from '../interfaces/common';
-import { IGoogleLoginRequest, ILoginRequest, ILoginResponse } from '../interfaces/authentication';
-import { googleLogin, login } from '../services/authentication.api';
+import { useMutation } from '../../utils/hooks';
+import { getErrorMessage } from '../../helpers/getErrorMessage';
+import { IApiResponse } from '../../interfaces/common';
+import { IGoogleLoginRequest, ILoginRequest, ILoginResponse } from '../../interfaces/authentication';
+import { googleLogin, login } from '../../services/authentication.api';
 import { useForm } from 'react-hook-form';
-import { QueryProvider } from './QueryProvider';
+import { QueryProvider } from '../general/QueryProvider';
 import { GoogleLoginButton } from './GoogleLoginButton';
-import { Alert } from './Alert';
-import { COOKIES_NAME } from '../utils/constants';
+import { Alert } from '../general/Alert';
+import { COOKIES_NAME } from '../../utils/constants';
+import { getCookie, setCookie } from 'cookies-next';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 export const LoginForm = QueryProvider(() => {
+  // STATES
   const [showAlert, setShowALert] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
 
+  // FORMS
   const { getValues, setValue } = useForm<ILoginRequest>({
     defaultValues: {
       email: '',
@@ -23,26 +27,30 @@ export const LoginForm = QueryProvider(() => {
     },
   });
 
+  // HANDLERS
   const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     loginMutation.mutate(getValues());
   };
 
-  const handleOnLoginSuccess = (tokens: ILoginResponse) => {
-    sessionStorage.setItem(COOKIES_NAME.ACCESS_TOKEN, tokens.accessToken);
-    sessionStorage.setItem(COOKIES_NAME.REFRESH_TOKEN, tokens.refreshToken);
-    sessionStorage.setItem(COOKIES_NAME.ACCESS_TOKEN_EXPIRED_DATE, tokens.accessTokenExpiredDate);
-    sessionStorage.setItem(COOKIES_NAME.REFRESH_TOKEN_EXPIRED_DATE, tokens.refreshTokenExpiredDate);
-    const redirect = sessionStorage.getItem(COOKIES_NAME.REDIRECT);
-    if(redirect) {
-      sessionStorage.removeItem(COOKIES_NAME.REDIRECT);
+  const handleOnLoginSuccess = (data: ILoginResponse) => {
+    setCookie(
+      COOKIES_NAME.ACCESS_TOKEN_SERVER,
+      data.accessToken,
+      {
+        expires: new Date(data.accessTokenExpiredDate),
+      }
+    );
+    const redirect = getCookie(COOKIES_NAME.REDIRECT);
+    if (redirect) {
       window.location.replace(redirect);
-    } 
+    }
     else {
       window.location.replace('/');
     }
   };
 
+  // LOGIN
   const loginMutation = useMutation<IApiResponse<ILoginResponse>, ILoginRequest>(
     login,
     {
@@ -54,6 +62,7 @@ export const LoginForm = QueryProvider(() => {
     }
   );
 
+  // LOGIN WITH GOOGLE
   const googleLoginMutation = useMutation<IApiResponse<ILoginResponse>, IGoogleLoginRequest>(
     googleLogin,
     {
@@ -128,8 +137,8 @@ export const LoginForm = QueryProvider(() => {
                 </div>
               </div>
               <a
-                href="#"
                 className="text-sm font-medium text-primary-600 hover:underline "
+                href='/login/forgot-password'
               >
                 Quên mật khẩu?
               </a>
@@ -140,6 +149,14 @@ export const LoginForm = QueryProvider(() => {
               focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             >
               Đăng nhập
+              <span className='ml-2 leading-5'>
+                <ClipLoader
+                  color={'#000000'}
+                  loading={loginMutation.isLoading}
+                  size={14}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                /></span>
             </button>
 
             <GoogleLoginButton
