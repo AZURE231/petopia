@@ -60,7 +60,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({
                 selectedCategory === category ? "underline" : ""
               }`}
             >
-              <a href={`#`} onClick={() => setSelectedCategory(category)}>
+              <a role="button" onClick={() => setSelectedCategory(category)}>
                 {category}
               </a>
             </li>
