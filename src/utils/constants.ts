@@ -18,7 +18,6 @@ export const STATIC_URLS = {
 
 export const COOKIES_NAME = {
   ACCESS_TOKEN_SERVER: 'accessTokenServer',
-  ACCESS_TOKEN_SERVER: 'accessTokenServer',
   REDIRECT: 'redirect',
 };
 
@@ -298,12 +297,6 @@ export const SEARCH_PARAMS = {
   VALIDATE_REGISTER_TOKEN: 'validateRegisterToken',
   PASSWORD_TOKEN: 'passwordToken',
 };
-
-export enum USER_ROLE {
-  STANDARD_USER = 0,
-  SYSTEM_ADMIN = 1,
-  ORGANIZATION = 2,
-}
 
 export enum USER_ROLE {
   STANDARD_USER = 0,

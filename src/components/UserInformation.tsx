@@ -7,7 +7,7 @@ import { IApiResponse } from '../interfaces/common';
 import { IUserInfo } from '../interfaces/user';
 import { getUserInfo } from '../services/userprofile.api';
 import { QUERY_KEYS } from '../utils/constants';
-import { QueryProvider } from './QueryProvider';
+import { QueryProvider } from './general/QueryProvider';
 import ListCards from './ListCards';
 import UserUpdateForm from './UserUpdateForm';
 

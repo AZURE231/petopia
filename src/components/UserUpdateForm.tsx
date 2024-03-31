@@ -5,7 +5,7 @@ import { ChangeEvent, useState } from 'react';
 import { useMutation } from '../utils/hooks';
 import { IApiResponse } from '../interfaces/common';
 import { updateUser } from '../services/user.api';
-import { Alert } from './Alert';
+import { Alert } from './general/Alert';
 
 export default function UserUpdateForm({
   userInfo,
