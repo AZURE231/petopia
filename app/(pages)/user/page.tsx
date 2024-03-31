@@ -1,9 +1,9 @@
-import UserForm from '@/src/components/user/UserForm';
+import { UserInformation } from '@/src/components/UserInformation';
 
 export default function page() {
   return (
     <div className="mt-30">
-      <UserForm />
+      <UserInformation />
     </div>
   );
 }

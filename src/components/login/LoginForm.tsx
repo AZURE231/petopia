@@ -4,7 +4,11 @@ import { ChangeEvent, useState } from 'react';
 import { useMutation } from '../../utils/hooks';
 import { getErrorMessage } from '../../helpers/getErrorMessage';
 import { IApiResponse } from '../../interfaces/common';
-import { IGoogleLoginRequest, ILoginRequest, ILoginResponse } from '../../interfaces/authentication';
+import {
+  IGoogleLoginRequest,
+  ILoginRequest,
+  ILoginResponse,
+} from '../../interfaces/authentication';
 import { googleLogin, login } from '../../services/authentication.api';
 import { useForm } from 'react-hook-form';
 import { QueryProvider } from '../general/QueryProvider';
@@ -34,45 +38,40 @@ export const LoginForm = QueryProvider(() => {
   };
 
   const handleOnLoginSuccess = (data: ILoginResponse) => {
-    setCookie(
-      COOKIES_NAME.ACCESS_TOKEN_SERVER,
-      data.accessToken,
-      {
-        expires: new Date(data.accessTokenExpiredDate),
-      }
-    );
+    setCookie(COOKIES_NAME.ACCESS_TOKEN_SERVER, data.accessToken, {
+      expires: new Date(data.accessTokenExpiredDate),
+    });
     const redirect = getCookie(COOKIES_NAME.REDIRECT);
     if (redirect) {
       window.location.replace(redirect);
-    }
-    else {
+    } else {
       window.location.replace('/');
     }
   };
 
   // LOGIN
-  const loginMutation = useMutation<IApiResponse<ILoginResponse>, ILoginRequest>(
-    login,
-    {
-      onError: (err) => {
-        setAlertMessage(getErrorMessage(err.data.errorCode.toString()));
-        setShowALert(true);
-      },
-      onSuccess: (res) => handleOnLoginSuccess(res.data.data),
-    }
-  );
+  const loginMutation = useMutation<
+    IApiResponse<ILoginResponse>,
+    ILoginRequest
+  >(login, {
+    onError: (err) => {
+      setAlertMessage(getErrorMessage(err.data.errorCode.toString()));
+      setShowALert(true);
+    },
+    onSuccess: (res) => handleOnLoginSuccess(res.data.data),
+  });
 
   // LOGIN WITH GOOGLE
-  const googleLoginMutation = useMutation<IApiResponse<ILoginResponse>, IGoogleLoginRequest>(
-    googleLogin,
-    {
-      onError: (err) => {
-        setAlertMessage(getErrorMessage(err.data.errorCode.toString()));
-        setShowALert(true);
-      },
-      onSuccess: (res) => handleOnLoginSuccess(res.data.data),
+  const googleLoginMutation = useMutation<
+    IApiResponse<ILoginResponse>,
+    IGoogleLoginRequest
+  >(googleLogin, {
+    onError: (err) => {
+      setAlertMessage(getErrorMessage(err.data.errorCode.toString()));
+      setShowALert(true);
     },
-  );
+    onSuccess: (res) => handleOnLoginSuccess(res.data.data),
+  });
 
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto my-auto h-screen">
@@ -138,7 +137,7 @@ export const LoginForm = QueryProvider(() => {
               </div>
               <a
                 className="text-sm font-medium text-primary-600 hover:underline "
-                href='/login/forgot-password'
+                href="/login/forgot-password"
               >
                 Quên mật khẩu?
               </a>
@@ -149,18 +148,21 @@ export const LoginForm = QueryProvider(() => {
               focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             >
               Đăng nhập
-              <span className='ml-2 leading-5'>
+              <span className="ml-2 leading-5">
                 <ClipLoader
                   color={'#000000'}
                   loading={loginMutation.isLoading}
                   size={14}
                   aria-label="Loading Spinner"
                   data-testid="loader"
-                /></span>
+                />
+              </span>
             </button>
 
             <GoogleLoginButton
-              onSuccess={(tokenId) => googleLoginMutation.mutate({ tokenId: tokenId })}
+              onSuccess={(tokenId) =>
+                googleLoginMutation.mutate({ tokenId: tokenId })
+              }
             />
 
             <p className="text-sm font-light text-gray-500 ">
