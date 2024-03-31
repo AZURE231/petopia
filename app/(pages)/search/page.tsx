@@ -1,6 +1,5 @@
 import Breadscrum from '@/src/components/general/Breadscrum';
 import Image from 'next/image';
-import { Footer } from '@/src/components/general/Footer';
 import { SearchPetSection } from '@/src/components/search/SearchPetSection';
 
 export default function page() {
@@ -20,7 +19,6 @@ export default function page() {
           <SearchPetSection />
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

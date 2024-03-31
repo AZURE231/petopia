@@ -28,6 +28,8 @@ class Http {
             encodeURIComponent(`${p}.${v}`) +
             '=' +
             encodeURIComponent(params[p][v])
+            '=' +
+            encodeURIComponent(params[p][v])
           );
         }
       } else {
