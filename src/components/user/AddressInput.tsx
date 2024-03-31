@@ -1,5 +1,5 @@
-import React, { ChangeEvent, useEffect } from 'react';
-import { ILocationResponse } from '../interfaces/petProfile';
+import { ILocationResponse } from '@/src/interfaces/pet';
+import React, { useEffect } from 'react';
 
 interface IAddressInput {
   options: ILocationResponse[];

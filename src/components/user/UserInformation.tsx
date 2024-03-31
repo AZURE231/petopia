@@ -2,14 +2,14 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { FaRegEdit } from 'react-icons/fa';
-import { useQuery } from '../utils/hooks';
-import { IApiResponse } from '../interfaces/common';
-import { IUserInfo } from '../interfaces/user';
-import { getUserInfo } from '../services/userprofile.api';
-import { QUERY_KEYS } from '../utils/constants';
-import { QueryProvider } from './general/QueryProvider';
+import { useQuery } from '../../utils/hooks';
+import { IApiResponse } from '../../interfaces/common';
+import { IUserInfo } from '../../interfaces/user';
+import { QUERY_KEYS, STATIC_URLS } from '../../utils/constants';
+import { QueryProvider } from '../general/QueryProvider';
 import ListCards from './ListCards';
 import UserUpdateForm from './UserUpdateForm';
+import { getUserInfo } from '@/src/services/user.api';
 
 export const UserInformation = QueryProvider(() => {
   const [isEdit, setIsEdit] = useState(false);
@@ -33,7 +33,7 @@ export const UserInformation = QueryProvider(() => {
         <div className="flex relative -mb-10">
           <div className="relative h-52 w-52 bottom-20">
             <Image
-              src={userInfo?.image || '/img/avatar.png'}
+              src={userInfo?.image || STATIC_URLS.NO_AVATAR}
               alt="Picture of the author"
               fill // required
               objectFit="cover" // change to suit your needs

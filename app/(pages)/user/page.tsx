@@ -1,4 +1,4 @@
-import { UserInformation } from '@/src/components/UserInformation';
+import { UserInformation } from '@/src/components/user/UserInformation';
 
 export default function page() {
   return (

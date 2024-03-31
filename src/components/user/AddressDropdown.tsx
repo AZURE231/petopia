@@ -1,12 +1,12 @@
-import { ILocationRequest, ILocationResponse } from '../interfaces/petProfile';
 import { UseFormSetValue, UseFormWatch, useForm } from 'react-hook-form';
-import { IUserUpdate } from '../interfaces/user';
-import { ChangeEvent, useState } from 'react';
-import { useQuery } from '../utils/hooks';
-import { IApiResponse } from '../interfaces/common';
-import { QUERY_KEYS } from '../utils/constants';
-import { getProvince } from '../services/petprofile.api';
+import { IUserUpdate } from '../../interfaces/user';
+import { useState } from 'react';
+import { useQuery } from '../../utils/hooks';
+import { IApiResponse } from '../../interfaces/common';
+import { QUERY_KEYS } from '../../utils/constants';
 import { AddressInput } from './AddressInput';
+import { ILocationRequest, ILocationResponse } from '@/src/interfaces/pet';
+import { getProvince } from '@/src/services/pet.api';
 
 enum LOCATION_LEVEL {
   PROVINCE = 1,

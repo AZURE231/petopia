@@ -1,17 +1,17 @@
 'use client';
 import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ICreatePetProfileRequest } from '@/src/interfaces/petProfile';
 import { useMutation } from '@/src/utils/hooks';
 import { IApiResponse } from '@/src/interfaces/common';
 import { QueryProvider } from '../general/QueryProvider';
-import { postPet } from '../../services/petprofile.api';
 import FormUploadImage from './FormUploadImage';
 import FormPetDetail from './FormPetDetail';
 import FormRules from './FormRules';
 import axios from 'axios';
 import { isEmpty, isNotChecked } from '@/src/helpers/inputValidator';
 import { Alert } from '../general/Alert';
+import { ICreatePetProfileRequest } from '@/src/interfaces/pet';
+import { postPet } from '@/src/services/pet.api';
 
 const RegisterForm = QueryProvider(() => {
   const [error, setError] = useState<string>('');
