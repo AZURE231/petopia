@@ -1,13 +1,12 @@
-import Breadscrum from '@/src/components/general/Breadscrum';
 import Image from 'next/image';
-import { SearchPetSection } from '@/src/components/search/SearchPetSection';
-import { STATIC_URLS } from '@/src/utils/constants';
+import BlogSection from '@/src/components/blog/BlogSection';
+import { BLOG_CATEGORIES, STATIC_URLS } from '@/src/utils/constants';
 
 export default function page() {
   return (
     <div>
       <div className="container mx-auto my-10">
-        <Breadscrum />
+        {/* <Breadscrum /> */}
         <div className="flex items-center justify-center mt-5">
           <Image
             alt="banner search"
@@ -16,8 +15,11 @@ export default function page() {
             height={378}
           ></Image>
         </div>
-        <div>
-          <SearchPetSection />
+        <div className="mt-20">
+          <BlogSection
+            categories={BLOG_CATEGORIES}
+            bannerImage={STATIC_URLS.BLOG_BANNER}
+          />
         </div>
       </div>
     </div>
