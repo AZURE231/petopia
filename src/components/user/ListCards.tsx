@@ -1,5 +1,5 @@
-import { IPetResponse } from '../interfaces/pet';
-import { PetCard } from './search/PetCard';
+import { IPetResponse } from '../../interfaces/pet';
+import { PetCard } from '../search/PetCard';
 
 export default function ListCards({
   title,

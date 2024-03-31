@@ -21,14 +21,14 @@ export interface IPetFilter {
 
 export interface IPetSelect extends IPetFilter {
   kind:
-    | 'breed'
-    | 'species'
-    | 'sex'
-    | 'age'
-    | 'color'
-    | 'size'
-    | 'isVaccinated'
-    | 'isSterillized';
+  | 'breed'
+  | 'species'
+  | 'sex'
+  | 'age'
+  | 'color'
+  | 'size'
+  | 'isVaccinated'
+  | 'isSterillized';
 }
 
 export interface IPetFilterRequest {
@@ -49,4 +49,32 @@ export interface IPetResponse {
   sex: PET_SEX;
   age: PET_AGE;
   image: string;
+}
+
+export interface ICreatePetProfileRequest {
+  name: string;
+  description: string;
+  sex: number;
+  age: number;
+  color: number;
+  species: number;
+  size: number;
+  isSterillized: number;
+  isVaccinated: number;
+  isAvailable: boolean;
+  address: string;
+  breed: string;
+  files: string[];
+  imagesFile: FileList | null;
+  images: string[];
+}
+
+export interface ILocationResponse {
+  name: string;
+  code: string;
+}
+
+export interface ILocationRequest {
+  Level: 1 | 2 | 3;
+  Code?: string;
 }

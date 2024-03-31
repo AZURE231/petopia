@@ -26,8 +26,8 @@ class Http {
         for (const v in params[p]) {
           str.push(
             encodeURIComponent(`${p}.${v}`) +
-              '=' +
-              encodeURIComponent(params[p][v])
+            '=' +
+            encodeURIComponent(params[p][v])
           );
         }
       } else {
@@ -55,7 +55,6 @@ class Http {
         if (response) {
           const { status } = response;
           if (status === UNAUTHORIZED) {
-            deleteCookie(COOKIES_NAME.ACCESS_TOKEN_SERVER);
             window.location.replace('/login');
           }
           if (response) return Promise.reject(response);

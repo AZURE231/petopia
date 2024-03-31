@@ -12,3 +12,5 @@ export const getCurrentUserCore = async () =>
 
 export const updateUser = async (data: IUserUpdate) =>
   await http.put('/User', data);
+
+export const getUserInfo = async () => await http.get('/User/CurrentUser');
