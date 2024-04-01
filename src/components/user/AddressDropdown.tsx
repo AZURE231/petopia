@@ -67,7 +67,7 @@ export default function AddressDropdown({
   );
 
   return (
-    <div className="flex flex-row gap-3">
+    <div className="flex flex-row gap-3 mb-4">
       <div>
         <label
           className="block text-gray-700 text-lg font-bold mb-2"

@@ -2,28 +2,56 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { FaRegEdit } from 'react-icons/fa';
-import { useQuery } from '../../utils/hooks';
+import { useMutation, useQuery } from '../../utils/hooks';
 import { IApiResponse } from '../../interfaces/common';
 import { IUserInfo } from '../../interfaces/user';
 import { QUERY_KEYS, STATIC_URLS } from '../../utils/constants';
 import { QueryProvider } from '../general/QueryProvider';
 import ListCards from './ListCards';
 import UserUpdateForm from './UserUpdateForm';
-import { getUserInfo } from '@/src/services/user.api';
+import { getUserInfo, updateAvatar } from '@/src/services/user.api';
+import { uploadImage } from '@/src/helpers/uploadImage';
 
 export const UserInformation = QueryProvider(() => {
   const [isEdit, setIsEdit] = useState(false);
+  const [isEditAvatar, setIsEditAvatar] = useState(false);
   const [userInfo, setUserInfo] = useState<IUserInfo>();
+  const [image, setImage] = useState<string>(STATIC_URLS.NO_AVATAR);
+  const [file, setFile] = useState<File | null>(null);
   const handleEdit = () => {
     setIsEdit(!isEdit);
   };
+
+  const handleEditAvatar = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImage(URL.createObjectURL(e.target.files[0]));
+      setFile(e.target.files[0]);
+      const formData = new FormData();
+      formData.append('image', e.target.files[0]);
+      const imageUrl = await uploadImage(formData);
+      updateAvatarMutation.mutateAsync(imageUrl?.data.data.url!);
+    }
+  };
+
+  const updateAvatarMutation = useMutation<IApiResponse<string>, string>(
+    updateAvatar,
+    {
+      onError: (err) => {},
+      onSuccess: (res) => {},
+    }
+  );
 
   useQuery<IApiResponse<IUserInfo>>(
     [QUERY_KEYS.GET_GOOGLE_RECAPTCHA_TOKEN],
     getUserInfo,
     {
-      onSuccess: (res) => setUserInfo(res.data.data),
+      onSuccess: (res) => {
+        setUserInfo(res.data.data);
+        setImage(res.data.data.image);
+        console.log(res.data.data);
+      },
       onError: (err) => console.log(err),
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -31,14 +59,43 @@ export const UserInformation = QueryProvider(() => {
     <div>
       <div className="container max-w-3xl p-5 mx-auto shadow-2xl rounded-2xl mt-36">
         <div className="flex relative -mb-10">
-          <div className="relative h-52 w-52 bottom-20">
+          <div
+            className="relative h-52 w-52 bottom-20"
+            onMouseEnter={() => setIsEditAvatar(true)}
+            onMouseLeave={() => setIsEditAvatar(false)}
+          >
             <Image
-              src={userInfo?.image || STATIC_URLS.NO_AVATAR}
+              src={image}
               alt="Picture of the author"
               fill // required
               objectFit="cover" // change to suit your needs
               className="rounded-full" // just an example
             />
+
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              {isEditAvatar && (
+                <div className="flex items-center justify-center w-32 bg-gray-50 rounded-lg">
+                  <label
+                    htmlFor="dropzone-file"
+                    className="flex flex-col w-full bg-gray-50 items-center justify-center h-8 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer  hover:bg-gray-100"
+                  >
+                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                      <p className=" text-sm text-gray-500 ">
+                        <span className="font-semibold">Chỉnh sửa</span>
+                      </p>
+                    </div>
+                    <input
+                      id="dropzone-file"
+                      multiple
+                      type="file"
+                      accept="image/png, image/jpeg, image/jpg"
+                      className="hidden"
+                      onChange={handleEditAvatar}
+                    />
+                  </label>
+                </div>
+              )}
+            </div>
           </div>
           <div>
             <h1 className="font-bold text-5xl ml-5">
@@ -78,7 +135,14 @@ export const UserInformation = QueryProvider(() => {
             </div>
           </div>
         </div>
-        {userInfo && <UserUpdateForm userInfo={userInfo!} isEdit={isEdit} />}
+        {userInfo && (
+          <UserUpdateForm
+            userInfo={userInfo!}
+            isEdit={isEdit}
+            image={file}
+            setUserInfo={setUserInfo}
+          />
+        )}
       </div>
       <ListCards title="Thú cưng của bạn" data={userInfo?.pets!} />
     </div>
