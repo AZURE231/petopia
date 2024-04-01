@@ -35,10 +35,6 @@ export const UserInformation = QueryProvider(() => {
 
   const updateAvatarMutation = useMutation<IApiResponse<string>, string>(
     updateAvatar,
-    {
-      onError: (err) => {},
-      onSuccess: (res) => {},
-    }
   );
 
   useQuery<IApiResponse<IUserInfo>>(
@@ -101,8 +97,8 @@ export const UserInformation = QueryProvider(() => {
             <h1 className="font-bold text-5xl ml-5">
               {userInfo &&
                 userInfo.attributes.firstName +
-                  ' ' +
-                  userInfo.attributes.lastName}
+                ' ' +
+                userInfo.attributes.lastName}
             </h1>
           </div>
 
