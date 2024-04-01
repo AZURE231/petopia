@@ -32,9 +32,10 @@ export const NavProfileBlock = ({
 
   // HANDLE HIDE PROFILE OPTIONS
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const optionsRef = useRef<HTMLDivElement>(null);
   useClickOutside(() => {
     setIsOpenProfile(false);
-  }, [buttonRef]);
+  }, [buttonRef, optionsRef]);
 
   return (
     <div className="hidden md:flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
@@ -53,6 +54,7 @@ export const NavProfileBlock = ({
           />
         </button>
         <div
+          ref={optionsRef}
           className={`absolute right-0 top-10 z-50 ${isOpenProfile ? '' : 'hidden'
             } text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow `}
         >
@@ -70,7 +72,7 @@ export const NavProfileBlock = ({
           <ul className="py-2">
             <li>
               <a
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                 onClick={() => logoutMutation.mutate(undefined)}
               >
                 Đăng xuất

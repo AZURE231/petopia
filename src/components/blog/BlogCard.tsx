@@ -1,30 +1,26 @@
-import React from "react";
+import { IBlogResponse } from '@/src/interfaces/blog';
+import React from 'react';
+import Image from 'next/image';
 
-interface BlogCardProps {
-  image: string;
-  category: string;
-  title: string;
-  excerpt: string;
-}
-
-const BlogCard: React.FC<BlogCardProps> = ({
+const BlogCard = ({
   image,
   category,
   title,
   excerpt,
-}) => {
+}: IBlogResponse) => {
   return (
     <div
       className="blog-card rounded-lg overflow-hidden border border-gray-200 relative"
-      style={{ width: "380px", height: "424px" }}
+      style={{ width: '380px', height: '424px' }}
     >
       {/* Image with rounded corners */}
       <div className="relative">
-        <img
+        <Image
           src={image}
           alt={title}
-          className="w-full h-48 object-cover object-center rounded-t-lg mt-2 ml-2"
-          style={{ width: "364px", height: "240px" }}
+          width={364}
+          height={240}
+          className="object-cover object-center rounded-t-lg mt-2 ml-2"
         />
         {/* Category */}
         <div className="bg-yellow-400 text-black text-xs font-bold uppercase px-2 py-1 absolute top-0 left-0 rounded-br-lg">

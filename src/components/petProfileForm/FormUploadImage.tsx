@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import ControlForm from './ControlForm';
 import Image from 'next/image';
 import { UseFormGetValues, UseFormSetValue, set } from 'react-hook-form';
-import { ICreatePetProfileRequest } from '@/src/interfaces/petProfile';
+import { ICreatePetProfileRequest } from '@/src/interfaces/pet';
 
 export default function FormUploadImage({
   handleNext,
@@ -121,7 +121,7 @@ export default function FormUploadImage({
       </div>
 
       {/* Controller */}
-      <ControlForm handleBack={() => {}} handleNext={handleNext} type={1} />
+      <ControlForm handleBack={() => { }} handleNext={handleNext} type={1} />
     </div>
   );
 }

@@ -1,4 +1,3 @@
-import { Footer } from '@/src/components/general/Footer';
 import { STATIC_URLS } from '@/src/utils/constants';
 import Image from 'next/image';
 
@@ -145,8 +144,6 @@ export default function Home() {
         </div>
       </div>
       {/* CTA */}
-      {/* Footer */}
-      <Footer />
     </div>
   );
 }

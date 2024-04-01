@@ -55,9 +55,8 @@ class Http {
         if (response) {
           const { status } = response;
           if (status === UNAUTHORIZED) {
-            deleteCookie(COOKIES_NAME.ACCESS_TOKEN_SERVER);
             window.location.replace('/login');
-          };
+          }
           if (response) return Promise.reject(response);
         }
         return Promise.reject();

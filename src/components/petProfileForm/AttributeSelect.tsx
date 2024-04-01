@@ -1,18 +1,17 @@
 import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
-import { ICreatePetProfileRequest } from '@/src/interfaces/petProfile';
-import { IPetFilterItem } from '@/src/interfaces/pet';
+import { ICreatePetProfileRequest, IPetFilterItem } from '@/src/interfaces/pet';
 interface AttributeSelectProps {
   label: string;
   options: IPetFilterItem[];
   value:
-    | 'breed'
-    | 'species'
-    | 'sex'
-    | 'age'
-    | 'color'
-    | 'size'
-    | 'isVaccinated'
-    | 'isSterillized';
+  | 'breed'
+  | 'species'
+  | 'sex'
+  | 'age'
+  | 'color'
+  | 'size'
+  | 'isVaccinated'
+  | 'isSterillized';
   setValue: UseFormSetValue<ICreatePetProfileRequest>;
   watch: UseFormWatch<ICreatePetProfileRequest>;
 }

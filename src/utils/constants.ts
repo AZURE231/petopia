@@ -14,6 +14,8 @@ export const STATIC_URLS = {
   CAT_VASE: '/img/Cat_throwing_vase.png',
   NO_RESULT: '/img/no-result.png',
   NO_AVATAR: '/img/no-avatar.png',
+  BANNER: '/img/Banner.png',
+  BLOG_BANNER: '/img/blog_banner.png',
 };
 
 export const COOKIES_NAME = {
@@ -279,7 +281,6 @@ export const PET_FILTERS: IPetFilter[] = [
   PET_SIZE_FILTER,
   PET_VACCINATED_FILTER,
   PET_STERILIZED_FILTER,
-  PET_BREED_FILTER,
 ];
 
 export const PET_SELECT: IPetSelect[] = [
@@ -304,3 +305,11 @@ export enum USER_ROLE {
   SYSTEM_ADMIN = 1,
   ORGANIZATION = 2,
 }
+
+export const BLOG_CATEGORIES = [
+  'Sức khỏe',
+  'Đời sống',
+  'Công nghệ',
+  'Thời trang',
+  'Ẩm thực',
+];

@@ -1,7 +1,7 @@
 import Breadscrum from '@/src/components/general/Breadscrum';
 import Image from 'next/image';
-import { Footer } from '@/src/components/general/Footer';
 import { SearchPetSection } from '@/src/components/search/SearchPetSection';
+import { STATIC_URLS } from '@/src/utils/constants';
 
 export default function page() {
   return (
@@ -11,7 +11,7 @@ export default function page() {
         <div className="flex items-center justify-center mt-5">
           <Image
             alt="banner search"
-            src={'/img/Banner.png'}
+            src={STATIC_URLS.BANNER}
             width={1180}
             height={378}
           ></Image>
@@ -20,7 +20,6 @@ export default function page() {
           <SearchPetSection />
         </div>
       </div>
-      <Footer />
     </div>
   );
 }
