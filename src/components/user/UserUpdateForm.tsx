@@ -1,18 +1,23 @@
 import AddressDropdown from './AddressDropdown';
 import { IUserInfo, IUserUpdate } from '../../interfaces/user';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import { ChangeEvent, useState } from 'react';
 import { useMutation } from '../../utils/hooks';
 import { IApiResponse } from '../../interfaces/common';
 import { updateUser } from '../../services/user.api';
 import { Alert } from '../general/Alert';
+import { ClipLoader } from 'react-spinners';
 
 export default function UserUpdateForm({
   userInfo,
   isEdit,
+  image,
+  setUserInfo,
 }: {
   userInfo: IUserInfo;
   isEdit: boolean;
+  image: File | null;
+  setUserInfo: (userInfo: IUserInfo) => void;
 }) {
   const [error, setError] = useState<string>('');
   const [showAlert, setShowAlert] = useState<boolean>(false);
@@ -35,18 +40,17 @@ export default function UserUpdateForm({
     {
       onError: (err) => {
         console.log(err);
-        setError('Tạo hồ sơ thú cưng thất bại');
+        setError('Cập nhật thông tin thất bại');
         setShowAlert(true);
       },
       onSuccess: (res) => {
-        console.log('success');
-        console.log(res);
+        setUserInfo(res.data.data);
         setShowSuccess(true);
       },
     }
   );
 
-  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     updateUserMutation.mutate(getValues());
   };
@@ -129,6 +133,15 @@ export default function UserUpdateForm({
                         focus:ring-primary-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center"
             >
               Xác nhận
+              <span className="pl-2">
+                <ClipLoader
+                  color={'#000000'}
+                  loading={updateUserMutation.isLoading}
+                  size={14}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+              </span>
             </button>
           </div>
         </form>

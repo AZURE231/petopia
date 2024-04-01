@@ -14,3 +14,6 @@ export const updateUser = async (data: IUserUpdate) =>
   await http.put('/User', data);
 
 export const getUserInfo = async () => await http.get('/User/CurrentUser');
+
+export const updateAvatar = async (data: string) =>
+  await http.put('/User/UpdateAvatar', data);

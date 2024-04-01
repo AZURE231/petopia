@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import ControlForm from './ControlForm';
 import Image from 'next/image';
-import { UseFormGetValues, UseFormSetValue, set } from 'react-hook-form';
+import { UseFormGetValues, UseFormSetValue } from 'react-hook-form';
 import { ICreatePetProfileRequest } from '@/src/interfaces/pet';
 
 export default function FormUploadImage({
@@ -35,11 +35,6 @@ export default function FormUploadImage({
     const newFiles = files.filter((item, index) => index !== e);
     setFiles(newFiles);
     setValue('files', newFiles);
-
-    const newImagesFile = getValue('imagesFile');
-
-    console.log('delete', newFiles);
-    console.log('number', e);
   };
 
   return (
@@ -121,7 +116,7 @@ export default function FormUploadImage({
       </div>
 
       {/* Controller */}
-      <ControlForm handleBack={() => { }} handleNext={handleNext} type={1} />
+      <ControlForm handleBack={() => {}} handleNext={handleNext} type={1} />
     </div>
   );
 }
