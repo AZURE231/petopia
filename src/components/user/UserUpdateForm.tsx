@@ -1,6 +1,6 @@
 import AddressDropdown from './AddressDropdown';
 import { IUserInfo, IUserUpdate } from '../../interfaces/user';
-import { set, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { ChangeEvent, useState } from 'react';
 import { useMutation } from '../../utils/hooks';
 import { IApiResponse } from '../../interfaces/common';
@@ -19,9 +19,9 @@ export default function UserUpdateForm({
   image: File | null;
   setUserInfo: (userInfo: IUserInfo) => void;
 }) {
-  const [error, setError] = useState<string>('');
-  const [showAlert, setShowAlert] = useState<boolean>(false);
-  const [showSuccess, setShowSuccess] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>('');
+  const [alertShow, setAlertShow] = useState<boolean>(false);
+  const [alertFail, setAlertFail] = useState<boolean>(false);
 
   const { getValues, setValue, watch } = useForm<IUserUpdate>({
     defaultValues: {
@@ -39,13 +39,14 @@ export default function UserUpdateForm({
     updateUser,
     {
       onError: (err) => {
-        console.log(err);
-        setError('Cập nhật thông tin thất bại');
-        setShowAlert(true);
+        setAlertMessage('Tạo hồ sơ thú cưng thất bại');
+        setAlertFail(true);
+        setAlertShow(true);
       },
       onSuccess: (res) => {
-        setUserInfo(res.data.data);
-        setShowSuccess(true);
+        setAlertMessage('Cập nhật thông tin thành công');
+        setAlertFail(false);
+        setAlertShow(true);
       },
     }
   );
@@ -147,16 +148,10 @@ export default function UserUpdateForm({
         </form>
       )}
       <Alert
-        message={error!}
-        show={showAlert}
-        setShow={setShowAlert}
-        failed={true}
-      />
-      <Alert
-        message={'Cập nhật thông tin thành công'}
-        show={showSuccess}
-        setShow={setShowSuccess}
-        failed={false}
+        message={alertMessage}
+        show={alertShow}
+        setShow={setAlertShow}
+        failed={alertFail}
       />
     </div>
   );
