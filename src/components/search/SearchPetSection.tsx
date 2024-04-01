@@ -14,7 +14,7 @@ import {
 } from '@/src/interfaces/common';
 import { useQuery } from '@/src/utils/hooks';
 import { getPets } from '@/src/services/pet.api';
-import { NoResultBackgound } from './NoResultBackground';
+import { NoResultBackgound } from '../general/NoResultBackground';
 import { IPetFilterRequest, IPetResponse } from '@/src/interfaces/pet';
 import { PAGE_SIZE, PET_FILTERS, QUERY_KEYS } from '@/src/utils/constants';
 

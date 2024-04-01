@@ -1,14 +1,14 @@
 import { makeAutoObservable } from 'mobx';
-import { ICurrentUserCore } from '../interfaces/user';
+import { ICurrentUserCoreResponse } from '../interfaces/user';
 
 export class UserStore {
-  userContext: ICurrentUserCore | null = null;
+  userContext: ICurrentUserCoreResponse | null = null;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  setUserContext(userContext: ICurrentUserCore) {
+  setUserContext(userContext: ICurrentUserCoreResponse) {
     this.userContext = userContext;
   }
 }

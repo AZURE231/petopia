@@ -35,10 +35,14 @@ export interface IUserUpdate {
   street: string;
 }
 
-export interface ICurrentUserCore {
+export interface ICurrentUserCoreResponse {
   id: string;
   email: string;
   image: string;
   userRole: USER_ROLE;
   name: string;
+}
+
+export interface IOtherUserRequest {
+  userId: string;
 }
