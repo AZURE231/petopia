@@ -11,7 +11,7 @@ import { Alert } from '@/src/components/general/Alert';
 import { ClipLoader } from 'react-spinners';
 import { checkPasswordFormat } from '@/src/helpers/inputValidator';
 
-export const ChangePassword = QueryProvider(() => {
+const page = QueryProvider(() => {
   // ALERT STATES
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [alertFailed, setAlertFailed] = useState<boolean>(false);
@@ -135,4 +135,4 @@ export const ChangePassword = QueryProvider(() => {
   );
 });
 
-export default ChangePassword;
+export default page;
