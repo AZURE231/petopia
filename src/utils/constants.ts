@@ -33,6 +33,7 @@ export const DOMAIN_ERROR_MESSAGES = {
   '10006': 'Email được sử dụng cho phương thức đăng nhập khác.',
   '10007': 'Mật khẩu mới không được trùng với mật khẩu hiện tại',
   '10008': 'Không tìm thấy người dùng.',
+  '10009': 'Mật khẩu không đúng.',
 };
 
 export const QUERY_KEYS = {
