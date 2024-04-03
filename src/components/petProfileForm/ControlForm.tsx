@@ -6,7 +6,7 @@ export default function ControlForm({
   handleNext,
   type,
   handleSubmit,
-  isLoading,
+  isLoading = false,
 }: {
   handleBack: () => void;
   handleNext: () => void;
@@ -49,14 +49,15 @@ export default function ControlForm({
           onClick={handleSubmit}
         >
           Hoàn thành
-          <span className='ml-2 leading-5'>
+          <span className="ml-2 leading-5">
             <ClipLoader
               color={'#000000'}
               loading={isLoading}
               size={14}
               aria-label="Loading Spinner"
               data-testid="loader"
-            /></span>
+            />
+          </span>
         </button>
       )}
     </div>

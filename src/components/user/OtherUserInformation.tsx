@@ -11,41 +11,43 @@ import { QUERY_KEYS, STATIC_URLS } from '@/src/utils/constants';
 import { getErrorMessage } from '@/src/helpers/getErrorMessage';
 import { NoResultBackgound } from '../general/NoResultBackground';
 import { ClipLoader } from 'react-spinners';
+import { GoReport } from 'react-icons/go';
 
-export const OtherUserInformation = QueryProvider(({ userId }: { userId: string }) => {
-  const [userInfo, setUserInfo] = useState<IUserInfo>();
-  const [error, setError] = useState<string>('');
+export const OtherUserInformation = QueryProvider(
+  ({ userId }: { userId: string }) => {
+    const [userInfo, setUserInfo] = useState<IUserInfo>();
+    const [error, setError] = useState<string>('');
 
-  const getUserQuery = useQuery<IApiResponse<IUserInfo>>(
-    [QUERY_KEYS.GET_OTHER_USER],
-    () => getOtherUserInfo({ userId: userId }),
-    {
-      onSuccess: (res) => setUserInfo(res.data.data),
-      onError: (err) => {
-        setError(getErrorMessage(err.data.errorCode.toString()));
-      },
-      refetchOnWindowFocus: false,
-    }
-  );
-
-  return (
-    <>
+    const getUserQuery = useQuery<IApiResponse<IUserInfo>>(
+      [QUERY_KEYS.GET_OTHER_USER],
+      () => getOtherUserInfo({ userId: userId }),
       {
-        getUserQuery.isLoading && <div className='h-fit-screen flex items-center justify-center'>
-          <ClipLoader
-            color={'#111111'}
-            loading={getUserQuery.isLoading}
-            size={28}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-          />
-        </div>
+        onSuccess: (res) => setUserInfo(res.data.data),
+        onError: (err) => {
+          setError(getErrorMessage(err.data.errorCode.toString()));
+        },
+        refetchOnWindowFocus: false,
       }
-      {
-        !getUserQuery.isLoading && (
-          error
-            ? <NoResultBackgound className='h-fit-screen w-full items-center' />
-            : <>
+    );
+
+    return (
+      <>
+        {getUserQuery.isLoading && (
+          <div className="h-fit-screen flex items-center justify-center">
+            <ClipLoader
+              color={'#111111'}
+              loading={getUserQuery.isLoading}
+              size={28}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          </div>
+        )}
+        {!getUserQuery.isLoading &&
+          (error ? (
+            <NoResultBackgound className="h-fit-screen w-full items-center" />
+          ) : (
+            <>
               <div className="container max-w-3xl p-5 mx-auto shadow-2xl rounded-2xl mt-36">
                 <div className="flex relative -mb-10">
                   <div className="relative h-52 w-52 bottom-20">
@@ -61,14 +63,16 @@ export const OtherUserInformation = QueryProvider(({ userId }: { userId: string 
                     <h1 className="font-bold text-5xl ml-5">
                       {userInfo &&
                         userInfo.attributes.firstName +
-                        ' ' +
-                        userInfo.attributes.lastName}
+                          ' ' +
+                          userInfo.attributes.lastName}
                     </h1>
                   </div>
                 </div>
                 <div className="md:px-10">
                   <div className="flex mb-2">
-                    <div className="block text-gray-700 text-lg font-bold">Email:</div>
+                    <div className="block text-gray-700 text-lg font-bold">
+                      Email:
+                    </div>
                     <div className="text-lg ml-2">
                       {userInfo?.email ? userInfo?.email : 'Chưa rõ'}
                     </div>
@@ -90,11 +94,19 @@ export const OtherUserInformation = QueryProvider(({ userId }: { userId: string 
                     </div>
                   </div>
                 </div>
+                <div className="mt-3 flex justify-end">
+                  <button className="border border-black p-3 rounded-lg font-bold shadow-md bg-yellow-300 hover:bg-yellow-400 ml-2">
+                    Liên hệ
+                  </button>
+                  <button className="border border-black p-3 rounded-lg font-bold shadow-md bg-yellow-300 hover:bg-yellow-400 ml-2">
+                    <GoReport size={25} />
+                  </button>
+                </div>
               </div>
               <ListCards title="Danh sách thú cưng" data={userInfo?.pets!} />
             </>
-        )
-      }
-    </>
-  );
-});
+          ))}
+      </>
+    );
+  }
+);

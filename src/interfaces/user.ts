@@ -25,6 +25,11 @@ export interface IResetPasswordRequest {
   password: string;
 }
 
+export interface IChangePasswordResponse {
+  newPassword: string;
+  oldPassword: string;
+}
+
 export interface IUserUpdate {
   phone: string;
   firstName: string;

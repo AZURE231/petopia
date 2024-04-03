@@ -11,6 +11,7 @@ import ListCards from './ListCards';
 import UserUpdateForm from './UserUpdateForm';
 import { getUserInfo, updateAvatar } from '@/src/services/user.api';
 import { uploadImage } from '@/src/helpers/uploadImage';
+import Link from 'next/link';
 
 export const UserInformation = QueryProvider(() => {
   const [isEdit, setIsEdit] = useState(false);
@@ -34,7 +35,7 @@ export const UserInformation = QueryProvider(() => {
   };
 
   const updateAvatarMutation = useMutation<IApiResponse<string>, string>(
-    updateAvatar,
+    updateAvatar
   );
 
   useQuery<IApiResponse<IUserInfo>>(
@@ -97,8 +98,8 @@ export const UserInformation = QueryProvider(() => {
             <h1 className="font-bold text-5xl ml-5">
               {userInfo &&
                 userInfo.attributes.firstName +
-                ' ' +
-                userInfo.attributes.lastName}
+                  ' ' +
+                  userInfo.attributes.lastName}
             </h1>
           </div>
 
@@ -130,6 +131,15 @@ export const UserInformation = QueryProvider(() => {
               {userInfo?.address ? userInfo?.address : 'Chưa rõ'}
             </div>
           </div>
+        </div>
+        <div className="mt-5 flex justify-end">
+          <Link
+            href={'user/change-password'}
+            className="w-fit text-black bg-yellow-300 hover:bg-primary-700 focus:ring-4 focus:outline-none
+                        focus:ring-primary-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center"
+          >
+            Cập nhật mật khẩu
+          </Link>
         </div>
         {userInfo && (
           <UserUpdateForm
