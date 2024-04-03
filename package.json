@@ -9,8 +9,13 @@
     "lint": "next lint --fix"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-alignment": "^41.2.1",
+    "@ckeditor/ckeditor5-basic-styles": "^41.2.1",
+    "@ckeditor/ckeditor5-core": "^41.2.1",
+    "@ckeditor/ckeditor5-react": "^6.2.0",
     "@react-oauth/google": "^0.12.1",
     "axios": "^1.6.1",
+    "ckeditor5-custom-build": "file:ckeditor5",
     "cookies-next": "^4.1.0",
     "framer-motion": "^10.16.16",
     "js-cookie": "^3.0.5",
