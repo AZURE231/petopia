@@ -11,10 +11,9 @@ import { useForm } from 'react-hook-form';
 import { IApiResponse, IPaginationModel } from '@/src/interfaces/common';
 import { useQuery } from '@/src/utils/hooks';
 import { getPets } from '@/src/services/pet.api';
-import { NoResultBackgound } from '../general/NoResultBackground';
+import { NoResultBackground } from '../general/NoResultBackground';
 import { IPetFilterRequest, IPetResponse } from '@/src/interfaces/pet';
 import { PAGE_SIZE, PET_FILTERS, QUERY_KEYS } from '@/src/utils/constants';
-import { get } from 'http';
 import CardSkeleton from '../general/CardSkeleton';
 
 export const SearchPetSection = QueryProvider(() => {
@@ -122,7 +121,7 @@ export const SearchPetSection = QueryProvider(() => {
                     ))
                   : pets.map((pet) => <PetCard key={pet.id} {...pet} />)}
               </div>
-              <NoResultBackgound show={pets.length === 0} />
+              <NoResultBackground show={pets.length === 0} />
               <div className="flex items-center justify-center mt-5">
                 <Pagination
                   paginationForm={paginationForm}

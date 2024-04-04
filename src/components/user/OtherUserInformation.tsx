@@ -9,7 +9,7 @@ import { IApiResponse } from '@/src/interfaces/common';
 import { useQuery } from '@/src/utils/hooks';
 import { QUERY_KEYS, STATIC_URLS } from '@/src/utils/constants';
 import { getErrorMessage } from '@/src/helpers/getErrorMessage';
-import { NoResultBackgound } from '../general/NoResultBackground';
+import { NoResultBackground } from '../general/NoResultBackground';
 import { ClipLoader } from 'react-spinners';
 import { GoReport } from 'react-icons/go';
 
@@ -45,7 +45,7 @@ export const OtherUserInformation = QueryProvider(
         )}
         {!getUserQuery.isLoading &&
           (error ? (
-            <NoResultBackgound className="h-fit-screen w-full items-center" />
+            <NoResultBackground className="h-fit-screen w-full items-center" />
           ) : (
             <>
               <div className="container max-w-3xl p-5 mx-auto shadow-2xl rounded-2xl mt-36">
