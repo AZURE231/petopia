@@ -2,15 +2,15 @@ import Image from 'next/image';
 import { STATIC_URLS } from '../../utils/constants';
 
 interface INoResultBackground {
-  show?: boolean,
-  className?: string
+  show?: boolean;
+  className?: string;
 }
 
-export const NoResultBackgound = (props: INoResultBackground) => {
+export const NoResultBackground = (props: INoResultBackground) => {
   const { show = true, className = '' } = props;
 
-  return show
-    ? <div className={`flex justify-center ${className}`}>
+  return show ? (
+    <div className={`flex justify-center ${className}`}>
       <Image
         src={STATIC_URLS.NO_RESULT}
         alt={'noresult'}
@@ -18,5 +18,7 @@ export const NoResultBackgound = (props: INoResultBackground) => {
         width={300}
       />
     </div>
-    : <></>;
+  ) : (
+    <></>
+  );
 };

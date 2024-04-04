@@ -8,15 +8,13 @@ import { QueryProvider } from '../general/QueryProvider';
 import { PetSortBlock } from './PetSortBlock';
 import { PetFilterBar } from './PetFilterBar';
 import { useForm } from 'react-hook-form';
-import {
-  IApiResponse,
-  IPaginationModel
-} from '@/src/interfaces/common';
+import { IApiResponse, IPaginationModel } from '@/src/interfaces/common';
 import { useQuery } from '@/src/utils/hooks';
 import { getPets } from '@/src/services/pet.api';
-import { NoResultBackgound } from '../general/NoResultBackground';
+import { NoResultBackground } from '../general/NoResultBackground';
 import { IPetFilterRequest, IPetResponse } from '@/src/interfaces/pet';
 import { PAGE_SIZE, PET_FILTERS, QUERY_KEYS } from '@/src/utils/constants';
+import CardSkeleton from '../general/CardSkeleton';
 
 export const SearchPetSection = QueryProvider(() => {
   // STATES
@@ -26,24 +24,30 @@ export const SearchPetSection = QueryProvider(() => {
   // FORMS
   const [orderBy, setOrderBy] = useState<'newest' | 'popular'>('newest');
   const filterFrom = useForm<IPetFilterRequest>({
-    defaultValues: { text: '' }
+    defaultValues: { text: '' },
   });
   const paginationForm = useForm<IPaginationModel>({
     defaultValues: {
       pageIndex: 1,
       pageNumber: 1,
-    }
+    },
   });
 
   // GET PETS QUERY
   const getPetsQuery = useQuery<IApiResponse<IPetResponse[]>>(
-    [QUERY_KEYS.GET_PETS, orderBy, filterFrom.watch(), paginationForm.watch('pageIndex')],
-    () => getPets({
-      pageIndex: paginationForm.getValues('pageIndex'),
-      pageSize: PAGE_SIZE,
-      orderBy: orderBy,
-      filter: filterFrom.getValues(),
-    }),
+    [
+      QUERY_KEYS.GET_PETS,
+      orderBy,
+      filterFrom.watch(),
+      paginationForm.watch('pageIndex'),
+    ],
+    () =>
+      getPets({
+        pageIndex: paginationForm.getValues('pageIndex'),
+        pageSize: PAGE_SIZE,
+        orderBy: orderBy,
+        filter: filterFrom.getValues(),
+      }),
     {
       onSuccess: (res) => {
         const { data, pageNumber } = res.data;
@@ -51,7 +55,7 @@ export const SearchPetSection = QueryProvider(() => {
         pageNumber && paginationForm.setValue('pageNumber', pageNumber);
       },
       refetchOnWindowFocus: false,
-    },
+    }
   );
 
   return (
@@ -79,13 +83,13 @@ export const SearchPetSection = QueryProvider(() => {
                 disable={getPetsQuery.isFetching}
               />
               <div className="flex items-center justify-end w-full">
-                {
-                  filterFrom.getValues('text') ?
-                    <div className='flex-1 text-xl italic font-light'>
-                      {`Hiễn thị kết quả cho: ${filterFrom.getValues('text')}`}
-                    </div>
-                    : <></>
-                }
+                {filterFrom.getValues('text') ? (
+                  <div className="flex-1 text-xl italic font-light">
+                    {`Hiễn thị kết quả cho: ${filterFrom.getValues('text')}`}
+                  </div>
+                ) : (
+                  <></>
+                )}
                 <PetSortBlock
                   orderBy={orderBy}
                   setOrderBy={setOrderBy}
@@ -111,11 +115,13 @@ export const SearchPetSection = QueryProvider(() => {
                 </button>
               </div>
               <div className="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 xl:gap-x-8">
-                {
-                  pets.map(pet => <PetCard key={pet.id} {...pet} />)
-                }
+                {getPetsQuery.isLoading
+                  ? Array.from({ length: PAGE_SIZE }).map((_, index) => (
+                      <CardSkeleton key={index} />
+                    ))
+                  : pets.map((pet) => <PetCard key={pet.id} {...pet} />)}
               </div>
-              <NoResultBackgound show={pets.length === 0} />
+              <NoResultBackground show={pets.length === 0} />
               <div className="flex items-center justify-center mt-5">
                 <Pagination
                   paginationForm={paginationForm}
