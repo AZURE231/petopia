@@ -119,7 +119,9 @@ export const SearchPetSection = QueryProvider(() => {
                   ? Array.from({ length: PAGE_SIZE }).map((_, index) => (
                       <CardSkeleton key={index} />
                     ))
-                  : pets.map((pet) => <PetCard key={pet.id} {...pet} />)}
+                  : pets.map((pet) => (
+                      <PetCard isEditable={false} key={pet.id} {...pet} />
+                    ))}
               </div>
               <NoResultBackground show={pets.length === 0} />
               <div className="flex items-center justify-center mt-5">

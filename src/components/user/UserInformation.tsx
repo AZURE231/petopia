@@ -158,7 +158,11 @@ export const UserInformation = QueryProvider(() => {
           )}
         </div>
       )}
-      <ListCards title="Thú cưng của bạn" data={userInfo?.pets!} />
+      <ListCards
+        title="Thú cưng của bạn"
+        isEditable={true}
+        data={userInfo?.pets!}
+      />
     </div>
   );
 });
