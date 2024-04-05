@@ -20,6 +20,7 @@ export const STATIC_URLS = {
 
 export const COOKIES_NAME = {
   ACCESS_TOKEN_SERVER: 'accessTokenServer',
+  REFRESH_TOKEN_SERVER: 'accessTokenServer',
   REDIRECT: 'redirect',
 };
 
