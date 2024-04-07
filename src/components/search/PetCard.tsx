@@ -7,16 +7,26 @@ import { Alert } from '../general/Alert';
 import { useState } from 'react';
 import { useMutation, useQuery } from '@/src/utils/hooks';
 import { deletePet } from '@/src/services/pet.api';
+import { CiEdit } from 'react-icons/ci';
+import Popup from 'reactjs-popup';
+import PetProfileForm from '../petProfileForm/PetProfileForm';
 
 type IPetCard = IPetResponse & { isEditable: boolean };
 
 export function PetCard(props: IPetCard) {
   const { id, name, breed, sex, age, image, isEditable } = props;
   const [showAlert, setShowAlert] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+  const handleClose = () => setShowEdit(false);
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     setShowAlert(true);
   };
+
+  const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setShowEdit(!showEdit);
+  };
+
   const deletePetMutation = useMutation(deletePet, {
     onSuccess: () => {
       console.log('Delete pet success');
@@ -59,7 +69,24 @@ export function PetCard(props: IPetCard) {
         </div>
       </Link>
       {isEditable && (
-        <div className="absolute top-2 right-2">
+        <div className="absolute top-2 right-2 flex gap-1">
+          <Popup
+            modal
+            overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
+            open={showEdit}
+            onClose={handleClose}
+            trigger={
+              <button
+                className="p-2 bg-gray-200 rounded-full hover:bg-gray-300"
+                onClick={handleEdit}
+              >
+                <CiEdit size={20} />
+              </button>
+            }
+          >
+            <PetProfileForm id={id} />
+          </Popup>
+
           <button
             className="p-2 bg-gray-200 rounded-full hover:bg-gray-300"
             onClick={handleDelete}

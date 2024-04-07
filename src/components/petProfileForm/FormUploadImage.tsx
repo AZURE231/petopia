@@ -2,22 +2,22 @@
 import { useEffect, useState } from 'react';
 import ControlForm from './ControlForm';
 import Image from 'next/image';
-import { UseFormGetValues, UseFormSetValue } from 'react-hook-form';
+import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import { ICreatePetProfileRequest } from '@/src/interfaces/pet';
 
 export default function FormUploadImage({
   handleNext,
   setValue,
-  getValue,
+  watch,
 }: {
   handleNext: () => void;
   setValue: UseFormSetValue<ICreatePetProfileRequest>;
-  getValue: UseFormGetValues<ICreatePetProfileRequest>;
+  watch: UseFormWatch<ICreatePetProfileRequest>;
 }) {
   const [files, setFiles] = useState<string[]>([]);
   useEffect(() => {
-    setFiles(getValue('files'));
-  }, []);
+    setFiles(watch('files'));
+  }, [watch('files')]);
   const handleAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
     if (fileList) {
