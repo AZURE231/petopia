@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 export default function Breadscrum() {
@@ -5,12 +6,12 @@ export default function Breadscrum() {
     <nav className="flex" aria-label="Breadcrumb">
       <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
         <li className="inline-flex items-center">
-          <a
-            href="#"
+          <Link
+            href="/"
             className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white"
           >
             Home
-          </a>
+          </Link>
         </li>
         <li>
           <div className="flex items-center">
@@ -29,12 +30,12 @@ export default function Breadscrum() {
                 d="m1 9 4-4-4-4"
               />
             </svg>
-            <a
+            <Link
               href="#"
               className="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white"
             >
               Projects
-            </a>
+            </Link>
           </div>
         </li>
         <li aria-current="page">
