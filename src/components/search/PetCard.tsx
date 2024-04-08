@@ -17,7 +17,10 @@ export function PetCard(props: IPetCard) {
   const { id, name, breed, sex, age, image, isEditable } = props;
   const [showAlert, setShowAlert] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  const handleClose = () => setShowEdit(false);
+  const handleClose = () => {
+    console.log('Close modal');
+    setShowEdit(false);
+  };
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     setShowAlert(true);
@@ -73,8 +76,6 @@ export function PetCard(props: IPetCard) {
           <Popup
             modal
             overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
-            open={showEdit}
-            onClose={handleClose}
             trigger={
               <button
                 className="p-2 bg-gray-200 rounded-full hover:bg-gray-300"
@@ -84,7 +85,7 @@ export function PetCard(props: IPetCard) {
               </button>
             }
           >
-            <PetProfileForm id={id} />
+            <PetProfileForm id={id} handleClose={handleClose} />
           </Popup>
 
           <button

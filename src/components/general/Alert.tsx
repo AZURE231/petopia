@@ -96,7 +96,7 @@ export function Alert(props: IAlert) {
                     </div>
                   </div>
                 </div>
-                <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-2 flex">
                   <button
                     type="button"
                     onClick={() => handleOnClose(false)}

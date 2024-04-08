@@ -7,7 +7,7 @@ export default function page() {
   return (
     <div>
       <div className="container mx-auto my-10">
-        <Breadscrum />
+        {/* <Breadscrum /> */}
         <div className="flex items-center justify-center mt-5">
           <Image
             alt="banner search"
