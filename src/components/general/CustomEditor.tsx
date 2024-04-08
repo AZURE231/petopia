@@ -1,6 +1,4 @@
-// src/components/general/CustomEditor.tsx
-
-import React from "react";
+import React, { useState } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import Editor from "ckeditor5-custom-build/build/ckeditor";
 
@@ -9,66 +7,36 @@ interface CustomEditorProps {
 }
 
 const editorConfiguration = {
-  toolbar: {
-    items: [
-      'heading',
-      '|',
-      'bold',
-      'italic',
-      'link',
-      'bulletedList',
-      'numberedList',
-      'alignment',
-      '|',
-      'outdent',
-      'indent',
-      'fontSize',
-      '|',
-      // 'ckbox',
-      // 'imageInsert',
-      // '|',
-      'imageUpload',
-      'blockQuote',
-      'insertTable',
-      'mediaEmbed',
-      'undo',
-      'redo'
-    ]
-  },
-  language: 'vi',
-  image: {
-    toolbar: [
-      'imageTextAlternative',
-      'toggleImageCaption',
-      'imageStyle:inline',
-      'imageStyle:block',
-      'imageStyle:side'
-    ]
-  },
-  table: {
-    contentToolbar: [
-      'tableColumn',
-      'tableRow',
-      'mergeTableCells'
-    ]
-  }
-};
-
-const handleSubmit = () => {
-  console.log("Submit");
+  // your CKEditor configuration
 };
 
 const CustomEditor: React.FC<CustomEditorProps> = (props) => {
+  const [editorData, setEditorData] = useState(props.initialData);
+  const [blogTitle, setBlogTitle] = useState(""); // State to hold the blog title
+
+  const handleSubmit = () => {
+    console.log("Submit");
+    console.log("Title:", blogTitle); // Log the title along with the editor data
+    console.log("Editor Data:", editorData);
+    // Further actions for submitting the blog
+  };
+
   return (
     <div>
-      <script src="https://example.com/ckfinder/ckfinder.js"></script>
+      <input
+        type="text"
+        placeholder="Enter blog title"
+        value={blogTitle}
+        onChange={(e) => setBlogTitle(e.target.value)}
+        className="w-full p-3 px-8 rounded-full font-bold shadow-md bg-white border border-gray-300 mb-5"
+      />
       <CKEditor
         editor={Editor}
         config={editorConfiguration}
         data={props.initialData}
         onChange={(event, editor) => {
           const data = editor.getData();
-          console.log({ event, editor, data });
+          setEditorData(data);
         }}
       />
       <button

@@ -8,20 +8,20 @@ import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
 import { Alignment } from '@ckeditor/ckeditor5-alignment';
 import { Autoformat } from '@ckeditor/ckeditor5-autoformat';
 import { Autosave } from '@ckeditor/ckeditor5-autosave';
-import { Bold, Italic } from '@ckeditor/ckeditor5-basic-styles';
+import { Bold } from '@ckeditor/ckeditor5-basic-styles';
 import { BlockQuote } from '@ckeditor/ckeditor5-block-quote';
 import { CKBox } from '@ckeditor/ckeditor5-ckbox';
 import { CloudServices } from '@ckeditor/ckeditor5-cloud-services';
 import type { EditorConfig } from '@ckeditor/ckeditor5-core';
 import { Essentials } from '@ckeditor/ckeditor5-essentials';
-import { FindAndReplace } from '@ckeditor/ckeditor5-find-and-replace';
-import { FontSize } from '@ckeditor/ckeditor5-font';
-import { Heading, Title } from '@ckeditor/ckeditor5-heading';
+import { FontColor, FontSize } from '@ckeditor/ckeditor5-font';
+import { Heading } from '@ckeditor/ckeditor5-heading';
 import {
 	AutoImage,
 	Image,
 	ImageCaption,
 	ImageInsert,
+	ImageResize,
 	ImageStyle,
 	ImageToolbar,
 	ImageUpload,
@@ -29,13 +29,13 @@ import {
 } from '@ckeditor/ckeditor5-image';
 import { Indent } from '@ckeditor/ckeditor5-indent';
 import { AutoLink, Link } from '@ckeditor/ckeditor5-link';
-import { List, TodoList } from '@ckeditor/ckeditor5-list';
+import { List } from '@ckeditor/ckeditor5-list';
 import { MediaEmbed } from '@ckeditor/ckeditor5-media-embed';
+import { Mention } from '@ckeditor/ckeditor5-mention';
 import { Paragraph } from '@ckeditor/ckeditor5-paragraph';
 import { PasteFromOffice } from '@ckeditor/ckeditor5-paste-from-office';
 import { Table, TableToolbar } from '@ckeditor/ckeditor5-table';
 import { TextTransformation } from '@ckeditor/ckeditor5-typing';
-import { AccessibilityHelp } from '@ckeditor/ckeditor5-ui';
 import { Undo } from '@ckeditor/ckeditor5-undo';
 import { WordCount } from '@ckeditor/ckeditor5-word-count';
 
@@ -44,7 +44,6 @@ import { WordCount } from '@ckeditor/ckeditor5-word-count';
 
 class Editor extends ClassicEditor {
 	public static override builtinPlugins = [
-		AccessibilityHelp,
 		Alignment,
 		AutoImage,
 		AutoLink,
@@ -55,28 +54,27 @@ class Editor extends ClassicEditor {
 		CKBox,
 		CloudServices,
 		Essentials,
-		FindAndReplace,
+		FontColor,
 		FontSize,
 		Heading,
 		Image,
 		ImageCaption,
 		ImageInsert,
+		ImageResize,
 		ImageStyle,
 		ImageToolbar,
 		ImageUpload,
 		Indent,
-		Italic,
 		Link,
 		List,
 		MediaEmbed,
+		Mention,
 		Paragraph,
 		PasteFromOffice,
 		PictureEditing,
 		Table,
 		TableToolbar,
 		TextTransformation,
-		Title,
-		TodoList,
 		Undo,
 		WordCount
 	];
@@ -86,19 +84,15 @@ class Editor extends ClassicEditor {
 			items: [
 				'heading',
 				'|',
+				'fontSize',
 				'bold',
-				'italic',
 				'link',
 				'bulletedList',
 				'numberedList',
-				'alignment',
 				'|',
+				'alignment',
 				'outdent',
 				'indent',
-				'fontSize',
-				'|',
-				'ckbox',
-				'imageInsert',
 				'|',
 				'imageUpload',
 				'blockQuote',
