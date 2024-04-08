@@ -54,6 +54,7 @@ const PetProfileForm = QueryProvider(({ id = '' }: { id?: string }) => {
       files: [],
       imagesFile: null,
       images: [],
+      id: id,
     },
   });
 
