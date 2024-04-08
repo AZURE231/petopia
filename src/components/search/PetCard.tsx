@@ -11,7 +11,7 @@ import { CiEdit } from 'react-icons/ci';
 import Popup from 'reactjs-popup';
 import PetProfileForm from '../petProfileForm/PetProfileForm';
 
-type IPetCard = IPetResponse & { isEditable: boolean };
+type IPetCard = IPetResponse & { isEditable?: boolean };
 
 export function PetCard(props: IPetCard) {
   const { id, name, breed, sex, age, image, isEditable } = props;

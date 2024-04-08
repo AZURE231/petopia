@@ -106,6 +106,8 @@ export const UserInformation = QueryProvider(() => {
                     ' ' +
                     userInfo.attributes.lastName}
               </h1>
+              {userInfo?.userRole == 1 && <div>System admin</div>}
+              {userInfo?.userRole == 2 && <div>Organization</div>}
             </div>
 
             <button onClick={handleEdit}>
