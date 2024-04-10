@@ -1,7 +1,7 @@
 'use client';
 import { QueryProvider } from '@/src/components/general/QueryProvider';
 import SeeMore from '@/src/components/general/SeeMore';
-import PetAdoptButton from '@/src/components/petAdoptForm/PetAdoptButton';
+import { PetAdoptButton } from '@/src/components/petAdoptForm/PetAdoptButton';
 import {
   getPetAgeText,
   getPetColorText,
