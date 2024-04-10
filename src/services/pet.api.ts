@@ -18,3 +18,9 @@ export const postPet = async (data: ICreatePetProfileRequest) =>
 
 export const getPetDetail = async (data: { id: string }) =>
   await http.get(`/Pet/${data.id}/Details`);
+
+export const deletePet = async (data: { id: string }) =>
+  await http.delete(`/Pet/${data.id}`);
+
+export const updatePet = async (data: ICreatePetProfileRequest) =>
+  await http.put('/Pet', data);

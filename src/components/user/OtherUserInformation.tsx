@@ -66,6 +66,8 @@ export const OtherUserInformation = QueryProvider(
                           ' ' +
                           userInfo.attributes.lastName}
                     </h1>
+                    {userInfo?.userRole == 1 && <div>System admin</div>}
+                    {userInfo?.userRole == 2 && <div>Organization</div>}
                   </div>
                 </div>
                 <div className="md:px-10">

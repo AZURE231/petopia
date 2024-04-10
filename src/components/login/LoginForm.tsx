@@ -139,12 +139,12 @@ export const LoginForm = QueryProvider(() => {
                   </label>
                 </div>
               </div>
-              <a
+              <Link
                 className="text-sm font-medium text-primary-600 hover:underline "
                 href="/login/forgot-password"
               >
                 Quên mật khẩu?
-              </a>
+              </Link>
             </div>
             <button
               type="submit"
