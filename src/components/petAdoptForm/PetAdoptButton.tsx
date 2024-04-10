@@ -7,9 +7,7 @@ export default function PetAdoptButton() {
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
   const checkLoggedIn = () => {
-    {
-      /*#TODO: Check if User is Logged in, if not: inform and direct to loggin page */
-    }
+   
     // if (localStorage.getItem("token")) {
     //   setOpen(true);
     // } else {
