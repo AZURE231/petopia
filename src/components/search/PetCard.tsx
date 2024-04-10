@@ -18,8 +18,7 @@ export function PetCard(props: IPetCard) {
   const [showAlert, setShowAlert] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const handleClose = () => {
-    console.log('Close modal');
-    setShowEdit(false);
+    window.location.reload();
   };
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
