@@ -3,7 +3,8 @@ import { IPaginationRequest } from '../interfaces/common';
 import {
   ICreatePetProfileRequest,
   ILocationRequest,
-  IPetFilterRequest
+  IPetDetailResponse,
+  IPetFilterRequest,
 } from '../interfaces/pet';
 
 export const getPets = async (data: IPaginationRequest<IPetFilterRequest>) =>
@@ -14,3 +15,6 @@ export const getProvince = async (req: ILocationRequest) =>
 
 export const postPet = async (data: ICreatePetProfileRequest) =>
   await http.post('/Pet', data);
+
+export const getPetDetail = async (data: { id: string }) =>
+  await http.get(`/Pet/${data.id}/Details`);

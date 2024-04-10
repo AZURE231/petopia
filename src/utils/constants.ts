@@ -20,6 +20,7 @@ export const STATIC_URLS = {
 
 export const COOKIES_NAME = {
   ACCESS_TOKEN_SERVER: 'accessTokenServer',
+  REFRESH_TOKEN_SERVER: 'accessTokenServer',
   REDIRECT: 'redirect',
 };
 
@@ -31,6 +32,9 @@ export const DOMAIN_ERROR_MESSAGES = {
   '10004': 'Link khôi phục mật khẩu hết hạn.',
   '10005': 'Google captcha không hợp lệ.',
   '10006': 'Email được sử dụng cho phương thức đăng nhập khác.',
+  '10007': 'Mật khẩu mới không được trùng với mật khẩu hiện tại',
+  '10008': 'Không tìm thấy người dùng.',
+  '10009': 'Mật khẩu không đúng.',
 };
 
 export const QUERY_KEYS = {
@@ -39,6 +43,8 @@ export const QUERY_KEYS = {
   GET_PETS: 'GET_PETS',
   GET_LOCATION: 'GET_LOCATION',
   GET_CURRENT_USER_CORE: 'GET_CURRENT_USER_CORE',
+  GET_CURRENT_USER: 'GET_CURRENT_USER',
+  GET_OTHER_USER: 'GET_OTHER_USER',
 };
 
 export const EVENT_NAMES = {
