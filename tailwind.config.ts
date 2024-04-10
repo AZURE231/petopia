@@ -20,7 +20,7 @@ const config: Config = {
           },
           '100%': {
             opacity: '1',
-          }
+          },
         },
         fade_out: {
           '0%': {
@@ -28,8 +28,8 @@ const config: Config = {
           },
           '100%': {
             opacity: '0',
-          }
-        }
+          },
+        },
       },
       animation: {
         fade_in: 'fade_in 0.2s linear',
@@ -37,7 +37,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
 };
 
 export default config;

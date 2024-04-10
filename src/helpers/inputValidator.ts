@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 
-export const isEmail = (email: string) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+export const isEmail = (email: string) =>
+  /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
 
 export const isPassword = (password: string) => /^.{8,}$/.test(password);
 
@@ -26,3 +27,8 @@ export const checkPasswordFormat = (
     setter('');
   }
 };
+
+// input validation for pet form
+export const isEmpty = (value: string) => value.trim() === '';
+
+export const isNotChecked = (value: number) => value === -1;

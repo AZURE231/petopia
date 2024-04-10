@@ -1,8 +1,7 @@
-import Cookies from 'js-cookie';
-import { COOKIES_NAME } from '../utils/constants';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { IApiErrorResponse } from '../interfaces/common';
 import { API_ROUTE } from '@/settings';
+import { deleteCookie, getCookie } from 'cookies-next';
+import { COOKIES_NAME } from '../utils/constants';
 
 const UNAUTHORIZED = 401;
 
@@ -42,19 +41,16 @@ class Http {
     this.urlAPI = urlAPI;
   }
 
-  getUrlAPI() {
-    return this.urlAPI;
-  }
-
   initHttp() {
     const http = axios.create({
       baseURL: this.urlAPI,
       headers,
       withCredentials: true,
     });
+
     http.interceptors.request.use((config) => {
-      config.headers.Authorization = `Bearer ${Cookies.get(
-        COOKIES_NAME.ACCESS_TOKEN
+      config.headers.Authorization = `Bearer ${getCookie(
+        COOKIES_NAME.ACCESS_TOKEN_SERVER
       )}`;
       return config;
     });
@@ -63,8 +59,15 @@ class Http {
       (response) => response,
       (error) => {
         const { response } = error;
-        this.handleError(response);
-        if (response) return Promise.reject(response);
+        if (response) {
+          const { status } = response;
+          if (status === UNAUTHORIZED) {
+            deleteCookie(COOKIES_NAME.ACCESS_TOKEN_SERVER);
+            deleteCookie(COOKIES_NAME.REFRESH_TOKEN_SERVER);
+            window.location.replace('/login');
+          }
+          if (response) return Promise.reject(response);
+        }
         return Promise.reject();
       }
     );
@@ -103,11 +106,6 @@ class Http {
     config?: AxiosRequestConfig
   ): Promise<AxiosResponse<R>> {
     return this.http.delete<T, AxiosResponse<R>>(url, config);
-  }
-
-  private handleError(error: AxiosResponse<IApiErrorResponse>) {
-    if (error)
-      error.status === UNAUTHORIZED && window.location.replace('/login');
   }
 }
 
