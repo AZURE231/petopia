@@ -7,11 +7,15 @@ import { observer } from "mobx-react-lite";
 import { useStores } from "@/src/stores";
 import { Alert } from "../general/Alert";
 import { set } from "mobx"; // Not sure if this import is necessary
+import { setCookie } from "cookies-next";
+import { COOKIES_NAME } from "@/src/utils/constants";
+import { usePathname } from "next/navigation";
 
 export const PetAdoptButton = observer(() => {
   const [open, setOpen] = useState(false); // State to control the popup visibility
   const [alertShow, setAlertShow] = useState(false); // State to control the alert visibility
   const { userStore } = useStores(); // Accessing the userStore from MobX
+  const pathname = usePathname(); // Not sure if this is necessary
 
   // Function to handle closing the popup
   const handleClose = () => setOpen(false);
@@ -36,7 +40,8 @@ export const PetAdoptButton = observer(() => {
         setShow={setAlertShow}
         action={() => {
           // Redirecting to the login page when the alert is closed
-          window.location.href = "/login";
+          setCookie(COOKIES_NAME.REDIRECT, pathname );
+          window.location.href = "/login"; 
         }}
       />
       <button
