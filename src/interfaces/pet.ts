@@ -67,6 +67,7 @@ export interface ICreatePetProfileRequest {
   files: string[];
   imagesFile: FileList | null;
   images: string[];
+  id?: string;
 }
 
 export interface ILocationResponse {

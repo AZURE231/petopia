@@ -2,7 +2,10 @@ import AttributeSelect from './AttributeSelect';
 import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import ControlForm from './ControlForm';
 import { PET_SELECT } from '@/src/utils/constants';
-import { ICreatePetProfileRequest } from '@/src/interfaces/pet';
+import {
+  ICreatePetProfileRequest,
+  IPetDetailResponse,
+} from '@/src/interfaces/pet';
 
 export default function FormPetDetail({
   handleNext,

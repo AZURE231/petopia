@@ -106,6 +106,8 @@ export const UserInformation = QueryProvider(() => {
                     ' ' +
                     userInfo.attributes.lastName}
               </h1>
+              {userInfo?.userRole == 1 && <div>System admin</div>}
+              {userInfo?.userRole == 2 && <div>Organization</div>}
             </div>
 
             <button onClick={handleEdit}>
@@ -158,7 +160,11 @@ export const UserInformation = QueryProvider(() => {
           )}
         </div>
       )}
-      <ListCards title="Thú cưng của bạn" data={userInfo?.pets!} />
+      <ListCards
+        title="Thú cưng của bạn"
+        isEditable={true}
+        data={userInfo?.pets!}
+      />
     </div>
   );
 });
