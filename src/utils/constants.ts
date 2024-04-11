@@ -35,6 +35,8 @@ export const DOMAIN_ERROR_MESSAGES = {
   '10007': 'Mật khẩu mới không được trùng với mật khẩu hiện tại',
   '10008': 'Không tìm thấy người dùng.',
   '10009': 'Mật khẩu không đúng.',
+  '12002': 'Không thể nhận nuôi thú cưng của chính bạn.',
+  '12003': 'Bạn đã gửi yêu cầu nhận nuôi thú cưng này rồi.',
 };
 
 export const QUERY_KEYS = {
@@ -45,6 +47,8 @@ export const QUERY_KEYS = {
   GET_CURRENT_USER_CORE: 'GET_CURRENT_USER_CORE',
   GET_CURRENT_USER: 'GET_CURRENT_USER',
   GET_OTHER_USER: 'GET_OTHER_USER',
+  GET_USER_INFO_FOR_ADOPTION: 'GET_USER_INFO_FOR_ADOPTION',
+  PRE_CHECK_ADOPTION: 'PRE_CHECK_ADOPTION',
 };
 
 export const EVENT_NAMES = {
@@ -100,17 +104,17 @@ export enum PET_MEDICAL_STATUS {
 
 export enum HOUSE_TYPE {
   Apartment = 0,
-		House = 1,
-		Dormitory = 2,
-		Shelter = 3,
-		Other = 4,
+  House = 1,
+  Dormitory = 2,
+  Shelter = 3,
+  Other = 4,
 }
 
 export enum ADOPT_DELAY_DURATION {
   Immediately,
-		FewDays,
-		OneWeek,
-    Other,
+  FewDays,
+  OneWeek,
+  Other,
 }
 
 //////////////////////////////////////////////////////////////////
@@ -339,46 +343,42 @@ export const BLOG_CATEGORIES = [
 
 export const HOUSE_TYPE_OPTION = [
   {
-    label:"Chung cư",
+    label: 'Chung cư',
     value: HOUSE_TYPE.Apartment
   },
-
   {
-    label: "Nhà riêng",
+    label: 'Nhà riêng',
     value: HOUSE_TYPE.House
   },
   {
-    label: "Kí túc xá",
+    label: 'Kí túc xá',
     value: HOUSE_TYPE.Dormitory
   },
   {
-    label: "Trạm cứu hộ",
+    label: 'Trạm cứu hộ',
     value: HOUSE_TYPE.Shelter
   },
   {
-    label: "Khác",
+    label: 'Khác',
     value: HOUSE_TYPE.Other
   }
-]
+];
 
 export const ADOPT_TIME_OPTION = [
   {
-    label: "Ngay lập tức",
+    label: 'Ngay lập tức',
     value: ADOPT_DELAY_DURATION.Immediately
   },
   {
-    label: "Vài ngày",
+    label: 'Vài ngày',
     value: ADOPT_DELAY_DURATION.FewDays
   },
   {
-    label: "1 tuần",
+    label: '1 tuần',
     value: ADOPT_DELAY_DURATION.OneWeek
   },
   {
-    label: "Khác",
+    label: 'Chưa rõ',
     value: ADOPT_DELAY_DURATION.Other
   }
-]
-
-
-
+];

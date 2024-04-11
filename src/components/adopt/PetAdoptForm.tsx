@@ -1,34 +1,35 @@
-import { IApiResponse } from "@/src/interfaces/common";
-import { IAdoptPetRequest } from "@/src/interfaces/pet";
-import { getUserInfo } from "@/src/services/user.api";
+import { IApiResponse } from '@/src/interfaces/common';
+import { getUserInfo } from '@/src/services/user.api';
 import {
   ADOPT_TIME_OPTION,
   HOUSE_TYPE_OPTION,
-} from "@/src/utils/constants";
-import { useMutation, useQuery } from "@/src/utils/hooks";
-import React, { useState } from "react";
-import AddressDropdown from "../user/AddressDropdown";
-import { useForm } from "react-hook-form";
-import { IUserInfo } from "@/src/interfaces/user";
-import { usePathname } from "next/navigation";
-import { sendAdoptRequest } from "@/src/services/pet.api";
-import { Alert } from "../general/Alert";
-
+  QUERY_KEYS,
+} from '@/src/utils/constants';
+import { useMutation, useQuery } from '@/src/utils/hooks';
+import React, { useState } from 'react';
+import AddressDropdown from '../user/AddressDropdown';
+import { useForm } from 'react-hook-form';
+import { IUserInfo } from '@/src/interfaces/user';
+import { usePathname } from 'next/navigation';
+import { Alert } from '../general/Alert';
+import { preCheckAdoption, sendAdoptRequest } from '@/src/services/adopt.api';
+import { IAdoptPetRequest } from '@/src/interfaces/adopt';
+import { getErrorMessage } from '@/src/helpers/getErrorMessage';
 
 interface Props {
   handleClose: () => void;
 }
 
 export default function PetAdoptForm({ handleClose }: Props) {
-  const houseType = HOUSE_TYPE_OPTION;
-  const adoptTime = ADOPT_TIME_OPTION;
-  const [userInfo, setUserInfo] = useState<IUserInfo>();
   const pathname = usePathname();
 
-  const [alertMessage, setAlertMessage] = useState<string>("");
+  // STATES
+  const [userInfo, setUserInfo] = useState<IUserInfo>();
+  const [alertMessage, setAlertMessage] = useState<string>('');
   const [alertShow, setAlertShow] = useState<boolean>(false);
   const [alertFail, setAlertFail] = useState<boolean>(false);
 
+  // FORMS
   const { getValues, setValue, watch } = useForm<IAdoptPetRequest>({
     defaultValues: {
       phone: userInfo?.phone,
@@ -36,61 +37,85 @@ export default function PetAdoptForm({ handleClose }: Props) {
       districtCode: userInfo?.districtCode,
       wardCode: userInfo?.wardCode,
       street: userInfo?.street,
-      petId: pathname.split("/")[2],
+      petId: pathname.split('/')[2],
       adoptTime: 0,
       houseType: 0,
-      message: "",
+      message: '',
       isOwnerBefore: false,
     },
   });
 
-  useQuery<IApiResponse<IUserInfo>>(["getUserInfo"], getUserInfo, {
-    onSuccess: (res) => {
-      setUserInfo(res.data.data);
-      console.log(res.data.data);
-    },
-    onError: (err) => console.log(err),
-    refetchOnWindowFocus: false,
-  });
+  // HANDLERS
+  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    sendAdoptRequestMutation.mutate(getValues());
+  };
+
+  // PRE CHECK BEFORE OPEN FORM
+  const preCheckQuery = useQuery<IApiResponse<boolean>>(
+    [QUERY_KEYS.PRE_CHECK_ADOPTION],
+    () => preCheckAdoption(pathname.split('/')[2]),
+    {
+      onError: (err) => {
+        setAlertMessage(getErrorMessage(err.data.errorCode.toString()));
+        setAlertFail(true);
+        setAlertShow(true);
+      },
+      refetchOnWindowFocus: false,
+      retry: false,
+    }
+  );
+
+  // GET USER INFO AFTER PRE CHECK SUCCESSFULLY
+  useQuery<IApiResponse<IUserInfo>>(
+    [QUERY_KEYS.GET_USER_INFO_FOR_ADOPTION],
+    getUserInfo,
+    {
+      onSuccess: (res) => {
+        setUserInfo(res.data.data);
+        setValue('phone', res.data.data.phone);
+        setValue('provinceCode', res.data.data.provinceCode);
+        setValue('districtCode', res.data.data.districtCode);
+        setValue('wardCode', res.data.data.wardCode);
+        setValue('street', res.data.data.street);
+      },
+      refetchOnWindowFocus: false,
+      enabled: preCheckQuery.isSuccess,
+    }
+  );
 
   const sendAdoptRequestMutation = useMutation<
     IApiResponse<IUserInfo>,
     IAdoptPetRequest
   >(sendAdoptRequest, {
-    onError: (err) => {
-      setAlertMessage("Thất bại, kiểm tra lại thông tin nhập");
+    onError: () => {
+      setAlertMessage('Thất bại, kiểm tra lại thông tin nhập');
       setAlertFail(true);
       setAlertShow(true);
     },
-    onSuccess: (res) => {
-      setAlertMessage("Gửi yêu cầu nhận nuôi thành công");
+    onSuccess: () => {
+      setAlertMessage('Gửi yêu cầu nhận nuôi thành công');
       setAlertFail(false);
       setAlertShow(true);
     },
   });
-  // useEffect (() => {
-  //   if( !alertShow  && !alertFail ) {
-  //     handleClose();
-  //   }} , [alertShow]);
 
-  const handleSubmit = () => {
-    console.log("Submit form");
-    console.log(getValues());
-    sendAdoptRequestMutation.mutate(getValues());
-  };
   return (
     <div className="container p-5 mx-auto">
-      <div>
-        {/* form pet owner */}
-        <div className="w-full rounded-2xl bg-blue-200 p-5">
+      {
+        preCheckQuery.isSuccess &&
+        <form
+          className="w-full rounded-2xl bg-blue-200 p-5"
+          onSubmit={handleOnSubmit}
+        >
           <h2 className="font-bold mb-2">Đơn nhận nuôi thú cưng</h2>
           {/* form */}
           <div
             className="w-full p-5 mb-5 bg-gray-50 rounded-lg overflow-auto"
-            style={{ maxHeight: "400px" }}
+            style={{ maxHeight: '400px' }}
           >
-            <form className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {/* Tên chủ nhân */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {/* Tên người nhận nuôi */}
               <div className="flex flex-col space-y-2">
                 <label htmlFor="owner-name" className="text-sm font-medium">
                   Tên người nhận nuôi
@@ -101,7 +126,7 @@ export default function PetAdoptForm({ handleClose }: Props) {
                   type="text"
                   value={
                     userInfo?.attributes.firstName +
-                    " " +
+                    ' ' +
                     userInfo?.attributes.lastName
                   }
                   readOnly
@@ -118,14 +143,15 @@ export default function PetAdoptForm({ handleClose }: Props) {
                   id="owner-phone"
                   name="owner-phone"
                   type="tel"
-                  defaultValue={userInfo?.phone}
-                  onChange={(e) => setValue("phone", e.target.value)}
+                  required
+                  value={watch('phone')}
+                  onChange={(e) => setValue('phone', e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded-lg"
                 />
               </div>
 
               {/* Email */}
-              <div className="flex flex-col space-y-2">
+              <div className="flex flex-col space-y-2 col-span-2">
                 <label htmlFor="owner-email" className="text-sm font-medium">
                   Gmail
                 </label>
@@ -140,23 +166,26 @@ export default function PetAdoptForm({ handleClose }: Props) {
               </div>
               <div></div>
               <div className="flex flex-col space-y-2 col-span-2">
-                <AddressDropdown
-                  districtCode={watch("districtCode")}
-                  provinceCode={watch("provinceCode")}
-                  wardCode={watch("wardCode")}
-                  setProvinceCode={(code: string) => {
-                    setValue("provinceCode", code);
-                  }}
-                  setDistrictCode={(code: string) => {
-                    setValue("districtCode", code);
-                  }}
-                  setWardCode={(code: string) => {
-                    setValue("wardCode", code);
-                  }}
-                />
+                {
+                  userInfo &&
+                  <AddressDropdown
+                    districtCode={watch('districtCode')}
+                    provinceCode={watch('provinceCode')}
+                    wardCode={watch('wardCode')}
+                    setProvinceCode={(code: string) => {
+                      setValue('provinceCode', code);
+                    }}
+                    setDistrictCode={(code: string) => {
+                      setValue('districtCode', code);
+                    }}
+                    setWardCode={(code: string) => {
+                      setValue('wardCode', code);
+                    }}
+                  />
+                }
               </div>
               {/* Địa chỉ */}
-              <div className="flex flex-col space-y-2">
+              <div className="flex flex-col space-y-2 col-span-2">
                 <label htmlFor="owner-address" className="text-sm font-medium">
                   Số nhà, đường
                 </label>
@@ -164,11 +193,12 @@ export default function PetAdoptForm({ handleClose }: Props) {
                   id="owner-address"
                   name="owner-address"
                   type="text"
-                  onChange={(e) => setValue("street", e.target.value)}
+                  value={watch('street')}
+                  onChange={(e) => setValue('street', e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded-lg"
                 />
               </div>
-              <div className="flex flex-col space-y-2">
+              <div className="flex flex-col space-y-2 col-span-2">
                 <label className="text-sm font-medium">
                   Bạn từng là chủ nhân của thú cưng chưa?
                 </label>
@@ -180,7 +210,7 @@ export default function PetAdoptForm({ handleClose }: Props) {
                       type="radio"
                       value="yes"
                       onChange={(e) =>
-                        setValue("isOwnerBefore", e.target.value === "yes")
+                        setValue('isOwnerBefore', e.target.value === 'yes')
                       }
                       className="rounded-lg"
                     />
@@ -192,9 +222,10 @@ export default function PetAdoptForm({ handleClose }: Props) {
                       name="owner-pet"
                       type="radio"
                       value="no"
+                      checked
                       className="rounded-lg"
                       onChange={(e) =>
-                        setValue("isOwnerBefore", e.target.value === "no")
+                        setValue('isOwnerBefore', e.target.value === 'no')
                       }
                     />
                     <label htmlFor="owner-pet-no">Không</label>
@@ -211,10 +242,10 @@ export default function PetAdoptForm({ handleClose }: Props) {
                   name="owner-house"
                   className="w-full p-3 border border-gray-300 rounded-lg"
                   onChange={(e) =>
-                    setValue("houseType", parseInt(e.target.value))
+                    setValue('houseType', parseInt(e.target.value))
                   }
                 >
-                  {houseType.map((type) => (
+                  {HOUSE_TYPE_OPTION.map((type) => (
                     <option key={type.label} value={type.value}>
                       {type.label}
                     </option>
@@ -230,10 +261,10 @@ export default function PetAdoptForm({ handleClose }: Props) {
                   name="owner-time"
                   className="w-full p-3 border border-gray-300 rounded-lg"
                   onChange={(e) =>
-                    setValue("adoptTime", parseInt(e.target.value))
+                    setValue('adoptTime', parseInt(e.target.value))
                   }
                 >
-                  {adoptTime.map((time) => (
+                  {ADOPT_TIME_OPTION.map((time) => (
                     <option key={time.label} value={time.value}>
                       {time.label}
                     </option>
@@ -248,33 +279,29 @@ export default function PetAdoptForm({ handleClose }: Props) {
                 <textarea
                   id="owner-note"
                   name="owner-note"
-                  onChange={(e) => setValue("message", e.target.value)}
+                  required
+                  onChange={(e) => setValue('message', e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded-lg"
                 ></textarea>
               </div>
-            </form>
+            </div>
           </div>
           <div className="flex justify-center">
             <button
-              type="button"
+              type="submit"
               className="w-fit p-3 flex text-black bg-yellow-300 hover:bg-yellow-400 rounded-lg font-bold"
-              onClick={handleSubmit}
             >
               Hoàn thành
             </button>
           </div>
-        </div>
-      </div>
+        </form>
+      }
       <Alert
         failed={alertFail}
         message={alertMessage}
         show={alertShow}
         setShow={setAlertShow}
-        action={() => {
-          if (!alertFail) {
-            handleClose();
-          }
-        }}
+        action={handleClose}
       />
     </div>
   );

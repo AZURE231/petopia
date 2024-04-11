@@ -1,15 +1,14 @@
-"use client"; // Assuming this is for client-side code
+'use client'; // Assuming this is for client-side code
 
-import React, { useState } from "react";
-import Popup from "reactjs-popup";
-import PetAdoptForm from "./PetAdoptForm";
-import { observer } from "mobx-react-lite";
-import { useStores } from "@/src/stores";
-import { Alert } from "../general/Alert";
-import { set } from "mobx"; // Not sure if this import is necessary
-import { setCookie } from "cookies-next";
-import { COOKIES_NAME } from "@/src/utils/constants";
-import { usePathname } from "next/navigation";
+import React, { useState } from 'react';
+import Popup from 'reactjs-popup';
+import PetAdoptForm from './PetAdoptForm';
+import { observer } from 'mobx-react-lite';
+import { useStores } from '@/src/stores';
+import { Alert } from '../general/Alert';
+import { setCookie } from 'cookies-next';
+import { COOKIES_NAME } from '@/src/utils/constants';
+import { usePathname } from 'next/navigation';
 
 export const PetAdoptButton = observer(() => {
   const [open, setOpen] = useState(false); // State to control the popup visibility
@@ -40,8 +39,8 @@ export const PetAdoptButton = observer(() => {
         setShow={setAlertShow}
         action={() => {
           // Redirecting to the login page when the alert is closed
-          setCookie(COOKIES_NAME.REDIRECT, pathname );
-          window.location.href = "/login"; 
+          setCookie(COOKIES_NAME.REDIRECT, pathname);
+          window.location.href = '/login';
         }}
       />
       <button
@@ -53,7 +52,7 @@ export const PetAdoptButton = observer(() => {
       {/* Rendering the button with the popup trigger */}
       <Popup
         modal
-        overlayStyle={{ background: "rgba(0, 0, 0, 0.5)" }}
+        overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
         open={open} // Uncomment this if you want to control the popup visibility with state
         onClose={handleClose} // Uncomment this if you want to close the popup with the handleClose function
         onOpen={checkLoggedIn} // Triggering the checkLoggedIn function when the popup opens

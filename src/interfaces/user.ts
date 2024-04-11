@@ -30,20 +30,15 @@ export interface IChangePasswordResponse {
   oldPassword: string;
 }
 
-export interface IUserUpdate extends ILocationAtribute{
+export interface IUserUpdate {
   phone: string;
   firstName: string;
   lastName: string;
-
-  street: string;
-}
-
-export interface ILocationAtribute {
   provinceCode: string;
   districtCode: string;
   wardCode: string;
+  street: string;
 }
-
 
 export interface ICurrentUserCoreResponse {
   id: string;

@@ -1,7 +1,7 @@
 'use client';
 import { QueryProvider } from '@/src/components/general/QueryProvider';
 import SeeMore from '@/src/components/general/SeeMore';
-import { PetAdoptButton } from '@/src/components/petAdoptForm/PetAdoptButton';
+import { PetAdoptButton } from '@/src/components/adopt/PetAdoptButton';
 import {
   getPetAgeText,
   getPetColorText,
@@ -20,7 +20,6 @@ import Image from 'next/image';
 import Carousel from '@/src/components/general/Carousel';
 import PetDetailSkeleton from '@/src/components/general/PetDetailSkeleton';
 import { NoResultBackground } from '@/src/components/general/NoResultBackground';
-import { set } from 'mobx';
 
 const page = QueryProvider(({ params }: { params: { id: string } }) => {
   const [petDetail, setPetDetail] = useState<IPetDetailResponse>();
@@ -33,7 +32,7 @@ const page = QueryProvider(({ params }: { params: { id: string } }) => {
       onSuccess: (res) => {
         setPetDetail(res.data.data);
       },
-      onError: (err) => setError(true),
+      onError: () => setError(true),
       refetchOnWindowFocus: false,
     }
   );

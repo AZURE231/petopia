@@ -46,9 +46,7 @@ export const UserInformation = QueryProvider(() => {
       onSuccess: (res) => {
         setUserInfo(res.data.data);
         setImage(res.data.data.image);
-        console.log(res.data.data);
       },
-      onError: (err) => console.log(err),
       refetchOnWindowFocus: false,
     }
   );
@@ -103,8 +101,8 @@ export const UserInformation = QueryProvider(() => {
               <h1 className="font-bold text-5xl ml-5">
                 {userInfo &&
                   userInfo.attributes.firstName +
-                    ' ' +
-                    userInfo.attributes.lastName}
+                  ' ' +
+                  userInfo.attributes.lastName}
               </h1>
               {userInfo?.userRole == 1 && <div>System admin</div>}
               {userInfo?.userRole == 2 && <div>Organization</div>}
