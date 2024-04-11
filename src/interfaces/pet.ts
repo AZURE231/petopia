@@ -6,6 +6,7 @@ import {
   PET_SIZE,
   PET_SPECIES,
 } from '../utils/constants';
+import { ILocationAtribute } from './user';
 
 export interface IPetFilterItem {
   id: number;
@@ -98,4 +99,14 @@ export interface IPetDetailResponse {
   isCreatedAt: string;
   address: string;
   seeMore: IPetResponse[];
+}
+
+export interface IAdoptPetRequest extends ILocationAtribute{
+  phone: string;
+  petId: string;
+  street: string;
+  adoptTime: number;
+  houseType: number;
+  message: string;
+  isOwnerBefore: boolean;
 }

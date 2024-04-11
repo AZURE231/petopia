@@ -98,6 +98,23 @@ export enum PET_MEDICAL_STATUS {
   UNKNOWN = 2,
 }
 
+export enum HOUSE_TYPE {
+  Apartment = 0,
+		House = 1,
+		Dormitory = 2,
+		Shelter = 3,
+		Other = 4,
+}
+
+export enum ADOPT_DELAY_DURATION {
+  Immediately,
+		FewDays,
+		OneWeek,
+    Other,
+}
+
+//////////////////////////////////////////////////////////////////
+
 export const PET_SPECIES_FILTER: IPetFilter = {
   id: 1,
   label: 'Loài',
@@ -319,3 +336,49 @@ export const BLOG_CATEGORIES = [
   'Thời trang',
   'Ẩm thực',
 ];
+
+export const HOUSE_TYPE_OPTION = [
+  {
+    label:"Chung cư",
+    value: HOUSE_TYPE.Apartment
+  },
+
+  {
+    label: "Nhà riêng",
+    value: HOUSE_TYPE.House
+  },
+  {
+    label: "Chung cư",
+    value: HOUSE_TYPE.Dormitory
+  },
+  {
+    label: "Trạm cứu hộ",
+    value: HOUSE_TYPE.Shelter
+  },
+  {
+    label: "Khác",
+    value: HOUSE_TYPE.Other
+  }
+]
+
+export const ADOPT_TIME_OPTION = [
+  {
+    label: "Ngay lập tức",
+    value: ADOPT_DELAY_DURATION.Immediately
+  },
+  {
+    label: "Vài ngày",
+    value: ADOPT_DELAY_DURATION.FewDays
+  },
+  {
+    label: "1 tuần",
+    value: ADOPT_DELAY_DURATION.OneWeek
+  },
+  {
+    label: "Khác",
+    value: ADOPT_DELAY_DURATION.Other
+  }
+]
+
+
+

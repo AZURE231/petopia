@@ -1,14 +1,52 @@
-import React from 'react';
+import { IApiResponse } from "@/src/interfaces/common";
+import { IAdoptPetRequest } from "@/src/interfaces/pet";
+import { getUserInfo } from "@/src/services/user.api";
+import {
+  ADOPT_TIME_OPTION,
+  HOUSE_TYPE_OPTION,
+  QUERY_KEYS,
+} from "@/src/utils/constants";
+import { useQuery } from "@/src/utils/hooks";
+import React from "react";
+import AddressDropdown from "../user/AddressDropdown";
+import { useForm } from "react-hook-form";
+import { IUserInfo } from "@/src/interfaces/user";
 
 interface Props {
   handleClose: () => void;
 }
 
 export default function PetAdoptForm({ handleClose }: Props) {
-  const houseType = ['Khác','Nhà riêng', 'Chung cư', 'Kí túc xá', 'Nhà trọ', ];
-  const adoptTime = [ 'Khác','Ngay lập tức', '1 ngày', 'Vài ngày', '1 tuần',];
+  const houseType = HOUSE_TYPE_OPTION;
+  const adoptTime = ADOPT_TIME_OPTION;
+  const [userInfo, setUserInfo] = React.useState<IUserInfo>();
+  const { getValues, setValue, watch } = useForm<IAdoptPetRequest>({
+    defaultValues: {
+      phone: userInfo?.phone,
+      provinceCode: userInfo?.provinceCode,
+      districtCode: userInfo?.districtCode,
+      wardCode: userInfo?.wardCode,
+      street: userInfo?.street,
+      petId: "",
+      adoptTime: 0,
+      houseType: 0,
+      message: "",
+      isOwnerBefore: false,
+    },
+  });
+
+  useQuery<IApiResponse<IUserInfo>>(["getUserInfo"], getUserInfo, {
+    onSuccess: (res) => {
+      setUserInfo(res.data.data);
+      console.log(res.data.data);
+    },
+    onError: (err) => console.log(err),
+    refetchOnWindowFocus: false,
+  });
+
   const handleSubmit = () => {
-    console.log('Submit form');
+    console.log("Submit form");
+
     handleClose();
   };
   return (
@@ -18,7 +56,10 @@ export default function PetAdoptForm({ handleClose }: Props) {
         <div className="w-full rounded-2xl bg-blue-200 p-5">
           <h2 className="font-bold mb-2">Đơn nhận nuôi thú cưng</h2>
           {/* form */}
-          <div className="w-full p-5 mb-5 bg-gray-50 rounded-lg overflow-auto" style={{ maxHeight: '400px' }}>
+          <div
+            className="w-full p-5 mb-5 bg-gray-50 rounded-lg overflow-auto"
+            style={{ maxHeight: "400px" }}
+          >
             <form className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {/* Tên chủ nhân */}
               <div className="flex flex-col space-y-2">
@@ -29,7 +70,12 @@ export default function PetAdoptForm({ handleClose }: Props) {
                   id="owner-name"
                   name="owner-name"
                   type="text"
-                  placeholder="Nguyễn Văn A"
+                  value={
+                    userInfo?.attributes.firstName +
+                    " " +
+                    userInfo?.attributes.lastName
+                  }
+                  readOnly
                   className="w-full p-2 border border-gray-300 rounded-lg"
                 />
               </div>
@@ -43,7 +89,8 @@ export default function PetAdoptForm({ handleClose }: Props) {
                   id="owner-phone"
                   name="owner-phone"
                   type="tel"
-                  placeholder="0987654321"
+                  value={userInfo?.phone}
+                  onChange={(e) => setValue("phone", e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded-lg"
                 />
               </div>
@@ -57,68 +104,25 @@ export default function PetAdoptForm({ handleClose }: Props) {
                   id="owner-email"
                   name="owner-email"
                   type="email"
-                  placeholder="abc@gmail.com"
+                  value={userInfo?.email}
+                  readOnly
                   className="w-full p-2 border border-gray-300 rounded-lg"
                 />
               </div>
-
-              <div></div>
-
+              <div className="flex flex-col space-y-2">
+                {/* <AddressDropdown getValues = {getValues} watch={watch}/> */}
+              </div>
               {/* Địa chỉ */}
               <div className="flex flex-col space-y-2">
-                <label
-                  htmlFor="owner-address-province"
-                  className="text-sm font-medium"
-                >
-                  Tỉnh/Thành phố
-                </label>
-                <select
-                  name="owner-address-province"
-                  className="text-black hover:bg-slate-100 border border-gray-300  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  <option value="">Chọn tỉnh/thành phố</option>
-                </select>
-              </div>
-
-              <div className="flex flex-col space-y-2">
-                <label
-                  htmlFor="owner-address-province"
-                  className="text-sm font-medium"
-                >
-                  Quận/Huyện
-                </label>
-                <select
-                  name="owner-address-district"
-                  className="text-black hover:bg-slate-100 border border-gray-300  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  <option value="">Chọn quận/huyện</option>
-                </select>
-              </div>
-
-              <div className="flex flex-col space-y-2">
-                <label
-                  htmlFor="owner-address-province"
-                  className="text-sm font-medium"
-                >
-                  Xã/Phường
-                </label>
-                <select
-                  name="owner-address-ward"
-                  className="text-black hover:bg-slate-100 border border-gray-300  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  <option value="">Chọn xã/phường</option>
-                </select>
-              </div>
-
-              <div className="flex flex-col space-y-2">
                 <label htmlFor="owner-address" className="text-sm font-medium">
-                  Địa chỉ chi tiết
+                  Số nhà, đường
                 </label>
                 <input
                   id="owner-address"
                   name="owner-address"
                   type="text"
-                  placeholder="497 Hoà hảo, Phường 7, Quận 10, TP.HCM"
+                  onChange={(e) => setValue("street", e.target.value)}
+                  value={userInfo?.address}
                   className="w-full p-2 border border-gray-300 rounded-lg"
                 />
               </div>
@@ -133,6 +137,9 @@ export default function PetAdoptForm({ handleClose }: Props) {
                       name="owner-pet"
                       type="radio"
                       value="yes"
+                      onChange={(e) =>
+                        setValue("isOwnerBefore", e.target.value === "yes")
+                      }
                       className="rounded-lg"
                     />
                     <label htmlFor="owner-pet-yes">Có</label>
@@ -144,43 +151,64 @@ export default function PetAdoptForm({ handleClose }: Props) {
                       type="radio"
                       value="no"
                       className="rounded-lg"
+                      onChange={(e) =>
+                        setValue("isOwnerBefore", e.target.value === "no")
+                      }
                     />
                     <label htmlFor="owner-pet-no">Không</label>
                   </div>
                 </div>
               </div>
-              <div></div>
+
               <div className="flex flex-col space-y-2">
                 <label htmlFor="owner-house" className="text-sm font-medium">
-                  Bạn hiện đang ở loại nhà nào?
+                  Loại nhà ở
                 </label>
                 <select
                   id="owner-house"
                   name="owner-house"
                   className="w-full p-3 border border-gray-300 rounded-lg"
+                  onChange={(e) =>
+                    setValue("houseType", parseInt(e.target.value))
+                  }
                 >
                   {houseType.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
+                    <option key={type.label} value={type.value}>
+                      {type.label}
                     </option>
                   ))}
                 </select>
               </div>
               <div className="flex flex-col space-y-2">
                 <label htmlFor="owner-time" className="text-sm font-medium">
-                  Thời gian đón thú nuôi về nhà
+                  Thời gian đón thú nuôi
                 </label>
                 <select
                   id="owner-time"
                   name="owner-time"
                   className="w-full p-3 border border-gray-300 rounded-lg"
+                  onChange={(e) =>
+                    setValue("adoptTime", parseInt(e.target.value))
+                  }
                 >
                   {adoptTime.map((time) => (
-                    <option key={time} value={time}>
-                      {time}
+                    <option key={time.label} value={time.value}>
+                      {time.label}
                     </option>
                   ))}
                 </select>
+              </div>
+
+              <div className="flex flex-col space-y-2 col-span-2">
+                <label htmlFor="owner-note" className="text-sm font-medium">
+                  Ghi chú
+                </label>
+                <textarea
+                  id="owner-note"
+                  name="owner-note"
+                  onChange={(e) => setValue("message", e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded-lg"
+                ></textarea>
               </div>
             </form>
           </div>

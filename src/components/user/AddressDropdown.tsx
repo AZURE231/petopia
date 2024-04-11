@@ -5,7 +5,7 @@ import { useQuery } from '../../utils/hooks';
 import { IApiResponse } from '../../interfaces/common';
 import { QUERY_KEYS } from '../../utils/constants';
 import { AddressInput } from './AddressInput';
-import { ILocationRequest, ILocationResponse } from '@/src/interfaces/pet';
+import { IAdoptPetRequest, ILocationRequest, ILocationResponse } from '@/src/interfaces/pet';
 import { getProvince } from '@/src/services/pet.api';
 
 enum LOCATION_LEVEL {
@@ -13,6 +13,8 @@ enum LOCATION_LEVEL {
   DISTRICT = 2,
   WARD = 3,
 }
+
+
 
 export default function AddressDropdown({
   setValue,
