@@ -17,7 +17,7 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/adopt" className="hover:underline me-4 md:me-6">
+              <Link href="/give-pet" className="hover:underline me-4 md:me-6">
                 Cho thú cưng
               </Link>
             </li>

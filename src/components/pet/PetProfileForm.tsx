@@ -20,7 +20,6 @@ import { QUERY_KEYS } from '@/src/utils/constants';
 const PetProfileForm = QueryProvider(
   ({ id = '', handleClose }: { id?: string; handleClose?: () => void }) => {
     const [error, setError] = useState<string>('');
-    const [petDetail, setPetDetail] = useState<IPetDetailResponse>();
     const [showAlert, setShowAlert] = useState<boolean>(false);
     const [showSuccess, setShowSuccess] = useState<boolean>(false);
 
@@ -59,12 +58,11 @@ const PetProfileForm = QueryProvider(
       },
     });
 
-    const getPetQuery = useQuery<IApiResponse<IPetDetailResponse>>(
+    useQuery<IApiResponse<IPetDetailResponse>>(
       [QUERY_KEYS.GET_GOOGLE_RECAPTCHA_TOKEN],
       () => getPetDetail({ id: id }),
       {
         onSuccess: (res) => {
-          setPetDetail(res.data.data);
           setValue('name', res.data.data.name);
           setValue('description', res.data.data.description);
           setValue('sex', res.data.data.sex);

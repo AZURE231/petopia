@@ -9,7 +9,7 @@ import { useMutation, useQuery } from '@/src/utils/hooks';
 import { deletePet } from '@/src/services/pet.api';
 import { CiEdit } from 'react-icons/ci';
 import Popup from 'reactjs-popup';
-import PetProfileForm from '../petProfileForm/PetProfileForm';
+import PetProfileForm from '../pet/PetProfileForm';
 
 type IPetCard = IPetResponse & { isEditable?: boolean };
 

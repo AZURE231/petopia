@@ -3,7 +3,6 @@ import { IPaginationRequest } from '../interfaces/common';
 import {
   ICreatePetProfileRequest,
   ILocationRequest,
-  IPetDetailResponse,
   IPetFilterRequest,
 } from '../interfaces/pet';
 
