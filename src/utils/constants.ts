@@ -348,7 +348,7 @@ export const HOUSE_TYPE_OPTION = [
     value: HOUSE_TYPE.House
   },
   {
-    label: "Chung cư",
+    label: "Kí túc xá",
     value: HOUSE_TYPE.Dormitory
   },
   {

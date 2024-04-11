@@ -1,6 +1,7 @@
 import { http } from './http';
 import { IPaginationRequest } from '../interfaces/common';
 import {
+  IAdoptPetRequest,
   ICreatePetProfileRequest,
   ILocationRequest,
   IPetDetailResponse,
@@ -24,3 +25,6 @@ export const deletePet = async (data: { id: string }) =>
 
 export const updatePet = async (data: ICreatePetProfileRequest) =>
   await http.put('/Pet', data);
+
+export const sendAdoptRequest = async (data: IAdoptPetRequest) =>
+  await http.post('/AdoptionForm', data);

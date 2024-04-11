@@ -4,13 +4,16 @@ import { getUserInfo } from "@/src/services/user.api";
 import {
   ADOPT_TIME_OPTION,
   HOUSE_TYPE_OPTION,
-  QUERY_KEYS,
 } from "@/src/utils/constants";
-import { useQuery } from "@/src/utils/hooks";
-import React from "react";
+import { useMutation, useQuery } from "@/src/utils/hooks";
+import React, { useState } from "react";
 import AddressDropdown from "../user/AddressDropdown";
 import { useForm } from "react-hook-form";
 import { IUserInfo } from "@/src/interfaces/user";
+import { usePathname } from "next/navigation";
+import { sendAdoptRequest } from "@/src/services/pet.api";
+import { Alert } from "../general/Alert";
+
 
 interface Props {
   handleClose: () => void;
@@ -19,7 +22,13 @@ interface Props {
 export default function PetAdoptForm({ handleClose }: Props) {
   const houseType = HOUSE_TYPE_OPTION;
   const adoptTime = ADOPT_TIME_OPTION;
-  const [userInfo, setUserInfo] = React.useState<IUserInfo>();
+  const [userInfo, setUserInfo] = useState<IUserInfo>();
+  const pathname = usePathname();
+
+  const [alertMessage, setAlertMessage] = useState<string>("");
+  const [alertShow, setAlertShow] = useState<boolean>(false);
+  const [alertFail, setAlertFail] = useState<boolean>(false);
+
   const { getValues, setValue, watch } = useForm<IAdoptPetRequest>({
     defaultValues: {
       phone: userInfo?.phone,
@@ -27,7 +36,7 @@ export default function PetAdoptForm({ handleClose }: Props) {
       districtCode: userInfo?.districtCode,
       wardCode: userInfo?.wardCode,
       street: userInfo?.street,
-      petId: "",
+      petId: pathname.split("/")[2],
       adoptTime: 0,
       houseType: 0,
       message: "",
@@ -44,13 +53,33 @@ export default function PetAdoptForm({ handleClose }: Props) {
     refetchOnWindowFocus: false,
   });
 
+  const sendAdoptRequestMutation = useMutation<
+    IApiResponse<IUserInfo>,
+    IAdoptPetRequest
+  >(sendAdoptRequest, {
+    onError: (err) => {
+      setAlertMessage("Thất bại, kiểm tra lại thông tin nhập");
+      setAlertFail(true);
+      setAlertShow(true);
+    },
+    onSuccess: (res) => {
+      setAlertMessage("Gửi yêu cầu nhận nuôi thành công");
+      setAlertFail(false);
+      setAlertShow(true);
+    },
+  });
+  // useEffect (() => {
+  //   if( !alertShow  && !alertFail ) {
+  //     handleClose();
+  //   }} , [alertShow]);
+
   const handleSubmit = () => {
     console.log("Submit form");
-
-    handleClose();
+    console.log(getValues());
+    sendAdoptRequestMutation.mutate(getValues());
   };
   return (
-    <div className="container w-5/6 p-5 mx-auto">
+    <div className="container p-5 mx-auto">
       <div>
         {/* form pet owner */}
         <div className="w-full rounded-2xl bg-blue-200 p-5">
@@ -64,7 +93,7 @@ export default function PetAdoptForm({ handleClose }: Props) {
               {/* Tên chủ nhân */}
               <div className="flex flex-col space-y-2">
                 <label htmlFor="owner-name" className="text-sm font-medium">
-                  Tên chủ nhân
+                  Tên người nhận nuôi
                 </label>
                 <input
                   id="owner-name"
@@ -89,7 +118,7 @@ export default function PetAdoptForm({ handleClose }: Props) {
                   id="owner-phone"
                   name="owner-phone"
                   type="tel"
-                  value={userInfo?.phone}
+                  defaultValue={userInfo?.phone}
                   onChange={(e) => setValue("phone", e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded-lg"
                 />
@@ -109,8 +138,22 @@ export default function PetAdoptForm({ handleClose }: Props) {
                   className="w-full p-2 border border-gray-300 rounded-lg"
                 />
               </div>
-              <div className="flex flex-col space-y-2">
-                {/* <AddressDropdown getValues = {getValues} watch={watch}/> */}
+              <div></div>
+              <div className="flex flex-col space-y-2 col-span-2">
+                <AddressDropdown
+                  districtCode={watch("districtCode")}
+                  provinceCode={watch("provinceCode")}
+                  wardCode={watch("wardCode")}
+                  setProvinceCode={(code: string) => {
+                    setValue("provinceCode", code);
+                  }}
+                  setDistrictCode={(code: string) => {
+                    setValue("districtCode", code);
+                  }}
+                  setWardCode={(code: string) => {
+                    setValue("wardCode", code);
+                  }}
+                />
               </div>
               {/* Địa chỉ */}
               <div className="flex flex-col space-y-2">
@@ -122,7 +165,6 @@ export default function PetAdoptForm({ handleClose }: Props) {
                   name="owner-address"
                   type="text"
                   onChange={(e) => setValue("street", e.target.value)}
-                  value={userInfo?.address}
                   className="w-full p-2 border border-gray-300 rounded-lg"
                 />
               </div>
@@ -223,6 +265,17 @@ export default function PetAdoptForm({ handleClose }: Props) {
           </div>
         </div>
       </div>
+      <Alert
+        failed={alertFail}
+        message={alertMessage}
+        show={alertShow}
+        setShow={setAlertShow}
+        action={() => {
+          if (!alertFail) {
+            handleClose();
+          }
+        }}
+      />
     </div>
   );
 }
