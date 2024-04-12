@@ -110,7 +110,14 @@ export default function UserUpdateForm({
                 />
               </div>
             </div>
-            <AddressDropdown setValue={setValue} watch={watch} />
+            <AddressDropdown
+              districtCode={watch('districtCode')}
+              provinceCode={watch('provinceCode')}
+              wardCode={watch('wardCode')}
+              setProvinceCode={(code: string) => { setValue('provinceCode', code); }}
+              setDistrictCode={(code: string) => { setValue('districtCode', code); }}
+              setWardCode={(code: string) => { setValue('wardCode', code); }}
+            />
             <div className="mb-4">
               <label
                 className="block text-gray-700 text-lg font-bold mb-2"

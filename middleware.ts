@@ -18,5 +18,5 @@ export default function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/adopt', '/user', '/pet'],
+  matcher: ['/give-pet', '/user', '/pet'],
 };

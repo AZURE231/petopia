@@ -1,5 +1,4 @@
-import { UseFormSetValue, UseFormWatch, useForm } from 'react-hook-form';
-import { IUserUpdate } from '../../interfaces/user';
+import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { useQuery } from '../../utils/hooks';
 import { IApiResponse } from '../../interfaces/common';
@@ -14,13 +13,23 @@ enum LOCATION_LEVEL {
   WARD = 3,
 }
 
+interface IAddressDropdown {
+  districtCode: string,
+  provinceCode: string,
+  wardCode: string,
+  setProvinceCode: (code: string) => void,
+  setDistrictCode: (code: string) => void,
+  setWardCode: (code: string) => void,
+}
+
 export default function AddressDropdown({
-  setValue,
-  watch,
-}: {
-  setValue: UseFormSetValue<IUserUpdate>;
-  watch: UseFormWatch<IUserUpdate>;
-}) {
+  districtCode,
+  provinceCode,
+  wardCode,
+  setProvinceCode,
+  setDistrictCode,
+  setWardCode,
+}: IAddressDropdown) {
   // HANDLE ADDRESS CHANGE
   const [provinces, setProvinces] = useState<ILocationResponse[]>();
   const [districts, setDistricts] = useState<ILocationResponse[]>();
@@ -32,17 +41,17 @@ export default function AddressDropdown({
   const handleProvinceChange = (code: string) => {
     locationForm.setValue('Code', code);
     locationForm.setValue('Level', LOCATION_LEVEL.DISTRICT);
-    code != watch('provinceCode') && setValue('provinceCode', code);
+    code != provinceCode && setProvinceCode(code);
   };
 
   const handleDistrictChange = (code: string) => {
     locationForm.setValue('Code', code);
     locationForm.setValue('Level', LOCATION_LEVEL.WARD);
-    code != watch('districtCode') && setValue('districtCode', code);
+    code != districtCode && setDistrictCode(code);
   };
 
   const handleWardChange = (code: string) => {
-    code != watch('wardCode') && setValue('wardCode', code);
+    code != wardCode && setWardCode(code);
   };
 
   const locationQuery = useQuery<IApiResponse<ILocationResponse[]>>(
@@ -79,7 +88,7 @@ export default function AddressDropdown({
           options={provinces!}
           onChange={handleProvinceChange}
           title="Chọn Tỉnh/Thành phố"
-          value={watch('provinceCode')}
+          value={provinceCode}
           level={LOCATION_LEVEL.PROVINCE}
           isLocationLoading={locationQuery.isFetching}
           currentLevel={locationForm.watch('Level')}
@@ -96,7 +105,7 @@ export default function AddressDropdown({
           options={districts!}
           onChange={handleDistrictChange}
           title="Chọn Quận/huyện"
-          value={watch('districtCode')}
+          value={districtCode}
           level={LOCATION_LEVEL.DISTRICT}
           isLocationLoading={locationQuery.isFetching}
           currentLevel={locationForm.watch('Level')}
@@ -113,7 +122,7 @@ export default function AddressDropdown({
           options={wards!}
           onChange={handleWardChange}
           title="Chọn xã/phường"
-          value={watch('wardCode')}
+          value={wardCode}
           level={LOCATION_LEVEL.WARD}
           isLocationLoading={locationQuery.isFetching}
           currentLevel={locationForm.watch('Level')}

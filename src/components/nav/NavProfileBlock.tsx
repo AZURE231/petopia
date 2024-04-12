@@ -25,6 +25,8 @@ export const NavProfileBlock = ({
     {
       onSuccess: () => {
         deleteCookie(COOKIES_NAME.ACCESS_TOKEN_SERVER);
+        deleteCookie(COOKIES_NAME.REFRESH_TOKEN_SERVER);
+        deleteCookie(COOKIES_NAME.REDIRECT);
         window.location.replace('/login');
       },
     }

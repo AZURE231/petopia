@@ -4,7 +4,6 @@ import ControlForm from './ControlForm';
 import { PET_SELECT } from '@/src/utils/constants';
 import {
   ICreatePetProfileRequest,
-  IPetDetailResponse,
 } from '@/src/interfaces/pet';
 
 export default function FormPetDetail({
