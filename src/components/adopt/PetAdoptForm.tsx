@@ -207,28 +207,14 @@ export default function PetAdoptForm({ handleClose }: Props) {
                     <input
                       id="owner-pet-yes"
                       name="owner-pet"
-                      type="radio"
-                      value="yes"
+                      type="checkbox"
+                      checked={watch('isOwnerBefore')}
                       onChange={(e) =>
-                        setValue('isOwnerBefore', e.target.value === 'yes')
+                        setValue('isOwnerBefore', e.target.checked)
                       }
                       className="rounded-lg"
                     />
-                    <label htmlFor="owner-pet-yes">Có</label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      id="owner-pet-no"
-                      name="owner-pet"
-                      type="radio"
-                      value="no"
-                      checked
-                      className="rounded-lg"
-                      onChange={(e) =>
-                        setValue('isOwnerBefore', e.target.value === 'no')
-                      }
-                    />
-                    <label htmlFor="owner-pet-no">Không</label>
+                    <label htmlFor="owner-pet-yes">Đã từng</label>
                   </div>
                 </div>
               </div>
@@ -302,6 +288,7 @@ export default function PetAdoptForm({ handleClose }: Props) {
         show={alertShow}
         setShow={setAlertShow}
         action={handleClose}
+        showCancel={false}
       />
     </div>
   );
