@@ -117,6 +117,14 @@ export enum ADOPT_DELAY_DURATION {
   Other,
 }
 
+export enum PET_ORG_TYPE {
+  RESCUE,
+  BUSINESS,
+  VET,
+  PROTECT,
+  OTHER,
+}
+
 //////////////////////////////////////////////////////////////////
 
 export const PET_SPECIES_FILTER: IPetFilter = {
@@ -380,5 +388,30 @@ export const ADOPT_TIME_OPTION = [
   {
     label: 'Chưa rõ',
     value: ADOPT_DELAY_DURATION.Other
+  }
+];
+
+export const PET_ORG_TYPE_OPTION = [
+  {
+    label: 'Giải cứu động vật',
+    value: PET_ORG_TYPE.RESCUE
+  },
+
+  {
+    label: 'Doanh nghiệp',
+    value: PET_ORG_TYPE.BUSINESS
+  },
+  {
+    label: 'Thú Y',
+    value: PET_ORG_TYPE.VET
+  },
+ 
+  {
+    label: 'Bảo vệ động vật',
+    value: PET_ORG_TYPE.PROTECT
+  },
+  {
+    label: 'Khác',
+    value: PET_ORG_TYPE.OTHER
   }
 ];

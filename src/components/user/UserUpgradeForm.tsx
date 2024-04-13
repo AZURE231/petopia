@@ -1,7 +1,34 @@
-import React from 'react';
-import { Alert } from '../general/Alert';
+//Ref: https://www.petrescue.com.au/groups/new
+
+import React, { useState } from "react";
+import { Alert } from "../general/Alert";
+import { PET_ORG_TYPE_OPTION } from "@/src/utils/constants";
+import { useForm } from "react-hook-form";
+import { IOrgUpgradeRequest } from "@/src/interfaces/org";
+import AddressDropdown from "./AddressDropdown";
 
 export default function UserUpgradeForm() {
+  const [alertMessage, setAlertMessage] = useState<string>("");
+  const [alertShow, setAlertShow] = useState<boolean>(false);
+  const [alertFail, setAlertFail] = useState<boolean>(false);
+
+  const { getValues, setValue, watch } = useForm<IOrgUpgradeRequest>(
+    {defaultValues: {
+      orgName: "",
+      ownerName: "",
+      phone: "",
+      provinceCode: "",
+      districtCode: "",
+      wardCode: "",
+      street: "",
+      email: "",
+      bn: "",
+      link: "",
+      orgType: 0,
+      about: "",
+    }
+    }
+  );
   return (
     <div className="container p-5 mx-auto">
       <form className="w-full rounded-2xl bg-blue-200 p-5">
@@ -9,7 +36,7 @@ export default function UserUpgradeForm() {
         {/* form */}
         <div
           className="w-full p-5 mb-5 bg-gray-50 rounded-lg overflow-auto"
-          style={{ maxHeight: '400px' }}
+          style={{ maxHeight: "400px" }}
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {/* Tên người nhận nuôi */}
@@ -21,6 +48,10 @@ export default function UserUpgradeForm() {
                 id="org-name"
                 name="org-name"
                 type="text"
+                required
+                onChange={(e) => {
+                  setValue("orgName", e.target.value);}
+                }
                 className="w-full p-2 border border-gray-300 rounded-lg"
               />
             </div>
@@ -32,31 +63,8 @@ export default function UserUpgradeForm() {
                 id="owner-name"
                 name="owner-name"
                 type="text"
-                readOnly
-                className="w-full p-2 border border-gray-300 rounded-lg"
-              />
-            </div>
-            <div className="flex flex-col space-y-2">
-              <label htmlFor="owner-name" className="text-sm font-medium">
-                Loại tổ chức
-              </label>
-              <select name="org-type" id="org-type">
-                <option value="1">Cửa hàng</option>
-                <option value="2">Trại thú cưng</option>
-                <option value="3">Giải cứu động vật</option>
-                <option value="4">Tổ chức bảo vệ động vật</option>
-                <option value="5">Khác</option>
-              </select>
-            </div>
-            <div className="flex flex-col space-y-2">
-              <label htmlFor="org-address" className="text-sm font-medium">
-                Địa chỉ
-              </label>
-              <input
-                id="org-address"
-                name="org-address"
-                type="text"
-                readOnly
+                required
+                onChange={(e) => { setValue("ownerName", e.target.value);} }
                 className="w-full p-2 border border-gray-300 rounded-lg"
               />
             </div>
@@ -71,12 +79,13 @@ export default function UserUpgradeForm() {
                 name="owner-phone"
                 type="tel"
                 required
+                onChange={(e) => {setValue("phone", e.target.value);}}
                 className="w-full p-2 border border-gray-300 rounded-lg"
               />
             </div>
 
             {/* Email */}
-            <div className="flex flex-col space-y-2 col-span-2">
+            <div className="flex flex-col space-y-2">
               <label htmlFor="owner-email" className="text-sm font-medium">
                 Email
               </label>
@@ -84,43 +93,114 @@ export default function UserUpgradeForm() {
                 id="owner-email"
                 name="owner-email"
                 type="email"
-                readOnly
+                required
+                onChange={(e) => {setValue("email", e.target.value);} }
                 className="w-full p-2 border border-gray-300 rounded-lg"
               />
             </div>
 
             <div className="flex flex-col space-y-2 col-span-2">
-              <label htmlFor="org-mission" className="text-sm font-medium">
-                Nhiệm vụ của tổ chức
+              <AddressDropdown
+                districtCode={watch("districtCode")}
+                provinceCode={watch("provinceCode")}
+                wardCode={watch("wardCode")}
+                setProvinceCode={(code: string) => {
+                  setValue("provinceCode", code);
+                }}
+                setDistrictCode={(code: string) => {
+                  setValue("districtCode", code);
+                }}
+                setWardCode={(code: string) => {
+                  setValue("wardCode", code);
+                }}
+              />
+            </div>
+
+            <div className="flex flex-col space-y-2">
+              <label htmlFor="org-address" className="text-sm font-medium">
+                Số nhà, tên đường
               </label>
               <input
+                id="org-street"
+                name="org-street"
+                type="text"
+                required
+                onChange={(e) => {setValue("street", e.target.value);} }
+                className="w-full p-2 border border-gray-300 rounded-lg"
+              />
+            </div>
+
+            {/* Website */}
+            <div className="flex flex-col space-y-2">
+              <label htmlFor="owner-name" className="text-sm font-medium">
+                Website / Mạng xã hội
+              </label>
+              <input
+                id="link"
+                name="link"
+                type="text"
+                required
+                onChange={(e) => {setValue("link", e.target.value);} }
+                className="w-full p-2 border border-gray-300 rounded-lg"
+              />
+            </div>
+            <div className="flex flex-col space-y-2">
+              <label htmlFor="owner-name" className="text-sm font-medium">
+                Mã số thuế
+              </label>
+              <input
+                id="bn"
+                name="bn"
+                required
+                onChange={(e) => {setValue("bn", e.target.value);} }
+                className="w-full p-2 border border-gray-300 rounded-lg"
+              />
+            </div>
+            <div className="flex flex-col space-y-2">
+              <label htmlFor="owner-name" className="text-sm font-medium">
+                Loại tổ chức
+              </label>
+              <select name="org-type" id="org-type"
+               onChange={(e) =>
+                setValue('orgType', parseInt(e.target.value))
+              }>
+                {PET_ORG_TYPE_OPTION.map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {item.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex flex-col space-y-2 col-span-2">
+              <label htmlFor="org-mission" className="text-sm font-medium">
+                Giới thiệu về tổ chức
+              </label>
+              <textarea
                 id="org-mission"
                 name="org-mission"
-                type="text"
-                readOnly
+                onChange={(e) => {setValue("about", e.target.value);} }
                 className="w-full p-2 border border-gray-300 rounded-lg"
               />
             </div>
             <div className="flex flex-col space-y-2 col-span-2">
-              <label
-                htmlFor="org-year-operation"
-                className="text-sm font-medium"
+              <a
+                href="/terms"
+                target="_blank"
+                className="text-blue-500 underline"
               >
-                Thời gian hoạt động
-              </label>
-              <input
-                id="org-year-operation"
-                name="org-year-operation"
-                type="text"
-                readOnly
-                className="w-full p-2 border border-gray-300 rounded-lg"
-              />
-            </div>
-            <div className="flex flex-col space-y-2 col-span-2">
-              <label htmlFor="org-statement" className="text-sm font-medium">
                 Điều khoản và điều kiện
-              </label>
-              <input id="org-statement" name="org-statement" type="checkbox" />
+              </a>
+              <div>
+                <input
+                  id="org-statement"
+                  name="org-statement"
+                  type="checkbox"
+                  required
+                />
+                <label className="mx-5">
+                  Tôi cam kết tuân thủ các điều khoản và điều kiện của tổ chức
+                </label>
+              </div>
             </div>
           </div>
         </div>
@@ -133,6 +213,13 @@ export default function UserUpgradeForm() {
           </button>
         </div>
       </form>
+      <Alert
+        failed={alertFail}
+        message={alertMessage}
+        show={alertShow}
+        setShow={setAlertShow}
+        // action={handleClose}
+      />
     </div>
   );
 }

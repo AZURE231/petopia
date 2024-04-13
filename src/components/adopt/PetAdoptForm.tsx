@@ -124,6 +124,7 @@ export default function PetAdoptForm({ handleClose }: Props) {
                   id="owner-name"
                   name="owner-name"
                   type="text"
+                  required
                   value={
                     userInfo?.attributes.firstName +
                     ' ' +
@@ -187,12 +188,13 @@ export default function PetAdoptForm({ handleClose }: Props) {
               {/* Địa chỉ */}
               <div className="flex flex-col space-y-2 col-span-2">
                 <label htmlFor="owner-address" className="text-sm font-medium">
-                  Số nhà, đường
+                  Số nhà,tên đường
                 </label>
                 <input
                   id="owner-address"
                   name="owner-address"
                   type="text"
+                  required
                   value={watch('street')}
                   onChange={(e) => setValue('street', e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded-lg"
