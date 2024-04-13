@@ -13,6 +13,8 @@ import { getUserInfo, updateAvatar } from '@/src/services/user.api';
 import { uploadImage } from '@/src/helpers/uploadImage';
 import Link from 'next/link';
 import UserSkeleton from '../general/UserSkeleton';
+import Popup from 'reactjs-popup';
+import UserUpgradeForm from './UserUpgradeForm';
 
 export const UserInformation = QueryProvider(() => {
   const [isEdit, setIsEdit] = useState(false);
@@ -101,8 +103,8 @@ export const UserInformation = QueryProvider(() => {
               <h1 className="font-bold text-5xl ml-5">
                 {userInfo &&
                   userInfo.attributes.firstName +
-                  ' ' +
-                  userInfo.attributes.lastName}
+                    ' ' +
+                    userInfo.attributes.lastName}
               </h1>
               {userInfo?.userRole == 1 && <div>System admin</div>}
               {userInfo?.userRole == 2 && <div>Organization</div>}
@@ -139,10 +141,24 @@ export const UserInformation = QueryProvider(() => {
               </div>
             </div>
           </div>
-          <div className="mt-5 flex justify-end">
+          <div className="mt-5 flex justify-end gap-3">
+            <Popup
+              modal
+              overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
+              trigger={
+                <button
+                  className="w-fit text-black border border-black hover:bg-gray-100 focus:ring-4 focus:outline-none
+                          focus:ring-primary-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center"
+                >
+                  Trở thành cộng tác viên
+                </button>
+              }
+            >
+              <UserUpgradeForm />
+            </Popup>
             <Link
               href={'user/change-password'}
-              className="w-fit text-black bg-yellow-300 hover:bg-primary-700 focus:ring-4 focus:outline-none
+              className="w-fit text-black border border-black bg-yellow-300 hover:bg-yellow-400 focus:ring-4 focus:outline-none
                         focus:ring-primary-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center"
             >
               Cập nhật mật khẩu
