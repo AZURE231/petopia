@@ -17,7 +17,6 @@ export interface IUserInfo {
   image: string;
   userRole: USER_ROLE;
   phone: string;
-  pets: IPetResponse[];
 }
 export interface IResetPasswordRequest {
   email: string;

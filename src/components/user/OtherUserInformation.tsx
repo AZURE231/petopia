@@ -5,34 +5,65 @@ import { QueryProvider } from '../general/QueryProvider';
 import ListCards from './ListCards';
 import { getOtherUserInfo } from '@/src/services/user.api';
 import { IUserInfo } from '@/src/interfaces/user';
-import { IApiResponse } from '@/src/interfaces/common';
+import { IApiResponse, IPaginationModel } from '@/src/interfaces/common';
 import { useQuery } from '@/src/utils/hooks';
-import { QUERY_KEYS, STATIC_URLS } from '@/src/utils/constants';
-import { getErrorMessage } from '@/src/helpers/getErrorMessage';
+import { PAGE_SIZE, QUERY_KEYS, STATIC_URLS } from '@/src/utils/constants';
 import { NoResultBackground } from '../general/NoResultBackground';
 import { ClipLoader } from 'react-spinners';
 import { GoReport } from 'react-icons/go';
+import { useForm } from 'react-hook-form';
+import { IPetResponse } from '@/src/interfaces/pet';
+import { getPetsByUser } from '@/src/services/pet.api';
+import Pagination from '../general/Pagination';
 
 export const OtherUserInformation = QueryProvider(
   ({ userId }: { userId: string }) => {
+    // STATES
     const [userInfo, setUserInfo] = useState<IUserInfo>();
     const [error, setError] = useState<string>('');
+    const [pets, setPets] = useState<IPetResponse[]>([]);
 
+    // FORMS
+    const paginationForm = useForm<IPaginationModel>({
+      defaultValues: {
+        pageIndex: 1,
+        pageNumber: 1,
+      },
+    });
+
+    // QUERIES
     const getUserQuery = useQuery<IApiResponse<IUserInfo>>(
       [QUERY_KEYS.GET_OTHER_USER],
       () => getOtherUserInfo({ userId: userId }),
       {
-        onSuccess: (res) => setUserInfo(res.data.data),
-        onError: (err) => {
-          setError(getErrorMessage(err.data.errorCode.toString()));
+        onSuccess: (res) => {
+          setUserInfo(res.data.data);
         },
         refetchOnWindowFocus: false,
+        retry: false,
+      }
+    );
+
+    const getPetsQuery = useQuery<IApiResponse<IPetResponse[]>>(
+      [QUERY_KEYS.GET_PETS, getUserQuery.isError],
+      () => getPetsByUser({
+        pageIndex: paginationForm.getValues('pageIndex'),
+        pageSize: PAGE_SIZE,
+        orderBy: '',
+        filter: userId,
+      }),
+      {
+        onSuccess: (res) => {
+          setPets(res.data.data);
+        },
+        refetchOnWindowFocus: false,
+        enabled: !getUserQuery.isError,
       }
     );
 
     return (
       <>
-        {getUserQuery.isLoading && (
+        {(getUserQuery.isFetching || getPetsQuery.isFetching) && (
           <div className="h-fit-screen flex items-center justify-center">
             <ClipLoader
               color={'#111111'}
@@ -44,7 +75,7 @@ export const OtherUserInformation = QueryProvider(
           </div>
         )}
         {!getUserQuery.isLoading &&
-          (error ? (
+          (getUserQuery.isError ? (
             <NoResultBackground className="h-fit-screen w-full items-center" />
           ) : (
             <>
@@ -63,8 +94,8 @@ export const OtherUserInformation = QueryProvider(
                     <h1 className="font-bold text-5xl ml-5">
                       {userInfo &&
                         userInfo.attributes.firstName +
-                          ' ' +
-                          userInfo.attributes.lastName}
+                        ' ' +
+                        userInfo.attributes.lastName}
                     </h1>
                     {userInfo?.userRole == 1 && <div>System admin</div>}
                     {userInfo?.userRole == 2 && <div>Organization</div>}
@@ -105,7 +136,17 @@ export const OtherUserInformation = QueryProvider(
                   </button>
                 </div>
               </div>
-              <ListCards title="Danh sách thú cưng" data={userInfo?.pets!} />
+              <ListCards
+                title="Danh sách thú cưng"
+                data={pets}
+              />
+              <div className="flex items-center justify-center my-5">
+                <Pagination
+                  paginationForm={paginationForm}
+                  disable={getPetsQuery.isFetching}
+                  show={pets.length !== 0}
+                />
+              </div>
             </>
           ))}
       </>
