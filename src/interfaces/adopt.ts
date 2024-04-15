@@ -10,3 +10,11 @@ export interface IAdoptPetRequest {
   districtCode: string;
   wardCode: string;
 }
+
+export interface IAdoptCardResponse {
+  id: string;
+  lastUpdatedAt: string;
+  isSeen: boolean;
+  status: number;
+  name: string;
+}

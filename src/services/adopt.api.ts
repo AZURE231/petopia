@@ -6,3 +6,5 @@ export const sendAdoptRequest = async (data: IAdoptPetRequest) =>
 
 export const preCheckAdoption = async (petId: string) =>
   await http.get(`/AdoptionForm/PreCheck/${petId}`);
+
+export const getAdoptCard = async () => await http.get('/AdoptionForm/Sent');

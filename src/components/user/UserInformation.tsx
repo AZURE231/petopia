@@ -13,6 +13,7 @@ import { getUserInfo, updateAvatar } from '@/src/services/user.api';
 import { uploadImage } from '@/src/helpers/uploadImage';
 import Link from 'next/link';
 import UserSkeleton from '../general/UserSkeleton';
+import TabbedTable from '../general/TabbedTable';
 
 export const UserInformation = QueryProvider(() => {
   const [isEdit, setIsEdit] = useState(false);
@@ -101,8 +102,8 @@ export const UserInformation = QueryProvider(() => {
               <h1 className="font-bold text-5xl ml-5">
                 {userInfo &&
                   userInfo.attributes.firstName +
-                  ' ' +
-                  userInfo.attributes.lastName}
+                    ' ' +
+                    userInfo.attributes.lastName}
               </h1>
               {userInfo?.userRole == 1 && <div>System admin</div>}
               {userInfo?.userRole == 2 && <div>Organization</div>}
@@ -158,11 +159,7 @@ export const UserInformation = QueryProvider(() => {
           )}
         </div>
       )}
-      <ListCards
-        title="Thú cưng của bạn"
-        isEditable={true}
-        data={userInfo?.pets!}
-      />
+      <TabbedTable userInfo={userInfo} />
     </div>
   );
 });
