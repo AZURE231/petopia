@@ -68,6 +68,7 @@ export default function NavNotification() {
   };
 
   const clearAll = () => {
+    if (notifications.length === 0) return;
     clearAll();
     setNotifications([]);
   };
@@ -92,7 +93,7 @@ export default function NavNotification() {
               className="text-xs text-blue-500 cursor-pointer"
               onClick={clearAll}
             >
-              Clear all
+              Xóa tất cả
             </p>
           </div>
           {notifications.length === 0 ? (
