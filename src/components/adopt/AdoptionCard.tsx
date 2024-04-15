@@ -9,7 +9,7 @@ import PetAdoptionInfo from './PetAdoptionInfo';
 
 export default function AdoptionCard({ type }: { type: string }) {
   const [adoptCard, setAdoptCard] = useState<IAdoptCardResponse[]>([]);
-  useQuery<IApiResponse<IAdoptCardResponse[]>>(
+  const getAdoptCardQuery = useQuery<IApiResponse<IAdoptCardResponse[]>>(
     [QUERY_KEYS.GET_ADOPT_CARD],
     () => getAdoptCard(type),
     {

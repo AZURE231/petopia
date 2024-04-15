@@ -47,3 +47,7 @@ export interface ICurrentUserCoreResponse {
   userRole: USER_ROLE;
   name: string;
 }
+
+export interface IOtherUserRequest {
+  userId: string;
+}
