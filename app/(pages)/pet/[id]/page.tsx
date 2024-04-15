@@ -26,7 +26,7 @@ const page = QueryProvider(({ params }: { params: { id: string } }) => {
   const [error, setError] = useState<boolean>(false);
 
   const getPetQuery = useQuery<IApiResponse<IPetDetailResponse>>(
-    [QUERY_KEYS.GET_GOOGLE_RECAPTCHA_TOKEN],
+    [QUERY_KEYS.GET_PET_DETAIL],
     () => getPetDetail({ id: params.id }),
     {
       onSuccess: (res) => {
