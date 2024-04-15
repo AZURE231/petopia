@@ -1,5 +1,5 @@
 //Reference from: https://www.Petopia.com.au/terms_of_use
-import React from "react";
+import React from 'react';
 
 const TermsOfUse: React.FC = () => {
   return (
@@ -8,7 +8,7 @@ const TermsOfUse: React.FC = () => {
       <div className="text-justify">
         <h2 className="font-bold text-xl mb-2 my-10">Nội dung</h2>
         <p>
-        Petopia là một tổ chức về thú cưng vô gia cư và nhận nuôi thú cưng
+          Petopia là một tổ chức về thú cưng vô gia cư và nhận nuôi thú cưng
           các tổ chức. Tính chính xác và đầy đủ của thông tin
           hiển thị trong trang web không được đảm bảo dưới bất kỳ hình thức nào. Mặc dù
           thông tin về Petopia được cập nhật thường xuyên và chúng tôi cố gắng giữ
@@ -20,24 +20,24 @@ const TermsOfUse: React.FC = () => {
         </p>
 
         <h2 className="font-bold text-xl mb-2 my-10">
-        Danh sách thú cưng và nhận nuôi
+          Danh sách thú cưng và nhận nuôi
         </h2>
         <p>
-        Tổ chức thành viên Petopia chỉ có thể liệt kê các thú cưng thuộc về
+          Tổ chức thành viên Petopia chỉ có thể liệt kê các thú cưng thuộc về
           tổ chức của họ hoặc là một phần của chương trình hỗ trợ chuyển chỗ ở cho một
           thành viên của công chúng. Các tổ chức sẽ được yêu cầu loại bỏ bất kỳ vật nuôi nào
           được liệt kê thay mặt cho người khác (thành viên hoặc không phải thành viên)
           các tổ chức.
         </p>
         <p>
-        Điều quan trọng là bất kỳ thú cưng nào được tìm thấy thông qua dịch vụ nhận con nuôi đều phải được
+          Điều quan trọng là bất kỳ thú cưng nào được tìm thấy thông qua dịch vụ nhận con nuôi đều phải được
           được bác sĩ thú y kiểm tra kỹ lưỡng ngay khi nhận nuôi. Chúng tôi
           không thể đảm bảo sức khỏe hoặc tính khí của bất kỳ động vật nào được cung cấp cho
           việc áp dụng, chúng tôi cũng không thể đánh giá hay xác nhận một cách toàn diện
           hoạt động của bất kỳ tổ chức, cá nhân nào.
         </p>
         <p>
-        Chúng tôi không chịu trách nhiệm về bất kỳ thiệt hại hoặc tổn thất nào phát sinh từ việc
+          Chúng tôi không chịu trách nhiệm về bất kỳ thiệt hại hoặc tổn thất nào phát sinh từ việc
           sử dụng bất kỳ thông tin nào có trên trang web này. Bất kỳ vật nuôi nào được tìm thấy,
           được thông qua hoặc được liệt kê trong Petopia là trách nhiệm duy nhất của
           tổ chức nhận con nuôi và/hoặc bên nhận con nuôi/chủ sở hữu trước đó.
@@ -49,13 +49,13 @@ const TermsOfUse: React.FC = () => {
           thế nào cũng phát sinh.
         </p>
         <p>
-        Nếu bạn thấy bất kỳ nội dung nào không phù hợp để xem chung,
+          Nếu bạn thấy bất kỳ nội dung nào không phù hợp để xem chung,
           xin vui lòng thông báo cho chúng tôi.
         </p>
 
         <h2 className="font-bold text-xl mb-2 my-10">Bản quyền</h2>
         <p>
-        Tất cả nội dung trên trang web Petopia được bảo vệ bởi bản quyền
+          Tất cả nội dung trên trang web Petopia được bảo vệ bởi bản quyền
           thuộc sở hữu của Petopia Ltd. Petopia bảo lưu mọi quyền của mình
           đối với tất cả nội dung của Petopia và sự cho phép/ủy quyền đối với
           việc sử dụng/tái tạo nó phải được yêu cầu từ Petopia Ltd trước khi
@@ -63,14 +63,14 @@ const TermsOfUse: React.FC = () => {
           Vui lòng liên hệ với chúng tôi để yêu cầu ủy quyền cho bất kỳ việc sử dụng nội dung nào.
         </p>
         <p>
-        Nếu bạn thấy bất kỳ nội dung nào trên trang web này mà bạn nắm giữ quyền
+          Nếu bạn thấy bất kỳ nội dung nào trên trang web này mà bạn nắm giữ quyền
           bản quyền, vui lòng thông báo cho chúng tôi ngay lập tức và chúng tôi sẽ xóa nó
           hoặc cung cấp cho bạn tín dụng với sự đồng ý của bạn, bất cứ điều gì bạn chọn.
         </p>
 
         <h2 className="font-bold text-xl mb-2 my-10">Đường dẫn</h2>
         <p>
-        Trang web này chứa các liên kết đến các trang web bên ngoài. Petopia không có
+          Trang web này chứa các liên kết đến các trang web bên ngoài. Petopia không có
           chịu trách nhiệm về sự an toàn/bảo mật của các liên kết này hoặc nội dung
           của các trang web đó và các liên kết đến các trang web đó cũng không hàm ý bất kỳ sự chứng thực nào về
           quan điểm được bày tỏ bởi các tổ chức hoặc cá nhân chịu trách nhiệm về
@@ -80,7 +80,7 @@ const TermsOfUse: React.FC = () => {
 
         <h2 className="font-bold text-xl mb-2 my-10">Logo</h2>
         <p>
-        Không được tải xuống, sao chép và sử dụng logo của Petopia cho bất kỳ mục đích nào
+          Không được tải xuống, sao chép và sử dụng logo của Petopia cho bất kỳ mục đích nào
           mục đích mà không có sự cho phép của Petopia. Những người gây quỹ và những người
           quan tâm đến việc hợp tác với Petopia vui lòng liên hệ với chúng tôi để
           thảo luận về việc sử dụng logo Petopia.
