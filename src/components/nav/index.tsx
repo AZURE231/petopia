@@ -1,17 +1,19 @@
-'use client';
-import { useState } from 'react';
-import { observer } from 'mobx-react-lite';
-import { useStores } from '@/src/stores';
-import { COOKIES_NAME, QUERY_KEYS } from '@/src/utils/constants';
-import { IApiResponse } from '@/src/interfaces/common';
-import { useQuery } from '@/src/utils/hooks';
-import { QueryProvider } from '../general/QueryProvider';
-import { getCurrentUserCore } from '@/src/services/user.api';
-import { getCookie } from 'cookies-next';
-import { NavProfileBlock } from './NavProfileBlock';
-import { NavOptionsBlock } from './NavOptionsBlock';
-import Link from 'next/link';
-import { ICurrentUserCoreResponse } from '@/src/interfaces/user';
+"use client";
+import { useState } from "react";
+import { observer } from "mobx-react-lite";
+import { useStores } from "@/src/stores";
+import { COOKIES_NAME, QUERY_KEYS } from "@/src/utils/constants";
+import { IApiResponse } from "@/src/interfaces/common";
+import { useQuery } from "@/src/utils/hooks";
+import { QueryProvider } from "../general/QueryProvider";
+import { getCurrentUserCore } from "@/src/services/user.api";
+import { getCookie } from "cookies-next";
+import { NavProfileBlock } from "./NavProfileBlock";
+import { NavOptionsBlock } from "./NavOptionsBlock";
+import Link from "next/link";
+import { ICurrentUserCoreResponse } from "@/src/interfaces/user";
+import { MdNotifications } from "react-icons/md";
+import NavNotification from "./NavNotification";
 
 export const Navbar = observer(
   QueryProvider(() => {
@@ -42,11 +44,16 @@ export const Navbar = observer(
             </span>
           </Link>
           {userStore.userContext ? (
-            <NavProfileBlock
-              name={userStore.userContext.name}
-              image={userStore.userContext.image}
-              email={userStore.userContext.email}
-            />
+            <>
+              <NavProfileBlock
+                name={userStore.userContext.name}
+                image={userStore.userContext.image}
+                email={userStore.userContext.email}
+              />
+              <div className="flex items-center space-x-3 rtl:space-x-reverse">
+               <NavNotification />
+              </div>
+            </>
           ) : (
             <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
               <Link href="/register">
