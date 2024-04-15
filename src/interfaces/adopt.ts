@@ -1,3 +1,5 @@
+import { HOUSE_TYPE, USER_ROLE } from '../utils/constants';
+
 export interface IAdoptPetRequest {
   phone: string;
   petId: string;
@@ -16,5 +18,24 @@ export interface IAdoptCardResponse {
   lastUpdatedAt: string;
   isSeen: boolean;
   status: number;
-  name: string;
+  petName: string;
+  adopterName: string;
+}
+
+export interface IAdoptFormInfo {
+  id: string;
+  petId: string;
+  adopterId: string;
+  isCreatedAt: string;
+  isUpdatedAt: string;
+  status: number;
+  houseType: HOUSE_TYPE;
+  delayDuration: number;
+  message: string;
+  address: string;
+  isOwnerBefore: boolean;
+  adopterName: string;
+  adopterPhone: string;
+  adopterEmail: string;
+  adopterRole: USER_ROLE;
 }

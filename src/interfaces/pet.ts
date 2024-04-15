@@ -21,14 +21,14 @@ export interface IPetFilter {
 
 export interface IPetSelect extends IPetFilter {
   kind:
-  | 'breed'
-  | 'species'
-  | 'sex'
-  | 'age'
-  | 'color'
-  | 'size'
-  | 'isVaccinated'
-  | 'isSterillized';
+    | 'breed'
+    | 'species'
+    | 'sex'
+    | 'age'
+    | 'color'
+    | 'size'
+    | 'isVaccinated'
+    | 'isSterillized';
 }
 
 export interface IPetFilterRequest {

@@ -51,6 +51,7 @@ export const QUERY_KEYS = {
   PRE_CHECK_ADOPTION: 'PRE_CHECK_ADOPTION',
   GET_PET_DETAIL: 'GET_PET_DETAIL',
   GET_ADOPT_CARD: 'GET_ADOPT_CARD',
+  GET_ADOPT_FORM_INFO: 'GET_ADOPT_FORM_INFO',
   GET_NOTIFICATION: 'GET_NOTIFICATION',
 };
 
@@ -385,3 +386,10 @@ export const ADOPT_TIME_OPTION = [
     value: ADOPT_DELAY_DURATION.Other,
   },
 ];
+
+export const ADOPT_ACTION = {
+  ACCEPT: 'Accept',
+  REJECT: 'Reject',
+  CONFIRM: 'Confirm',
+  CANCEL: 'Cancel',
+};

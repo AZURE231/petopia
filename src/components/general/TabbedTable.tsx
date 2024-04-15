@@ -6,6 +6,7 @@ import { IUserInfo } from '@/src/interfaces/user';
 import ListCards from '../user/ListCards';
 import { PetCard } from '../search/PetCard';
 import AdoptionCard from '../adopt/AdoptionCard';
+import AdoptionRequestCard from '../adopt/AdoptionRequestCard';
 
 export default function TabbedTable({ userInfo }: { userInfo?: IUserInfo }) {
   const [tab, setTab] = useState(0);
@@ -59,8 +60,8 @@ export default function TabbedTable({ userInfo }: { userInfo?: IUserInfo }) {
             ))}
           </div>
         )}
-        {tab === 1 && <AdoptionCard />}
-        {tab === 2 && <div>Tab 3</div>}
+        {tab === 1 && <AdoptionCard type="Sent" />}
+        {tab === 2 && <AdoptionCard type="Incoming" />}
       </div>
     </div>
   );

@@ -7,11 +7,11 @@ import { useState } from 'react';
 import Popup from 'reactjs-popup';
 import PetAdoptionInfo from './PetAdoptionInfo';
 
-export default function AdoptionCard({ type }: { type: string }) {
+export default function AdoptionRequestCard() {
   const [adoptCard, setAdoptCard] = useState<IAdoptCardResponse[]>([]);
-  useQuery<IApiResponse<IAdoptCardResponse[]>>(
+  const getAdoptCardQuery = useQuery<IApiResponse<IAdoptCardResponse[]>>(
     [QUERY_KEYS.GET_ADOPT_CARD],
-    () => getAdoptCard(type),
+    getAdoptCard,
     {
       onSuccess: (res) => {
         setAdoptCard(res.data.data);
@@ -38,13 +38,8 @@ export default function AdoptionCard({ type }: { type: string }) {
                 >
                   <div>
                     <h5 className="mb-2 text-xl font-medium tracking-tight text-gray-900">
-                      {'Đơn nhận nuôi '}
+                      {'Đơn nhận nuôi - '}
                       <span className="text-2xl font-bold">{card.petName}</span>
-                      {type === 'Incoming' && (
-                        <span className="text-2xl font-bold">
-                          {' - ' + card.adopterName}
-                        </span>
-                      )}
                     </h5>
                     <p className="font-normal text-gray-700">
                       {new Date(card.lastUpdatedAt).toLocaleDateString() +
@@ -75,7 +70,7 @@ export default function AdoptionCard({ type }: { type: string }) {
                 </div>
               }
             >
-              <PetAdoptionInfo id={card.id} type={type} />
+              <PetAdoptionInfo id={card.id} />
             </Popup>
           ))}
       </div>

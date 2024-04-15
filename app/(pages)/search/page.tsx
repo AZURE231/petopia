@@ -6,7 +6,7 @@ import { STATIC_URLS } from '@/src/utils/constants';
 export default function page() {
   return (
     <div>
-      <div className="container mx-auto my-10">
+      <div className="container mx-auto">
         {/* <Breadscrum /> */}
         <div className="flex items-center justify-center mt-5">
           <Image
