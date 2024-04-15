@@ -1,19 +1,18 @@
-"use client";
-import { useState } from "react";
-import { observer } from "mobx-react-lite";
-import { useStores } from "@/src/stores";
-import { COOKIES_NAME, QUERY_KEYS } from "@/src/utils/constants";
-import { IApiResponse } from "@/src/interfaces/common";
-import { useQuery } from "@/src/utils/hooks";
-import { QueryProvider } from "../general/QueryProvider";
-import { getCurrentUserCore } from "@/src/services/user.api";
-import { getCookie } from "cookies-next";
-import { NavProfileBlock } from "./NavProfileBlock";
-import { NavOptionsBlock } from "./NavOptionsBlock";
-import Link from "next/link";
-import { ICurrentUserCoreResponse } from "@/src/interfaces/user";
-import { MdNotifications } from "react-icons/md";
-import NavNotification from "./NavNotification";
+'use client';
+import { useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import { useStores } from '@/src/stores';
+import { COOKIES_NAME, QUERY_KEYS } from '@/src/utils/constants';
+import { IApiResponse } from '@/src/interfaces/common';
+import { useQuery } from '@/src/utils/hooks';
+import { QueryProvider } from '../general/QueryProvider';
+import { getCurrentUserCore } from '@/src/services/user.api';
+import { getCookie } from 'cookies-next';
+import { NavProfileBlock } from './NavProfileBlock';
+import { NavOptionsBlock } from './NavOptionsBlock';
+import Link from 'next/link';
+import { ICurrentUserCoreResponse } from '@/src/interfaces/user';
+import NavNotification from './NavNotification';
 
 export const Navbar = observer(
   QueryProvider(() => {
@@ -51,7 +50,7 @@ export const Navbar = observer(
                 email={userStore.userContext.email}
               />
               <div className="flex items-center space-x-3 rtl:space-x-reverse">
-               <NavNotification />
+                <NavNotification />
               </div>
             </>
           ) : (

@@ -1,15 +1,15 @@
-import { MdNotifications } from "react-icons/md";
-import { useEffect, useState } from "react";
-import { QUERY_KEYS } from "@/src/utils/constants";
-import { IApiResponse } from "@/src/interfaces/common";
-import { useQuery } from "@/src/utils/hooks";
-import { INotification } from "@/src/interfaces/notification";
+import { MdNotifications } from 'react-icons/md';
+import { useEffect, useState } from 'react';
+import { QUERY_KEYS } from '@/src/utils/constants';
+import { IApiResponse } from '@/src/interfaces/common';
+import { useQuery } from '@/src/utils/hooks';
+import { INotification } from '@/src/interfaces/notification';
 import {
   clearAll,
   getNotifications,
   markAsRead,
-} from "@/src/services/notification.api";
-import { set } from "mobx";
+} from '@/src/services/notification.api';
+import { set } from 'mobx';
 
 export default function NavNotification() {
   const [showNotifications, setShowNotifications] = useState(false);
