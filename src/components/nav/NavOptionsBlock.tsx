@@ -25,6 +25,8 @@ export const NavOptionsBlock = observer((props: INavOptionsBlock) => {
   const logoutMutation = useMutation<IApiResponse<boolean>, undefined>(logout, {
     onSuccess: () => {
       deleteCookie(COOKIES_NAME.ACCESS_TOKEN_SERVER);
+      deleteCookie(COOKIES_NAME.REDIRECT);
+      deleteCookie(COOKIES_NAME.REFRESH_TOKEN_SERVER);
       window.location.replace('/login');
     },
   });
@@ -80,7 +82,7 @@ export const NavOptionsBlock = observer((props: INavOptionsBlock) => {
             <li>
               <a
                 onClick={() => window.location.replace('/user')}
-                className="block py-2 px-3 text-yellow-500 rounded hover:bg-gray-100 md:hidden"
+                className="block py-2 px-3 text-yellow-500 rounded hover:bg-gray-100 md:hidden cursor-pointer"
               >
                 {userStore.userContext.name}
               </a>
@@ -88,7 +90,7 @@ export const NavOptionsBlock = observer((props: INavOptionsBlock) => {
             <li>
               <a
                 onClick={() => logoutMutation.mutate(undefined)}
-                className="block py-2 px-3 text-yellow-500 rounded hover:bg-gray-100 md:hidden"
+                className="block py-2 px-3 text-yellow-500 rounded hover:bg-gray-100 md:hidden cursor-pointer"
               >
                 Đăng xuất
               </a>

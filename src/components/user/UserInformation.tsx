@@ -3,9 +3,9 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { FaRegEdit } from 'react-icons/fa';
 import { useMutation, useQuery } from '../../utils/hooks';
-import { IApiResponse } from '../../interfaces/common';
+import { IApiResponse, IPaginationModel } from '../../interfaces/common';
 import { IUserInfo } from '../../interfaces/user';
-import { QUERY_KEYS, STATIC_URLS } from '../../utils/constants';
+import { PAGE_SIZE, QUERY_KEYS, STATIC_URLS } from '../../utils/constants';
 import { QueryProvider } from '../general/QueryProvider';
 import ListCards from './ListCards';
 import UserUpdateForm from './UserUpdateForm';
@@ -13,13 +13,29 @@ import { getUserInfo, updateAvatar } from '@/src/services/user.api';
 import { uploadImage } from '@/src/helpers/uploadImage';
 import Link from 'next/link';
 import UserSkeleton from '../general/UserSkeleton';
+import { IPetResponse } from '@/src/interfaces/pet';
+import { getPetsByUser } from '@/src/services/pet.api';
+import { useForm } from 'react-hook-form';
+import Pagination from '../general/Pagination';
 
 export const UserInformation = QueryProvider(() => {
+  // STATES
   const [isEdit, setIsEdit] = useState(false);
   const [isEditAvatar, setIsEditAvatar] = useState(false);
   const [userInfo, setUserInfo] = useState<IUserInfo>();
   const [image, setImage] = useState<string>(STATIC_URLS.NO_AVATAR);
   const [file, setFile] = useState<File | null>(null);
+  const [pets, setPets] = useState<IPetResponse[]>([]);
+
+  // FORMS
+  const paginationForm = useForm<IPaginationModel>({
+    defaultValues: {
+      pageIndex: 1,
+      pageNumber: 1,
+    },
+  });
+
+  // HANDLERS
   const handleEdit = () => {
     setIsEdit(!isEdit);
   };
@@ -35,12 +51,13 @@ export const UserInformation = QueryProvider(() => {
     }
   };
 
+  // QUERIES AND MUTATIONS
   const updateAvatarMutation = useMutation<IApiResponse<string>, string>(
     updateAvatar
   );
 
   const getUserQuery = useQuery<IApiResponse<IUserInfo>>(
-    [QUERY_KEYS.GET_GOOGLE_RECAPTCHA_TOKEN],
+    [QUERY_KEYS.GET_CURRENT_USER],
     getUserInfo,
     {
       onSuccess: (res) => {
@@ -51,9 +68,26 @@ export const UserInformation = QueryProvider(() => {
     }
   );
 
+  const getPetsQuery = useQuery<IApiResponse<IPetResponse[]>>(
+    [QUERY_KEYS.GET_PETS, userInfo],
+    () => userInfo && getPetsByUser({
+      pageIndex: paginationForm.getValues('pageIndex'),
+      pageSize: PAGE_SIZE,
+      orderBy: '',
+      filter: userInfo.id,
+    }),
+    {
+      onSuccess: (res) => {
+        setPets(res.data.data);
+      },
+      refetchOnWindowFocus: false,
+      enabled: !!userInfo,
+    }
+  );
+
   return (
     <div>
-      {getUserQuery.isLoading && <UserSkeleton />}
+      {(getUserQuery.isLoading || getPetsQuery.isLoading) && <UserSkeleton />}
 
       {!getUserQuery.isLoading && userInfo && (
         <div className="container max-w-3xl p-5 mx-auto shadow-2xl rounded-2xl mt-36">
@@ -161,8 +195,15 @@ export const UserInformation = QueryProvider(() => {
       <ListCards
         title="Thú cưng của bạn"
         isEditable={true}
-        data={userInfo?.pets!}
+        data={pets}
       />
+      <div className="flex items-center justify-center my-5">
+        <Pagination
+          paginationForm={paginationForm}
+          disable={getPetsQuery.isFetching}
+          show={pets.length !== 0}
+        />
+      </div>
     </div>
   );
 });
