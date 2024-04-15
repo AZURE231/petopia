@@ -28,3 +28,4 @@ export const updateAvatar = async (data: string) =>
 
 export const changePassword = async (data: IChangePasswordResponse) =>
   await http.post('/User/ChangePassword', data);
+

@@ -9,7 +9,7 @@ import Popup from 'reactjs-popup';
 
 export default function AdoptionCard() {
   const [adoptCard, setAdoptCard] = useState<IAdoptCardResponse[]>([]);
-  const getAdoptCardQuery = useQuery<IApiResponse<IAdoptCardResponse[]>>(
+  useQuery<IApiResponse<IAdoptCardResponse[]>>(
     [QUERY_KEYS.GET_ADOPT_CARD],
     getAdoptCard,
     {
