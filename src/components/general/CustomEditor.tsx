@@ -16,9 +16,9 @@ const CustomEditor: React.FC<CustomEditorProps> = (props) => {
   const [blogTitle, setBlogTitle] = useState(""); // State to hold the blog title
 
   const handleSubmit = () => {
-    console.log("Submit");
-    console.log("Title:", blogTitle); // Log the title along with the editor data
-    console.log("Editor Data:", editorData);
+    // console.log("Submit");
+    // console.log("Title:", blogTitle); // Log the title along with the editor data
+    // console.log("Editor Data:", editorData);
     // Further actions for submitting the blog
   };
 
