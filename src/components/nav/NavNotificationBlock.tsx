@@ -5,6 +5,7 @@ import { IApiResponse } from '@/src/interfaces/common';
 import { useClickOutside, useQuery } from '@/src/utils/hooks';
 import { INotification } from '@/src/interfaces/notification';
 import {
+  deleteNoti,
   getNotifications,
   markAsRead,
 } from '@/src/services/notification.api';
@@ -29,6 +30,7 @@ export const NavNotificationBlock = () => {
     {
       onSuccess: (res) => {
         setNotifications(res.data.data);
+        console.log(res.data.data);
       },
       refetchOnWindowFocus: false,
     }
@@ -57,7 +59,7 @@ export const NavNotificationBlock = () => {
 
   const clearAll = () => {
     if (notifications.length === 0) return;
-    // clearAll();
+    deleteNoti();
     setNotifications([]);
   };
 
@@ -79,8 +81,8 @@ export const NavNotificationBlock = () => {
       </button>
 
       {isNewNotification && (
-        <div className="absolute bg-red-500 text-white w-2 h-2 rounded-full flex items-center justify-center -top-0.5 -right-1">
-          <div className="w-1 h-1 bg-red-500 rounded-full"></div>
+        <div className="absolute bg-red-500 text-white animate-pulse w-2 h-2 rounded-full flex items-center justify-center -top-0.5 -right-1">
+          <div className="w-1 h-1 bg-red-500 rounded-full "></div>
         </div>
       )}
 
