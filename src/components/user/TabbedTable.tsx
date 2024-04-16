@@ -12,6 +12,8 @@ import { useQuery } from '@/src/utils/hooks';
 import { getPetsByUser } from '@/src/services/pet.api';
 import { QUERY_KEYS } from '@/src/utils/constants';
 import Pagination from '../general/Pagination';
+import { countNotify } from '@/src/services/adopt.api';
+import { NotifySortBlock } from '../adopt/NotifySortBlock';
 
 export default function TabbedTable({ userInfo }: { userInfo?: IUserInfo }) {
   // CONSTANTS
@@ -26,6 +28,10 @@ export default function TabbedTable({ userInfo }: { userInfo?: IUserInfo }) {
   // STATES
   const [tab, setTab] = useState(0);
   const [pets, setPets] = useState<IPetResponse[]>([]);
+  const [notifyCount, setNotifyCount] = useState<number>(0);
+  const [orderBy, setOrderBy] = useState<
+    'Rejected' | 'Waiting' | 'Accepted' | 'All'
+  >('All');
 
   // FORMS
   const paginationForm = useForm<IPaginationModel>({
@@ -36,14 +42,26 @@ export default function TabbedTable({ userInfo }: { userInfo?: IUserInfo }) {
   });
 
   // QUERIES
+  useQuery<IApiResponse<number>>(
+    [QUERY_KEYS.GET_NOTIFICATION_COUNT],
+    countNotify,
+    {
+      onSuccess: (res) => {
+        setNotifyCount(res.data.data);
+      },
+      refetchOnWindowFocus: false,
+    }
+  );
   const getPetsQuery = useQuery<IApiResponse<IPetResponse[]>>(
     [QUERY_KEYS.GET_PETS, userInfo],
-    () => userInfo && getPetsByUser({
-      pageIndex: paginationForm.getValues('pageIndex'),
-      pageSize: PAGE_SIZE,
-      orderBy: '',
-      filter: userInfo.id,
-    }),
+    () =>
+      userInfo &&
+      getPetsByUser({
+        pageIndex: paginationForm.getValues('pageIndex'),
+        pageSize: PAGE_SIZE,
+        orderBy: '',
+        filter: userInfo.id,
+      }),
     {
       onSuccess: (res) => {
         setPets(res.data.data);
@@ -77,12 +95,19 @@ export default function TabbedTable({ userInfo }: { userInfo?: IUserInfo }) {
           </li>
           <li className="me-2">
             <button
-              className={`${tab === 2 ? activeTab : inactiveTab}`}
+              className={`${tab === 2 ? activeTab : inactiveTab} relative`}
               onClick={() => setTab(2)}
             >
               <RiUserReceived2Fill
                 className={`${tab === 2 ? activeIcon : inactiveIcon}`}
               />
+              {notifyCount > 0 && (
+                <div>
+                  <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2  bg-red-600 rounded-full">
+                    {notifyCount > 9 ? '9+' : notifyCount}
+                  </span>
+                </div>
+              )}
               Yêu cầu nhận được
             </button>
           </li>
@@ -107,7 +132,16 @@ export default function TabbedTable({ userInfo }: { userInfo?: IUserInfo }) {
           </>
         )}
         {tab === 1 && <AdoptionCard type="Sent" />}
-        {tab === 2 && <AdoptionCard type="Incoming" />}
+        {tab === 2 && (
+          <div>
+            <NotifySortBlock setFilter={setOrderBy} />
+            <AdoptionCard
+              type="Incoming"
+              notifyCount={setNotifyCount}
+              filter={orderBy}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
