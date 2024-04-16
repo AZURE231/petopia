@@ -4,6 +4,7 @@ import Editor from "ckeditor5-custom-build/build/ckeditor";
 
 interface CustomEditorProps {
   initialData: string;
+  initialTitle: string;
 }
 
 const editorConfiguration = {
@@ -26,14 +27,14 @@ const CustomEditor: React.FC<CustomEditorProps> = (props) => {
       <input
         type="text"
         placeholder="Enter blog title"
-        value={blogTitle}
+        defaultValue={props.initialTitle}
         onChange={(e) => setBlogTitle(e.target.value)}
         className="w-full p-3 px-8 rounded-full font-bold shadow-md bg-white border border-gray-300 mb-5"
       />
       <CKEditor
         editor={Editor}
         config={editorConfiguration}
-        data={props.initialData}
+        data={editorData}
         onChange={(event, editor) => {
           const data = editor.getData();
           setEditorData(data);
