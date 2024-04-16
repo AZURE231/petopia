@@ -71,7 +71,7 @@ export const SearchPetSection = QueryProvider(() => {
             Tìm thú cưng
           </h1>
         </div>
-        <section className="pb-24 pt-6">
+        <section className="pt-6">
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
             <PetFilterBar
               filterForm={filterFrom}
@@ -117,18 +117,18 @@ export const SearchPetSection = QueryProvider(() => {
               <div className="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 xl:gap-x-8">
                 {getPetsQuery.isLoading
                   ? Array.from({ length: PAGE_SIZE }).map((_, index) => (
-                      <CardSkeleton key={index} />
-                    ))
+                    <CardSkeleton key={index} />
+                  ))
                   : pets.map((pet) => (
-                      <PetCard isEditable={false} key={pet.id} {...pet} />
-                    ))}
+                    <PetCard isEditable={false} key={pet.id} {...pet} />
+                  ))}
               </div>
               <NoResultBackground show={pets.length === 0} />
               <div className="flex items-center justify-center mt-5">
                 <Pagination
                   paginationForm={paginationForm}
                   disable={getPetsQuery.isFetching}
-                  show={pets.length !== 0}
+                  show={pets.length !== 0 && pets.length > PAGE_SIZE}
                 />
               </div>
             </div>

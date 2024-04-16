@@ -68,7 +68,7 @@
 //     locationForm.setValue('Level', 3);
 //   };
 //   return (
-//     <div className="w-full rounded-2xl bg-blue-200 p-5">
+//     <div className="w-full rounded-2xl bg-yellow-100 p-5">
 //       <h2 className="font-bold mb-2">Thông tin chủ sở hữu</h2>
 
 //       {/* form */}

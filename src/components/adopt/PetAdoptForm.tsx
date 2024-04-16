@@ -102,10 +102,9 @@ export default function PetAdoptForm({ handleClose }: Props) {
 
   return (
     <div className="container p-5 mx-auto">
-      {
-        preCheckQuery.isSuccess &&
+      {preCheckQuery.isSuccess && (
         <form
-          className="w-full rounded-2xl bg-blue-200 p-5"
+          className="w-full rounded-2xl bg-yellow-100 p-5"
           onSubmit={handleOnSubmit}
         >
           <h2 className="font-bold mb-2">Đơn nhận nuôi thú cưng</h2>
@@ -166,8 +165,7 @@ export default function PetAdoptForm({ handleClose }: Props) {
               </div>
               <div></div>
               <div className="flex flex-col space-y-2 col-span-2">
-                {
-                  userInfo &&
+                {userInfo && (
                   <AddressDropdown
                     districtCode={watch('districtCode')}
                     provinceCode={watch('provinceCode')}
@@ -182,7 +180,7 @@ export default function PetAdoptForm({ handleClose }: Props) {
                       setValue('wardCode', code);
                     }}
                   />
-                }
+                )}
               </div>
               {/* Địa chỉ */}
               <div className="flex flex-col space-y-2 col-span-2">
@@ -281,7 +279,7 @@ export default function PetAdoptForm({ handleClose }: Props) {
             </button>
           </div>
         </form>
-      }
+      )}
       <Alert
         failed={alertFail}
         message={alertMessage}

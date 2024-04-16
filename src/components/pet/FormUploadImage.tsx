@@ -38,7 +38,7 @@ export default function FormUploadImage({
   };
 
   return (
-    <div className="w-full rounded-2xl bg-blue-200 p-5">
+    <div className="w-full rounded-2xl bg-yellow-100 p-5">
       <h2 className="font-bold mb-2">Hình thú cưng của bạn</h2>
 
       {/* Dropzone */}
