@@ -13,6 +13,7 @@ import { uploadImage } from '@/src/helpers/uploadImage';
 import Link from 'next/link';
 import UserSkeleton from '../general/UserSkeleton';
 import TabbedTable from './TabbedTable';
+import { RiVerifiedBadgeFill, RiAdminFill } from 'react-icons/ri';
 
 export const UserInformation = QueryProvider(() => {
   // STATES
@@ -105,11 +106,13 @@ export const UserInformation = QueryProvider(() => {
               <h1 className="font-bold text-5xl ml-5">
                 {userInfo &&
                   userInfo.attributes.firstName +
-                  ' ' +
-                  userInfo.attributes.lastName}
+                    ' ' +
+                    userInfo.attributes.lastName}
               </h1>
-              {userInfo?.userRole == 1 && <div>System admin</div>}
-              {userInfo?.userRole == 2 && <div>Organization</div>}
+              <div className=" ml-5 mt-4 ">
+                {userInfo?.userRole == 1 && <RiVerifiedBadgeFill size={30} />}
+                {userInfo?.userRole == 2 && <RiAdminFill size={30} />}
+              </div>
             </div>
 
             <button onClick={handleEdit}>
