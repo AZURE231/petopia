@@ -6,17 +6,22 @@ import { useMutation } from '../../utils/hooks';
 import { IApiResponse } from '../../interfaces/common';
 import { updateUser } from '../../services/user.api';
 import { Alert } from '../general/Alert';
+import { ClipLoader } from 'react-spinners';
 
 export default function UserUpdateForm({
   userInfo,
   isEdit,
+  image,
+  setUserInfo,
 }: {
   userInfo: IUserInfo;
   isEdit: boolean;
+  image: File | null;
+  setUserInfo: (userInfo: IUserInfo) => void;
 }) {
-  const [error, setError] = useState<string>('');
-  const [showAlert, setShowAlert] = useState<boolean>(false);
-  const [showSuccess, setShowSuccess] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>('');
+  const [alertShow, setAlertShow] = useState<boolean>(false);
+  const [alertFail, setAlertFail] = useState<boolean>(false);
 
   const { getValues, setValue, watch } = useForm<IUserUpdate>({
     defaultValues: {
@@ -34,19 +39,19 @@ export default function UserUpdateForm({
     updateUser,
     {
       onError: (err) => {
-        console.log(err);
-        setError('Tạo hồ sơ thú cưng thất bại');
-        setShowAlert(true);
+        setAlertMessage('Tạo hồ sơ thú cưng thất bại');
+        setAlertFail(true);
+        setAlertShow(true);
       },
       onSuccess: (res) => {
-        console.log('success');
-        console.log(res);
-        setShowSuccess(true);
+        setAlertMessage('Cập nhật thông tin thành công');
+        setAlertFail(false);
+        setAlertShow(true);
       },
     }
   );
 
-  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     updateUserMutation.mutate(getValues());
   };
@@ -105,7 +110,14 @@ export default function UserUpdateForm({
                 />
               </div>
             </div>
-            <AddressDropdown setValue={setValue} watch={watch} />
+            <AddressDropdown
+              districtCode={watch('districtCode')}
+              provinceCode={watch('provinceCode')}
+              wardCode={watch('wardCode')}
+              setProvinceCode={(code: string) => { setValue('provinceCode', code); }}
+              setDistrictCode={(code: string) => { setValue('districtCode', code); }}
+              setWardCode={(code: string) => { setValue('wardCode', code); }}
+            />
             <div className="mb-4">
               <label
                 className="block text-gray-700 text-lg font-bold mb-2"
@@ -129,21 +141,24 @@ export default function UserUpdateForm({
                         focus:ring-primary-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center"
             >
               Xác nhận
+              <span className="pl-2">
+                <ClipLoader
+                  color={'#000000'}
+                  loading={updateUserMutation.isLoading}
+                  size={14}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+              </span>
             </button>
           </div>
         </form>
       )}
       <Alert
-        message={error!}
-        show={showAlert}
-        setShow={setShowAlert}
-        failed={true}
-      />
-      <Alert
-        message={'Cập nhật thông tin thành công'}
-        show={showSuccess}
-        setShow={setShowSuccess}
-        failed={false}
+        message={alertMessage}
+        show={alertShow}
+        setShow={setAlertShow}
+        failed={alertFail}
       />
     </div>
   );

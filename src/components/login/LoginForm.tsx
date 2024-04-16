@@ -7,7 +7,11 @@ import { Alert } from '../general/Alert';
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { QueryProvider } from '../general/QueryProvider';
-import { IGoogleLoginRequest, ILoginRequest, ILoginResponse } from '@/src/interfaces/authentication';
+import {
+  IGoogleLoginRequest,
+  ILoginRequest,
+  ILoginResponse,
+} from '@/src/interfaces/authentication';
 import { COOKIES_NAME } from '@/src/utils/constants';
 import { useMutation } from '@/src/utils/hooks';
 import { IApiResponse } from '@/src/interfaces/common';
@@ -35,6 +39,9 @@ export const LoginForm = QueryProvider(() => {
 
   const handleOnLoginSuccess = (data: ILoginResponse) => {
     setCookie(COOKIES_NAME.ACCESS_TOKEN_SERVER, data.accessToken, {
+      expires: new Date(data.accessTokenExpiredDate),
+    });
+    setCookie(COOKIES_NAME.REFRESH_TOKEN_SERVER, data.accessToken, {
       expires: new Date(data.accessTokenExpiredDate),
     });
     const redirect = getCookie(COOKIES_NAME.REDIRECT);
@@ -132,12 +139,12 @@ export const LoginForm = QueryProvider(() => {
                   </label>
                 </div>
               </div>
-              <a
+              <Link
                 className="text-sm font-medium text-primary-600 hover:underline "
                 href="/login/forgot-password"
               >
                 Quên mật khẩu?
-              </a>
+              </Link>
             </div>
             <button
               type="submit"

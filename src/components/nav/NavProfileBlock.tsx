@@ -6,6 +6,7 @@ import { useClickOutside, useMutation } from '@/src/utils/hooks';
 import { deleteCookie } from 'cookies-next';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
+import { NavNotificationBlock } from './NavNotificationBlock';
 
 export const NavProfileBlock = ({
   image,
@@ -25,6 +26,8 @@ export const NavProfileBlock = ({
     {
       onSuccess: () => {
         deleteCookie(COOKIES_NAME.ACCESS_TOKEN_SERVER);
+        deleteCookie(COOKIES_NAME.REFRESH_TOKEN_SERVER);
+        deleteCookie(COOKIES_NAME.REDIRECT);
         window.location.replace('/login');
       },
     }
@@ -38,19 +41,19 @@ export const NavProfileBlock = ({
   }, [buttonRef, optionsRef]);
 
   return (
-    <div className="hidden md:flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+    <div className="hidden md:flex items-center md:order-2 space-x-3 md:space-x-2 rtl:space-x-reverse">
+      <NavNotificationBlock />
       <div className="flex flex-col relative">
         <button
-          className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 "
+          className="flex text-sm bg-gray-800 rounded-full overflow-hidden md:me-0 focus:ring-4 focus:ring-gray-300 w-8 h-8 relative"
           onClick={() => setIsOpenProfile(!isOpenProfile)}
           ref={buttonRef}
         >
           <Image
-            className="rounded-full"
+            className="object-cover"
             alt="user photo"
             src={image || STATIC_URLS.NO_AVATAR}
-            width={32}
-            height={32}
+            fill
           />
         </button>
         <div

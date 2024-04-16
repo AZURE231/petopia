@@ -20,6 +20,7 @@ export const STATIC_URLS = {
 
 export const COOKIES_NAME = {
   ACCESS_TOKEN_SERVER: 'accessTokenServer',
+  REFRESH_TOKEN_SERVER: 'accessTokenServer',
   REDIRECT: 'redirect',
 };
 
@@ -31,6 +32,11 @@ export const DOMAIN_ERROR_MESSAGES = {
   '10004': 'Link khôi phục mật khẩu hết hạn.',
   '10005': 'Google captcha không hợp lệ.',
   '10006': 'Email được sử dụng cho phương thức đăng nhập khác.',
+  '10007': 'Mật khẩu mới không được trùng với mật khẩu hiện tại',
+  '10008': 'Không tìm thấy người dùng.',
+  '10009': 'Mật khẩu không đúng.',
+  '12002': 'Không thể nhận nuôi thú cưng của chính bạn.',
+  '12003': 'Bạn đã gửi yêu cầu nhận nuôi thú cưng này rồi.',
 };
 
 export const QUERY_KEYS = {
@@ -39,6 +45,14 @@ export const QUERY_KEYS = {
   GET_PETS: 'GET_PETS',
   GET_LOCATION: 'GET_LOCATION',
   GET_CURRENT_USER_CORE: 'GET_CURRENT_USER_CORE',
+  GET_CURRENT_USER: 'GET_CURRENT_USER',
+  GET_OTHER_USER: 'GET_OTHER_USER',
+  GET_USER_INFO_FOR_ADOPTION: 'GET_USER_INFO_FOR_ADOPTION',
+  PRE_CHECK_ADOPTION: 'PRE_CHECK_ADOPTION',
+  GET_PET_DETAIL: 'GET_PET_DETAIL',
+  GET_ADOPT_CARD: 'GET_ADOPT_CARD',
+  GET_ADOPT_FORM_INFO: 'GET_ADOPT_FORM_INFO',
+  GET_NOTIFICATION: 'GET_NOTIFICATION',
 };
 
 export const EVENT_NAMES = {
@@ -91,6 +105,23 @@ export enum PET_MEDICAL_STATUS {
   NO = 1,
   UNKNOWN = 2,
 }
+
+export enum HOUSE_TYPE {
+  Apartment = 0,
+  House = 1,
+  Dormitory = 2,
+  Shelter = 3,
+  Other = 4,
+}
+
+export enum ADOPT_DELAY_DURATION {
+  Immediately,
+  FewDays,
+  OneWeek,
+  Other,
+}
+
+//////////////////////////////////////////////////////////////////
 
 export const PET_SPECIES_FILTER: IPetFilter = {
   id: 1,
@@ -313,3 +344,52 @@ export const BLOG_CATEGORIES = [
   'Thời trang',
   'Ẩm thực',
 ];
+
+export const HOUSE_TYPE_OPTION = [
+  {
+    label: 'Chung cư',
+    value: HOUSE_TYPE.Apartment,
+  },
+  {
+    label: 'Nhà riêng',
+    value: HOUSE_TYPE.House,
+  },
+  {
+    label: 'Kí túc xá',
+    value: HOUSE_TYPE.Dormitory,
+  },
+  {
+    label: 'Trạm cứu hộ',
+    value: HOUSE_TYPE.Shelter,
+  },
+  {
+    label: 'Khác',
+    value: HOUSE_TYPE.Other,
+  },
+];
+
+export const ADOPT_TIME_OPTION = [
+  {
+    label: 'Ngay lập tức',
+    value: ADOPT_DELAY_DURATION.Immediately,
+  },
+  {
+    label: 'Vài ngày',
+    value: ADOPT_DELAY_DURATION.FewDays,
+  },
+  {
+    label: '1 tuần',
+    value: ADOPT_DELAY_DURATION.OneWeek,
+  },
+  {
+    label: 'Chưa rõ',
+    value: ADOPT_DELAY_DURATION.Other,
+  },
+];
+
+export const ADOPT_ACTION = {
+  ACCEPT: 'Accept',
+  REJECT: 'Reject',
+  CONFIRM: 'Confirm',
+  CANCEL: 'Cancel',
+};

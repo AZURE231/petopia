@@ -10,8 +10,8 @@ import { usePathname } from 'next/navigation';
 import { Dispatch, SetStateAction } from 'react';
 
 interface INavOptionsBlock {
-  isOpenMenu: boolean,
-  setIsOpenMenu: Dispatch<SetStateAction<boolean>>,
+  isOpenMenu: boolean;
+  setIsOpenMenu: Dispatch<SetStateAction<boolean>>;
 }
 
 export const NavOptionsBlock = observer((props: INavOptionsBlock) => {
@@ -22,15 +22,14 @@ export const NavOptionsBlock = observer((props: INavOptionsBlock) => {
     'bg-yellow-300 md:underline md:decoration-yellow-300 md:decoration-4';
 
   // LOGOUT
-  const logoutMutation = useMutation<IApiResponse<boolean>, undefined>(
-    logout,
-    {
-      onSuccess: () => {
-        deleteCookie(COOKIES_NAME.ACCESS_TOKEN_SERVER);
-        window.location.replace('/login');
-      },
-    }
-  );
+  const logoutMutation = useMutation<IApiResponse<boolean>, undefined>(logout, {
+    onSuccess: () => {
+      deleteCookie(COOKIES_NAME.ACCESS_TOKEN_SERVER);
+      deleteCookie(COOKIES_NAME.REDIRECT);
+      deleteCookie(COOKIES_NAME.REFRESH_TOKEN_SERVER);
+      window.location.replace('/login');
+    },
+  });
 
   return (
     <div
@@ -62,8 +61,8 @@ export const NavOptionsBlock = observer((props: INavOptionsBlock) => {
         </li>
         <li>
           <Link
-            href="/adopt"
-            className={`block py-2 px-3 ${pathname == '/adopt' ? activeTab : 'md:hover:text-yellow-400'
+            href="/give-pet"
+            className={`block py-2 px-3 ${pathname == '/give-pet' ? activeTab : 'md:hover:text-yellow-400'
               } text-black  rounded md:bg-transparent md:text-black  md:p-0 `}
           >
             Cho thú cưng
@@ -72,26 +71,32 @@ export const NavOptionsBlock = observer((props: INavOptionsBlock) => {
         <li>
           <Link
             href="/blog"
-            className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-yellow-400 md:p-0"
+            className={`block py-2 px-3 ${pathname == '/blog' ? activeTab : 'md:hover:text-yellow-400'
+              } text-black  rounded md:bg-transparent md:text-black  md:p-0 `}
           >
-            Blog
+            Tin tức
           </Link>
         </li>
-        {
-          userStore.userContext &&
+        {userStore.userContext && (
           <>
-            <li><a
-              onClick={() => window.location.replace('/user')}
-              className='block py-2 px-3 text-yellow-500 rounded hover:bg-gray-100 md:hidden'
-            >{userStore.userContext.name}</a>
+            <li>
+              <a
+                onClick={() => window.location.replace('/user')}
+                className="block py-2 px-3 text-yellow-500 rounded hover:bg-gray-100 md:hidden cursor-pointer"
+              >
+                {userStore.userContext.name}
+              </a>
             </li>
-            <li><a
-              onClick={() => logoutMutation.mutate(undefined)}
-              className='block py-2 px-3 text-yellow-500 rounded hover:bg-gray-100 md:hidden'
-            >Đăng xuất</a>
+            <li>
+              <a
+                onClick={() => logoutMutation.mutate(undefined)}
+                className="block py-2 px-3 text-yellow-500 rounded hover:bg-gray-100 md:hidden cursor-pointer"
+              >
+                Đăng xuất
+              </a>
             </li>
           </>
-        }
+        )}
       </ul>
     </div>
   );
