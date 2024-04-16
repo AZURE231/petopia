@@ -1,9 +1,9 @@
 'use client';
-import { useEffect, useState } from 'react';
 import ControlForm from './ControlForm';
 import Image from 'next/image';
 import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import { ICreatePetProfileRequest } from '@/src/interfaces/pet';
+import { IoClose } from 'react-icons/io5';
 
 export default function FormUploadImage({
   handleNext,
@@ -14,27 +14,33 @@ export default function FormUploadImage({
   setValue: UseFormSetValue<ICreatePetProfileRequest>;
   watch: UseFormWatch<ICreatePetProfileRequest>;
 }) {
-  const [files, setFiles] = useState<string[]>([]);
-  useEffect(() => {
-    setFiles(watch('files'));
-  }, [watch('files')]);
   const handleAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
     if (fileList) {
-      const ImagesArray = Object.entries(fileList).map((e) =>
+      const url = Object.entries(fileList).map((e) =>
         URL.createObjectURL(e[1])
-      );
-      setFiles([...files, ...ImagesArray]);
-      setValue('files', [...files, ...ImagesArray]);
-      setValue('imagesFile', fileList);
-      console.log('files', files);
+      )[0];
+      if (!watch('showImages').includes(url)) {
+        const file = Array.from(fileList)[0];
+        setValue('showImages', [...watch('showImages'), url]);
+        setValue('files', [...watch('files'), file]);
+      }
     }
+    e.target.files = null;
   };
 
-  const deleteFile = (e: number) => {
-    const newFiles = files.filter((item, index) => index !== e);
-    setFiles(newFiles);
-    setValue('files', newFiles);
+  const deleteFile = (index: number) => {
+    const newShowImages = watch('showImages').filter((_, i) => i !== index);
+    setValue('showImages', newShowImages);
+    if (index < watch('images').length) {
+      const newImages = watch('images').filter((_, i) => i !== index);
+      setValue('images', newImages);
+    }
+    else {
+      const fileIndex = index - watch('images').length;
+      const newFiles = watch('files').filter((_, i) => i !== fileIndex);
+      setValue('files', newFiles);
+    }
   };
 
   return (
@@ -71,8 +77,7 @@ export default function FormUploadImage({
           </div>
           <input
             id="dropzone-file"
-            disabled={files.length === 3}
-            multiple
+            disabled={watch('showImages').length >= 3}
             type="file"
             accept="image/png, image/jpeg, image/jpg"
             className="hidden"
@@ -82,8 +87,8 @@ export default function FormUploadImage({
       </div>
       {/* Image preview */}
       <div className="flex gap-3 mb-5">
-        {files.length > 0 &&
-          files.map((file, index) => (
+        {watch('showImages').length > 0 &&
+          watch('showImages').map((file, index) => (
             <div key={index} className="relative w-1/3 h-24">
               <Image
                 src={file}
@@ -91,32 +96,18 @@ export default function FormUploadImage({
                 fill
                 className="object-cover rounded-lg"
               ></Image>
-              <button
+              <div
+                className="absolute top-0 bg-red-300 right-0 p-1 rounded-full flex justify-center items-center cursor-pointer"
                 onClick={() => deleteFile(index)}
-                className="absolute top-0 right-0 p-1 bg-red-500 rounded-full"
               >
-                <svg
-                  className="w-4 h-4 text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
+                <IoClose color='black' />
+              </div>
             </div>
           ))}
       </div>
 
       {/* Controller */}
-      <ControlForm handleBack={() => {}} handleNext={handleNext} type={1} />
+      <ControlForm handleBack={() => { }} handleNext={handleNext} type={1} />
     </div>
   );
 }

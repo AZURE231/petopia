@@ -144,7 +144,7 @@ export const OtherUserInformation = QueryProvider(
                 <Pagination
                   paginationForm={paginationForm}
                   disable={getPetsQuery.isFetching}
-                  show={pets.length !== 0}
+                  show={pets.length !== 0 && paginationForm.getValues('pageNumber') != 1}
                 />
               </div>
             </>
