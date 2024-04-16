@@ -128,7 +128,7 @@ export const SearchPetSection = QueryProvider(() => {
                 <Pagination
                   paginationForm={paginationForm}
                   disable={getPetsQuery.isFetching}
-                  show={pets.length !== 0 && pets.length > PAGE_SIZE}
+                  show={pets.length !== 0 && paginationForm.getValues('pageNumber') != 1}
                 />
               </div>
             </div>

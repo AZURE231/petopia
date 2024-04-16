@@ -122,14 +122,14 @@ export default function TabbedTable({ userInfo }: { userInfo?: IUserInfo }) {
           <>
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
               {pets.map((item) => (
-                <PetCard isEditable={true} key={item.id} {...item} />
+                <PetCard isEditable={true} key={item.id} {...item} simple />
               ))}
             </div>
             <div className="flex items-center justify-center mt-5">
               <Pagination
                 paginationForm={paginationForm}
                 disable={getPetsQuery.isFetching}
-                show={pets.length !== 0 && pets.length > PAGE_SIZE}
+                show={pets.length !== 0 && paginationForm.getValues('pageNumber') != 1}
               />
             </div>
           </>

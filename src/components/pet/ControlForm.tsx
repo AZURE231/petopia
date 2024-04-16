@@ -5,13 +5,11 @@ export default function ControlForm({
   handleBack,
   handleNext,
   type,
-  handleSubmit,
   isLoading = false,
 }: {
   handleBack: () => void;
   handleNext: () => void;
   type: 1 | 2 | 3 | 4;
-  handleSubmit?: (event: any) => void;
   isLoading?: boolean;
 }) {
   return (
@@ -46,7 +44,7 @@ export default function ControlForm({
         <button
           className="whitespace-nowrap whitespace-no-wrap p-3 flex text-black bg-yellow-300 hover:bg-yellow-400 rounded-lg items-center"
           type="submit"
-          onClick={handleSubmit}
+          disabled={isLoading}
         >
           Hoàn thành
           <span className="ml-2 leading-5">
