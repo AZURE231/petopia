@@ -29,7 +29,10 @@ export default function TabbedTable({ userInfo }: { userInfo?: IUserInfo }) {
   const [tab, setTab] = useState(0);
   const [pets, setPets] = useState<IPetResponse[]>([]);
   const [notifyCount, setNotifyCount] = useState<number>(0);
-  const [orderBy, setOrderBy] = useState<
+  const [orderByIncoming, setOrderByIncoming] = useState<
+    'Rejected' | 'Waiting' | 'Accepted' | 'All'
+  >('All');
+  const [orderBySent, setOrderBySent] = useState<
     'Rejected' | 'Waiting' | 'Accepted' | 'All'
   >('All');
 
@@ -131,14 +134,19 @@ export default function TabbedTable({ userInfo }: { userInfo?: IUserInfo }) {
             </div>
           </>
         )}
-        {tab === 1 && <AdoptionCard type="Sent" />}
+        {tab === 1 && (
+          <div>
+            <NotifySortBlock setFilter={setOrderBySent} />
+            <AdoptionCard type="Sent" filter={orderBySent} />
+          </div>
+        )}
         {tab === 2 && (
           <div>
-            <NotifySortBlock setFilter={setOrderBy} />
+            <NotifySortBlock setFilter={setOrderByIncoming} />
             <AdoptionCard
               type="Incoming"
               notifyCount={setNotifyCount}
-              filter={orderBy}
+              filter={orderByIncoming}
             />
           </div>
         )}

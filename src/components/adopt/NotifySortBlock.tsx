@@ -28,7 +28,7 @@ export const NotifySortBlock = ({
       case 'Rejected':
         return 'Từ chối';
       case 'Waiting':
-        return 'Chờ xác nhận';
+        return 'Đang chờ';
       case 'Accepted':
         return 'Chấp nhận';
       case 'All':
@@ -58,7 +58,7 @@ export const NotifySortBlock = ({
           onClick={() => setShowSort(!showSort)}
           ref={buttonRef}
         >
-          {`Sắp xếp: ${getSortLabel(orderBy)}`}
+          {`Chọn: ${getSortLabel(orderBy)}`}
           <svg
             className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
             viewBox="0 0 20 20"
@@ -84,25 +84,25 @@ export const NotifySortBlock = ({
       >
         <div className="py-1" role="none" ref={listRef}>
           <div
-            className="font-medium text-gray-900 block px-4 py-2 text-sm cursor-pointer"
+            className="font-medium hover:bg-gray-100 text-gray-900 block px-4 py-2 text-sm cursor-pointer"
             onClick={() => handleOnClickSort('Waiting')}
           >
             Đang chờ
           </div>
           <div
-            className="font-medium text-gray-900 block px-4 py-2 text-sm cursor-pointer"
+            className="font-medium hover:bg-gray-100 text-gray-900 block px-4 py-2 text-sm cursor-pointer"
             onClick={() => handleOnClickSort('Accepted')}
           >
-            Đã chấp nhận
+            Chấp nhận
           </div>
           <div
-            className="font-medium text-gray-900 block px-4 py-2 text-sm cursor-pointer"
+            className="font-medium hover:bg-gray-100 text-gray-900 block px-4 py-2 text-sm cursor-pointer"
             onClick={() => handleOnClickSort('Rejected')}
           >
-            Đã từ chối
+            Từ chối
           </div>
           <div
-            className="font-medium text-gray-900 block px-4 py-2 text-sm cursor-pointer"
+            className="font-medium hover:bg-gray-100 text-gray-900 block px-4 py-2 text-sm cursor-pointer"
             onClick={() => handleOnClickSort('All')}
           >
             Tất cả
