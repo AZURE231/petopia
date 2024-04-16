@@ -1,42 +1,32 @@
 'use client';
 import { ChangeEvent, useState } from 'react';
-import { set, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useMutation, useQuery } from '@/src/utils/hooks';
 import { IApiResponse } from '@/src/interfaces/common';
 import { QueryProvider } from '../general/QueryProvider';
 import FormUploadImage from './FormUploadImage';
 import FormPetDetail from './FormPetDetail';
 import FormRules from './FormRules';
-import axios from 'axios';
 import { isEmpty, isNotChecked } from '@/src/helpers/inputValidator';
 import { Alert } from '../general/Alert';
 import {
   ICreatePetProfileRequest,
+  ICreatePetResponse,
   IPetDetailResponse,
+  IUpdatePeResponse,
 } from '@/src/interfaces/pet';
 import { getPetDetail, postPet, updatePet } from '@/src/services/pet.api';
 import { QUERY_KEYS } from '@/src/utils/constants';
+import { postImage } from '@/src/helpers/postImage';
 
 const PetProfileForm = QueryProvider(
-  ({ id = '', handleClose }: { id?: string; handleClose?: () => void }) => {
+  ({ id = '' }: { id?: string; handleClose?: () => void }) => {
+    // STATES
     const [error, setError] = useState<string>('');
     const [showAlert, setShowAlert] = useState<boolean>(false);
-    const [showSuccess, setShowSuccess] = useState<boolean>(false);
-
-    const activeStepper = 'text-blue-600';
-    const activeStepperBorder = 'border-blue-600';
-
     const [activeStep, setActiveStep] = useState(0);
 
-    const handleNext = () => {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
-
-    const handleBack = () => {
-      setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-
-    // ADOPT FORM
+    // FORMS
     const { getValues, setValue, watch } = useForm<ICreatePetProfileRequest>({
       defaultValues: {
         name: '',
@@ -52,74 +42,63 @@ const PetProfileForm = QueryProvider(
         address: 'chưa điền',
         breed: 'chưa rõ',
         files: [],
-        imagesFile: null,
         images: [],
+        showImages: [],
         id: id,
       },
     });
 
-    useQuery<IApiResponse<IPetDetailResponse>>(
-      [QUERY_KEYS.GET_GOOGLE_RECAPTCHA_TOKEN],
-      () => getPetDetail({ id: id }),
-      {
-        onSuccess: (res) => {
-          setValue('name', res.data.data.name);
-          setValue('description', res.data.data.description);
-          setValue('sex', res.data.data.sex);
-          setValue('age', res.data.data.age);
-          setValue('color', res.data.data.color);
-          setValue('species', res.data.data.species);
-          setValue('size', res.data.data.size);
-          setValue('isSterillized', res.data.data.isSterillized);
-          setValue('isVaccinated', res.data.data.isVaccinated);
-          setValue('isAvailable', res.data.data.isAvailable);
-          setValue('address', res.data.data.address);
-          setValue('breed', res.data.data.breed);
-          setValue('files', res.data.data.images);
-          setValue('images', res.data.data.images);
-        },
-        refetchOnWindowFocus: false,
-        enabled: !!id,
-      }
-    );
+    // CONSTANTS
+    const activeStepper = 'text-blue-600';
+    const activeStepperBorder = 'border-blue-600';
 
-    const postImage = async (formData: FormData) => {
-      try {
-        const res = await axios.post(
-          'https://api.imgbb.com/1/upload?key=375280be5017acaf5d4d8561abc4f13b',
-          formData
-        );
-        console.log(res);
-        setValue('images', [...getValues('images'), res.data.data.url]);
-      } catch (err) {
-        console.error(err);
+    // HANDLERS
+    const handleNext = () => {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    };
+
+    const handleBack = () => {
+      setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    };
+
+    const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      let errorMessage = validateInputs();
+      if (errorMessage) {
+        setError(errorMessage);
+        setShowAlert(true);
+      }
+      else {
+        await uploadImage();
+        if (id) updatePetMutation.mutate(getValues());
+        else createPetMutation.mutate(getValues());
       }
     };
 
     const uploadImage = async () => {
-      const imagesFile = getValues('imagesFile');
+      const files = getValues('files');
 
-      if (imagesFile && imagesFile.length > 0) {
+      if (files && files.length > 0) {
         // Convert FileList to array
-        const filesArray = Array.from(imagesFile);
+        const filesArray = Array.from(files);
 
         // Use Promise.all to await all image uploads
         await Promise.all(
           filesArray.map(async (file) => {
             const formData = new FormData();
             formData.append('image', file);
-            console.log('formData', formData);
-            await postImage(formData); // Wait for each image upload to complete
+            const url: string = await postImage(formData);
+            url && setValue('images', [...getValues('images'), url]);
           })
         );
       }
     };
 
-    const inputValidator = () => {
+    const validateInputs = () => {
       let errorMessage = '';
 
       errorMessage +=
-        getValues('images').length === 0 ? 'Ảnh không được để trống;\n' : '';
+        getValues('images').length == 0 ? 'Ảnh không được để trống;\n' : '';
       errorMessage += isEmpty(getValues('name'))
         ? 'Tên không được để trống;\n'
         : '';
@@ -151,52 +130,55 @@ const PetProfileForm = QueryProvider(
       return errorMessage.trim(); // Trim any leading/trailing whitespace
     };
 
-    const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      if (id) {
-        updatePetMutation.mutate(getValues());
-      } else {
-        await uploadImage();
-        let errorMessage = inputValidator();
-        if (!errorMessage) createPetMutation.mutate(getValues());
-        else {
-          setError(errorMessage);
-          setShowAlert(true);
-        }
+    // QUERIES AND MUTATIONS
+    useQuery<IApiResponse<IPetDetailResponse>>(
+      [QUERY_KEYS.GET_PET_DETAIL],
+      () => getPetDetail({ id: id }),
+      {
+        onSuccess: (res) => {
+          setValue('name', res.data.data.name);
+          setValue('description', res.data.data.description);
+          setValue('sex', res.data.data.sex);
+          setValue('age', res.data.data.age);
+          setValue('color', res.data.data.color);
+          setValue('species', res.data.data.species);
+          setValue('size', res.data.data.size);
+          setValue('isSterillized', res.data.data.isSterillized);
+          setValue('isVaccinated', res.data.data.isVaccinated);
+          setValue('isAvailable', res.data.data.isAvailable);
+          setValue('address', res.data.data.address);
+          setValue('breed', res.data.data.breed);
+          setValue('images', res.data.data.images);
+          setValue('showImages', res.data.data.images);
+        },
+        refetchOnWindowFocus: false,
+        enabled: !!id,
       }
-    };
+    );
 
-    // UPDATE PET MUTATION
     const updatePetMutation = useMutation<
-      IApiResponse<boolean>,
+      IApiResponse<IUpdatePeResponse>,
       ICreatePetProfileRequest
     >(updatePet, {
-      onError: (err) => {
-        console.log(err);
+      onError: () => {
         setError('Cập nhật hồ sơ thú cưng thất bại');
         setShowAlert(true);
       },
       onSuccess: (res) => {
-        console.log('success');
-        console.log(res);
-        setShowSuccess(true);
+        window.location.replace(`/pet/${res.data.data.id}`);
       },
     });
 
-    // CREATE PET MUTATION
     const createPetMutation = useMutation<
-      IApiResponse<boolean>,
+      IApiResponse<ICreatePetResponse>,
       ICreatePetProfileRequest
     >(postPet, {
-      onError: (err) => {
-        console.log(err);
+      onError: () => {
         setError('Tạo hồ sơ thú cưng thất bại');
         setShowAlert(true);
       },
       onSuccess: (res) => {
-        console.log('success');
-        console.log(res);
-        setShowSuccess(true);
+        window.location.replace(`/pet/${res.data.data.id}`);
       },
     });
 
@@ -303,10 +285,9 @@ const PetProfileForm = QueryProvider(
         {/* rules */}
         {activeStep === 2 && (
           <FormRules
-            handleSubmit={handleSubmit}
             handleBack={handleBack}
             isLoading={
-              createPetMutation.isLoading || updatePetMutation.isLoading
+              updatePetMutation.isLoading || createPetMutation.isLoading
             }
           />
         )}
@@ -315,17 +296,6 @@ const PetProfileForm = QueryProvider(
           show={showAlert}
           setShow={setShowAlert}
           failed={true}
-        />
-        <Alert
-          message={
-            id
-              ? 'Cập nhật hồ sơ thú cưng thành công'
-              : 'Tạo hồ sơ thú cưng thành công'
-          }
-          show={showSuccess}
-          setShow={setShowSuccess}
-          failed={false}
-          action={handleClose}
         />
       </form>
     );
