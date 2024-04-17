@@ -9,6 +9,7 @@ import { Alert } from '../general/Alert';
 import { setCookie } from 'cookies-next';
 import { COOKIES_NAME } from '@/src/utils/constants';
 import { usePathname } from 'next/navigation';
+import { PiPawPrintFill } from 'react-icons/pi';
 
 export const PetAdoptButton = observer(() => {
   const [open, setOpen] = useState(false); // State to control the popup visibility
@@ -44,9 +45,12 @@ export const PetAdoptButton = observer(() => {
         }}
       />
       <button
-        className="w-fit p-3 px-8 rounded-full font-bold shadow-md bg-yellow-300 hover:bg-yellow-400 my-5"
+        className="w-fit flex items-center p-3 px-8 rounded-full font-bold shadow-md bg-yellow-300 hover:bg-yellow-400 my-5"
         onClick={checkLoggedIn}
       >
+        <span className="mr-2">
+          <PiPawPrintFill size={30} />
+        </span>
         Nhận nuôi
       </button>
       {/* Rendering the button with the popup trigger */}
