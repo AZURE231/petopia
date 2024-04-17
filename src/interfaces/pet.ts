@@ -99,6 +99,7 @@ export interface IPetDetailResponse {
   isCreatedAt: string;
   address: string;
   seeMore: IPetResponse[];
+  isOrgOwned: boolean;
 }
 
 export interface ICreatePetResponse {

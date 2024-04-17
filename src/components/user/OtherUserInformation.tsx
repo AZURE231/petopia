@@ -100,10 +100,8 @@ export const OtherUserInformation = QueryProvider(
                           userInfo.attributes.lastName}
                     </h1>
                     <div className=" ml-5 mt-4 ">
-                      {userInfo?.userRole == 1 && (
-                        <RiVerifiedBadgeFill size={30} />
-                      )}
-                      {userInfo?.userRole == 2 && <RiAdminFill size={30} />}
+                      {userInfo?.role == 1 && <RiVerifiedBadgeFill size={30} />}
+                      {userInfo?.role == 2 && <RiAdminFill size={30} />}
                     </div>
                   </div>
                 </div>
@@ -147,7 +145,10 @@ export const OtherUserInformation = QueryProvider(
                 <Pagination
                   paginationForm={paginationForm}
                   disable={getPetsQuery.isFetching}
-                  show={pets.length !== 0 && paginationForm.getValues('pageNumber') != 1}
+                  show={
+                    pets.length !== 0 &&
+                    paginationForm.getValues('pageNumber') != 1
+                  }
                 />
               </div>
             </>

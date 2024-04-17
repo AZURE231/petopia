@@ -20,6 +20,8 @@ import Image from 'next/image';
 import ImageCarousel from '@/src/components/general/Carousel';
 import PetDetailSkeleton from '@/src/components/general/PetDetailSkeleton';
 import { NoResultBackground } from '@/src/components/general/NoResultBackground';
+import { Button, Tooltip } from '@material-tailwind/react';
+import { FaShieldDog } from 'react-icons/fa6';
 
 const page = QueryProvider(({ params }: { params: { id: string } }) => {
   const [petDetail, setPetDetail] = useState<IPetDetailResponse>();
@@ -67,7 +69,16 @@ const page = QueryProvider(({ params }: { params: { id: string } }) => {
                 )}
               </div>
               <div className="md:pl-10">
-                <h1 className="text-2xl font-bold">{petDetail.name}</h1>
+                <div className="flex flex-row gap-2">
+                  <h1 className="text-2xl font-bold">{petDetail.name}</h1>
+                  {petDetail.isOrgOwned && (
+                    <Tooltip content="Cộng tác viên">
+                      <Button className="p-0 shadow-none">
+                        <FaShieldDog color="green" size={25} />
+                      </Button>
+                    </Tooltip>
+                  )}
+                </div>
                 {petDetail.isAvailable && <PetAdoptButton />}
                 <div className="flex flex-col divide-y">
                   <div className="flex flex-row py-2">
