@@ -20,6 +20,8 @@ import Image from 'next/image';
 import ImageCarousel from '@/src/components/general/Carousel';
 import PetDetailSkeleton from '@/src/components/general/PetDetailSkeleton';
 import { NoResultBackground } from '@/src/components/general/NoResultBackground';
+import Link from 'next/link';
+import { FaHouseUser } from 'react-icons/fa';
 import { Button, Tooltip } from '@material-tailwind/react';
 import { FaShieldDog } from 'react-icons/fa6';
 
@@ -71,15 +73,26 @@ const page = QueryProvider(({ params }: { params: { id: string } }) => {
               <div className="md:pl-10">
                 <div className="flex flex-row gap-2">
                   <h1 className="text-2xl font-bold">{petDetail.name}</h1>
-                  {petDetail.isOrgOwned && (
-                    <Tooltip content="Cộng tác viên">
-                      <Button className="p-0 shadow-none">
-                        <FaShieldDog color="green" size={25} />
-                      </Button>
-                    </Tooltip>
-                  )}
+                  <div className="flex flex-row gap-2">
+                    {petDetail.isOrgOwned && (
+                      <Tooltip content="Cộng tác viên">
+                        <Button className="p-0 shadow-none">
+                          <FaShieldDog color="green" size={25} />
+                        </Button>
+                      </Tooltip>
+                    )}
+                  </div>
+                  {petDetail.isAvailable && <PetAdoptButton />}
+                  <Link
+                    href={`/user/${petDetail.ownerId}`}
+                    className="w-fit flex items-center border border-black hover:bg-gray-100 p-3 px-8 rounded-full font-bold shadow-md my-5"
+                  >
+                    <span className="mr-2">
+                      <FaHouseUser size={30} />
+                    </span>
+                    Xem trang cá nhân
+                  </Link>
                 </div>
-                {petDetail.isAvailable && <PetAdoptButton />}
                 <div className="flex flex-col divide-y">
                   <div className="flex flex-row py-2">
                     <div className="w-1/3 font-bold">Giống</div>

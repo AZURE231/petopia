@@ -56,7 +56,7 @@ export default function TabbedTable({ userInfo }: { userInfo?: IUserInfo }) {
     }
   );
   const getPetsQuery = useQuery<IApiResponse<IPetResponse[]>>(
-    [QUERY_KEYS.GET_PETS, userInfo],
+    [QUERY_KEYS.GET_PETS, userInfo, paginationForm.watch('pageIndex')],
     () =>
       userInfo &&
       getPetsByUser({
@@ -68,6 +68,7 @@ export default function TabbedTable({ userInfo }: { userInfo?: IUserInfo }) {
     {
       onSuccess: (res) => {
         setPets(res.data.data);
+        paginationForm.setValue('pageNumber', res.data.pageNumber!);
       },
       refetchOnWindowFocus: false,
       enabled: !!userInfo,
@@ -129,7 +130,10 @@ export default function TabbedTable({ userInfo }: { userInfo?: IUserInfo }) {
               <Pagination
                 paginationForm={paginationForm}
                 disable={getPetsQuery.isFetching}
-                show={pets.length !== 0 && paginationForm.getValues('pageNumber') != 1}
+                show={
+                  pets.length !== 0 &&
+                  paginationForm.getValues('pageNumber') != 1
+                }
               />
             </div>
           </>
