@@ -10,6 +10,8 @@ import { deletePet } from '@/src/services/pet.api';
 import { CiEdit } from 'react-icons/ci';
 import Popup from 'reactjs-popup';
 import PetProfileForm from '../pet/PetProfileForm';
+import { FaShieldDog } from 'react-icons/fa6';
+import { Tooltip, Button } from '@material-tailwind/react';
 
 type IPetCard = IPetResponse & { isEditable?: boolean; simple?: boolean };
 
@@ -60,7 +62,16 @@ export function PetCard(props: IPetCard) {
             </div>
             <div className="p-5">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
-                {name}
+                <div className="flex flex-row gap-2 items-center">
+                  {name}{' '}
+                  {isOrgOwned && (
+                    <Tooltip content="Cộng tác viên">
+                      <Button className="p-0 shadow-none">
+                        <FaShieldDog color="green" size={25} />
+                      </Button>
+                    </Tooltip>
+                  )}
+                </div>
               </h5>
               {!simple && (
                 <>
