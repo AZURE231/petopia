@@ -15,7 +15,7 @@ export interface IUserInfo {
   id: string;
   email: string;
   image: string;
-  userRole: USER_ROLE;
+  role: USER_ROLE;
   phone: string;
 }
 export interface IResetPasswordRequest {
@@ -43,7 +43,7 @@ export interface ICurrentUserCoreResponse {
   id: string;
   email: string;
   image: string;
-  userRole: USER_ROLE;
+  role: USER_ROLE;
   name: string;
 }
 
