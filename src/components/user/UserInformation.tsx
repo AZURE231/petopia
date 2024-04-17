@@ -5,7 +5,7 @@ import { FaRegEdit } from 'react-icons/fa';
 import { useMutation, useQuery } from '../../utils/hooks';
 import { IApiResponse } from '../../interfaces/common';
 import { IUserInfo } from '../../interfaces/user';
-import { QUERY_KEYS, STATIC_URLS } from '../../utils/constants';
+import { QUERY_KEYS, STATIC_URLS, USER_ROLE } from '../../utils/constants';
 import { QueryProvider } from '../general/QueryProvider';
 import UserUpdateForm from './UserUpdateForm';
 import {
@@ -127,8 +127,16 @@ export const UserInformation = QueryProvider(() => {
                     userInfo.attributes.lastName}
               </h1>
               <div className=" ml-5 mt-4 ">
-                {userInfo?.userRole == 1 && <RiVerifiedBadgeFill size={30} />}
-                {userInfo?.userRole == 2 && <RiAdminFill size={30} />}
+                {userInfo?.role === USER_ROLE.ORGANIZATION && (
+                  <div className="bg-green-600 w-fit rounded-full p-2">
+                    <RiVerifiedBadgeFill size={30} color="white" />
+                  </div>
+                )}
+                {userInfo?.role === USER_ROLE.SYSTEM_ADMIN && (
+                  <div className="bg-blue-600 w-fit rounded-full p-2">
+                    <RiAdminFill size={30} color="white" />
+                  </div>
+                )}
               </div>
             </div>
 
@@ -164,7 +172,7 @@ export const UserInformation = QueryProvider(() => {
             </div>
           </div>
           <div className="mt-5 flex justify-end gap-3">
-            {userInfo.userRole === 0 && (
+            {userInfo.role === 0 && (
               <div>
                 <button
                   className="w-fit text-black border border-black hover:bg-gray-100 focus:ring-4 focus:outline-none
