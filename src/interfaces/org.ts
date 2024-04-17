@@ -1,13 +1,16 @@
+import { ORG_TYPE } from '../utils/constants';
+
 export interface IOrgUpgradeRequest {
-  orgName: string;
-  ownerName: string;
+  entityName: string;
+  email: string;
+  organizationName: string;
   phone: string;
   provinceCode: string;
   districtCode: string;
   wardCode: string;
   street: string;
-  bn: string;
-  link: string;
-  orgType: number;
-  about: string;
+  website: string;
+  taxCode: string;
+  type: ORG_TYPE;
+  description: string;
 }

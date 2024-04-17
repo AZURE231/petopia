@@ -11,10 +11,11 @@ import { CiEdit } from 'react-icons/ci';
 import Popup from 'reactjs-popup';
 import PetProfileForm from '../pet/PetProfileForm';
 
-type IPetCard = IPetResponse & { isEditable?: boolean, simple?: boolean };
+type IPetCard = IPetResponse & { isEditable?: boolean; simple?: boolean };
 
 export function PetCard(props: IPetCard) {
-  const { id, name, breed, sex, age, image, isEditable, simple } = props;
+  const { id, name, breed, sex, age, image, isEditable, simple, isOrgOwned } =
+    props;
   const [showAlert, setShowAlert] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const handleClose = () => {
@@ -61,15 +62,15 @@ export function PetCard(props: IPetCard) {
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
                 {name}
               </h5>
-              {
-                !simple && <>
+              {!simple && (
+                <>
                   <h4 className="font-bold">{breed}</h4>
                   <div className="flex flex-row justify-between">
                     <div>{`Giới tính: ${getPetSexText(sex)}`}</div>
                     <div>{`Tuổi: ${getPetAgeText(age)}`}</div>
                   </div>
                 </>
-              }
+              )}
             </div>
           </div>
         </div>

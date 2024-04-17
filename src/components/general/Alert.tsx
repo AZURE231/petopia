@@ -8,11 +8,19 @@ interface IAlert {
   title?: string;
   setShow: Dispatch<SetStateAction<boolean>>;
   action?: () => void;
-  showCancel?: boolean
+  showCancel?: boolean;
 }
 
 export function Alert(props: IAlert) {
-  const { message, show, title, setShow, failed = false, action, showCancel = true } = props;
+  const {
+    message,
+    show,
+    title,
+    setShow,
+    failed = false,
+    action,
+    showCancel = true,
+  } = props;
   const [className, setClassName] = useState<string>('animate-fade_in');
 
   const handleOnAnimationEnd = () => {
@@ -28,7 +36,7 @@ export function Alert(props: IAlert) {
   return (
     show && (
       <div
-        className={`transition ${className}`}
+        className={`transition ${className} z-50`}
         onAnimationEnd={handleOnAnimationEnd}
       >
         <div
@@ -98,8 +106,7 @@ export function Alert(props: IAlert) {
                   </div>
                 </div>
                 <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-2 flex">
-                  {
-                    action && showCancel &&
+                  {action && showCancel && (
                     <button
                       type="button"
                       onClick={() => handleOnClose(false)}
@@ -107,7 +114,7 @@ export function Alert(props: IAlert) {
                     >
                       Huỷ
                     </button>
-                  }
+                  )}
                   <button
                     type="button"
                     onClick={() => handleOnClose(true)}

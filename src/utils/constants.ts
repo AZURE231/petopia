@@ -54,6 +54,7 @@ export const QUERY_KEYS = {
   GET_ADOPT_FORM_INFO: 'GET_ADOPT_FORM_INFO',
   GET_NOTIFICATION: 'GET_NOTIFICATION',
   GET_NOTIFICATION_COUNT: 'GET_NOTIFICATION_COUNT',
+  GET_PRE_UPGRADE: 'GET_PRE_UPGRADE',
 };
 
 export const EVENT_NAMES = {
@@ -122,11 +123,10 @@ export enum ADOPT_DELAY_DURATION {
   Other,
 }
 
-export enum PET_ORG_TYPE {
+export enum ORG_TYPE {
   RESCUE,
   BUSINESS,
   VET,
-  PROTECT,
   OTHER,
 }
 
@@ -406,20 +406,18 @@ export const ADOPT_ACTION = {
 export const PET_ORG_TYPE_OPTION = [
   {
     label: 'Giải cứu động vật',
-    value: PET_ORG_TYPE.RESCUE,
+    value: ORG_TYPE.RESCUE,
   },
-
   {
     label: 'Doanh nghiệp',
-    value: PET_ORG_TYPE.BUSINESS,
+    value: ORG_TYPE.BUSINESS,
   },
   {
     label: 'Thú Y',
-    value: PET_ORG_TYPE.VET,
+    value: ORG_TYPE.VET,
   },
-
   {
     label: 'Khác',
-    value: PET_ORG_TYPE.OTHER,
+    value: ORG_TYPE.OTHER,
   },
 ];
