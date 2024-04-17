@@ -23,3 +23,6 @@ export const deletePet = async (data: { id: string }) =>
 
 export const updatePet = async (data: ICreatePetProfileRequest) =>
   await http.put('/Pet', data);
+
+export const getPetsByUser = async (data: IPaginationRequest<string>) =>
+  await http.post('/Pet/User', data);

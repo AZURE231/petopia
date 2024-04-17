@@ -17,20 +17,22 @@ import { QUERY_KEYS } from '@/src/utils/constants';
 import { useQuery } from '@/src/utils/hooks';
 import { useState } from 'react';
 import Image from 'next/image';
-import Carousel from '@/src/components/general/Carousel';
+import ImageCarousel from '@/src/components/general/Carousel';
 import PetDetailSkeleton from '@/src/components/general/PetDetailSkeleton';
 import { NoResultBackground } from '@/src/components/general/NoResultBackground';
 
 const page = QueryProvider(({ params }: { params: { id: string } }) => {
   const [petDetail, setPetDetail] = useState<IPetDetailResponse>();
   const [error, setError] = useState<boolean>(false);
+  const [displayedImage, setDisplayedImage] = useState<string>('');
 
   const getPetQuery = useQuery<IApiResponse<IPetDetailResponse>>(
-    [QUERY_KEYS.GET_GOOGLE_RECAPTCHA_TOKEN],
+    [QUERY_KEYS.GET_PET_DETAIL],
     () => getPetDetail({ id: params.id }),
     {
       onSuccess: (res) => {
         setPetDetail(res.data.data);
+        setDisplayedImage(res.data.data.images[0]);
       },
       onError: () => setError(true),
       refetchOnWindowFocus: false,
@@ -48,7 +50,7 @@ const page = QueryProvider(({ params }: { params: { id: string } }) => {
                 <div className="w-full relative pt-[100%]">
                   <Image
                     alt="pet-avatar"
-                    src={petDetail.images[0]}
+                    src={displayedImage}
                     objectFit="cover"
                     fill
                     className="w-full h-3/4 top-0 left-0 object-cover rounded-lg"
@@ -56,7 +58,11 @@ const page = QueryProvider(({ params }: { params: { id: string } }) => {
                 </div>
                 {petDetail.images.length > 1 && (
                   <div className="p-5">
-                    <Carousel images={petDetail.images}></Carousel>
+                    <ImageCarousel
+                      images={petDetail.images}
+                      setDisplayedImage={setDisplayedImage}
+                      disPlayedImage={displayedImage}
+                    />
                   </div>
                 )}
               </div>

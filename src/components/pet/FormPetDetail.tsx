@@ -2,9 +2,7 @@ import AttributeSelect from './AttributeSelect';
 import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import ControlForm from './ControlForm';
 import { PET_SELECT } from '@/src/utils/constants';
-import {
-  ICreatePetProfileRequest,
-} from '@/src/interfaces/pet';
+import { ICreatePetProfileRequest } from '@/src/interfaces/pet';
 
 export default function FormPetDetail({
   handleNext,
@@ -18,7 +16,7 @@ export default function FormPetDetail({
   watch: UseFormWatch<ICreatePetProfileRequest>;
 }) {
   return (
-    <div className="w-full rounded-2xl bg-blue-200 p-5">
+    <div className="w-full rounded-2xl bg-yellow-100 p-5">
       <h2 className="font-bold mb-2">Thông tin về thú cưng của bạn</h2>
 
       {/* form */}

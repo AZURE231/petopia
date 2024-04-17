@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { FaFacebook, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa';
 export function Footer() {
   return (
-    <footer className="bg-orange-50 rounded-t-3xl shadow p-4">
+    <footer className="bg-orange-50 rounded-t-3xl shadow p-4 mt-10">
       <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
         <div className="sm:flex sm:items-center sm:justify-between">
           <ul className="flex flex-wrap items-center mb-6 font-medium text-gray-500 sm:mb-0">

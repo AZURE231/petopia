@@ -7,21 +7,25 @@ import { IApiResponse } from '../../interfaces/common';
 import { IUserInfo } from '../../interfaces/user';
 import { QUERY_KEYS, STATIC_URLS } from '../../utils/constants';
 import { QueryProvider } from '../general/QueryProvider';
-import ListCards from './ListCards';
 import UserUpdateForm from './UserUpdateForm';
 import { getUserInfo, updateAvatar } from '@/src/services/user.api';
 import { uploadImage } from '@/src/helpers/uploadImage';
 import Link from 'next/link';
 import UserSkeleton from '../general/UserSkeleton';
+import TabbedTable from './TabbedTable';
+import { RiVerifiedBadgeFill, RiAdminFill } from 'react-icons/ri';
 import Popup from 'reactjs-popup';
 import { UserUpgradeForm } from './UserUpgradeForm';
 
 export const UserInformation = QueryProvider(() => {
+  // STATES
   const [isEdit, setIsEdit] = useState(false);
   const [isEditAvatar, setIsEditAvatar] = useState(false);
   const [userInfo, setUserInfo] = useState<IUserInfo>();
   const [image, setImage] = useState<string>(STATIC_URLS.NO_AVATAR);
   const [file, setFile] = useState<File | null>(null);
+
+  // HANDLERS
   const handleEdit = () => {
     setIsEdit(!isEdit);
   };
@@ -37,12 +41,13 @@ export const UserInformation = QueryProvider(() => {
     }
   };
 
+  // QUERIES AND MUTATIONS
   const updateAvatarMutation = useMutation<IApiResponse<string>, string>(
     updateAvatar
   );
 
   const getUserQuery = useQuery<IApiResponse<IUserInfo>>(
-    [QUERY_KEYS.GET_GOOGLE_RECAPTCHA_TOKEN],
+    [QUERY_KEYS.GET_CURRENT_USER],
     getUserInfo,
     {
       onSuccess: (res) => {
@@ -103,11 +108,13 @@ export const UserInformation = QueryProvider(() => {
               <h1 className="font-bold text-5xl ml-5">
                 {userInfo &&
                   userInfo.attributes.firstName +
-                  ' ' +
-                  userInfo.attributes.lastName}
+                    ' ' +
+                    userInfo.attributes.lastName}
               </h1>
-              {userInfo?.userRole == 1 && <div>System admin</div>}
-              {userInfo?.userRole == 2 && <div>Organization</div>}
+              <div className=" ml-5 mt-4 ">
+                {userInfo?.userRole == 1 && <RiVerifiedBadgeFill size={30} />}
+                {userInfo?.userRole == 2 && <RiAdminFill size={30} />}
+              </div>
             </div>
 
             <button onClick={handleEdit}>
@@ -174,11 +181,7 @@ export const UserInformation = QueryProvider(() => {
           )}
         </div>
       )}
-      <ListCards
-        title="Thú cưng của bạn"
-        isEditable={true}
-        data={userInfo?.pets!}
-      />
+      <TabbedTable userInfo={userInfo} />
     </div>
   );
 });

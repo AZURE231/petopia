@@ -49,6 +49,11 @@ export const QUERY_KEYS = {
   GET_OTHER_USER: 'GET_OTHER_USER',
   GET_USER_INFO_FOR_ADOPTION: 'GET_USER_INFO_FOR_ADOPTION',
   PRE_CHECK_ADOPTION: 'PRE_CHECK_ADOPTION',
+  GET_PET_DETAIL: 'GET_PET_DETAIL',
+  GET_ADOPT_CARD: 'GET_ADOPT_CARD',
+  GET_ADOPT_FORM_INFO: 'GET_ADOPT_FORM_INFO',
+  GET_NOTIFICATION: 'GET_NOTIFICATION',
+  GET_NOTIFICATION_COUNT: 'GET_NOTIFICATION_COUNT',
 };
 
 export const EVENT_NAMES = {
@@ -352,66 +357,69 @@ export const BLOG_CATEGORIES = [
 export const HOUSE_TYPE_OPTION = [
   {
     label: 'Chung cư',
-    value: HOUSE_TYPE.Apartment
+    value: HOUSE_TYPE.Apartment,
   },
   {
     label: 'Nhà riêng',
-    value: HOUSE_TYPE.House
+    value: HOUSE_TYPE.House,
   },
   {
     label: 'Kí túc xá',
-    value: HOUSE_TYPE.Dormitory
+    value: HOUSE_TYPE.Dormitory,
   },
   {
     label: 'Trạm cứu hộ',
-    value: HOUSE_TYPE.Shelter
+    value: HOUSE_TYPE.Shelter,
   },
   {
     label: 'Khác',
-    value: HOUSE_TYPE.Other
-  }
+    value: HOUSE_TYPE.Other,
+  },
 ];
 
 export const ADOPT_TIME_OPTION = [
   {
     label: 'Ngay lập tức',
-    value: ADOPT_DELAY_DURATION.Immediately
+    value: ADOPT_DELAY_DURATION.Immediately,
   },
   {
     label: 'Vài ngày',
-    value: ADOPT_DELAY_DURATION.FewDays
+    value: ADOPT_DELAY_DURATION.FewDays,
   },
   {
     label: '1 tuần',
-    value: ADOPT_DELAY_DURATION.OneWeek
+    value: ADOPT_DELAY_DURATION.OneWeek,
   },
   {
     label: 'Chưa rõ',
-    value: ADOPT_DELAY_DURATION.Other
-  }
+    value: ADOPT_DELAY_DURATION.Other,
+  },
 ];
+
+export const ADOPT_ACTION = {
+  ACCEPT: 'Accept',
+  REJECT: 'Reject',
+  CONFIRM: 'Confirm',
+  CANCEL: 'Cancel',
+};
 
 export const PET_ORG_TYPE_OPTION = [
   {
     label: 'Giải cứu động vật',
-    value: PET_ORG_TYPE.RESCUE
+    value: PET_ORG_TYPE.RESCUE,
   },
 
   {
     label: 'Doanh nghiệp',
-    value: PET_ORG_TYPE.BUSINESS
+    value: PET_ORG_TYPE.BUSINESS,
   },
   {
     label: 'Thú Y',
-    value: PET_ORG_TYPE.VET
+    value: PET_ORG_TYPE.VET,
   },
- 
-  {
-    label: 'Bảo vệ động vật',
-    value: PET_ORG_TYPE.PROTECT
-  },
+
   {
     label: 'Khác',
-    value: PET_ORG_TYPE.OTHER
-  }
+    value: PET_ORG_TYPE.OTHER,
+  },
 ];

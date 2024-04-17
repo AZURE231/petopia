@@ -102,10 +102,9 @@ export default function PetAdoptForm({ handleClose }: Props) {
 
   return (
     <div className="container p-5 mx-auto">
-      {
-        preCheckQuery.isSuccess &&
+      {preCheckQuery.isSuccess && (
         <form
-          className="w-full rounded-2xl bg-blue-200 p-5"
+          className="w-full rounded-2xl bg-yellow-100 p-5"
           onSubmit={handleOnSubmit}
         >
           <h2 className="font-bold mb-2">Đơn nhận nuôi thú cưng</h2>
@@ -167,8 +166,7 @@ export default function PetAdoptForm({ handleClose }: Props) {
               </div>
               <div></div>
               <div className="flex flex-col space-y-2 col-span-2">
-                {
-                  userInfo &&
+                {userInfo && (
                   <AddressDropdown
                     districtCode={watch('districtCode')}
                     provinceCode={watch('provinceCode')}
@@ -183,7 +181,7 @@ export default function PetAdoptForm({ handleClose }: Props) {
                       setValue('wardCode', code);
                     }}
                   />
-                }
+                )}
               </div>
               {/* Địa chỉ */}
               <div className="flex flex-col space-y-2 col-span-2">
@@ -209,28 +207,14 @@ export default function PetAdoptForm({ handleClose }: Props) {
                     <input
                       id="owner-pet-yes"
                       name="owner-pet"
-                      type="radio"
-                      value="yes"
+                      type="checkbox"
+                      checked={watch('isOwnerBefore')}
                       onChange={(e) =>
-                        setValue('isOwnerBefore', e.target.value === 'yes')
+                        setValue('isOwnerBefore', e.target.checked)
                       }
                       className="rounded-lg"
                     />
-                    <label htmlFor="owner-pet-yes">Có</label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      id="owner-pet-no"
-                      name="owner-pet"
-                      type="radio"
-                      value="no"
-                      checked
-                      className="rounded-lg"
-                      onChange={(e) =>
-                        setValue('isOwnerBefore', e.target.value === 'no')
-                      }
-                    />
-                    <label htmlFor="owner-pet-no">Không</label>
+                    <label htmlFor="owner-pet-yes">Đã từng</label>
                   </div>
                 </div>
               </div>
@@ -297,13 +281,14 @@ export default function PetAdoptForm({ handleClose }: Props) {
             </button>
           </div>
         </form>
-      }
+      )}
       <Alert
         failed={alertFail}
         message={alertMessage}
         show={alertShow}
         setShow={setAlertShow}
         action={handleClose}
+        showCancel={false}
       />
     </div>
   );

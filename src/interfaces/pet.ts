@@ -64,9 +64,9 @@ export interface ICreatePetProfileRequest {
   isAvailable: boolean;
   address: string;
   breed: string;
-  files: string[];
-  imagesFile: FileList | null;
+  files: File[];
   images: string[];
+  showImages: string[];
   id?: string;
 }
 
@@ -98,4 +98,24 @@ export interface IPetDetailResponse {
   isCreatedAt: string;
   address: string;
   seeMore: IPetResponse[];
+}
+
+export interface ICreatePetResponse {
+  'name': string,
+  'description': string,
+  'sex': PET_SEX,
+  'age': PET_AGE,
+  'color': PET_COLOR,
+  'species': PET_SPECIES,
+  'size': PET_SIZE,
+  'isSterillized': PET_MEDICAL_STATUS,
+  'isVaccinated': PET_MEDICAL_STATUS,
+  'isAvailable': boolean,
+  'breed': string,
+  'images': string[],
+  'id': string,
+}
+
+export interface IUpdatePeResponse extends ICreatePetResponse {
+
 }
