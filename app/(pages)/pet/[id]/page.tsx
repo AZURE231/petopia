@@ -22,8 +22,11 @@ import PetDetailSkeleton from '@/src/components/general/PetDetailSkeleton';
 import { NoResultBackground } from '@/src/components/general/NoResultBackground';
 import Link from 'next/link';
 import { FaHouseUser } from 'react-icons/fa';
-import { Button, Tooltip } from '@material-tailwind/react';
+import { Button, Tooltip, Carousel } from '@material-tailwind/react';
 import { FaShieldDog } from 'react-icons/fa6';
+import CreatePetPostButton from '@/src/components/pet/CreatePetPostButton';
+import PetPost from '@/src/components/pet/PetPost';
+import { CarouselDefault } from '@/src/components/general/CarouselDefault';
 
 const page = QueryProvider(({ params }: { params: { id: string } }) => {
   const [petDetail, setPetDetail] = useState<IPetDetailResponse>();
@@ -48,7 +51,7 @@ const page = QueryProvider(({ params }: { params: { id: string } }) => {
       {getPetQuery.isLoading && <PetDetailSkeleton />}
       {!getPetQuery.isLoading && petDetail && (
         <div>
-          <div className="container mx-auto p-5 shadow-2xl rounded-2xl">
+          <div className="container max-w-5xl mx-auto p-5 shadow-2xl rounded-2xl">
             <div className="grid md:grid-cols-2 grid-cols-1">
               <div>
                 <div className="w-full relative pt-[100%]">
@@ -169,6 +172,10 @@ const page = QueryProvider(({ params }: { params: { id: string } }) => {
                 </div>
               </div>
             </div>
+          </div>
+          <div className="container max-w-5xl mx-auto p-5 shadow-2xl rounded-2xl my-5">
+            <CreatePetPostButton />
+            <CarouselDefault />
           </div>
           <SeeMore petList={petDetail.seeMore} />
         </div>
