@@ -15,6 +15,7 @@ import { useForm } from 'react-hook-form';
 import { IPetResponse } from '@/src/interfaces/pet';
 import { getPetsByUser } from '@/src/services/pet.api';
 import Pagination from '../general/Pagination';
+import { RiAdminFill, RiVerifiedBadgeFill } from 'react-icons/ri';
 
 export const OtherUserInformation = QueryProvider(
   ({ userId }: { userId: string }) => {
@@ -46,12 +47,13 @@ export const OtherUserInformation = QueryProvider(
 
     const getPetsQuery = useQuery<IApiResponse<IPetResponse[]>>(
       [QUERY_KEYS.GET_PETS, getUserQuery.isError],
-      () => getPetsByUser({
-        pageIndex: paginationForm.getValues('pageIndex'),
-        pageSize: PAGE_SIZE,
-        orderBy: '',
-        filter: userId,
-      }),
+      () =>
+        getPetsByUser({
+          pageIndex: paginationForm.getValues('pageIndex'),
+          pageSize: PAGE_SIZE,
+          orderBy: '',
+          filter: userId,
+        }),
       {
         onSuccess: (res) => {
           setPets(res.data.data);
@@ -94,11 +96,13 @@ export const OtherUserInformation = QueryProvider(
                     <h1 className="font-bold text-5xl ml-5">
                       {userInfo &&
                         userInfo.attributes.firstName +
-                        ' ' +
-                        userInfo.attributes.lastName}
+                          ' ' +
+                          userInfo.attributes.lastName}
                     </h1>
-                    {userInfo?.userRole == 1 && <div>System admin</div>}
-                    {userInfo?.userRole == 2 && <div>Organization</div>}
+                    <div className=" ml-5 mt-4 ">
+                      {userInfo?.role == 1 && <RiVerifiedBadgeFill size={30} />}
+                      {userInfo?.role == 2 && <RiAdminFill size={30} />}
+                    </div>
                   </div>
                 </div>
                 <div className="md:px-10">
@@ -136,15 +140,15 @@ export const OtherUserInformation = QueryProvider(
                   </button>
                 </div>
               </div>
-              <ListCards
-                title="Danh sách thú cưng"
-                data={pets}
-              />
+              <ListCards title="Danh sách thú cưng" data={pets} />
               <div className="flex items-center justify-center my-5">
                 <Pagination
                   paginationForm={paginationForm}
                   disable={getPetsQuery.isFetching}
-                  show={pets.length !== 0 && paginationForm.getValues('pageNumber') != 1}
+                  show={
+                    pets.length !== 0 &&
+                    paginationForm.getValues('pageNumber') != 1
+                  }
                 />
               </div>
             </>

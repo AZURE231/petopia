@@ -5,14 +5,22 @@ import { FaRegEdit } from 'react-icons/fa';
 import { useMutation, useQuery } from '../../utils/hooks';
 import { IApiResponse } from '../../interfaces/common';
 import { IUserInfo } from '../../interfaces/user';
-import { QUERY_KEYS, STATIC_URLS } from '../../utils/constants';
+import { QUERY_KEYS, STATIC_URLS, USER_ROLE } from '../../utils/constants';
 import { QueryProvider } from '../general/QueryProvider';
 import UserUpdateForm from './UserUpdateForm';
-import { getUserInfo, updateAvatar } from '@/src/services/user.api';
+import {
+  getPreUpgrade,
+  getUserInfo,
+  updateAvatar,
+} from '@/src/services/user.api';
 import { uploadImage } from '@/src/helpers/uploadImage';
 import Link from 'next/link';
 import UserSkeleton from '../general/UserSkeleton';
 import TabbedTable from './TabbedTable';
+import { RiVerifiedBadgeFill, RiAdminFill } from 'react-icons/ri';
+import Popup from 'reactjs-popup';
+import { UserUpgradeForm } from './UserUpgradeForm';
+import { Alert } from '../general/Alert';
 
 export const UserInformation = QueryProvider(() => {
   // STATES
@@ -21,6 +29,9 @@ export const UserInformation = QueryProvider(() => {
   const [userInfo, setUserInfo] = useState<IUserInfo>();
   const [image, setImage] = useState<string>(STATIC_URLS.NO_AVATAR);
   const [file, setFile] = useState<File | null>(null);
+  const [isUpgraded, setIsUpgraded] = useState<boolean>(false);
+  const [upgradeClicked, setUpgradeClicked] = useState<boolean>(false);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
 
   // HANDLERS
   const handleEdit = () => {
@@ -42,6 +53,13 @@ export const UserInformation = QueryProvider(() => {
   const updateAvatarMutation = useMutation<IApiResponse<string>, string>(
     updateAvatar
   );
+
+  useQuery<IApiResponse<boolean>>(QUERY_KEYS.GET_PRE_UPGRADE, getPreUpgrade, {
+    onSuccess: (res) => {
+      setIsUpgraded(res.data.data);
+    },
+    refetchOnWindowFocus: false,
+  });
 
   const getUserQuery = useQuery<IApiResponse<IUserInfo>>(
     [QUERY_KEYS.GET_CURRENT_USER],
@@ -105,11 +123,21 @@ export const UserInformation = QueryProvider(() => {
               <h1 className="font-bold text-5xl ml-5">
                 {userInfo &&
                   userInfo.attributes.firstName +
-                  ' ' +
-                  userInfo.attributes.lastName}
+                    ' ' +
+                    userInfo.attributes.lastName}
               </h1>
-              {userInfo?.userRole == 1 && <div>System admin</div>}
-              {userInfo?.userRole == 2 && <div>Organization</div>}
+              <div className=" ml-5 mt-4 ">
+                {userInfo?.role === USER_ROLE.ORGANIZATION && (
+                  <div className="bg-green-600 w-fit rounded-full p-2">
+                    <RiVerifiedBadgeFill size={30} color="white" />
+                  </div>
+                )}
+                {userInfo?.role === USER_ROLE.SYSTEM_ADMIN && (
+                  <div className="bg-blue-600 w-fit rounded-full p-2">
+                    <RiAdminFill size={30} color="white" />
+                  </div>
+                )}
+              </div>
             </div>
 
             <button onClick={handleEdit}>
@@ -143,10 +171,34 @@ export const UserInformation = QueryProvider(() => {
               </div>
             </div>
           </div>
-          <div className="mt-5 flex justify-end">
+          <div className="mt-5 flex justify-end gap-3">
+            {userInfo.role === 0 && (
+              <div>
+                <button
+                  className="w-fit text-black border border-black hover:bg-gray-100 focus:ring-4 focus:outline-none
+                          focus:ring-primary-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center"
+                  onClick={() => {
+                    if (!isUpgraded) {
+                      setUpgradeClicked(true);
+                    } else {
+                      setShowAlert(true);
+                    }
+                  }}
+                >
+                  Trở thành cộng tác viên
+                </button>
+                <Popup
+                  modal
+                  open={upgradeClicked}
+                  overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
+                >
+                  <UserUpgradeForm />
+                </Popup>
+              </div>
+            )}
             <Link
               href={'user/change-password'}
-              className="w-fit text-black bg-yellow-300 hover:bg-primary-700 focus:ring-4 focus:outline-none
+              className="w-fit text-black border border-black bg-yellow-300 hover:bg-yellow-400 focus:ring-4 focus:outline-none
                         focus:ring-primary-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center"
             >
               Cập nhật mật khẩu
@@ -163,6 +215,12 @@ export const UserInformation = QueryProvider(() => {
         </div>
       )}
       <TabbedTable userInfo={userInfo} />
+      <Alert
+        failed={true}
+        message={'Bạn đã gửi yêu cầu cộng tác viên rồi!'}
+        show={showAlert}
+        setShow={setShowAlert}
+      />
     </div>
   );
 });

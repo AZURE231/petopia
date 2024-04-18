@@ -9,6 +9,7 @@
     "lint": "next lint --fix"
   },
   "dependencies": {
+    "@material-tailwind/react": "^2.1.9",
     "@react-oauth/google": "^0.12.1",
     "axios": "^1.6.1",
     "cookies-next": "^4.1.0",

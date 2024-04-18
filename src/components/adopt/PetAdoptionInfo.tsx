@@ -100,6 +100,7 @@ export default function PetAdoptionInfo({
           breed: res.data.data.breed,
           sex: res.data.data.sex,
           image: res.data.data.images[0],
+          isOrgOwned: res.data.data.isOrgOwned,
         });
       },
       refetchOnWindowFocus: false,

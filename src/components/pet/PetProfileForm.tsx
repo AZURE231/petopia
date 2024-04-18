@@ -1,6 +1,6 @@
 'use client';
 import { ChangeEvent, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from '@/src/utils/hooks';
 import { IApiResponse } from '@/src/interfaces/common';
 import { QueryProvider } from '../general/QueryProvider';
@@ -25,6 +25,7 @@ const PetProfileForm = QueryProvider(
     const [error, setError] = useState<string>('');
     const [showAlert, setShowAlert] = useState<boolean>(false);
     const [activeStep, setActiveStep] = useState(0);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     // FORMS
     const { getValues, setValue, watch } = useForm<ICreatePetProfileRequest>({
@@ -63,15 +64,16 @@ const PetProfileForm = QueryProvider(
 
     const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
       event.preventDefault();
+      setIsLoading(true);
       let errorMessage = validateInputs();
       if (errorMessage) {
         setError(errorMessage);
         setShowAlert(true);
-      }
-      else {
+      } else {
         await uploadImage();
-        if (id) updatePetMutation.mutate(getValues());
-        else createPetMutation.mutate(getValues());
+        if (id) await updatePetMutation.mutateAsync(getValues());
+        else await createPetMutation.mutateAsync(getValues());
+        setIsLoading(false);
       }
     };
 
@@ -284,12 +286,7 @@ const PetProfileForm = QueryProvider(
 
         {/* rules */}
         {activeStep === 2 && (
-          <FormRules
-            handleBack={handleBack}
-            isLoading={
-              updatePetMutation.isLoading || createPetMutation.isLoading
-            }
-          />
+          <FormRules handleBack={handleBack} isLoading={isLoading} />
         )}
         <Alert
           message={error || 'Tạo hồ sơ thú cưng thành công'}
