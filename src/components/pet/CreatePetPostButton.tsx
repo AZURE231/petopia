@@ -1,5 +1,6 @@
 import Popup from 'reactjs-popup';
 import { FaPlus } from 'react-icons/fa';
+import CreatePetPostForm from './CreatePetPostForm';
 
 export default function CreatePetPostButton() {
   return (
@@ -15,7 +16,7 @@ export default function CreatePetPostButton() {
         </button>
       }
     >
-      haha
+      <CreatePetPostForm />
     </Popup>
   );
 }
