@@ -73,8 +73,9 @@ const PetProfileForm = QueryProvider(
         await uploadImage();
         if (id) await updatePetMutation.mutateAsync(getValues());
         else await createPetMutation.mutateAsync(getValues());
-        setIsLoading(false);
+        // setIsLoading(false);
       }
+      setIsLoading(false);
     };
 
     const uploadImage = async () => {
@@ -100,7 +101,7 @@ const PetProfileForm = QueryProvider(
       let errorMessage = '';
 
       errorMessage +=
-        getValues('images').length == 0 ? 'Ảnh không được để trống;\n' : '';
+        getValues('files').length == 0 ? 'Ảnh không được để trống;\n' : '';
       errorMessage += isEmpty(getValues('name'))
         ? 'Tên không được để trống;\n'
         : '';
