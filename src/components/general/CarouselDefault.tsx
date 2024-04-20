@@ -1,7 +1,12 @@
 import { Carousel, IconButton } from '@material-tailwind/react';
 import PetPost from '../post/PetPost';
+import { useState } from 'react';
 
 export function CarouselDefault() {
+  const [showComment, setShowComment] = useState(false);
+  const handleShowComment = () => {
+    setShowComment(!showComment);
+  };
   return (
     <Carousel
       className="rounded-xl bg-gray-50 mt-5"
@@ -23,7 +28,10 @@ export function CarouselDefault() {
           variant="text"
           color="black"
           size="lg"
-          onClick={handlePrev}
+          onClick={() => {
+            handlePrev();
+            setShowComment(false);
+          }}
           className="!absolute top-2/4 left-4 -translate-y-2/4"
         >
           <svg
@@ -47,7 +55,10 @@ export function CarouselDefault() {
           variant="text"
           color="black"
           size="lg"
-          onClick={handleNext}
+          onClick={() => {
+            handleNext();
+            setShowComment(false);
+          }}
           className="!absolute top-2/4 !right-4 -translate-y-2/4"
         >
           <svg
@@ -67,8 +78,8 @@ export function CarouselDefault() {
         </IconButton>
       )}
     >
-      <PetPost />
-      <PetPost />
+      <PetPost showComment={showComment} setShowComment={setShowComment} />
+      <PetPost showComment={showComment} setShowComment={setShowComment} />
     </Carousel>
   );
 }

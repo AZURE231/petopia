@@ -5,11 +5,16 @@ import { MdDelete } from 'react-icons/md';
 import CommentCard from './CommentCard';
 import { set } from 'mobx';
 
-export default function PetPost() {
+export default function PetPost({
+  showComment,
+  setShowComment,
+}: {
+  showComment: boolean;
+  setShowComment: (showComment: boolean) => void;
+}) {
   // STATE
   const [isLiked, setIsLiked] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [showComment, setShowComment] = useState(false);
 
   // HANDLE
   const handleLikeButton = () => {
