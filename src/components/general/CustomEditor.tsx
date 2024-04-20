@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
+
 import { plugin } from "postcss";
-
-
 
 interface CustomEditorProps {
   initialData: string;
   initialTitle: string;
 }
-const uploadAdapter = (loader:any) => {
+const uploadAdapter = (loader: any) => {
   return {
     upload: async () => {
       const data = new FormData();
@@ -26,13 +26,12 @@ const uploadAdapter = (loader:any) => {
       return {
         default: response.data.url,
       };
-
     },
   };
 };
 
-const uploadAdapterPlugin = (editor:any) => {
-  editor.plugins.get("FileRepository").createUploadAdapter = (loader:any) => {
+const uploadAdapterPlugin = (editor: any) => {
+  editor.plugins.get("FileRepository").createUploadAdapter = (loader: any) => {
     return uploadAdapter(loader);
   };
 };
@@ -60,7 +59,7 @@ const editorConfiguration = {
       "indent",
       "outdent",
       "|",
-      'imageUpload',
+      "imageUpload",
       "link",
       "blockQuote",
       "insertTable",
@@ -74,11 +73,8 @@ const editorConfiguration = {
   //   uploadUrl: "https://api.imgbb.com/1/upload?key=375280be5017acaf5d4d8561abc4f13b",
   // },
 
-  plugins: [ uploadAdapterPlugin ],
-
+  // plugins: [uploadAdapterPlugin],
 };
-
-
 
 const CustomEditor: React.FC<CustomEditorProps> = (props) => {
   const [editorData, setEditorData] = useState(props.initialData);
@@ -91,9 +87,6 @@ const CustomEditor: React.FC<CustomEditorProps> = (props) => {
     // Further actions for submitting the blog
   };
 
-  
-  
-  
   return (
     <div>
       <input
@@ -111,7 +104,6 @@ const CustomEditor: React.FC<CustomEditorProps> = (props) => {
           const data = editor.getData();
           setEditorData(data);
         }}
-        
       />
       <button
         className="w-fit p-3 px-8 rounded-full font-bold shadow-md bg-yellow-300 hover:bg-yellow-400 my-5"
