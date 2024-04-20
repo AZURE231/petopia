@@ -1,10 +1,15 @@
 import Image from 'next/image';
-import { useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import { FaComment } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 import CommentCard from './CommentCard';
 import { IoSend } from 'react-icons/io5';
 import { IGetPostResponse } from '@/src/interfaces/post';
+import { getTimeAgo } from '@/src/helpers/getTimeAgo';
+import { useMutation } from '@/src/utils/hooks';
+import { IApiResponse } from '@/src/interfaces/common';
+import { likePost } from '@/src/services/post.api';
+import ImageCarousel from '@/src/components/general/Carousel';
 
 export default function PetPost({
   post,
@@ -18,6 +23,11 @@ export default function PetPost({
   // STATE
   const [isLiked, setIsLiked] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [currentImage, setCurrentImage] = useState(post.images[0]);
+
+  useEffect(() => {
+    setIsLiked(post.isLiked);
+  }, [post.isLiked]);
 
   // HANDLE
   const handleLikeButton = () => {
@@ -30,6 +40,7 @@ export default function PetPost({
         setIsAnimating(false);
       }, 800);
     }
+    likeMutation.mutate(post.id);
   };
 
   const handleCommentButton = () => {
@@ -43,25 +54,48 @@ export default function PetPost({
   const handleSentComment = () => {
     console.log('Sent comment');
   };
+
+  //QUERY
+  const likeMutation = useMutation<IApiResponse<number>, string>(likePost, {
+    onSuccess: (res) => {
+      post.like = res.data.data;
+    },
+  });
   return (
     <div className="w-full flex items-center justify-center my-5">
-      <div className="max-w-sm md:max-w-2xl relative bg-white border border-gray-200 rounded-lg shadow">
+      <div className="w-96 md:w-[600px] relative bg-white border border-gray-200 rounded-lg shadow">
         <div className="relative w-full h-80">
           <Image
             className="rounded-t-lg object-contain"
-            src="/img/avatar.png"
+            src={currentImage}
             alt=""
             fill
           />
         </div>
+        <div className="mt-5 flex items-center justify-center">
+          <ImageCarousel
+            disPlayedImage={currentImage}
+            setDisplayedImage={setCurrentImage}
+            images={post.images}
+          />
+        </div>
         <div className="p-5">
           <a href="#" className="flex flex-row items-center mb-2 gap-2">
-            <div className="bg-red-400 w-10 h-10 rounded-full"></div>
+            <div className="relative w-10 h-10 rounded-full">
+              <Image
+                className="rounded-full object-contain"
+                src={post.userImage}
+                alt=""
+                fill
+              />
+            </div>
             <div className="flex flex-col">
               <h5 className=" text-xl font-bold tracking-tight text-gray-900">
                 {post.userName}
               </h5>
-              <p className="text-sm font-normal text-gray-400">2 hours ago</p>
+              <p className="text-sm font-normal text-gray-400">
+                {getTimeAgo(post.isCreatedAt)}
+              </p>
             </div>
           </a>
           <p className="mb-3 font-normal text-gray-700">{post.content}</p>
@@ -74,7 +108,7 @@ export default function PetPost({
                 isLiked ? 'liked' : ''
               }`}
             ></button>
-            <div className="font-medium -ml-7 text-gray-400">199</div>
+            <div className="font-medium -ml-7 text-gray-400">{post.like}</div>
           </div>
 
           <button
@@ -82,7 +116,7 @@ export default function PetPost({
             className="flex flex-row items-center gap-2"
           >
             <FaComment className="text-gray-400" size={30} />
-            <div className="font-medium text-gray-400">199</div>
+            <div className="font-medium text-gray-400">{post.commentCount}</div>
           </button>
           <button
             onClick={handleDeleteButton}

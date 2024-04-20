@@ -11,6 +11,8 @@ export interface IGetPostResponse {
   userImage: string;
   userName: string;
   like: number;
+  isLiked: boolean;
   isCreatedAt: string;
+  commentCount: number;
   images: string[];
 }

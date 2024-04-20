@@ -6,3 +6,6 @@ export const getPetPosts = async (petId: string) =>
 
 export const createPost = async (data: IPostPetPost) =>
   await http.post('/Post', data);
+
+export const likePost = async (postId: string) =>
+  await http.put(`/Post/Like/${postId}`);
