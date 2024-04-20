@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { FaComment } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 import CommentCard from './CommentCard';
-import { set } from 'mobx';
+import { IoSend } from 'react-icons/io5';
 
 export default function PetPost({
   showComment,
@@ -35,6 +35,10 @@ export default function PetPost({
 
   const handleDeleteButton = () => {
     console.log('Delete button clicked');
+  };
+
+  const handleSentComment = () => {
+    console.log('Sent comment');
   };
   return (
     <div className="w-full flex items-center justify-center my-5">
@@ -91,11 +95,19 @@ export default function PetPost({
           <div className="px-5 pb-5">
             <div className="flex flex-row items-center gap-2 mt-5 mb-5">
               <div className="bg-red-400 w-10 h-10 rounded-full"></div>
-              <input
-                type="text"
-                className="flex-1 p-3 border border-gray-300 rounded-lg"
-                placeholder="Thêm bình luận"
-              />
+              <div className="relative flex-1 items-center">
+                <input
+                  type="text"
+                  className="w-full p-3 border border-gray-300 rounded-lg"
+                  placeholder="Thêm bình luận"
+                />
+                <button
+                  className="absolute right-0 top-0 p-3 hover:text-blue-500"
+                  onClick={handleSentComment}
+                >
+                  <IoSend size={20} />
+                </button>
+              </div>
             </div>
             <div className="flex flex-col gap-3">
               <CommentCard />

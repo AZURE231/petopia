@@ -6,7 +6,7 @@ export default function CreatePetPostButton() {
   return (
     <Popup
       modal
-      className="max-w-xl w-96"
+      className=""
       overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
       trigger={
         <button className="p-3 flex items-center w-fit font-medium bg-yellow-300 rounded-full hover:bg-yellow-400">
