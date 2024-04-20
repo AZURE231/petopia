@@ -1,12 +1,41 @@
 import React, { useState } from "react";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { Editor } from "@ckeditor/ckeditor5-core";
+import { plugin } from "postcss";
+
+
 
 interface CustomEditorProps {
   initialData: string;
   initialTitle: string;
 }
+const uploadAdapter = (loader:any) => {
+  return {
+    upload: async () => {
+      const data = new FormData();
+      data.append("image", await loader.file);
+
+      const response = await fetch(
+        "https://api.imgbb.com/1/upload?key=375280be5017acaf5d4d8561abc4f13b",
+        {
+          method: "POST",
+          body: data,
+        }
+      ).then((res) => res.json());
+
+      return {
+        default: response.data.url,
+      };
+
+    },
+  };
+};
+
+const uploadAdapterPlugin = (editor:any) => {
+  editor.plugins.get("FileRepository").createUploadAdapter = (loader:any) => {
+    return uploadAdapter(loader);
+  };
+};
 
 const editorConfiguration = {
   toolbar: {
@@ -41,10 +70,15 @@ const editorConfiguration = {
     ],
   },
 
-  ckfinder: {
-    uploadUrl: "https://api.imgbb.com/1/upload?key=375280be5017acaf5d4d8561abc4f13b",
-  },
+  // ckfinder: {
+  //   uploadUrl: "https://api.imgbb.com/1/upload?key=375280be5017acaf5d4d8561abc4f13b",
+  // },
+
+  plugins: [ uploadAdapterPlugin ],
+
 };
+
+
 
 const CustomEditor: React.FC<CustomEditorProps> = (props) => {
   const [editorData, setEditorData] = useState(props.initialData);
@@ -57,6 +91,9 @@ const CustomEditor: React.FC<CustomEditorProps> = (props) => {
     // Further actions for submitting the blog
   };
 
+  
+  
+  
   return (
     <div>
       <input
@@ -74,6 +111,7 @@ const CustomEditor: React.FC<CustomEditorProps> = (props) => {
           const data = editor.getData();
           setEditorData(data);
         }}
+        
       />
       <button
         className="w-fit p-3 px-8 rounded-full font-bold shadow-md bg-yellow-300 hover:bg-yellow-400 my-5"
