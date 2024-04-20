@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import FormUploadImage from './FormUploadImage';
+import FormUploadImage from '../pet/FormUploadImage';
 import { IUploadImage } from '@/src/interfaces/common';
 import Dropzone from '../general/Dropzone';
 
@@ -18,9 +18,9 @@ export default function CreatePetPostForm() {
   };
 
   return (
-    <div className="container p-5 mx-auto">
+    <div className="p-5 mx-auto w-full">
       <form
-        className="w-full rounded-2xl bg-yellow-100 p-5"
+        className="w-full md:w-[600px] rounded-2xl bg-yellow-100 p-5"
         onSubmit={handleSubmit}
       >
         <h2 className="font-bold mb-2">Tạo bài đăng</h2>

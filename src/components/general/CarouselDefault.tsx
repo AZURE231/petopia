@@ -1,5 +1,5 @@
 import { Carousel, IconButton } from '@material-tailwind/react';
-import PetPost from '../pet/PetPost';
+import PetPost from '../post/PetPost';
 
 export function CarouselDefault() {
   return (

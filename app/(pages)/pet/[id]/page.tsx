@@ -24,8 +24,8 @@ import Link from 'next/link';
 import { FaHouseUser } from 'react-icons/fa';
 import { Button, Tooltip, Carousel } from '@material-tailwind/react';
 import { FaShieldDog } from 'react-icons/fa6';
-import CreatePetPostButton from '@/src/components/pet/CreatePetPostButton';
-import PetPost from '@/src/components/pet/PetPost';
+import CreatePetPostButton from '@/src/components/post/CreatePetPostButton';
+import PetPost from '@/src/components/post/PetPost';
 import { CarouselDefault } from '@/src/components/general/CarouselDefault';
 
 const page = QueryProvider(({ params }: { params: { id: string } }) => {
