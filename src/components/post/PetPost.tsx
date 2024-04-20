@@ -4,11 +4,14 @@ import { FaComment } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 import CommentCard from './CommentCard';
 import { IoSend } from 'react-icons/io5';
+import { IGetPostResponse } from '@/src/interfaces/post';
 
 export default function PetPost({
+  post,
   showComment,
   setShowComment,
 }: {
+  post: IGetPostResponse;
   showComment: boolean;
   setShowComment: (showComment: boolean) => void;
 }) {
@@ -56,15 +59,12 @@ export default function PetPost({
             <div className="bg-red-400 w-10 h-10 rounded-full"></div>
             <div className="flex flex-col">
               <h5 className=" text-xl font-bold tracking-tight text-gray-900">
-                Huynh Vo Tuan
+                {post.userName}
               </h5>
               <p className="text-sm font-normal text-gray-400">2 hours ago</p>
             </div>
           </a>
-          <p className="mb-3 font-normal text-gray-700">
-            Here are the biggest enterprise technology acquisitions of 2021 so
-            far, in reverse chronological order.
-          </p>
+          <p className="mb-3 font-normal text-gray-700">{post.content}</p>
         </div>
         <div className="flex flex-row items-center gap-6 -mt-14 ">
           <div className="flex flex-row items-center">

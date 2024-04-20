@@ -176,8 +176,8 @@ const page = QueryProvider(({ params }: { params: { id: string } }) => {
             </div>
           </div>
           <div className="container max-w-5xl mx-auto p-5 shadow-2xl rounded-2xl my-5">
-            <CreatePetPostButton />
-            <CarouselDefault />
+            <CreatePetPostButton petId={params.id} />
+            <CarouselDefault petId={params.id} />
           </div>
           <SeeMore petList={petDetail.seeMore} />
         </div>

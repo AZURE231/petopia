@@ -75,7 +75,6 @@ const PetProfileForm = QueryProvider(
         else await createPetMutation.mutateAsync(getValues());
         // setIsLoading(false);
       }
-      setIsLoading(false);
     };
 
     const uploadImage = async () => {
@@ -95,6 +94,7 @@ const PetProfileForm = QueryProvider(
           })
         );
       }
+      setIsLoading(false);
     };
 
     const validateInputs = () => {
@@ -287,7 +287,10 @@ const PetProfileForm = QueryProvider(
 
         {/* rules */}
         {activeStep === 2 && (
-          <FormRules handleBack={handleBack} isLoading={isLoading} />
+          <FormRules
+            handleBack={handleBack}
+            isLoading={isLoading || createPetMutation.isLoading}
+          />
         )}
         <Alert
           message={error || 'Tạo hồ sơ thú cưng thành công'}

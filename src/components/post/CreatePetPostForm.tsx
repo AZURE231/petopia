@@ -1,10 +1,22 @@
-import { useForm } from 'react-hook-form';
-import FormUploadImage from '../pet/FormUploadImage';
-import { IUploadImage } from '@/src/interfaces/common';
+import { set, useForm } from 'react-hook-form';
+import { IApiResponse, IUploadImage } from '@/src/interfaces/common';
 import Dropzone from '../general/Dropzone';
+import { IPostPetPost } from '@/src/interfaces/post';
+import { postImage } from '@/src/helpers/postImage';
+import { useMutation } from '@/src/utils/hooks';
+import { createPost } from '@/src/services/post.api';
+import { useState } from 'react';
+import { ClipLoader } from 'react-spinners';
+import { Alert } from '../general/Alert';
 
-export default function CreatePetPostForm() {
-  const { getValues, setValue, watch } = useForm<IUploadImage>({
+export default function CreatePetPostForm({ petId }: { petId: string }) {
+  //STATE
+  const [alertShow, setAlertShow] = useState<boolean>(false);
+  const [alertFail, setAlertFail] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const uploadImageForm = useForm<IUploadImage>({
     defaultValues: {
       showImages: [],
       files: [],
@@ -12,9 +24,56 @@ export default function CreatePetPostForm() {
     },
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const createPostForm = useForm<IPostPetPost>({
+    defaultValues: {
+      petId: petId,
+      content: '',
+      images: [],
+    },
+  });
+
+  const uploadImage = async () => {
+    const files = uploadImageForm.getValues('files');
+
+    if (files && files.length > 0) {
+      // Convert FileList to array
+      const filesArray = Array.from(files);
+
+      // Use Promise.all to await all image uploads
+      await Promise.all(
+        filesArray.map(async (file) => {
+          const formData = new FormData();
+          formData.append('image', file);
+          const url: string = await postImage(formData);
+          url &&
+            createPostForm.setValue('images', [
+              ...createPostForm.getValues('images'),
+              url,
+            ]);
+        })
+      );
+    }
+    setIsLoading(false);
+  };
+
+  const createPostPetMutation = useMutation<
+    IApiResponse<boolean>,
+    IPostPetPost
+  >(createPost, {
+    onError: () => {
+      setAlertFail(true);
+      setAlertMessage('Tạo bài đăng thất bại');
+      setAlertShow(true);
+    },
+    onSuccess: (res) => {},
+  });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(getValues());
+    setIsLoading(true);
+    await uploadImage();
+    console.log(createPostForm.getValues());
+    createPostPetMutation.mutate(createPostForm.getValues());
   };
 
   return (
@@ -31,31 +90,49 @@ export default function CreatePetPostForm() {
         >
           <div>
             <div className="text-sm font-medium">Tải ảnh lên</div>
-            <Dropzone setValue={setValue} watch={watch} imagesNumber={5} />
+            <Dropzone
+              setValue={uploadImageForm.setValue}
+              watch={uploadImageForm.watch}
+              imagesNumber={5}
+            />
           </div>
           <div>
             <div className="text-sm font-medium">Mô tả</div>
             <textarea
               className="w-full p-3 border border-gray-300 rounded-lg mt-3"
               placeholder="Mô tả bài đăng"
+              onChange={(e) =>
+                createPostForm.setValue('content', e.target.value)
+              }
             />
           </div>
         </div>
         <div className="flex justify-center">
-          <button className="w-fit p-3 flex text-black bg-yellow-300 hover:bg-yellow-400 rounded-lg font-bold">
+          <button
+            className="w-fit p-3 flex text-black bg-yellow-300 hover:bg-yellow-400 rounded-lg font-bold"
+            type="submit"
+            disabled={createPostPetMutation.isLoading || isLoading}
+          >
             Hoàn thành
+            <span className="ml-2">
+              <ClipLoader
+                color={'#000000'}
+                loading={createPostPetMutation.isLoading || isLoading}
+                size={14}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
+            </span>
           </button>
         </div>
       </form>
 
-      {/* <Alert
-        failed={alertFail}
-        message={alertMessage}
+      <Alert
         show={alertShow}
         setShow={setAlertShow}
-        action={handleClose}
-        showCancel={false}
-      /> */}
+        message={alertMessage}
+        failed={alertFail}
+      />
     </div>
   );
 }

@@ -1,0 +1,16 @@
+export interface IPostPetPost {
+  petId: string;
+  content: string;
+  images: string[];
+}
+
+export interface IGetPostResponse {
+  id: string;
+  userId: string;
+  content: string;
+  userImage: string;
+  userName: string;
+  like: number;
+  isCreatedAt: string;
+  images: string[];
+}

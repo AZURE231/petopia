@@ -2,7 +2,7 @@ import Popup from 'reactjs-popup';
 import { FaPlus } from 'react-icons/fa';
 import CreatePetPostForm from './CreatePetPostForm';
 
-export default function CreatePetPostButton() {
+export default function CreatePetPostButton({ petId }: { petId: string }) {
   return (
     <Popup
       modal
@@ -17,7 +17,7 @@ export default function CreatePetPostButton() {
         </button>
       }
     >
-      <CreatePetPostForm />
+      <CreatePetPostForm petId={petId} />
     </Popup>
   );
 }
