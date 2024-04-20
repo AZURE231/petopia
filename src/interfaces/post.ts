@@ -1,3 +1,5 @@
+import exp from 'constants';
+
 export interface IPostPetPost {
   petId: string;
   content: string;
@@ -15,4 +17,13 @@ export interface IGetPostResponse {
   isCreatedAt: string;
   commentCount: number;
   images: string[];
+}
+
+export interface ICommentResponse {
+  id: string;
+  content: string;
+  userId: string;
+  userName: string;
+  userImage: string;
+  isCreatedAt: string;
 }

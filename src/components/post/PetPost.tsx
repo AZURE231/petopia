@@ -4,11 +4,11 @@ import { FaComment } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 import CommentCard from './CommentCard';
 import { IoSend } from 'react-icons/io5';
-import { IGetPostResponse } from '@/src/interfaces/post';
+import { ICommentResponse, IGetPostResponse } from '@/src/interfaces/post';
 import { getTimeAgo } from '@/src/helpers/getTimeAgo';
 import { useMutation } from '@/src/utils/hooks';
 import { IApiResponse } from '@/src/interfaces/common';
-import { likePost } from '@/src/services/post.api';
+import { getCommentsPost, likePost } from '@/src/services/post.api';
 import ImageCarousel from '@/src/components/general/Carousel';
 
 export default function PetPost({
@@ -24,6 +24,7 @@ export default function PetPost({
   const [isLiked, setIsLiked] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [currentImage, setCurrentImage] = useState(post.images[0]);
+  const [comments, setComments] = useState<ICommentResponse[]>([]);
 
   useEffect(() => {
     setIsLiked(post.isLiked);
@@ -45,6 +46,9 @@ export default function PetPost({
 
   const handleCommentButton = () => {
     setShowComment(!showComment);
+    if (!showComment) {
+      getCommentMutation.mutate(post.id);
+    }
   };
 
   const handleDeleteButton = () => {
@@ -61,6 +65,25 @@ export default function PetPost({
       post.like = res.data.data;
     },
   });
+
+  const getCommentMutation = useMutation<
+    IApiResponse<ICommentResponse[]>,
+    string
+  >(getCommentsPost, {
+    onSuccess: (res) => {
+      setComments(res.data.data);
+    },
+  });
+
+  const sentCommentMutation = useMutation<
+    IApiResponse<ICommentResponse[]>,
+    string
+  >(getCommentsPost, {
+    onSuccess: (res) => {
+      setComments(res.data.data);
+    },
+  });
+
   return (
     <div className="w-full flex items-center justify-center my-5">
       <div className="w-96 md:w-[600px] relative bg-white border border-gray-200 rounded-lg shadow">
@@ -68,7 +91,7 @@ export default function PetPost({
           <Image
             className="rounded-t-lg object-contain"
             src={currentImage}
-            alt=""
+            alt="post image"
             fill
           />
         </div>
@@ -127,6 +150,7 @@ export default function PetPost({
         </div>
         {showComment && (
           <div className="px-5 pb-5">
+            {/* Comment input */}
             <div className="flex flex-row items-center gap-2 mt-5 mb-5">
               <div className="bg-red-400 w-10 h-10 rounded-full"></div>
               <div className="relative flex-1 items-center">
@@ -143,9 +167,11 @@ export default function PetPost({
                 </button>
               </div>
             </div>
+            {/* Comments */}
             <div className="flex flex-col gap-3">
-              <CommentCard />
-              <CommentCard />
+              {comments.map((comment) => (
+                <CommentCard key={comment.id} comment={comment} />
+              ))}
             </div>
           </div>
         )}

@@ -25,7 +25,6 @@ import { FaHouseUser } from 'react-icons/fa';
 import { Button, Tooltip, Carousel } from '@material-tailwind/react';
 import { FaShieldDog } from 'react-icons/fa6';
 import CreatePetPostButton from '@/src/components/post/CreatePetPostButton';
-import PetPost from '@/src/components/post/PetPost';
 import { CarouselDefault } from '@/src/components/general/CarouselDefault';
 import { observer } from 'mobx-react-lite';
 import { useStores } from '@/src/stores';

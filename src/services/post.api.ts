@@ -9,3 +9,6 @@ export const createPost = async (data: IPostPetPost) =>
 
 export const likePost = async (postId: string) =>
   await http.put(`/Post/Like/${postId}`);
+
+export const getCommentsPost = async (postId: string) =>
+  await http.get(`/Comment/post/${postId}`);
