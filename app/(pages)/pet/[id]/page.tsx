@@ -76,7 +76,9 @@ const page = QueryProvider(({ params }: { params: { id: string } }) => {
               <div className="md:pl-10">
                 <div>
                   <div className="flex flex-row gap-2">
-                    <h1 className="font-bold text-4xl">{petDetail.name}</h1>
+                    <h1 className="mt-5 md:mt-0 font-bold text-4xl">
+                      {petDetail.name}
+                    </h1>
                     {petDetail.isOrgOwned && (
                       <Tooltip content="Cộng tác viên">
                         <Button className="p-0 shadow-none">
