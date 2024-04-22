@@ -1,7 +1,6 @@
 import { IPetFilter, IPetFilterRequest } from "@/src/interfaces/pet";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { PiPawPrintFill } from "react-icons/pi";
 import { PET_FILTERS } from "@/src/utils/constants";
 import { useClickOutside } from "@/src/utils/hooks";
 
@@ -16,7 +15,6 @@ export function PetFilterBarMobile({
   setShowFilterMobile,
   filterForm,
   disable,
-
 }: {
   filterContent: IPetFilter[];
   showFilterMobile: boolean;
@@ -25,17 +23,18 @@ export function PetFilterBarMobile({
   disable: boolean;
 }) {
   const { getValues, setValue } = filterForm;
-  
-  const [showFilter, setShowFilter] = useState({});
 
-  const setFilter = (array: any[] | undefined, itemValue: number) => {
+  const [showFilter, setShowFilter] = useState<{ [key: number]: boolean }>({});
+  const [selectedValues, setSelectedValues] = useState<{ [key: string]: number[] }>({});
+
+  const setFilter = (array: number[] | undefined, itemValue: number) => {
     if (array === undefined) array = [];
     const index = array.indexOf(itemValue);
     if (index !== -1) array.splice(index, 1);
     else array.push(itemValue);
     return array;
   };
-  
+
   const handleShowFilter = (id: number) => {
     setShowFilter({
       ...showFilter,
@@ -43,45 +42,57 @@ export function PetFilterBarMobile({
     });
   };
 
-
   const handleClickFilter = (filterId: number, itemValue: number) => {
     switch (filterId) {
       case 1:
-        let species = getValues('species');
-        setValue('species', setFilter(species, itemValue));
+        let species = getValues("species");
+        setValue("species", setFilter(species, itemValue));
         break;
 
       case 2:
-        let sex = getValues('sex');
-        setValue('sex', setFilter(sex, itemValue));
+        let sex = getValues("sex");
+        setValue("sex", setFilter(sex, itemValue));
         break;
 
       case 3:
-        let color = getValues('color');
-        setValue('color', setFilter(color, itemValue));
+        let color = getValues("color");
+        setValue("color", setFilter(color, itemValue));
         break;
 
       case 4:
-        let size = getValues('size');
-        setValue('size', setFilter(size, itemValue));
+        let size = getValues("size");
+        setValue("size", setFilter(size, itemValue));
         break;
 
       case 5:
-        let age = getValues('age');
-        setValue('age', setFilter(age, itemValue));
+        let age = getValues("age");
+        setValue("age", setFilter(age, itemValue));
         break;
 
       case 6:
-        let isVaccinated = getValues('isVaccinated');
-        setValue('isVaccinated', setFilter(isVaccinated, itemValue));
+        let isVaccinated = getValues("isVaccinated");
+        setValue("isVaccinated", setFilter(isVaccinated, itemValue));
         break;
 
       default:
-        let isSterillized = getValues('isSterillized');
-        setValue('isSterillized', setFilter(isSterillized, itemValue));
+        let isSterillized = getValues("isSterillized");
+        setValue("isSterillized", setFilter(isSterillized, itemValue));
         break;
     }
   };
+  const handleCheckboxChange = (filterId: number, itemValue: number) => {
+    const selectedValuesCopy = { ...selectedValues };
+    const key = `${filterId}-${itemValue}`;
+
+    if (selectedValuesCopy[key]) {
+      delete selectedValuesCopy[key];
+    } else {
+      selectedValuesCopy[key] = selectedValuesCopy[key] ? [...selectedValuesCopy[key], itemValue] : [itemValue];
+    }
+
+    setSelectedValues(selectedValuesCopy);
+  };
+
 
 
   // EFFECTS
@@ -91,16 +102,34 @@ export function PetFilterBarMobile({
     setShowFilterMobile(false);
   }, [buttonRef, divRef]);
 
+  useEffect(() => {
+    const selectedValuesCopy = { ...selectedValues };
+    const filterFormValues = getValues();
+    Object.keys(filterFormValues).forEach((key) => {
+      const filterId = parseInt(key.split("_")[1]);
+      const values = filterFormValues[key as keyof typeof filterFormValues];
+      if (Array.isArray(values)) {
+        values.forEach((value: number) => {
+          selectedValuesCopy[`${filterId}-${value}`] = [value];
+        });
+      }
+    });
+    setSelectedValues(selectedValuesCopy);
+  }, [getValues]);
+
 
   if (!showFilterMobile) return null;
   return (
-    <div className="relative z-40 lg:hidden" role="dialog" >
+    <div className="relative z-40 lg:hidden" role="dialog">
       {/* <!-- Off-canvas menu backdrop, show/hide based on off-canvas menu state. --> */}
       <div className="fixed inset-0 bg-black bg-opacity-25"></div>
 
       <div className="fixed inset-0 z-40 flex">
         {/* <!-- Off-canvas menu, show/hide based on off-canvas menu state. --> */}
-        <div ref={divRef} className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
+        <div
+          ref={divRef}
+          className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl"
+        >
           <div className="flex items-center justify-between px-4">
             <h2 className="text-lg font-medium text-gray-900">Filters</h2>
             {/* <!-- Close button --> */}
@@ -191,6 +220,10 @@ export function PetFilterBarMobile({
                             onClick={() =>
                               handleClickFilter(filter.id, item.value)
                             }
+                            checked={!!selectedValues[`${filter.id}-${item.value}`]}
+                            onChange={() =>
+                              handleCheckboxChange(filter.id, item.value)
+                            }
                             disabled={disable}
                           />
                           <label
@@ -207,7 +240,6 @@ export function PetFilterBarMobile({
               </div>
             ))}
           </form>
-          
         </div>
       </div>
     </div>
