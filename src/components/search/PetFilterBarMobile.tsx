@@ -14,15 +14,19 @@ export function PetFilterBarMobile({
   filterContent,
   showFilterMobile,
   setShowFilterMobile,
-  filterbar,
+  filterForm,
+  disable,
+
 }: {
   filterContent: IPetFilter[];
   showFilterMobile: boolean;
   setShowFilterMobile: (showFilterMobile: boolean) => void;
-  filterbar: IFilterBar;
+  filterForm: UseFormReturn<IPetFilterRequest, any, undefined>;
+  disable: boolean;
 }) {
-  const { filterForm, disable } = filterbar || {};
-  const { getValues, setValue } = filterForm || {}; // Ensure filterForm is not undefined
+  const { getValues, setValue } = filterForm;
+  
+  const [showFilter, setShowFilter] = useState({});
 
   const setFilter = (array: any[] | undefined, itemValue: number) => {
     if (array === undefined) array = [];
@@ -31,66 +35,54 @@ export function PetFilterBarMobile({
     else array.push(itemValue);
     return array;
   };
-
-  const handleClickFilter = (filterId: number, itemValue: number) => {
-    if (!filterForm) return; // Ensure filterForm is not undefined
-    switch (filterId) {
-      case 1:
-        setValue(
-          "species",
-          toggleFilter(getValues("species") || [], itemValue)
-        );
-        break;
-
-      case 2:
-        setValue("sex", toggleFilter(getValues("sex") || [], itemValue));
-        break;
-
-      case 3:
-        setValue("color", toggleFilter(getValues("color") || [], itemValue));
-        break;
-
-      case 4:
-        setValue("size", toggleFilter(getValues("size") || [], itemValue));
-        break;
-
-      case 5:
-        setValue("age", toggleFilter(getValues("age") || [], itemValue));
-        break;
-
-      case 6:
-        setValue(
-          "isVaccinated",
-          toggleFilter(getValues("isVaccinated") || [], itemValue)
-        );
-        break;
-
-      default:
-        setValue(
-          "isSterillized",
-          toggleFilter(getValues("isSterillized") || [], itemValue)
-        );
-        break;
-    }
-  };
-
-  const toggleFilter = (array: number[], itemValue: number) => {
-    if (array.includes(itemValue)) {
-      return array.filter((value) => value !== itemValue);
-    } else {
-      return [...array, itemValue];
-    }
-  };
-
-
-  const [showFilter, setShowFilter] = useState({});
-
+  
   const handleShowFilter = (id: number) => {
     setShowFilter({
       ...showFilter,
       [id]: !showFilter[id as keyof typeof showFilter],
     });
   };
+
+
+  const handleClickFilter = (filterId: number, itemValue: number) => {
+    switch (filterId) {
+      case 1:
+        let species = getValues('species');
+        setValue('species', setFilter(species, itemValue));
+        break;
+
+      case 2:
+        let sex = getValues('sex');
+        setValue('sex', setFilter(sex, itemValue));
+        break;
+
+      case 3:
+        let color = getValues('color');
+        setValue('color', setFilter(color, itemValue));
+        break;
+
+      case 4:
+        let size = getValues('size');
+        setValue('size', setFilter(size, itemValue));
+        break;
+
+      case 5:
+        let age = getValues('age');
+        setValue('age', setFilter(age, itemValue));
+        break;
+
+      case 6:
+        let isVaccinated = getValues('isVaccinated');
+        setValue('isVaccinated', setFilter(isVaccinated, itemValue));
+        break;
+
+      default:
+        let isSterillized = getValues('isSterillized');
+        setValue('isSterillized', setFilter(isSterillized, itemValue));
+        break;
+    }
+  };
+
 
   // EFFECTS
   const buttonRef = useRef<HTMLButtonElement>(null);
