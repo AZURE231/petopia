@@ -1,4 +1,4 @@
-import { IPostPetPost } from '../interfaces/post';
+import { ICommentPost, IPostPetPost } from '../interfaces/post';
 import { http } from './http';
 
 export const getPetPosts = async (petId: string) =>
@@ -13,5 +13,11 @@ export const likePost = async (postId: string) =>
 export const getCommentsPost = async (postId: string) =>
   await http.get(`/Comment/post/${postId}`);
 
+export const sendCommentPost = async (data: ICommentPost) =>
+  await http.post('/Comment', data);
+
 export const deletePost = async (postId: string) =>
   await http.delete(`/Post/${postId}`);
+
+export const deleteComment = async (commentId: string) =>
+  await http.delete(`/Comment/${commentId}`);

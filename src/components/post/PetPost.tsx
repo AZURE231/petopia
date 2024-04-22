@@ -1,17 +1,28 @@
 import Image from 'next/image';
-import { use, useEffect, useState } from 'react';
+import { FormEvent, use, useEffect, useState } from 'react';
 import { FaComment } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 import CommentCard from './CommentCard';
 import { IoSend } from 'react-icons/io5';
-import { ICommentResponse, IGetPostResponse } from '@/src/interfaces/post';
+import {
+  ICommentPost,
+  ICommentResponse,
+  IGetPostResponse,
+} from '@/src/interfaces/post';
 import { getTimeAgo } from '@/src/helpers/getTimeAgo';
 import { useMutation } from '@/src/utils/hooks';
 import { IApiErrorResponse, IApiResponse } from '@/src/interfaces/common';
-import { deletePost, getCommentsPost, likePost } from '@/src/services/post.api';
+import {
+  deletePost,
+  getCommentsPost,
+  likePost,
+  sendCommentPost,
+} from '@/src/services/post.api';
 import ImageCarousel from '@/src/components/general/Carousel';
 import { UseQueryResult } from 'react-query';
 import { AxiosResponse } from 'axios';
+import CommentSkeleton from '../general/CommentSkeleton';
+import { useStores } from '@/src/stores';
 
 export default function PetPost({
   post,
@@ -32,6 +43,9 @@ export default function PetPost({
   const [isAnimating, setIsAnimating] = useState(false);
   const [currentImage, setCurrentImage] = useState(post.images[0]);
   const [comments, setComments] = useState<ICommentResponse[]>([]);
+  const [commentContent, setCommentContent] = useState('');
+  const [commentNumber, setCommentNumber] = useState(post.commentCount);
+  const { userStore } = useStores();
 
   useEffect(() => {
     setIsLiked(post.isLiked);
@@ -62,8 +76,10 @@ export default function PetPost({
     deletePostMutation.mutate(post.id);
   };
 
-  const handleSentComment = () => {
-    console.log('Sent comment');
+  const handleSentComment = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    sendCommentMutation.mutate({ postId: post.id, content: commentContent });
+    setCommentContent('');
   };
 
   //QUERY
@@ -82,12 +98,13 @@ export default function PetPost({
     },
   });
 
-  const sentCommentMutation = useMutation<
-    IApiResponse<ICommentResponse[]>,
-    string
-  >(getCommentsPost, {
+  const sendCommentMutation = useMutation<
+    IApiResponse<ICommentResponse>,
+    ICommentPost
+  >(sendCommentPost, {
     onSuccess: (res) => {
-      setComments(res.data.data);
+      setComments([res.data.data, ...comments]);
+      setCommentNumber(commentNumber + 1);
     },
   });
 
@@ -104,6 +121,7 @@ export default function PetPost({
   return (
     <div className="w-full flex items-center justify-center my-5">
       <div className="w-96 md:w-[600px] relative bg-white border border-gray-200 rounded-lg shadow">
+        {/* Image carousel */}
         <div className="relative w-full h-80">
           <Image
             className="rounded-t-lg object-contain"
@@ -120,7 +138,11 @@ export default function PetPost({
           />
         </div>
         <div className="p-5">
-          <a href="#" className="flex flex-row items-center mb-2 gap-2">
+          {/* User post avatar and name */}
+          <a
+            href={`/user/${post.creatorId}`}
+            className="flex flex-row items-center mb-2 gap-2"
+          >
             <div className="relative w-10 h-10 rounded-full">
               <Image
                 className="rounded-full object-contain"
@@ -138,9 +160,11 @@ export default function PetPost({
               </p>
             </div>
           </a>
+          {/* Post content */}
           <p className="mb-3 font-normal text-gray-700">{post.content}</p>
         </div>
-        <div className="flex flex-row items-center gap-6 -mt-14 ">
+        {/* Like, comment, delete button */}
+        <div className="flex flex-row items-center gap-6 -mt-10 ">
           <div className="flex flex-row items-center">
             <button
               onClick={handleLikeButton}
@@ -148,47 +172,75 @@ export default function PetPost({
                 isLiked ? 'liked' : ''
               }`}
             ></button>
-            <div className="font-medium -ml-7 text-gray-400">{post.like}</div>
+            <div className="font-medium -ml-4 text-gray-400">{post.like}</div>
           </div>
 
           <button
             onClick={handleCommentButton}
             className="flex flex-row items-center gap-2"
           >
-            <FaComment className="text-gray-400" size={30} />
-            <div className="font-medium text-gray-400">{post.commentCount}</div>
+            <FaComment className="text-gray-400" size={20} />
+            <div className="font-medium text-gray-400">{commentNumber}</div>
           </button>
           <button
             onClick={handleDeleteButton}
             className="flex flex-row items-center gap-2"
           >
-            <MdDelete className="text-gray-400" size={30} />
+            <MdDelete className="text-gray-400" size={20} />
           </button>
         </div>
+        {/* Comment section */}
         {showComment && (
           <div className="px-5 pb-5">
             {/* Comment input */}
             <div className="flex flex-row items-center gap-2 mt-5 mb-5">
-              <div className="bg-red-400 w-10 h-10 rounded-full"></div>
-              <div className="relative flex-1 items-center">
+              <div className="relative w-10 h-10 rounded-full">
+                <Image
+                  src={userStore.userContext?.image || '/img/no-avatar.png'}
+                  alt="user avatar"
+                  fill
+                  className="rounded-full object-contain"
+                ></Image>
+              </div>
+              <form
+                onSubmit={handleSentComment}
+                className="relative flex-1 items-center"
+              >
                 <input
                   type="text"
                   className="w-full p-3 border border-gray-300 rounded-lg"
                   placeholder="Thêm bình luận"
+                  onChange={(e) => setCommentContent(e.target.value)}
+                  value={commentContent}
                 />
                 <button
-                  className="absolute right-0 top-0 p-3 hover:text-blue-500"
-                  onClick={handleSentComment}
+                  className={`absolute right-0 top-0 p-3 ${
+                    commentContent === '' ? '' : 'hover:text-blue-500'
+                  } `}
+                  type="submit"
+                  disabled={commentContent === ''}
                 >
                   <IoSend size={20} />
                 </button>
-              </div>
+              </form>
             </div>
             {/* Comments */}
             <div className="flex flex-col gap-3">
-              {comments.map((comment) => (
-                <CommentCard key={comment.id} comment={comment} />
-              ))}
+              {getCommentMutation.isLoading ? (
+                <CommentSkeleton />
+              ) : (
+                comments.map((comment) => (
+                  <CommentCard
+                    key={comment.id}
+                    comment={comment}
+                    creatorId={post.creatorId}
+                    getCommentsMutation={() =>
+                      getCommentMutation.mutate(post.id)
+                    }
+                    setCommentCount={setCommentNumber}
+                  />
+                ))
+              )}
             </div>
           </div>
         )}

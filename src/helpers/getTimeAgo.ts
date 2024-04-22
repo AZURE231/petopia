@@ -7,10 +7,10 @@ export const getTimeAgo = (createdAt: string): string => {
   const daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
   if (minutesAgo < 60) {
-    return `${minutesAgo} phút trước`;
+    return `${minutesAgo} phút`;
   } else if (hoursAgo < 24) {
-    return `${hoursAgo} giờ trước`;
+    return `${hoursAgo} giờ`;
   } else {
-    return `${daysAgo} ngày trước`;
+    return `${daysAgo} ngày`;
   }
 };

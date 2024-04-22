@@ -1,5 +1,3 @@
-import exp from 'constants';
-
 export interface IPostPetPost {
   petId: string;
   content: string;
@@ -8,7 +6,7 @@ export interface IPostPetPost {
 
 export interface IGetPostResponse {
   id: string;
-  userId: string;
+  creatorId: string;
   content: string;
   userImage: string;
   userName: string;
@@ -26,4 +24,9 @@ export interface ICommentResponse {
   userName: string;
   userImage: string;
   isCreatedAt: string;
+}
+
+export interface ICommentPost {
+  postId: string;
+  content: string;
 }
