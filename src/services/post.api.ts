@@ -12,3 +12,6 @@ export const likePost = async (postId: string) =>
 
 export const getCommentsPost = async (postId: string) =>
   await http.get(`/Comment/post/${postId}`);
+
+export const deletePost = async (postId: string) =>
+  await http.delete(`/Post/${postId}`);

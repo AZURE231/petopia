@@ -2,31 +2,32 @@ import { Carousel, IconButton } from '@material-tailwind/react';
 import PetPost from '../post/PetPost';
 import { useState } from 'react';
 import { useQuery } from '@/src/utils/hooks';
-import { IApiResponse } from '@/src/interfaces/common';
+import { IApiErrorResponse, IApiResponse } from '@/src/interfaces/common';
 import { IGetPostResponse } from '@/src/interfaces/post';
 import { QUERY_KEYS } from '@/src/utils/constants';
 import { getPetPosts } from '@/src/services/post.api';
+import { AxiosResponse } from 'axios';
+import { UseQueryResult } from 'react-query';
 
-export function CarouselDefault({ petId }: { petId: string }) {
+export function CarouselDefault({
+  petId,
+  posts,
+  query,
+}: {
+  petId: string;
+  posts: IGetPostResponse[];
+  query: UseQueryResult<
+    AxiosResponse<IApiResponse<IGetPostResponse[]>, any>,
+    AxiosResponse<IApiErrorResponse, any>
+  >;
+}) {
   // STATE
   const [showComment, setShowComment] = useState(false);
-  const [petPost, setPetPost] = useState<IGetPostResponse[]>([]);
 
-  // QUERY
-  const getPostQuery = useQuery<IApiResponse<IGetPostResponse[]>>(
-    [QUERY_KEYS.GET_PET_POSTS],
-    () => getPetPosts(petId),
-    {
-      onSuccess: (res) => {
-        setPetPost(res.data.data);
-      },
-      refetchOnWindowFocus: false,
-    }
-  );
   return (
     <>
-      {getPostQuery.isLoading && <div>Loading...</div>}
-      {petPost && (
+      {query.isLoading && <div>Loading...</div>}
+      {posts && (
         <Carousel
           className="rounded-xl bg-gray-50 mt-5"
           navigation={({ setActiveIndex, activeIndex, length }) => (
@@ -97,10 +98,11 @@ export function CarouselDefault({ petId }: { petId: string }) {
             </IconButton>
           )}
         >
-          {petPost.map((post) => (
+          {posts.map((post) => (
             <PetPost
               key={post.id}
               post={post}
+              query={query}
               showComment={showComment}
               setShowComment={setShowComment}
             />

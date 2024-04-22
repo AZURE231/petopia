@@ -28,6 +28,8 @@ import CreatePetPostButton from '@/src/components/post/CreatePetPostButton';
 import { CarouselDefault } from '@/src/components/general/CarouselDefault';
 import { observer } from 'mobx-react-lite';
 import { useStores } from '@/src/stores';
+import { IGetPostResponse } from '@/src/interfaces/post';
+import { getPetPosts } from '@/src/services/post.api';
 
 const page = observer(
   QueryProvider(({ params }: { params: { id: string } }) => {
@@ -36,6 +38,7 @@ const page = observer(
     const [error, setError] = useState<boolean>(false);
     const [displayedImage, setDisplayedImage] = useState<string>('');
     const { userStore } = useStores();
+    const [petPost, setPetPost] = useState<IGetPostResponse[]>([]);
 
     const getPetQuery = useQuery<IApiResponse<IPetDetailResponse>>(
       [QUERY_KEYS.GET_PET_DETAIL],
@@ -46,6 +49,16 @@ const page = observer(
           setDisplayedImage(res.data.data.images[0]);
         },
         onError: () => setError(true),
+        refetchOnWindowFocus: false,
+      }
+    );
+    const getPostQuery = useQuery<IApiResponse<IGetPostResponse[]>>(
+      [QUERY_KEYS.GET_PET_POSTS],
+      () => getPetPosts(params.id),
+      {
+        onSuccess: (res) => {
+          setPetPost(res.data.data);
+        },
         refetchOnWindowFocus: false,
       }
     );
@@ -181,9 +194,13 @@ const page = observer(
             </div>
             <div className="container max-w-5xl mx-auto p-5 shadow-2xl rounded-2xl my-5">
               {userStore.userContext?.id === petDetail.ownerId && (
-                <CreatePetPostButton petId={params.id} />
+                <CreatePetPostButton petId={params.id} query={getPostQuery} />
               )}
-              <CarouselDefault petId={params.id} />
+              <CarouselDefault
+                petId={params.id}
+                posts={petPost}
+                query={getPostQuery}
+              />
             </div>
             <SeeMore petList={petDetail.seeMore} />
           </div>

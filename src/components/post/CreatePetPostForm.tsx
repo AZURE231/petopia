@@ -9,7 +9,15 @@ import { useState } from 'react';
 import { ClipLoader } from 'react-spinners';
 import { Alert } from '../general/Alert';
 
-export default function CreatePetPostForm({ petId }: { petId: string }) {
+export default function CreatePetPostForm({
+  petId,
+  query,
+  action,
+}: {
+  petId: string;
+  query: any;
+  action: () => void;
+}) {
   //STATE
   const [alertShow, setAlertShow] = useState<boolean>(false);
   const [alertFail, setAlertFail] = useState<boolean>(false);
@@ -65,7 +73,12 @@ export default function CreatePetPostForm({ petId }: { petId: string }) {
       setAlertMessage('Tạo bài đăng thất bại');
       setAlertShow(true);
     },
-    onSuccess: (res) => {},
+    onSuccess: () => {
+      setAlertFail(false);
+      setAlertMessage('Tạo bài đăng thành công');
+      setAlertShow(true);
+      query.refetch();
+    },
   });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -132,6 +145,8 @@ export default function CreatePetPostForm({ petId }: { petId: string }) {
         setShow={setAlertShow}
         message={alertMessage}
         failed={alertFail}
+        action={action}
+        showCancel={false}
       />
     </div>
   );

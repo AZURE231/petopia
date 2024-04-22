@@ -7,18 +7,25 @@ import { IoSend } from 'react-icons/io5';
 import { ICommentResponse, IGetPostResponse } from '@/src/interfaces/post';
 import { getTimeAgo } from '@/src/helpers/getTimeAgo';
 import { useMutation } from '@/src/utils/hooks';
-import { IApiResponse } from '@/src/interfaces/common';
-import { getCommentsPost, likePost } from '@/src/services/post.api';
+import { IApiErrorResponse, IApiResponse } from '@/src/interfaces/common';
+import { deletePost, getCommentsPost, likePost } from '@/src/services/post.api';
 import ImageCarousel from '@/src/components/general/Carousel';
+import { UseQueryResult } from 'react-query';
+import { AxiosResponse } from 'axios';
 
 export default function PetPost({
   post,
   showComment,
   setShowComment,
+  query,
 }: {
   post: IGetPostResponse;
   showComment: boolean;
   setShowComment: (showComment: boolean) => void;
+  query: UseQueryResult<
+    AxiosResponse<IApiResponse<IGetPostResponse[]>, any>,
+    AxiosResponse<IApiErrorResponse, any>
+  >;
 }) {
   // STATE
   const [isLiked, setIsLiked] = useState(false);
@@ -52,7 +59,7 @@ export default function PetPost({
   };
 
   const handleDeleteButton = () => {
-    console.log('Delete button clicked');
+    deletePostMutation.mutate(post.id);
   };
 
   const handleSentComment = () => {
@@ -83,6 +90,16 @@ export default function PetPost({
       setComments(res.data.data);
     },
   });
+
+  const deletePostMutation = useMutation<IApiResponse<boolean>, string>(
+    deletePost,
+    {
+      onSuccess: (res) => {
+        console.log('Delete post success');
+        query.refetch();
+      },
+    }
+  );
 
   return (
     <div className="w-full flex items-center justify-center my-5">
