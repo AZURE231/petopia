@@ -196,11 +196,7 @@ const page = observer(
               {userStore.userContext?.id === petDetail.ownerId && (
                 <CreatePetPostButton petId={params.id} query={getPostQuery} />
               )}
-              <CarouselDefault
-                petId={params.id}
-                posts={petPost}
-                query={getPostQuery}
-              />
+              <CarouselDefault posts={petPost} query={getPostQuery} />
             </div>
             <SeeMore petList={petDetail.seeMore} />
           </div>

@@ -81,7 +81,7 @@ export default function CommentCard({
               </button>
               {showDelete && (
                 <button
-                  className="absolute  z-10 w-40 top-10 left-5 shadow-lg rounded-lg p-2"
+                  className="absolute bg-white z-100 w-40 top-10 left-5 shadow-lg rounded-lg p-2"
                   onClick={handleDeleteComment}
                 >
                   <div className="hover:bg-gray-100 flex items-center justify-center w-full font-medium">

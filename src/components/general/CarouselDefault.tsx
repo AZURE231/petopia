@@ -1,20 +1,18 @@
 import { Carousel, IconButton } from '@material-tailwind/react';
 import PetPost from '../post/PetPost';
 import { useState } from 'react';
-import { useQuery } from '@/src/utils/hooks';
 import { IApiErrorResponse, IApiResponse } from '@/src/interfaces/common';
 import { IGetPostResponse } from '@/src/interfaces/post';
-import { QUERY_KEYS } from '@/src/utils/constants';
-import { getPetPosts } from '@/src/services/post.api';
 import { AxiosResponse } from 'axios';
 import { UseQueryResult } from 'react-query';
+import { deletePost } from '@/src/services/post.api';
+import { useMutation } from '@/src/utils/hooks';
+import { Alert } from './Alert';
 
 export function CarouselDefault({
-  petId,
   posts,
   query,
 }: {
-  petId: string;
   posts: IGetPostResponse[];
   query: UseQueryResult<
     AxiosResponse<IApiResponse<IGetPostResponse[]>, any>,
@@ -23,7 +21,24 @@ export function CarouselDefault({
 }) {
   // STATE
   const [showComment, setShowComment] = useState(false);
+  const [alertShow, setAlertShow] = useState<boolean>(false);
+  const [currentPostId, setCurrentPostId] = useState<string>('');
 
+  // HANDLE
+  const handleDelete = (id: string) => {
+    deletePostMutation.mutate(id);
+  };
+
+  // QUERY
+  const deletePostMutation = useMutation<IApiResponse<boolean>, string>(
+    deletePost,
+    {
+      onSuccess: (res) => {
+        console.log('Delete post success');
+        query.refetch();
+      },
+    }
+  );
   return (
     <>
       {query.isLoading && <div>Loading...</div>}
@@ -31,7 +46,7 @@ export function CarouselDefault({
         <Carousel
           className="rounded-xl bg-gray-50 mt-5"
           navigation={({ setActiveIndex, activeIndex, length }) => (
-            <div className="absolute bottom-1 left-2/4 z-50 flex -translate-x-2/4 gap-2">
+            <div className="absolute bottom-1 left-2/4 z-10 flex -translate-x-2/4 gap-2">
               {new Array(length).fill('').map((_, i) => (
                 <span
                   key={i}
@@ -52,7 +67,7 @@ export function CarouselDefault({
                 handlePrev();
                 setShowComment(false);
               }}
-              className="!absolute top-2/4 left-4 -translate-y-2/4"
+              className="!absolute top-2/4 left-4 -translate-y-2/4 z-0"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +94,7 @@ export function CarouselDefault({
                 handleNext();
                 setShowComment(false);
               }}
-              className="!absolute top-2/4 !right-4 -translate-y-2/4"
+              className="!absolute top-2/4 !right-4 -translate-y-2/4 z-0"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -102,13 +117,21 @@ export function CarouselDefault({
             <PetPost
               key={post.id}
               post={post}
-              query={query}
+              setAlertShow={setAlertShow}
               showComment={showComment}
               setShowComment={setShowComment}
+              setCurrentPostId={setCurrentPostId}
             />
           ))}
         </Carousel>
       )}
+      <Alert
+        show={alertShow}
+        setShow={setAlertShow}
+        message={'Bạn có chắc muốn xoá bài đăng này không?'}
+        failed={false}
+        action={() => handleDelete(currentPostId)}
+      />
     </>
   );
 }
