@@ -20,12 +20,13 @@ export const SearchPetSection = QueryProvider(() => {
   // STATES
   const [showFilterMobile, setShowFilterMobile] = useState(false);
   const [pets, setPets] = useState<IPetResponse[]>([]);
+  const [orderBy, setOrderBy] = useState<'newest' | 'popular'>('newest');
 
   // FORMS
-  const [orderBy, setOrderBy] = useState<'newest' | 'popular'>('newest');
   const filterFrom = useForm<IPetFilterRequest>({
     defaultValues: { text: '' },
   });
+
   const paginationForm = useForm<IPaginationModel>({
     defaultValues: {
       pageIndex: 1,
