@@ -9,6 +9,7 @@ import {
   getNotifications,
   markAsRead,
 } from '@/src/services/notification.api';
+import { getTimeAgo } from '@/src/helpers/getTimeAgo';
 
 export const NavNotificationBlock = () => {
   // STATES
@@ -19,25 +20,8 @@ export const NavNotificationBlock = () => {
   // HANDLERS
   const handleButtonClick = async () => {
     setShowNotifications(!showNotifications);
-    isNewNotification && await markAsRead();
+    isNewNotification && (await markAsRead());
     setIsNewNotification(false);
-  };
-
-  const getTimeAgo = (createdAt: string): string => {
-    const currentTime = new Date();
-    const sentTime = new Date(createdAt);
-    const timeDifference = Math.abs(currentTime.getTime() - sentTime.getTime());
-    const minutesAgo = Math.floor(timeDifference / (1000 * 60));
-    const hoursAgo = Math.floor(timeDifference / (1000 * 60 * 60));
-    const daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-
-    if (minutesAgo < 60) {
-      return `${minutesAgo} phút trước`;
-    } else if (hoursAgo < 24) {
-      return `${hoursAgo} giờ trước`;
-    } else {
-      return `${daysAgo} ngày trước`;
-    }
   };
 
   const clearAll = async () => {
@@ -67,7 +51,7 @@ export const NavNotificationBlock = () => {
   }, [buttonRef, divRef]);
 
   useEffect(() => {
-    setIsNewNotification(!notifications.every(value => value.isChecked));
+    setIsNewNotification(!notifications.every((value) => value.isChecked));
   }, [notifications]);
 
   return (
@@ -77,11 +61,11 @@ export const NavNotificationBlock = () => {
         className="flex flex-col items-center bg-yellow-300 rounded-full h-8 w-8 py-2 px-4 hover:bg-yellow-400"
         onClick={handleButtonClick}
       >
-        <MdNotifications color='#000000' />
+        <MdNotifications color="#000000" />
       </button>
 
       {isNewNotification && (
-        <div className="absolute bg-red-500 text-white animate-pulse w-2 h-2 rounded-full flex items-center justify-center -top-0.5 -right-1">
+        <div className="absolute bg-red-500 text-white animate-ping w-2 h-2 rounded-full flex items-center justify-center -top-0.5 -right-1">
           <div className="w-1 h-1 bg-red-500 rounded-full "></div>
         </div>
       )}
