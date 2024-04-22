@@ -1,8 +1,8 @@
-"use client";
 import { IPetFilter, IPetFilterRequest } from "@/src/interfaces/pet";
 import { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { PiPawPrintFill } from "react-icons/pi";
+import { PET_FILTERS } from "@/src/utils/constants";
 
 interface IFilterBar {
   filterForm: UseFormReturn<IPetFilterRequest, any, undefined>;
@@ -35,82 +35,71 @@ export function PetFilterBarMobile({
     if (!filterForm) return; // Ensure filterForm is not undefined
     switch (filterId) {
       case 1:
-        let species = getValues('species');
-        setValue('species', setFilter(species, itemValue));
+        let species = getValues("species");
+        setValue("species", setFilter(species, itemValue));
         break;
 
       case 2:
-        let sex = getValues('sex');
-        setValue('sex', setFilter(sex, itemValue));
+        let sex = getValues("sex");
+        setValue("sex", setFilter(sex, itemValue));
         break;
 
       case 3:
-        let color = getValues('color');
-        setValue('color', setFilter(color, itemValue));
+        let color = getValues("color");
+        setValue("color", setFilter(color, itemValue));
         break;
 
       case 4:
-        let size = getValues('size');
-        setValue('size', setFilter(size, itemValue));
+        let size = getValues("size");
+        setValue("size", setFilter(size, itemValue));
         break;
 
       case 5:
-        let age = getValues('age');
-        setValue('age', setFilter(age, itemValue));
+        let age = getValues("age");
+        setValue("age", setFilter(age, itemValue));
         break;
 
       case 6:
-        let isVaccinated = getValues('isVaccinated');
-        setValue('isVaccinated', setFilter(isVaccinated, itemValue));
+        let isVaccinated = getValues("isVaccinated");
+        setValue("isVaccinated", setFilter(isVaccinated, itemValue));
         break;
 
-      default:
-        let isSterilized = getValues('isSterillized');
-        setValue('isSterillized', setFilter(isSterilized, itemValue));
+            default:
+        let isSterillized = getValues('isSterillized');
+        setValue('isSterillized', setFilter(isSterillized, itemValue));
         break;
     }
   };
-  
+
   const applyFilters = () => {
     // Apply filters
     // Close filter bar
+    
+
     setShowFilterMobile(false);
   };
 
-
   const [showFilter, setShowFilter] = useState({});
+
   const handleShowFilter = (id: number) => {
     setShowFilter({
       ...showFilter,
       [id]: !showFilter[id as keyof typeof showFilter],
     });
   };
+
+  // Function to filter the content based on selected filters
+  
+  // Filter the content based on selected filters
+
   if (!showFilterMobile) return null;
   return (
     <div className="relative z-40 lg:hidden" role="dialog">
-      {/* <!--
-            Off-canvas menu backdrop, show/hide based on off-canvas menu state.
-
-            Entering: "transition-opacity ease-linear duration-300"
-            From: "opacity-0"
-            To: "opacity-100"
-            Leaving: "transition-opacity ease-linear duration-300"
-            From: "opacity-100"
-            To: "opacity-0"
-            --> */}
+      {/* <!-- Off-canvas menu backdrop, show/hide based on off-canvas menu state. --> */}
       <div className="fixed inset-0 bg-black bg-opacity-25"></div>
 
       <div className="fixed inset-0 z-40 flex">
-        {/* <!--
-            Off-canvas menu, show/hide based on off-canvas menu state.
-
-            Entering: "transition ease-in-out duration-300 transform"
-                From: "translate-x-full"
-                To: "translate-x-0"
-            Leaving: "transition ease-in-out duration-300 transform"
-                From: "translate-x-0"
-                To: "translate-x-full"
-            --> */}
+        {/* <!-- Off-canvas menu, show/hide based on off-canvas menu state. --> */}
         <div className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
           <div className="flex items-center justify-between px-4">
             <h2 className="text-lg font-medium text-gray-900">Filters</h2>
@@ -139,7 +128,7 @@ export function PetFilterBarMobile({
 
           {/* Filters */}
           <form className="mt-4 border-t border-gray-200">
-            {filterContent.map((filter) => (
+            {PET_FILTERS.map((filter) => (
               <div
                 key={filter.id}
                 className="border-t border-gray-200 px-4 py-6"
@@ -186,19 +175,25 @@ export function PetFilterBarMobile({
                 </h3>
                 {/* <!-- Filter section, show/hide based on section state. --> */}
                 {showFilter[filter.id as keyof typeof showFilter] && (
-                  <div className="pt-6" id="filter-section-mobile-0">
+                  <div
+                    className="pt-6"
+                    id={`filter-section-mobile-${filter.id}`}
+                  >
                     <div className="space-y-6">
                       {filter.items.map((item) => (
                         <div key={item.id} className="flex items-center">
                           <input
-                            id="filter-mobile-color-0"
-                            name="color[]"
-                            value="white"
+                            id={`filter-mobile-${filter.label}-${item.id}`}
+                            name={`${filter.label}[]`}
                             type="checkbox"
                             className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            onClick={() =>
+                              handleClickFilter(filter.id, item.value)
+                            }
+                            disabled={disable}
                           />
                           <label
-                            htmlFor="filter-mobile-color-0"
+                            htmlFor={`filter-mobile-${filter.label}-${item.id}`}
                             className="ml-3 min-w-0 flex-1 text-gray-500"
                           >
                             {item.label}
@@ -211,17 +206,17 @@ export function PetFilterBarMobile({
               </div>
             ))}
           </form>
-          <button onClick={applyFilters} 
-          className="w-fit mx-auto flex items-center p-3 px-8 rounded-full font-bold shadow-md bg-yellow-300 hover:bg-yellow-400 mt-5"
->
+          <button
+            onClick={applyFilters}
+            className="w-full flex items-center justify-center p-3 px-8 rounded-full font-bold shadow-md bg-yellow-300 hover:bg-yellow-400 mt-5"
+          >
             <span className="mr-2">
               <PiPawPrintFill size={30} />
             </span>
-            Lọc kết quả
+            Apply Filters
           </button>
         </div>
       </div>
     </div>
   );
 }
-
