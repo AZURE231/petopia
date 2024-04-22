@@ -3,7 +3,7 @@ import React from "react";
 import dynamic from "next/dynamic";
 
 const CustomEditor = dynamic(
-  () => import("@/src/components/general/CustomEditor"),
+  () => import("@/src/components/text-editor/CustomEditor"),
   { ssr: false }
 );
 const htmlContent = `
