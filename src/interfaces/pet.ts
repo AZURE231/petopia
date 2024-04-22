@@ -10,7 +10,7 @@ import {
 export interface IPetFilterItem {
   id: number;
   label: string;
-  value: number;
+  value: number | string;
 }
 
 export interface IPetFilter {
@@ -21,20 +21,21 @@ export interface IPetFilter {
 
 export interface IPetSelect extends IPetFilter {
   kind:
-    | 'breed'
-    | 'species'
-    | 'sex'
-    | 'age'
-    | 'color'
-    | 'size'
-    | 'isVaccinated'
-    | 'isSterillized';
+  | 'breed'
+  | 'species'
+  | 'sex'
+  | 'age'
+  | 'color'
+  | 'size'
+  | 'isVaccinated'
+  | 'isSterillized';
 }
 
 export interface IPetFilterRequest {
   sex?: PET_SEX[];
   color?: PET_COLOR[];
   species?: PET_SPECIES[];
+  breed?: string[];
   size?: PET_SIZE[];
   age?: PET_AGE[];
   isVaccinated?: PET_MEDICAL_STATUS[];
@@ -118,4 +119,4 @@ export interface ICreatePetResponse {
   id: string;
 }
 
-export interface IUpdatePeResponse extends ICreatePetResponse {}
+export interface IUpdatePeResponse extends ICreatePetResponse { }

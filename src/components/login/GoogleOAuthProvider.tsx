@@ -1,10 +1,10 @@
 import { GoogleOAuthProvider as Provider } from '@react-oauth/google';
 import { useState } from 'react';
-import { IApiResponse } from '../../interfaces/common';
-import { QUERY_KEYS } from '../../utils/constants';
-import { useQuery } from '../../utils/hooks';
-import { getGoogleAuthClientId } from '../../services/authentication.api';
 import { IGoogleLogin } from './GoogleLoginButton';
+import { IApiResponse } from '@/src/interfaces/common';
+import { useQuery } from '@/src/utils/hooks';
+import { QUERY_KEYS } from '@/src/utils/constants';
+import { getGoogleAuthClientId } from '@/src/services/authentication.api';
 
 export function GoogleOAuthProvider(
   Children: (props: IGoogleLogin) => JSX.Element
