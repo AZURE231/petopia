@@ -1,8 +1,9 @@
 import { IPetFilter, IPetFilterRequest } from "@/src/interfaces/pet";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { PiPawPrintFill } from "react-icons/pi";
 import { PET_FILTERS } from "@/src/utils/constants";
+import { useClickOutside } from "@/src/utils/hooks";
 
 interface IFilterBar {
   filterForm: UseFormReturn<IPetFilterRequest, any, undefined>;
@@ -35,49 +36,52 @@ export function PetFilterBarMobile({
     if (!filterForm) return; // Ensure filterForm is not undefined
     switch (filterId) {
       case 1:
-        let species = getValues("species");
-        setValue("species", setFilter(species, itemValue));
+        setValue(
+          "species",
+          toggleFilter(getValues("species") || [], itemValue)
+        );
         break;
 
       case 2:
-        let sex = getValues("sex");
-        setValue("sex", setFilter(sex, itemValue));
+        setValue("sex", toggleFilter(getValues("sex") || [], itemValue));
         break;
 
       case 3:
-        let color = getValues("color");
-        setValue("color", setFilter(color, itemValue));
+        setValue("color", toggleFilter(getValues("color") || [], itemValue));
         break;
 
       case 4:
-        let size = getValues("size");
-        setValue("size", setFilter(size, itemValue));
+        setValue("size", toggleFilter(getValues("size") || [], itemValue));
         break;
 
       case 5:
-        let age = getValues("age");
-        setValue("age", setFilter(age, itemValue));
+        setValue("age", toggleFilter(getValues("age") || [], itemValue));
         break;
 
       case 6:
-        let isVaccinated = getValues("isVaccinated");
-        setValue("isVaccinated", setFilter(isVaccinated, itemValue));
+        setValue(
+          "isVaccinated",
+          toggleFilter(getValues("isVaccinated") || [], itemValue)
+        );
         break;
 
-            default:
-        let isSterillized = getValues('isSterillized');
-        setValue('isSterillized', setFilter(isSterillized, itemValue));
+      default:
+        setValue(
+          "isSterillized",
+          toggleFilter(getValues("isSterillized") || [], itemValue)
+        );
         break;
     }
   };
 
-  const applyFilters = () => {
-    // Apply filters
-    // Close filter bar
-    
-
-    setShowFilterMobile(false);
+  const toggleFilter = (array: number[], itemValue: number) => {
+    if (array.includes(itemValue)) {
+      return array.filter((value) => value !== itemValue);
+    } else {
+      return [...array, itemValue];
+    }
   };
+
 
   const [showFilter, setShowFilter] = useState({});
 
@@ -88,24 +92,29 @@ export function PetFilterBarMobile({
     });
   };
 
-  // Function to filter the content based on selected filters
-  
-  // Filter the content based on selected filters
+  // EFFECTS
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const divRef = useRef<HTMLDivElement>(null);
+  useClickOutside(() => {
+    setShowFilterMobile(false);
+  }, [buttonRef, divRef]);
+
 
   if (!showFilterMobile) return null;
   return (
-    <div className="relative z-40 lg:hidden" role="dialog">
+    <div className="relative z-40 lg:hidden" role="dialog" >
       {/* <!-- Off-canvas menu backdrop, show/hide based on off-canvas menu state. --> */}
       <div className="fixed inset-0 bg-black bg-opacity-25"></div>
 
       <div className="fixed inset-0 z-40 flex">
         {/* <!-- Off-canvas menu, show/hide based on off-canvas menu state. --> */}
-        <div className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
+        <div ref={divRef} className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
           <div className="flex items-center justify-between px-4">
             <h2 className="text-lg font-medium text-gray-900">Filters</h2>
             {/* <!-- Close button --> */}
             <button
               type="button"
+              ref={buttonRef}
               className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
               onClick={() => setShowFilterMobile(false)}
             >
@@ -206,15 +215,7 @@ export function PetFilterBarMobile({
               </div>
             ))}
           </form>
-          <button
-            onClick={applyFilters}
-            className="w-full flex items-center justify-center p-3 px-8 rounded-full font-bold shadow-md bg-yellow-300 hover:bg-yellow-400 mt-5"
-          >
-            <span className="mr-2">
-              <PiPawPrintFill size={30} />
-            </span>
-            Apply Filters
-          </button>
+          
         </div>
       </div>
     </div>
