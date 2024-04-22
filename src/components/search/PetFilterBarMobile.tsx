@@ -1,16 +1,83 @@
-'use client';
-import { IPetFilter } from '@/src/interfaces/pet';
-import { useState } from 'react';
+"use client";
+import { IPetFilter, IPetFilterRequest } from "@/src/interfaces/pet";
+import { useState } from "react";
+import { UseFormReturn } from "react-hook-form";
+import { PiPawPrintFill } from "react-icons/pi";
+
+interface IFilterBar {
+  filterForm: UseFormReturn<IPetFilterRequest, any, undefined>;
+  disable: boolean;
+}
 
 export function PetFilterBarMobile({
   filterContent,
   showFilterMobile,
   setShowFilterMobile,
+  filterbar,
 }: {
   filterContent: IPetFilter[];
   showFilterMobile: boolean;
   setShowFilterMobile: (showFilterMobile: boolean) => void;
+  filterbar: IFilterBar;
 }) {
+  const { filterForm, disable } = filterbar || {};
+  const { getValues, setValue } = filterForm || {}; // Ensure filterForm is not undefined
+
+  const setFilter = (array: any[] | undefined, itemValue: number) => {
+    if (array === undefined) array = [];
+    const index = array.indexOf(itemValue);
+    if (index !== -1) array.splice(index, 1);
+    else array.push(itemValue);
+    return array;
+  };
+
+  const handleClickFilter = (filterId: number, itemValue: number) => {
+    if (!filterForm) return; // Ensure filterForm is not undefined
+    switch (filterId) {
+      case 1:
+        let species = getValues('species');
+        setValue('species', setFilter(species, itemValue));
+        break;
+
+      case 2:
+        let sex = getValues('sex');
+        setValue('sex', setFilter(sex, itemValue));
+        break;
+
+      case 3:
+        let color = getValues('color');
+        setValue('color', setFilter(color, itemValue));
+        break;
+
+      case 4:
+        let size = getValues('size');
+        setValue('size', setFilter(size, itemValue));
+        break;
+
+      case 5:
+        let age = getValues('age');
+        setValue('age', setFilter(age, itemValue));
+        break;
+
+      case 6:
+        let isVaccinated = getValues('isVaccinated');
+        setValue('isVaccinated', setFilter(isVaccinated, itemValue));
+        break;
+
+      default:
+        let isSterilized = getValues('isSterillized');
+        setValue('isSterillized', setFilter(isSterilized, itemValue));
+        break;
+    }
+  };
+  
+  const applyFilters = () => {
+    // Apply filters
+    // Close filter bar
+    setShowFilterMobile(false);
+  };
+
+
   const [showFilter, setShowFilter] = useState({});
   const handleShowFilter = (id: number) => {
     setShowFilter({
@@ -144,8 +211,17 @@ export function PetFilterBarMobile({
               </div>
             ))}
           </form>
+          <button onClick={applyFilters} 
+          className="w-fit mx-auto flex items-center p-3 px-8 rounded-full font-bold shadow-md bg-yellow-300 hover:bg-yellow-400 mt-5"
+>
+            <span className="mr-2">
+              <PiPawPrintFill size={30} />
+            </span>
+            Lọc kết quả
+          </button>
         </div>
       </div>
     </div>
   );
 }
+
