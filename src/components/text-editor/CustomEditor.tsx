@@ -8,16 +8,13 @@ interface CustomEditorProps {
   initialTitle: string;
 }
 
-
-
-
 const CustomEditor: React.FC<CustomEditorProps> = (props) => {
   const [editorData, setEditorData] = useState(props.initialData);
   const [blogTitle, setBlogTitle] = useState(props.initialTitle);
 
   const handleSubmit = () => {
     // Further actions for submitting the blog
-    console.log(blogTitle, editorData);
+    console.log(editorData);
   };
 
   useEffect(() => {
