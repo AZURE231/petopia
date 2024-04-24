@@ -2,18 +2,18 @@
 import Link from 'next/link';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { IRegisterForm, IRegisterRequest } from '../../interfaces/authentication';
-import { IApiResponse } from '../../interfaces/common';
-import { QueryProvider } from '../general/QueryProvider';
-import { useMutation } from '../../utils/hooks';
-import { register } from '../../services/authentication.api';
-import { getErrorMessage } from '../../helpers/getErrorMessage';
 import { Alert } from '../general/Alert';
 import { GoogleRecaptcha } from './GoogleRecaptcha';
-import { publish } from '../../services/event';
-import { EVENT_NAMES } from '../../utils/constants';
-import { checkPasswordFormat, checkPasswords, isEmail } from '../../helpers/inputValidator';
 import ClipLoader from 'react-spinners/ClipLoader';
+import { QueryProvider } from '../general/QueryProvider';
+import { IRegisterForm, IRegisterRequest } from '@/src/interfaces/authentication';
+import { checkPasswordFormat, checkPasswords, isEmail } from '@/src/helpers/inputValidator';
+import { useMutation } from '@/src/utils/hooks';
+import { register } from '@/src/services/authentication.api';
+import { IApiResponse } from '@/src/interfaces/common';
+import { getErrorMessage } from '@/src/helpers/getErrorMessage';
+import { publish } from '@/src/services/event';
+import { EVENT_NAMES } from '@/src/utils/constants';
 
 export const RegisterForm = QueryProvider(() => {
   // FORM ERROR STATES

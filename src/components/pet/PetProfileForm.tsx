@@ -73,7 +73,7 @@ const PetProfileForm = QueryProvider(
         await uploadImage();
         if (id) await updatePetMutation.mutateAsync(getValues());
         else await createPetMutation.mutateAsync(getValues());
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     };
 
@@ -94,13 +94,14 @@ const PetProfileForm = QueryProvider(
           })
         );
       }
+      setIsLoading(false);
     };
 
     const validateInputs = () => {
       let errorMessage = '';
 
       errorMessage +=
-        getValues('images').length == 0 ? 'Ảnh không được để trống;\n' : '';
+        getValues('files').length == 0 ? 'Ảnh không được để trống;\n' : '';
       errorMessage += isEmpty(getValues('name'))
         ? 'Tên không được để trống;\n'
         : '';
@@ -286,7 +287,10 @@ const PetProfileForm = QueryProvider(
 
         {/* rules */}
         {activeStep === 2 && (
-          <FormRules handleBack={handleBack} isLoading={isLoading} />
+          <FormRules
+            handleBack={handleBack}
+            isLoading={isLoading || createPetMutation.isLoading}
+          />
         )}
         <Alert
           message={error || 'Tạo hồ sơ thú cưng thành công'}

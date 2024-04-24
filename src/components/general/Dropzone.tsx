@@ -1,18 +1,16 @@
-'use client';
-import ControlForm from './ControlForm';
-import Image from 'next/image';
+import { IUploadImage } from '@/src/interfaces/common';
 import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
-import { ICreatePetProfileRequest } from '@/src/interfaces/pet';
+import Image from 'next/image';
 import { IoClose } from 'react-icons/io5';
 
-export default function FormUploadImage({
-  handleNext,
+export default function Dropzone({
+  imagesNumber,
   setValue,
   watch,
 }: {
-  handleNext: () => void;
-  setValue: UseFormSetValue<ICreatePetProfileRequest>;
-  watch: UseFormWatch<ICreatePetProfileRequest>;
+  imagesNumber: number;
+  setValue: UseFormSetValue<IUploadImage>;
+  watch: UseFormWatch<IUploadImage>;
 }) {
   const handleAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
@@ -28,7 +26,6 @@ export default function FormUploadImage({
     }
     e.target.files = null;
   };
-
   const deleteFile = (index: number) => {
     const newShowImages = watch('showImages').filter((_, i) => i !== index);
     setValue('showImages', newShowImages);
@@ -41,12 +38,8 @@ export default function FormUploadImage({
       setValue('files', newFiles);
     }
   };
-
   return (
-    <div className="w-full rounded-2xl bg-yellow-100 p-5">
-      <h2 className="font-bold mb-2">Hình thú cưng của bạn</h2>
-
-      {/* Dropzone */}
+    <div>
       <div className="flex items-center justify-center w-full p-5 mb-5 bg-gray-50 rounded-lg">
         <label
           htmlFor="dropzone-file"
@@ -76,7 +69,7 @@ export default function FormUploadImage({
           </div>
           <input
             id="dropzone-file"
-            disabled={watch('showImages').length >= 3}
+            disabled={watch('showImages').length >= imagesNumber}
             type="file"
             accept="image/png, image/jpeg, image/jpg"
             className="hidden"
@@ -104,9 +97,6 @@ export default function FormUploadImage({
             </div>
           ))}
       </div>
-
-      {/* Controller */}
-      <ControlForm handleBack={() => {}} handleNext={handleNext} type={1} />
     </div>
   );
 }
