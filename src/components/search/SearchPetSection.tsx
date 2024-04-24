@@ -62,7 +62,6 @@ export const SearchPetSection = QueryProvider(() => {
   return (
     <div>
       <PetFilterBarMobile
-        filterContent={PET_FILTERS}
         showFilterMobile={showFilterMobile}
         setShowFilterMobile={setShowFilterMobile}
         filterForm={filterFrom}

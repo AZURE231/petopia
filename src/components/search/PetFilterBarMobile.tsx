@@ -1,22 +1,15 @@
-import { IPetFilter, IPetFilterRequest } from '@/src/interfaces/pet';
+import { IPetFilterRequest } from '@/src/interfaces/pet';
 import { useRef, useState, useEffect } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { PET_FILTERS } from '@/src/utils/constants';
 import { useClickOutside } from '@/src/utils/hooks';
 
-interface IFilterBar {
-  filterForm: UseFormReturn<IPetFilterRequest, any, undefined>;
-  disable: boolean;
-}
-
 export function PetFilterBarMobile({
-  filterContent,
   showFilterMobile,
   setShowFilterMobile,
   filterForm,
   disable,
 }: {
-  filterContent: IPetFilter[];
   showFilterMobile: boolean;
   setShowFilterMobile: (showFilterMobile: boolean) => void;
   filterForm: UseFormReturn<IPetFilterRequest, any, undefined>;
