@@ -26,3 +26,6 @@ export const updatePet = async (data: ICreatePetProfileRequest) =>
 
 export const getPetsByUser = async (data: IPaginationRequest<string>) =>
   await http.post('/Pet/User', data);
+
+export const getBreed = async (data: number) =>
+  await http.get('/Pet/Breed', { species: data });
