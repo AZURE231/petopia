@@ -3,6 +3,7 @@ import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import ControlForm from './ControlForm';
 import { PET_SELECT } from '@/src/utils/constants';
 import { ICreatePetProfileRequest } from '@/src/interfaces/pet';
+import BreedInput from './BreedInput';
 
 export default function FormPetDetail({
   handleNext,
@@ -49,6 +50,7 @@ export default function FormPetDetail({
               options={filter.items}
             />
           ))}
+          <BreedInput watch={watch} setValue={setValue} />
 
           <div className="flex flex-col space-y-2">
             <label htmlFor="pet-description" className="text-sm font-medium">

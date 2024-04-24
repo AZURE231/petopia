@@ -57,6 +57,7 @@ export const QUERY_KEYS = {
   GET_PRE_UPGRADE: 'GET_PRE_UPGRADE',
   GET_PET_BREEDS: 'GET_PET_BREEDS',
   GET_PET_POSTS: 'GET_PET_POSTS',
+  GET_BREED_DETAIL: 'GET_BREED_DETAIL',
 };
 
 export const EVENT_NAMES = {
@@ -325,7 +326,6 @@ export const PET_FILTERS: IPetFilter[] = [
 
 export const PET_SELECT: IPetSelect[] = [
   { ...PET_SPECIES_FILTER, kind: 'species' },
-  { ...PET_BREED_FILTER, kind: 'breed' },
   { ...PET_SEX_FILTER, kind: 'sex' },
   { ...PET_COLOR_FILTER, kind: 'color' },
   { ...PET_SIZE_FILTER, kind: 'size' },
