@@ -121,6 +121,13 @@ export enum ADOPT_DELAY_DURATION {
   Other,
 }
 
+export enum BLOG_CATEGORIES {
+  HEALTH ,
+  TRAINING ,
+  PRODUCT ,
+  ART,
+  ADVERTISEMENT,
+}
 //////////////////////////////////////////////////////////////////
 
 export const PET_SPECIES_FILTER: IPetFilter = {
@@ -337,13 +344,6 @@ export enum USER_ROLE {
   ORGANIZATION = 2,
 }
 
-export const BLOG_CATEGORIES = [
-  'Sức khỏe',
-  'Đời sống',
-  'Công nghệ',
-  'Thời trang',
-  'Ẩm thực',
-];
 
 export const HOUSE_TYPE_OPTION = [
   {
@@ -393,3 +393,26 @@ export const ADOPT_ACTION = {
   CONFIRM: 'Confirm',
   CANCEL: 'Cancel',
 };
+
+export const BLOG_CATEGORIES_OPTION = [
+  {
+    label: 'Sức khỏe',
+    value: BLOG_CATEGORIES.HEALTH,
+  },
+  {
+    label: 'Huấn luyện',
+    value: BLOG_CATEGORIES.TRAINING,
+  },
+  {
+    label: 'Sản phẩm',
+    value: BLOG_CATEGORIES.PRODUCT,
+  },
+  {
+    label: 'Nghệ thuật',
+    value: BLOG_CATEGORIES.ART,
+  },
+  {
+    label: 'Quảng cáo',
+    value: BLOG_CATEGORIES.ADVERTISEMENT,
+  },
+];

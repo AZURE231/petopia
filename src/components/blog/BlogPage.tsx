@@ -1,18 +1,13 @@
 import React from "react";
 import BlogCard from "./BlogCard";
+import { IBlogResponse } from "@/src/interfaces/blog";
 
-interface Blog {
-  id: string;
-  image: string;
-  category: string;
-  title: string;
-  excerpt: string;
-}
+
 
 interface Props {
   blogTitle: string;
   htmlContent: string;
-  blogs: Blog[];
+  blogs: IBlogResponse[];
 }
 
 const BlogPage: React.FC<Props> = ({ blogTitle, htmlContent, blogs }) => {

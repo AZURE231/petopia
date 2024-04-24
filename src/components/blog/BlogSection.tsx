@@ -6,20 +6,16 @@ import Pagination from '../general/Pagination';
 import { blogs } from '@/app/(pages)/blog/blogs';
 import { useForm } from 'react-hook-form';
 import { IPaginationModel } from '@/src/interfaces/common';
-
+import { BLOG_CATEGORIES_OPTION } from '@/src/utils/constants';
 interface BlogSectionProps {
-  categories: string[];
   bannerImage: string;
 }
 
 const BlogSection: React.FC<BlogSectionProps> = ({
-  categories,
   bannerImage,
 }) => {
 
-  const [selectedCategory, setSelectedCategory] = useState<string>(
-    categories[0]
-  );
+  const [selectedCategory, setSelectedCategory] = useState<number>(0);
 
   const paginationForm = useForm<IPaginationModel>({
     defaultValues: {
@@ -33,15 +29,15 @@ const BlogSection: React.FC<BlogSectionProps> = ({
       {/* Horizontal Navigation Bar */}
       <nav className="flex justify-center">
         <ul className="flex">
-          {categories.map((category) => (
+          {BLOG_CATEGORIES_OPTION.map((category) => (
             <li
-              key={category}
-              className={`mr-4 ${selectedCategory === category ? 'underline' : ''
-                }`}
+              key={category.value}
+              className={`mr-5 cursor-pointer ${
+                selectedCategory === category.value ? 'underline' : ''
+              }`}
+              onClick={() => setSelectedCategory(category.value)}
             >
-              <a role="button" onClick={() => setSelectedCategory(category)}>
-                {category}
-              </a>
+              {category.label}
             </li>
           ))}
         </ul>
@@ -51,7 +47,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({
       <div className="flex items-center justify-center relative mt-5">
         <Image alt="blog banner" src={bannerImage} width={1246} height={413} />
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-center">
-          <h1 className="">{selectedCategory}</h1>
+          <h1 className="">{BLOG_CATEGORIES_OPTION[selectedCategory].label}</h1>
           <h1 className="text-3xl font-bold mt-10">
             Richird Norton photorealistic rendering as real photos
           </h1>

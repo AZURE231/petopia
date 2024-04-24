@@ -1,6 +1,7 @@
 import { IBlogResponse } from '@/src/interfaces/blog';
 import React from 'react';
 import Image from 'next/image';
+import { BLOG_CATEGORIES_OPTION } from '@/src/utils/constants';
 
 const BlogCard = ({
   image,
@@ -24,7 +25,7 @@ const BlogCard = ({
         />
         {/* Category */}
         <div className="bg-yellow-400 text-black text-xs font-bold uppercase px-2 py-1 absolute top-0 left-0 rounded-br-lg">
-          {category}
+          {BLOG_CATEGORIES_OPTION[category].label}
         </div>
       </div>
 

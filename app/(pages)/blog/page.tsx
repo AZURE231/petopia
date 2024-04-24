@@ -17,7 +17,6 @@ export default function page() {
         </div>
         <div className="mt-20">
           <BlogSection
-            categories={BLOG_CATEGORIES}
             bannerImage={STATIC_URLS.BLOG_BANNER}
           />
         </div>
