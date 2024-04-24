@@ -20,12 +20,13 @@ export const SearchPetSection = QueryProvider(() => {
   // STATES
   const [showFilterMobile, setShowFilterMobile] = useState(false);
   const [pets, setPets] = useState<IPetResponse[]>([]);
+  const [orderBy, setOrderBy] = useState<'newest' | 'popular'>('newest');
 
   // FORMS
-  const [orderBy, setOrderBy] = useState<'newest' | 'popular'>('newest');
   const filterFrom = useForm<IPetFilterRequest>({
     defaultValues: { text: '' },
   });
+
   const paginationForm = useForm<IPaginationModel>({
     defaultValues: {
       pageIndex: 1,
@@ -64,6 +65,8 @@ export const SearchPetSection = QueryProvider(() => {
         filterContent={PET_FILTERS}
         showFilterMobile={showFilterMobile}
         setShowFilterMobile={setShowFilterMobile}
+        filterForm={filterFrom}
+        disable={getPetsQuery.isFetching}
       />
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">

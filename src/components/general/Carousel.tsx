@@ -4,12 +4,16 @@ import Image from 'next/image';
 import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
 
 interface CarouselProps {
-  images: string[],
-  disPlayedImage: string,
-  setDisplayedImage: Dispatch<SetStateAction<string>>,
+  images: string[];
+  disPlayedImage: string;
+  setDisplayedImage: Dispatch<SetStateAction<string>>;
 }
 
-const Carousel: React.FC<CarouselProps> = ({ images, setDisplayedImage, disPlayedImage }) => {
+const Carousel: React.FC<CarouselProps> = ({
+  images,
+  setDisplayedImage,
+  disPlayedImage,
+}) => {
   const [startIndex, setStartIndex] = useState(0);
 
   const nextImages = () => {
@@ -21,9 +25,9 @@ const Carousel: React.FC<CarouselProps> = ({ images, setDisplayedImage, disPlaye
   };
 
   return (
-    <div className="relative">
-      {
-        images.length > 5 && <>
+    <div className="relative  w-fit">
+      {images.length > 5 && (
+        <>
           <button
             className="absolute rounded left-0 top-1/2 transform -translate-y-1/2 z-10 bg-black bg-opacity-60"
             onClick={prevImages}
@@ -37,19 +41,21 @@ const Carousel: React.FC<CarouselProps> = ({ images, setDisplayedImage, disPlaye
             <SlArrowRight size={30} color="white" />
           </button>
         </>
-      }
-      <div className="grid grid-cols-5 gap-x-3">
+      )}
+      <div className="flex flex-row gap-x-3">
         {images.slice(startIndex, startIndex + 5).map((url, index) => (
           <div
             key={index}
-            className='w-full relative pt-[100%] cursor-pointer'
+            className="w-20 h-20 relative cursor-pointer"
             onClick={() => setDisplayedImage(url)}
           >
             <Image
               alt={`Image ${startIndex + index + 1}`}
               src={url}
               fill
-              className={`${url == disPlayedImage && 'border-4 border-blue-600'} rounded-lg`}
+              className={`${
+                url == disPlayedImage && 'border-4 border-blue-600'
+              } rounded-lg`}
               style={{ aspectRatio: '1/1', objectFit: 'cover' }}
             />
           </div>

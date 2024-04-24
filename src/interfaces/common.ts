@@ -1,24 +1,30 @@
 export interface IApiResponse<T> {
-  data: T,
-  pageSize?: number,
-  totalNumber?: number,
-  pageIndex?: number,
-  pageNumber?: number,
+  data: T;
+  pageSize?: number;
+  totalNumber?: number;
+  pageIndex?: number;
+  pageNumber?: number;
 }
 
 export interface IApiErrorResponse {
-  errorCode: number,
-  errorMessage: string,
+  errorCode: number;
+  errorMessage: string;
 }
 
 export interface IPaginationRequest<T> {
-  pageIndex: number,
-  pageSize?: number,
-  filter: T,
-  orderBy?: string,
+  pageIndex: number;
+  pageSize?: number;
+  filter: T;
+  orderBy?: string;
 }
 
 export interface IPaginationModel {
-  pageIndex: number,
-  pageNumber: number,
+  pageIndex: number;
+  pageNumber: number;
+}
+
+export interface IUploadImage {
+  images: string[];
+  showImages: string[];
+  files: File[];
 }

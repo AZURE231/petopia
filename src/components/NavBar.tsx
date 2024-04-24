@@ -1,13 +1,13 @@
-"use client";
-import { useState } from "react";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
+'use client';
+import { useState } from 'react';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 export function Navbar() {
   const pathname = usePathname();
   const activeTab =
-    "bg-yellow-300 md:underline md:decoration-yellow-300 md:decoration-4";
+    'bg-yellow-300 md:underline md:decoration-yellow-300 md:decoration-4';
 
   const [isOpenProfile, setIsOpenProfile] = useState(false);
   const [isOpenMenu, setIsOpenMenu] = useState(false);

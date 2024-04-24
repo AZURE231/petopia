@@ -55,6 +55,8 @@ export const QUERY_KEYS = {
   GET_NOTIFICATION: 'GET_NOTIFICATION',
   GET_NOTIFICATION_COUNT: 'GET_NOTIFICATION_COUNT',
   GET_PRE_UPGRADE: 'GET_PRE_UPGRADE',
+  GET_PET_BREEDS: 'GET_PET_BREEDS',
+  GET_PET_POSTS: 'GET_PET_POSTS',
 };
 
 export const EVENT_NAMES = {
@@ -129,8 +131,6 @@ export enum ORG_TYPE {
   VET,
   OTHER,
 }
-
-//////////////////////////////////////////////////////////////////
 
 export const PET_SPECIES_FILTER: IPetFilter = {
   id: 1,

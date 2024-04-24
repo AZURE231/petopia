@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { MdDelete } from 'react-icons/md';
 import { Alert } from '../general/Alert';
 import { useState } from 'react';
-import { useMutation, useQuery } from '@/src/utils/hooks';
+import { useMutation } from '@/src/utils/hooks';
 import { deletePet } from '@/src/services/pet.api';
 import { CiEdit } from 'react-icons/ci';
 import Popup from 'reactjs-popup';
@@ -66,8 +66,8 @@ export function PetCard(props: IPetCard) {
                   {name}{' '}
                   {isOrgOwned && (
                     <Tooltip content="Cộng tác viên">
-                      <Button className="p-0 shadow-none">
-                        <FaShieldDog color="green" size={25} />
+                      <Button className="p-0 shadow-none bg-white">
+                        <FaShieldDog color="green" size={20} />
                       </Button>
                     </Tooltip>
                   )}
