@@ -1,5 +1,6 @@
 import { ILocationResponse } from '@/src/interfaces/pet';
 import React, { useEffect } from 'react';
+import { FilterDropDown } from '../general/FilterDropdown';
 
 interface IAddressInput {
   options: ILocationResponse[];
@@ -14,7 +15,6 @@ interface IAddressInput {
 export const AddressInput = ({
   options,
   onChange,
-  title,
   value,
   level,
   currentLevel,
@@ -26,17 +26,10 @@ export const AddressInput = ({
   }, [isLocationLoading]);
 
   return (
-    <select
-      className="text-black hover:bg-slate-100 border border-gray-300  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
-      onChange={(e) => onChange(e.target.value)}
+    <FilterDropDown
+      options={options.map(option => ({ value: option.code, label: option.name }))}
       value={value}
-    >
-      <option value="">{title}</option>
-      {options?.map((location) => (
-        <option key={location.code} value={location.code}>
-          {location.name}
-        </option>
-      ))}
-    </select>
+      setValue={onChange}
+    />
   );
 };
