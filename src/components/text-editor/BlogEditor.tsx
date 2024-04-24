@@ -11,7 +11,7 @@ interface CustomEditorProps {
   initialTitle: string;
 }
 
-const CustomEditor: React.FC<CustomEditorProps> = (props) => {
+const BlogEditor: React.FC<CustomEditorProps> = (props) => {
   const [editorData, setEditorData] = useState(props.initialData);
   const [blogTitle, setBlogTitle] = useState(props.initialTitle);
   const [blogExcerpt, setBlogExcerpt] = useState('');
@@ -71,6 +71,7 @@ const CustomEditor: React.FC<CustomEditorProps> = (props) => {
           </option>
         ))}
       </select>
+      
       <CKEditor
         editor={ClassicEditor as any}
         data={editorData}
@@ -92,4 +93,4 @@ const CustomEditor: React.FC<CustomEditorProps> = (props) => {
   );
 };
 
-export default CustomEditor;
+export default BlogEditor;
