@@ -41,13 +41,20 @@ export default function AddressDropdown({
   const handleProvinceChange = (code: string) => {
     locationForm.setValue('Code', code);
     locationForm.setValue('Level', LOCATION_LEVEL.DISTRICT);
-    code != provinceCode && setProvinceCode(code);
+    if (code != provinceCode) {
+      setProvinceCode(code);
+      setDistrictCode('');
+      setWardCode('');
+    }
   };
 
   const handleDistrictChange = (code: string) => {
     locationForm.setValue('Code', code);
     locationForm.setValue('Level', LOCATION_LEVEL.WARD);
-    code != districtCode && setDistrictCode(code);
+    if (code != districtCode) {
+      setDistrictCode(code);
+      setWardCode('');
+    }
   };
 
   const handleWardChange = (code: string) => {
@@ -63,11 +70,9 @@ export default function AddressDropdown({
     () => getProvince(locationForm.getValues()),
     {
       onSuccess: (res) => {
-        // console.log(locationForm.getValues('Level'));
         if (locationForm.getValues('Level') === 1) {
           setProvinces(res.data.data);
         } else if (locationForm.getValues('Level') === 2) {
-          setWards([]);
           setDistricts(res.data.data);
         } else setWards(res.data.data);
       },
