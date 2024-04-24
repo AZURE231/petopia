@@ -12,7 +12,7 @@ class UploadAdapter {
   // Starts the upload process.
   upload() {
     return new Promise<{ default: string }>((resolve, reject) => {
-      this._initRequest();
+      this._initRequest(resolve, reject);
       this._initListeners(resolve, reject);
       this._sendRequest();
     });
@@ -26,7 +26,10 @@ class UploadAdapter {
   }
 
   // Example implementation using XMLHttpRequest.
-  _initRequest() {
+  _initRequest(
+    resolve: (value: { default: string }) => void,
+    reject: (reason?: any) => void
+  ) {
     const xhr = (this.xhr = new XMLHttpRequest());
 
     xhr.open(
@@ -35,6 +38,23 @@ class UploadAdapter {
       true
     );
     xhr.responseType = 'json';
+
+    xhr.onload = () => {
+      const response = xhr.response;
+      if (!response || response.error) {
+        reject(
+          response && response.error ? response.error.message : 'Upload failed'
+        );
+      } else {
+        resolve({
+          default: response.data.url,
+        });
+      }
+    };
+
+    xhr.onerror = () => {
+      reject('Upload failed');
+    };
   }
 
   // Initializes XMLHttpRequest listeners.
@@ -44,26 +64,6 @@ class UploadAdapter {
   ) {
     const xhr = this.xhr!;
     const loader = this.loader;
-    const genericErrorText =
-      "Couldn't upload file:" + ` ${loader.file.then((file) => file?.name)}.`;
-
-    xhr.addEventListener('error', () => reject(genericErrorText));
-    xhr.addEventListener('abort', () => reject());
-    xhr.addEventListener('load', () => {
-      const response = xhr.response;
-
-      if (!response || response.error) {
-        return reject(
-          response && response.error ? response.error.message : genericErrorText
-        );
-      }
-
-      // If the upload is successful, resolve the upload promise with an object containing
-      // at least the "default" URL, pointing to the image on the server.
-      resolve({
-        default: response.url,
-      });
-    });
 
     if (xhr.upload) {
       xhr.upload.addEventListener('progress', (evt) => {
