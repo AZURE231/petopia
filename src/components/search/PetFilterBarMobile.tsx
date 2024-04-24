@@ -111,7 +111,7 @@ export function PetFilterBarMobile({
       const filterId = parseInt(key.split('_')[1]);
       const values = filterFormValues[key as keyof typeof filterFormValues];
       if (Array.isArray(values)) {
-        values.forEach((value: number) => {
+        values.forEach((value: any) => {
           selectedValuesCopy[`${filterId}-${value}`] = [value];
         });
       }
@@ -219,13 +219,13 @@ export function PetFilterBarMobile({
                             type="checkbox"
                             className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                             onClick={() =>
-                              handleClickFilter(filter.id, item.value)
+                              handleClickFilter(filter.id, Number(item.value))
                             }
                             checked={
                               !!selectedValues[`${filter.id}-${item.value}`]
                             }
                             onChange={() =>
-                              handleCheckboxChange(filter.id, item.value)
+                              handleCheckboxChange(filter.id, Number(item.value))
                             }
                             disabled={disable}
                           />
