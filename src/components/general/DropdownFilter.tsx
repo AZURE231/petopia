@@ -18,11 +18,14 @@ export default function FormPetDetail({
   const [filteredBreeds, setFilteredBreeds] = useState<string[]>([]);
   const [filter, setFilter] = useState<string>('');
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
-  const [selectedBreed, setSelectedBreed] = useState('Chọn giống');
+  const [selectedBreed, setSelectedBreed] = useState(
+    watch('breed') || 'Chưa rõ'
+  );
 
   // REF
   const listRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLInputElement>(null);
+
   useClickOutside(() => {
     setShowDropdown(false);
   }, [listRef, buttonRef]);
@@ -40,21 +43,6 @@ export default function FormPetDetail({
       refetchOnWindowFocus: false,
     }
   );
-
-  useEffect(() => {
-    const fetchBreeds = async () => {
-      try {
-        const response = await axios.get('https://dog.ceo/api/breeds/list/all');
-        const breedList: string[] = Object.keys(response.data.message);
-        setBreeds(breedList);
-        setFilteredBreeds(breedList);
-      } catch (error) {
-        console.error('Error fetching breeds:', error);
-      }
-    };
-
-    fetchBreeds();
-  }, []);
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -96,7 +84,7 @@ export default function FormPetDetail({
               role="menuitem"
               onClick={() => setSelectedBreed('Chưa rõ')}
             >
-              Chọn giống
+              Chưa rõ
             </div>
             {filteredBreeds.map((breed, index) => (
               <div
