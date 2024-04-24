@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import uploadAdapter from "./UploadAdapter";
+import React, { useState, useEffect } from 'react';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import uploadAdapter from './UploadAdapter';
 
 interface CustomEditorProps {
   initialData: string;
@@ -10,40 +10,33 @@ interface CustomEditorProps {
 
 const CustomEditor: React.FC<CustomEditorProps> = (props) => {
   const [editorData, setEditorData] = useState(props.initialData);
-  const [blogTitle, setBlogTitle] = useState("");
-
+  const [blogTitle, setBlogTitle] = useState(props.initialTitle);
 
   const handleSubmit = () => {
     // Further actions for submitting the blog
   };
 
-  const uploadAdapterPlugin = (editor: any) => {
-    editor.plugins.get("FileRepository").createUploadAdapter = (loader: any) => {
-      return new uploadAdapter(loader);
-    };
-  }
-
   useEffect(() => {
-    ClassicEditor.create(document.querySelector("#editor") as HTMLElement, {
-      extraPlugins: [uploadAdapterPlugin],
+    ClassicEditor.create(document.querySelector('#editor') as HTMLElement, {
+      extraPlugins: [uploadAdapter],
     })
       .then((editor: any) => {
         editor.setData(editorData);
-        editor.model.document.on("change:data", () => {
+        editor.model.document.on('change:data', () => {
           setEditorData(editor.getData());
         });
       })
       .catch((error: any) => {
-        console.error("There was a problem initializing the editor.", error);
+        console.error('There was a problem initializing the editor.', error);
       });
-  }, []);
+  }, [editorData]);
 
   return (
     <div>
       <input
         type="text"
         placeholder="Enter blog title"
-        defaultValue={props.initialTitle}
+        value={blogTitle}
         onChange={(e) => setBlogTitle(e.target.value)}
         className="w-full p-3 px-8 rounded-full font-bold shadow-md bg-white border border-gray-300 mb-5"
       />
@@ -53,6 +46,9 @@ const CustomEditor: React.FC<CustomEditorProps> = (props) => {
         onChange={(event, editor) => {
           const data = editor.getData();
           setEditorData(data);
+        }}
+        config={{
+          extraPlugins: [uploadAdapter],
         }}
       />
       <button

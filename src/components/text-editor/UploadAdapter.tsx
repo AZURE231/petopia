@@ -1,4 +1,4 @@
-import { FileLoader } from "@ckeditor/ckeditor5-upload";
+import { FileLoader } from '@ckeditor/ckeditor5-upload';
 
 class UploadAdapter {
   loader: FileLoader;
@@ -30,11 +30,11 @@ class UploadAdapter {
     const xhr = (this.xhr = new XMLHttpRequest());
 
     xhr.open(
-      "POST",
-      "https://api.imgbb.com/1/upload?key=375280be5017acaf5d4d8561abc4f13b",
+      'POST',
+      'https://api.imgbb.com/1/upload?key=375280be5017acaf5d4d8561abc4f13b',
       true
     );
-    xhr.responseType = "json";
+    xhr.responseType = 'json';
   }
 
   // Initializes XMLHttpRequest listeners.
@@ -47,9 +47,9 @@ class UploadAdapter {
     const genericErrorText =
       "Couldn't upload file:" + ` ${loader.file.then((file) => file?.name)}.`;
 
-    xhr.addEventListener("error", () => reject(genericErrorText));
-    xhr.addEventListener("abort", () => reject());
-    xhr.addEventListener("load", () => {
+    xhr.addEventListener('error', () => reject(genericErrorText));
+    xhr.addEventListener('abort', () => reject());
+    xhr.addEventListener('load', () => {
       const response = xhr.response;
 
       if (!response || response.error) {
@@ -66,7 +66,7 @@ class UploadAdapter {
     });
 
     if (xhr.upload) {
-      xhr.upload.addEventListener("progress", (evt) => {
+      xhr.upload.addEventListener('progress', (evt) => {
         if (evt.lengthComputable) {
           loader.uploadTotal = evt.total;
           loader.uploaded = evt.loaded;
@@ -80,7 +80,7 @@ class UploadAdapter {
     this.loader.file.then((file: File | null) => {
       if (file) {
         const data = new FormData();
-        data.append("upload", file);
+        data.append('image', file); // Change "upload" to "image"
 
         this.xhr!.send(data);
       }
@@ -88,4 +88,10 @@ class UploadAdapter {
   }
 }
 
-export default UploadAdapter;
+function uploadAdapter(editor: any) {
+  editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
+    return new UploadAdapter(loader);
+  };
+}
+
+export default uploadAdapter;
