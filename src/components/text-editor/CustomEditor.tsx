@@ -56,10 +56,13 @@ const CustomEditor: React.FC<CustomEditorProps> = (props) => {
         className="w-full p-3 px-8 rounded-full font-bold shadow-md bg-white border border-gray-300 mb-5"
         maxLength={200}
       />
+      <label htmlFor="category" className="block font-bold mb-2">
+        Chọn danh mục
+      </label>
       <select
-        id="owner-time"
+        id="category"
         name="owner-time"
-        className="w-full p-3 border border-gray-300 rounded-lg"
+        className="w-fit px-10 p-3 border border-gray-300 rounded-lg mb-5"
         // onChange={(e) => setValue('adoptTime', parseInt(e.target.value))}
       >
         {BLOG_CATEGORIES_OPTION.map((category) => (

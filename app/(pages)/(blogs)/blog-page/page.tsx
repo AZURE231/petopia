@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { STATIC_URLS } from '@/src/utils/constants';
-import { blogs } from '@/app/(pages)/blog/blogs';
+import { blogs } from '@/app/(pages)/(blogs)/blog/blogs';
 import BlogPage from '@/src/components/blog/BlogPage';
 
 export default function Page() {

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import BlogCard from './BlogCard';
 import Pagination from '../general/Pagination';
-import { blogs } from '@/app/(pages)/blog/blogs';
+import { blogs } from '@/app/(pages)/(blogs)/blog/blogs';
 import { useForm } from 'react-hook-form';
 import { IPaginationModel } from '@/src/interfaces/common';
 import { BLOG_CATEGORIES_OPTION } from '@/src/utils/constants';
@@ -11,17 +11,14 @@ interface BlogSectionProps {
   bannerImage: string;
 }
 
-const BlogSection: React.FC<BlogSectionProps> = ({
-  bannerImage,
-}) => {
-
+const BlogSection: React.FC<BlogSectionProps> = ({ bannerImage }) => {
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
 
   const paginationForm = useForm<IPaginationModel>({
     defaultValues: {
       pageIndex: 1,
       pageNumber: 1,
-    }
+    },
   });
 
   return (
@@ -75,7 +72,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({
         </div>
       </div>
 
-      <div className='mt-10 flex justify-center'>
+      <div className="mt-10 flex justify-center">
         <Pagination
           paginationForm={paginationForm}
           disable={false}
