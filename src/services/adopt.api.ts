@@ -16,3 +16,6 @@ export const getAdoptFormInfo = async (id: string) =>
 
 export const actOnAdoptRequest = async (data: { id: string; action: string }) =>
   await http.put(`/AdoptionForm/${data.id}/${data.action}`);
+
+export const countNotify = async () =>
+  await http.get('/AdoptionForm/CountUnreadIncoming');

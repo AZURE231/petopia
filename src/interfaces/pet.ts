@@ -10,7 +10,7 @@ import {
 export interface IPetFilterItem {
   id: number;
   label: string;
-  value: number;
+  value: number | string;
 }
 
 export interface IPetFilter {
@@ -21,20 +21,21 @@ export interface IPetFilter {
 
 export interface IPetSelect extends IPetFilter {
   kind:
-    | 'breed'
-    | 'species'
-    | 'sex'
-    | 'age'
-    | 'color'
-    | 'size'
-    | 'isVaccinated'
-    | 'isSterillized';
+  | 'breed'
+  | 'species'
+  | 'sex'
+  | 'age'
+  | 'color'
+  | 'size'
+  | 'isVaccinated'
+  | 'isSterillized';
 }
 
 export interface IPetFilterRequest {
   sex?: PET_SEX[];
   color?: PET_COLOR[];
   species?: PET_SPECIES[];
+  breed?: string[];
   size?: PET_SIZE[];
   age?: PET_AGE[];
   isVaccinated?: PET_MEDICAL_STATUS[];
@@ -49,6 +50,7 @@ export interface IPetResponse {
   sex: PET_SEX;
   age: PET_AGE;
   image: string;
+  isOrgOwned: boolean;
 }
 
 export interface ICreatePetProfileRequest {
@@ -64,9 +66,9 @@ export interface ICreatePetProfileRequest {
   isAvailable: boolean;
   address: string;
   breed: string;
-  files: string[];
-  imagesFile: FileList | null;
+  files: File[];
   images: string[];
+  showImages: string[];
   id?: string;
 }
 
@@ -98,4 +100,23 @@ export interface IPetDetailResponse {
   isCreatedAt: string;
   address: string;
   seeMore: IPetResponse[];
+  isOrgOwned: boolean;
 }
+
+export interface ICreatePetResponse {
+  name: string;
+  description: string;
+  sex: PET_SEX;
+  age: PET_AGE;
+  color: PET_COLOR;
+  species: PET_SPECIES;
+  size: PET_SIZE;
+  isSterillized: PET_MEDICAL_STATUS;
+  isVaccinated: PET_MEDICAL_STATUS;
+  isAvailable: boolean;
+  breed: string;
+  images: string[];
+  id: string;
+}
+
+export interface IUpdatePeResponse extends ICreatePetResponse { }

@@ -1,3 +1,4 @@
+import { IOrgUpgradeRequest } from '../interfaces/org';
 import {
   IChangePasswordResponse,
   IOtherUserRequest,
@@ -29,3 +30,7 @@ export const updateAvatar = async (data: string) =>
 export const changePassword = async (data: IChangePasswordResponse) =>
   await http.post('/User/ChangePassword', data);
 
+export const upgradeToOrg = async (data: IOrgUpgradeRequest) =>
+  await http.post('/User/UpgradeAccount', data);
+
+export const getPreUpgrade = async () => await http.get('/User/PreUpgrade');

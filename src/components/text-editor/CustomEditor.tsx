@@ -4,6 +4,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import uploadAdapter from './UploadAdapter';
 import { IBlog } from '@/src/interfaces/blog';
 import { useForm } from 'react-hook-form';
+import { BLOG_CATEGORIES_OPTION } from '@/src/utils/constants';
 
 interface CustomEditorProps {
   initialData: string;
@@ -15,7 +16,7 @@ const CustomEditor: React.FC<CustomEditorProps> = (props) => {
   const [blogTitle, setBlogTitle] = useState(props.initialTitle);
   const [blogExcerpt, setBlogExcerpt] = useState('');
 
-  const {getValues, setValue, watch} = useForm<IBlog>({});
+  const { getValues, setValue, watch } = useForm<IBlog>({});
 
   const handleSubmit = () => {
     // Further actions for submitting the blog
@@ -52,9 +53,21 @@ const CustomEditor: React.FC<CustomEditorProps> = (props) => {
         placeholder="Nhập mô tả ngắn cho bài viết"
         value={blogExcerpt}
         onChange={(e) => setBlogExcerpt(e.target.value)}
-        className="w-full p-3 px-8 rounded-full font-bold shadow-md bg-white border border-gray-300 mb-5" 
+        className="w-full p-3 px-8 rounded-full font-bold shadow-md bg-white border border-gray-300 mb-5"
         maxLength={200}
       />
+      <select
+        id="owner-time"
+        name="owner-time"
+        className="w-full p-3 border border-gray-300 rounded-lg"
+        // onChange={(e) => setValue('adoptTime', parseInt(e.target.value))}
+      >
+        {BLOG_CATEGORIES_OPTION.map((category) => (
+          <option key={category.label} value={category.value}>
+            {category.label}
+          </option>
+        ))}
+      </select>
       <CKEditor
         editor={ClassicEditor as any}
         data={editorData}

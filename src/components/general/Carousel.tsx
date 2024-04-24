@@ -1,47 +1,63 @@
 // Carousel.tsx
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import Image from 'next/image';
 import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
 
 interface CarouselProps {
   images: string[];
+  disPlayedImage: string;
+  setDisplayedImage: Dispatch<SetStateAction<string>>;
 }
 
-const Carousel: React.FC<CarouselProps> = ({ images }) => {
+const Carousel: React.FC<CarouselProps> = ({
+  images,
+  setDisplayedImage,
+  disPlayedImage,
+}) => {
   const [startIndex, setStartIndex] = useState(0);
 
   const nextImages = () => {
-    setStartIndex((prevIndex) => Math.min(prevIndex + 1, images.length - 5));
+    setStartIndex((prevIndex) => Math.min(prevIndex + 5, images.length - 1));
   };
 
   const prevImages = () => {
-    setStartIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+    setStartIndex((prevIndex) => Math.max(prevIndex - 5, 0));
   };
 
   return (
-    <div className="relative">
-      <button
-        className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-black bg-opacity-60"
-        onClick={prevImages}
-      >
-        <SlArrowLeft size={30} color="white" />
-      </button>
-      <button
-        className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10"
-        onClick={nextImages}
-      >
-        <SlArrowRight size={30} color="white" />
-      </button>
-      <div className="grid grid-cols-5 gap-x-3">
+    <div className="relative  w-fit">
+      {images.length > 5 && (
+        <>
+          <button
+            className="absolute rounded left-0 top-1/2 transform -translate-y-1/2 z-10 bg-black bg-opacity-60"
+            onClick={prevImages}
+          >
+            <SlArrowLeft size={30} color="white" />
+          </button>
+          <button
+            className="absolute rounded right-0 top-1/2 transform -translate-y-1/2 z-10 bg-black bg-opacity-60"
+            onClick={nextImages}
+          >
+            <SlArrowRight size={30} color="white" />
+          </button>
+        </>
+      )}
+      <div className="flex flex-row gap-x-3">
         {images.slice(startIndex, startIndex + 5).map((url, index) => (
-          <div key={index} className="w-full relative pt-[100%]">
+          <div
+            key={index}
+            className="w-20 h-20 relative cursor-pointer"
+            onClick={() => setDisplayedImage(url)}
+          >
             <Image
               alt={`Image ${startIndex + index + 1}`}
               src={url}
               fill
-              className="w-full h-3/4 top-0 left-0 rounded-lg"
+              className={`${
+                url == disPlayedImage && 'border-4 border-blue-600'
+              } rounded-lg`}
               style={{ aspectRatio: '1/1', objectFit: 'cover' }}
-            ></Image>
+            />
           </div>
         ))}
       </div>

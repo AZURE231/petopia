@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useGoogleLogin } from '@react-oauth/google';
-import { STATIC_URLS } from '../../utils/constants';
 import { GoogleOAuthProvider } from './GoogleOAuthProvider';
+import { STATIC_URLS } from '@/src/utils/constants';
 
 export interface IGoogleLogin {
   onSuccess: (tokenId: string) => void,

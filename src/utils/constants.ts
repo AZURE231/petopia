@@ -53,6 +53,10 @@ export const QUERY_KEYS = {
   GET_ADOPT_CARD: 'GET_ADOPT_CARD',
   GET_ADOPT_FORM_INFO: 'GET_ADOPT_FORM_INFO',
   GET_NOTIFICATION: 'GET_NOTIFICATION',
+  GET_NOTIFICATION_COUNT: 'GET_NOTIFICATION_COUNT',
+  GET_PRE_UPGRADE: 'GET_PRE_UPGRADE',
+  GET_PET_BREEDS: 'GET_PET_BREEDS',
+  GET_PET_POSTS: 'GET_PET_POSTS',
 };
 
 export const EVENT_NAMES = {
@@ -129,6 +133,12 @@ export enum BLOG_CATEGORIES {
   ADVERTISEMENT,
 }
 //////////////////////////////////////////////////////////////////
+export enum ORG_TYPE {
+  RESCUE,
+  BUSINESS,
+  VET,
+  OTHER,
+}
 
 export const PET_SPECIES_FILTER: IPetFilter = {
   id: 1,
@@ -414,5 +424,23 @@ export const BLOG_CATEGORIES_OPTION = [
   {
     label: 'Quảng cáo',
     value: BLOG_CATEGORIES.ADVERTISEMENT,
+  },
+];
+export const PET_ORG_TYPE_OPTION = [
+  {
+    label: 'Giải cứu động vật',
+    value: ORG_TYPE.RESCUE,
+  },
+  {
+    label: 'Doanh nghiệp',
+    value: ORG_TYPE.BUSINESS,
+  },
+  {
+    label: 'Thú Y',
+    value: ORG_TYPE.VET,
+  },
+  {
+    label: 'Khác',
+    value: ORG_TYPE.OTHER,
   },
 ];
