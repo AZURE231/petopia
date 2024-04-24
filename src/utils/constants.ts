@@ -126,11 +126,12 @@ export enum ADOPT_DELAY_DURATION {
 }
 
 export enum BLOG_CATEGORIES {
+  ADVERTISEMENT,
   HEALTH ,
   TRAINING ,
   PRODUCT ,
   ART,
-  ADVERTISEMENT,
+  
 }
 //////////////////////////////////////////////////////////////////
 export enum ORG_TYPE {
@@ -406,6 +407,10 @@ export const ADOPT_ACTION = {
 
 export const BLOG_CATEGORIES_OPTION = [
   {
+    label: 'Quảng cáo',
+    value: BLOG_CATEGORIES.ADVERTISEMENT,
+  },
+  {
     label: 'Sức khỏe',
     value: BLOG_CATEGORIES.HEALTH,
   },
@@ -421,10 +426,7 @@ export const BLOG_CATEGORIES_OPTION = [
     label: 'Nghệ thuật',
     value: BLOG_CATEGORIES.ART,
   },
-  {
-    label: 'Quảng cáo',
-    value: BLOG_CATEGORIES.ADVERTISEMENT,
-  },
+ 
 ];
 export const PET_ORG_TYPE_OPTION = [
   {
