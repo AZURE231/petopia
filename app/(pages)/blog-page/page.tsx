@@ -5,14 +5,7 @@ import BlogPage from '@/src/components/blog/BlogPage';
 
 export default function Page() {
   const htmlContent = `
-  <h2><strong>CHIPPY CHIPPY CHAPPA CHAPPA</strong></h2><figure class="image"><img style="aspect-ratio:420/420;" src="https://i.ibb.co/vq3dgTK/Freshlycat.png" width="420" height="420"></figure>  <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-  <img src="https://i.ibb.co/vq3dgTK/Freshlycat.png" width="420" height="420" style="display: block; margin: auto;">
-</div><p>TUBI DU</p>
-<div class="image-container">
-  <figure class="image">
-    <img style="aspect-ratio:843/844;" src="https://i.ibb.co/Wvm8RZ3/436916092-3238820719748116-8776504512401591200-n.jpg" width="843" height="844">
-  </figure>
-</div>
+  <h2><strong>Duc anh:</strong></h2><figure class="image"><img style="aspect-ratio:845/1200;" src="https://i.ibb.co/HK3FCJX/GIz-ZOe-Ea-UAAz-N-n.jpg" width="845" height="1200"></figure><h2><strong>Hung:</strong></h2><figure class="image"><img style="aspect-ratio:1000/1476;" src="https://i.ibb.co/Fwds4fV/GIu-QSl-Sa-YAASt-O9.jpg" width="1000" height="1476"></figure><h2><strong>Tuan:</strong></h2><figure class="image"><img style="aspect-ratio:1000/1600;" src="https://i.ibb.co/xSfc2HL/GIo-T-XYaw-AA3-W2s.jpg" width="1000" height="1600"></figure><figure class="image"><img style="aspect-ratio:808/758;" src="https://i.ibb.co/HdwK4yG/Untitleggd.png" width="808" height="758"></figure><figure class="image"><img src="https://i.ibb.co/z7B6Gv9/436916092-3238820719748116-8776504512401591200-n.jpg"></figure>
 `;
   const blogTitle = 'Cầu nối cho quan hệ hữu nghị Việt Nam - Trung Quốc';
 
