@@ -301,18 +301,6 @@ export const PET_STERILIZED_FILTER: IPetFilter = {
   ],
 };
 
-export const PET_BREED_FILTER: IPetFilter = {
-  id: 8,
-  label: 'Giống',
-  items: [
-    {
-      id: 1,
-      label: 'Chưa rõ',
-      value: PET_MEDICAL_STATUS.YES,
-    },
-  ],
-};
-
 export const PET_FILTERS: IPetFilter[] = [
   PET_SPECIES_FILTER,
   PET_AGE_FILTER,
@@ -325,7 +313,6 @@ export const PET_FILTERS: IPetFilter[] = [
 
 export const PET_SELECT: IPetSelect[] = [
   { ...PET_SPECIES_FILTER, kind: 'species' },
-  { ...PET_BREED_FILTER, kind: 'breed' },
   { ...PET_SEX_FILTER, kind: 'sex' },
   { ...PET_COLOR_FILTER, kind: 'color' },
   { ...PET_SIZE_FILTER, kind: 'size' },

@@ -1,8 +1,11 @@
-import { IPetFilterRequest } from '@/src/interfaces/pet';
+import { IPetFilter, IPetFilterRequest } from '@/src/interfaces/pet';
 import { useRef, useState, useEffect } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { PET_FILTERS } from '@/src/utils/constants';
-import { useClickOutside } from '@/src/utils/hooks';
+import { PET_FILTERS, PET_SPECIES, QUERY_KEYS } from '@/src/utils/constants';
+import { useClickOutside, useQuery } from '@/src/utils/hooks';
+import { PetFilterCard } from './PetFilterCard';
+import { IApiResponse } from '@/src/interfaces/common';
+import { getAvailableBreeds } from '@/src/services/pet.api';
 
 export function PetFilterBarMobile({
   showFilterMobile,
@@ -15,79 +18,23 @@ export function PetFilterBarMobile({
   filterForm: UseFormReturn<IPetFilterRequest, any, undefined>;
   disable: boolean;
 }) {
-  const { getValues, setValue } = filterForm;
+  const { getValues } = filterForm;
+  const [species, setSpecies] = useState<PET_SPECIES>();
+  const [breedFilter, setBreedFilter] = useState<IPetFilter>();
 
-  const [showFilter, setShowFilter] = useState<{ [key: number]: boolean }>({});
-  const [selectedValues, setSelectedValues] = useState<{
-    [key: string]: number[];
-  }>({});
-
-  const setFilter = (array: number[] | undefined, itemValue: number) => {
-    if (array === undefined) array = [];
-    const index = array.indexOf(itemValue);
-    if (index !== -1) array.splice(index, 1);
-    else array.push(itemValue);
-    return array;
-  };
-
-  const handleShowFilter = (id: number) => {
-    setShowFilter({
-      ...showFilter,
-      [id]: !showFilter[id as keyof typeof showFilter],
-    });
-  };
-
-  const handleClickFilter = (filterId: number, itemValue: number) => {
-    switch (filterId) {
-      case 1:
-        let species = getValues('species');
-        setValue('species', setFilter(species, itemValue));
-        break;
-
-      case 2:
-        let sex = getValues('sex');
-        setValue('sex', setFilter(sex, itemValue));
-        break;
-
-      case 3:
-        let color = getValues('color');
-        setValue('color', setFilter(color, itemValue));
-        break;
-
-      case 4:
-        let size = getValues('size');
-        setValue('size', setFilter(size, itemValue));
-        break;
-
-      case 5:
-        let age = getValues('age');
-        setValue('age', setFilter(age, itemValue));
-        break;
-
-      case 6:
-        let isVaccinated = getValues('isVaccinated');
-        setValue('isVaccinated', setFilter(isVaccinated, itemValue));
-        break;
-
-      default:
-        let isSterillized = getValues('isSterillized');
-        setValue('isSterillized', setFilter(isSterillized, itemValue));
-        break;
+  // HANDLERS
+  const handleSetSpecies = (speciesList: PET_SPECIES[]) => {
+    if (!speciesList) return;
+    if (speciesList.length == 1 && speciesList.includes(PET_SPECIES.DOG)) {
+      setSpecies(PET_SPECIES.DOG);
+      return;
     }
-  };
-  const handleCheckboxChange = (filterId: number, itemValue: number) => {
-    const selectedValuesCopy = { ...selectedValues };
-    const key = `${filterId}-${itemValue}`;
-
-    if (selectedValuesCopy[key]) {
-      delete selectedValuesCopy[key];
-    } else {
-      selectedValuesCopy[key] = selectedValuesCopy[key]
-        ? [...selectedValuesCopy[key], itemValue]
-        : [itemValue];
+    if (speciesList.length == 1 && speciesList.includes(PET_SPECIES.CAT)) {
+      setSpecies(PET_SPECIES.CAT);
+      return;
     }
-
-    setSelectedValues(selectedValuesCopy);
+    setSpecies(undefined);
+    setBreedFilter(undefined);
   };
 
   // EFFECTS
@@ -97,20 +44,28 @@ export function PetFilterBarMobile({
     setShowFilterMobile(false);
   }, [buttonRef, divRef]);
 
-  useEffect(() => {
-    const selectedValuesCopy = { ...selectedValues };
-    const filterFormValues = getValues();
-    Object.keys(filterFormValues).forEach((key) => {
-      const filterId = parseInt(key.split('_')[1]);
-      const values = filterFormValues[key as keyof typeof filterFormValues];
-      if (Array.isArray(values)) {
-        values.forEach((value: any) => {
-          selectedValuesCopy[`${filterId}-${value}`] = [value];
+  // QUERIES AND MUTATIONS
+  const getBreedQuery = useQuery<IApiResponse<string[]>>(
+    [QUERY_KEYS.GET_PET_BREEDS, species],
+    () => species !== undefined && getAvailableBreeds({ species: species }),
+    {
+      onSuccess: (res) => {
+        let filterItems = res.data.data.map((value, index) => {
+          return {
+            id: index,
+            value: value,
+            label: value,
+          };
         });
-      }
-    });
-    setSelectedValues(selectedValuesCopy);
-  }, [getValues]);
+        setBreedFilter({
+          id: PET_FILTERS.length + 1,
+          items: filterItems,
+          label: 'Giống',
+        });
+      },
+      enabled: species !== undefined,
+    }
+  );
 
   if (!showFilterMobile) return null;
   return (
@@ -153,87 +108,26 @@ export function PetFilterBarMobile({
           {/* Filters */}
           <form className="mt-4 border-t border-gray-200">
             {PET_FILTERS.map((filter) => (
-              <div
-                key={filter.id}
-                className="border-t border-gray-200 px-4 py-6"
-              >
-                <h3 className="-mx-2 -my-3 flow-root">
-                  {/* <!-- Expand/collapse section button --> */}
-                  <button
-                    type="button"
-                    className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500"
-                    onClick={() => handleShowFilter(filter.id)}
-                  >
-                    <span className="font-medium text-gray-900">
-                      {filter.label}
-                    </span>
-                    <span className="ml-6 flex items-center">
-                      {/* <!-- Expand icon, show/hide based on section open state. --> */}
-                      {!showFilter[filter.id as keyof typeof showFilter] && (
-                        <svg
-                          className="h-5 w-5"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                        </svg>
-                      )}
-                      {/* <!-- Collapse icon, show/hide based on section open state. --> */}
-                      {showFilter[filter.id as keyof typeof showFilter] && (
-                        <svg
-                          className="h-5 w-5"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M4 10a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H4.75A.75.75 0 014 10z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      )}
-                    </span>
-                  </button>
-                </h3>
-                {/* <!-- Filter section, show/hide based on section state. --> */}
-                {showFilter[filter.id as keyof typeof showFilter] && (
-                  <div
-                    className="pt-6"
-                    id={`filter-section-mobile-${filter.id}`}
-                  >
-                    <div className="space-y-6">
-                      {filter.items.map((item) => (
-                        <div key={item.id} className="flex items-center">
-                          <input
-                            id={`filter-mobile-${filter.label}-${item.id}`}
-                            name={`${filter.label}[]`}
-                            type="checkbox"
-                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                            onClick={() =>
-                              handleClickFilter(filter.id, Number(item.value))
-                            }
-                            checked={
-                              !!selectedValues[`${filter.id}-${item.value}`]
-                            }
-                            onChange={() =>
-                              handleCheckboxChange(filter.id, Number(item.value))
-                            }
-                            disabled={disable}
-                          />
-                          <label
-                            htmlFor={`filter-mobile-${filter.label}-${item.id}`}
-                            className="ml-3 min-w-0 flex-1 text-gray-500"
-                          >
-                            {item.label}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+              <>
+                <PetFilterCard
+                  key={filter.id}
+                  filter={filter}
+                  disabled={disable || getBreedQuery.isLoading}
+                  handleSetSpecies={handleSetSpecies}
+                  filterForm={filterForm}
+                  isMobile={true}
+                />
+                {filter.id === 1 && breedFilter !== undefined && (
+                  <PetFilterCard
+                    key={PET_FILTERS.length + 1}
+                    filter={breedFilter}
+                    disabled={disable || getBreedQuery.isLoading}
+                    handleSetSpecies={handleSetSpecies}
+                    filterForm={filterForm}
+                    isMobile={true}
+                  />
                 )}
-              </div>
+              </>
             ))}
           </form>
         </div>

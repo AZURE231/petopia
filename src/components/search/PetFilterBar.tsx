@@ -48,37 +48,36 @@ export const PetFilterBar = (props: IFilterBar) => {
           };
         });
         setBreedFilter({
-          id: PET_FILTERS.length + 1,
+          id: PET_FILTERS.length + 10,
           items: filterItems,
-          label: 'Giống'
+          label: 'Giống',
         });
       },
       enabled: species !== undefined,
-    },
+    }
   );
 
   return (
     <form className="hidden lg:block">
-      {PET_FILTERS.map((filter) => (
-        <>
+      {PET_FILTERS.map((filter, index) => (
+        <div key={filter.id}>
           <PetFilterCard
-            key={filter.id}
             filter={filter}
             disabled={disable || getBreedQuery.isLoading}
             handleSetSpecies={handleSetSpecies}
             filterForm={filterForm}
+            isMobile={false}
           />
-          {
-            filter.id === 1 && breedFilter !== undefined &&
+          {filter.id === 1 && breedFilter !== undefined && (
             <PetFilterCard
-              key={PET_FILTERS.length + 1}
               filter={breedFilter}
               disabled={disable || getBreedQuery.isLoading}
               handleSetSpecies={handleSetSpecies}
               filterForm={filterForm}
+              isMobile={false}
             />
-          }
-        </>
+          )}
+        </div>
       ))}
     </form>
   );
