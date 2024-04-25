@@ -2,7 +2,7 @@ import { UserInformation } from '@/src/components/user/UserInformation';
 
 export default function page() {
   return (
-    <div className="mt-30">
+    <div className="mt-30 h-fit-screen">
       <UserInformation />
     </div>
   );

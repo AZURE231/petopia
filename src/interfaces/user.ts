@@ -1,12 +1,21 @@
-import { USER_ROLE } from '../utils/constants';
-import { IPetResponse } from './pet';
+import { ORG_TYPE, USER_ROLE } from '../utils/constants';
 
 export interface IIndividualAttributes {
   firstName: string;
   lastName: string;
 }
-export interface IUserInfo {
-  attributes: IIndividualAttributes;
+
+export interface IOrganizationAttributes {
+  entityName: string,
+  type: ORG_TYPE,
+  description: string,
+  taxCode: string,
+  website: string,
+  organizationName: string,
+}
+
+export interface IUserInfoReponse {
+  attributes: IIndividualAttributes & IOrganizationAttributes;
   address: string;
   provinceCode: string;
   districtCode: string;

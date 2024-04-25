@@ -1,34 +1,32 @@
 'use client';
-import Image from 'next/image';
 import { useState } from 'react';
 import { FaRegEdit } from 'react-icons/fa';
-import { useMutation, useQuery } from '../../utils/hooks';
+import { useQuery } from '../../utils/hooks';
 import { IApiResponse } from '../../interfaces/common';
-import { IUserInfo } from '../../interfaces/user';
 import { QUERY_KEYS, STATIC_URLS, USER_ROLE } from '../../utils/constants';
 import { QueryProvider } from '../general/QueryProvider';
 import UserUpdateForm from './UserUpdateForm';
 import {
   getPreUpgrade,
   getUserInfo,
-  updateAvatar,
 } from '@/src/services/user.api';
-import { uploadImage } from '@/src/helpers/uploadImage';
 import Link from 'next/link';
 import UserSkeleton from '../general/UserSkeleton';
 import TabbedTable from './TabbedTable';
-import { RiVerifiedBadgeFill, RiAdminFill } from 'react-icons/ri';
 import Popup from 'reactjs-popup';
 import { UserUpgradeForm } from './UserUpgradeForm';
 import { Alert } from '../general/Alert';
+import { AvatarBlock } from './AvatarBlock';
+import { NameRoleBlock } from './NameRoleBlock';
+import { BasicInfoBlock } from './BasicInfoBlock';
+import { IUserInfoReponse } from '@/src/interfaces/user';
+import { OrganizationInfoBlock } from './OrganizationInfoBlock';
 
 export const UserInformation = QueryProvider(() => {
   // STATES
   const [isEdit, setIsEdit] = useState(false);
-  const [isEditAvatar, setIsEditAvatar] = useState(false);
-  const [userInfo, setUserInfo] = useState<IUserInfo>();
+  const [userInfo, setUserInfo] = useState<IUserInfoReponse>();
   const [image, setImage] = useState<string>(STATIC_URLS.NO_AVATAR);
-  const [file, setFile] = useState<File | null>(null);
   const [isUpgraded, setIsUpgraded] = useState<boolean>(false);
   const [upgradeClicked, setUpgradeClicked] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState<boolean>(false);
@@ -38,22 +36,6 @@ export const UserInformation = QueryProvider(() => {
     setIsEdit(!isEdit);
   };
 
-  const handleEditAvatar = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setImage(URL.createObjectURL(e.target.files[0]));
-      setFile(e.target.files[0]);
-      const formData = new FormData();
-      formData.append('image', e.target.files[0]);
-      const imageUrl = await uploadImage(formData);
-      updateAvatarMutation.mutateAsync(imageUrl?.data.data.url!);
-    }
-  };
-
-  // QUERIES AND MUTATIONS
-  const updateAvatarMutation = useMutation<IApiResponse<string>, string>(
-    updateAvatar
-  );
-
   useQuery<IApiResponse<boolean>>(QUERY_KEYS.GET_PRE_UPGRADE, getPreUpgrade, {
     onSuccess: (res) => {
       setIsUpgraded(res.data.data);
@@ -61,7 +43,7 @@ export const UserInformation = QueryProvider(() => {
     refetchOnWindowFocus: false,
   });
 
-  const getUserQuery = useQuery<IApiResponse<IUserInfo>>(
+  const getUserQuery = useQuery<IApiResponse<IUserInfoReponse>>(
     [QUERY_KEYS.GET_CURRENT_USER],
     getUserInfo,
     {
@@ -80,97 +62,24 @@ export const UserInformation = QueryProvider(() => {
       {!getUserQuery.isLoading && userInfo && (
         <div className="container max-w-3xl p-5 mx-auto shadow-2xl rounded-2xl mt-36">
           <div className="flex relative -mb-10">
-            <div
-              className="relative h-52 w-52 bottom-20"
-              onMouseEnter={() => setIsEditAvatar(true)}
-              onMouseLeave={() => setIsEditAvatar(false)}
-            >
-              <Image
-                src={image}
-                alt="Picture of the author"
-                fill // required
-                objectFit="cover" // change to suit your needs
-                className="rounded-full"
-                quality={50}
-              />
-
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                {isEditAvatar && (
-                  <div className="flex items-center justify-center w-32 bg-gray-50 rounded-lg">
-                    <label
-                      htmlFor="dropzone-file"
-                      className="flex flex-col w-full bg-gray-50 items-center justify-center h-8 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer  hover:bg-gray-100"
-                    >
-                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                        <p className=" text-sm text-gray-500 ">
-                          <span className="font-semibold">Chỉnh sửa</span>
-                        </p>
-                      </div>
-                      <input
-                        id="dropzone-file"
-                        multiple
-                        type="file"
-                        accept="image/png, image/jpeg, image/jpg"
-                        className="hidden"
-                        onChange={handleEditAvatar}
-                      />
-                    </label>
-                  </div>
-                )}
-              </div>
-            </div>
-            <div>
-              <h1 className="font-bold text-5xl ml-5">
-                {userInfo &&
-                  userInfo.attributes.firstName +
-                    ' ' +
-                    userInfo.attributes.lastName}
-              </h1>
-              <div className=" ml-5 mt-4 ">
-                {userInfo?.role === USER_ROLE.ORGANIZATION && (
-                  <div className="bg-green-600 w-fit rounded-full p-2">
-                    <RiVerifiedBadgeFill size={30} color="white" />
-                  </div>
-                )}
-                {userInfo?.role === USER_ROLE.SYSTEM_ADMIN && (
-                  <div className="bg-blue-600 w-fit rounded-full p-2">
-                    <RiAdminFill size={30} color="white" />
-                  </div>
-                )}
-              </div>
-            </div>
-
+            <AvatarBlock image={image} setImage={(url: string) => setImage(url)} />
+            <NameRoleBlock name={'temp'} role={userInfo.role} />
             <button onClick={handleEdit}>
               <FaRegEdit className="text-2xl absolute bottom-15 right-0 md:right-10" />
             </button>
           </div>
 
-          <div className="md:px-10">
-            <div className="flex mb-2">
-              <div className="block text-gray-700 text-lg font-bold">
-                Email:
-              </div>
-              <div className="text-lg ml-2">
-                {userInfo?.email ? userInfo?.email : 'Chưa rõ'}
-              </div>
-            </div>
-            <div className="flex mb-2">
-              <div className="block text-gray-700 text-lg font-bold">
-                Số điện thoại:
-              </div>
-              <div className="text-lg ml-2">
-                {userInfo?.phone ? userInfo?.phone : 'Chưa rõ'}
-              </div>
-            </div>
-            <div className="flex">
-              <div className="block text-gray-700 text-lg font-bold">
-                Địa chỉ:
-              </div>
-              <div className="text-lg ml-2">
-                {userInfo?.address ? userInfo?.address : 'Chưa rõ'}
-              </div>
-            </div>
-          </div>
+          <BasicInfoBlock email={userInfo.email} phone={userInfo.phone} address={userInfo.address} />
+
+          <OrganizationInfoBlock
+            entityName={userInfo.attributes.entityName}
+            type={userInfo.attributes.type}
+            description={userInfo.attributes.description}
+            taxCode={userInfo.attributes.taxCode}
+            website={userInfo.attributes.website}
+            show={userInfo.role === USER_ROLE.ORGANIZATION}
+          />
+
           <div className="mt-5 flex justify-end gap-3">
             {userInfo.role === 0 && (
               <div>
@@ -187,31 +96,19 @@ export const UserInformation = QueryProvider(() => {
                 >
                   Trở thành cộng tác viên
                 </button>
-                <Popup
-                  modal
-                  open={upgradeClicked}
-                  overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
-                >
+                <Popup modal open={upgradeClicked} overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}>
                   <UserUpgradeForm />
                 </Popup>
               </div>
             )}
-            <Link
-              href={'user/change-password'}
+            <Link href={'user/change-password'}
               className="w-fit text-black border border-black bg-yellow-300 hover:bg-yellow-400 focus:ring-4 focus:outline-none
                         focus:ring-primary-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center"
-            >
-              Cập nhật mật khẩu
-            </Link>
+            >Cập nhật mật khẩu</Link>
           </div>
-          {userInfo && (
-            <UserUpdateForm
-              userInfo={userInfo!}
-              isEdit={isEdit}
-              image={file}
-              setUserInfo={setUserInfo}
-            />
-          )}
+
+          <UserUpdateForm userInfo={userInfo!} show={isEdit} />
+
         </div>
       )}
       <TabbedTable userInfo={userInfo} />
