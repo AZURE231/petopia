@@ -1,6 +1,7 @@
 import { IPetFilter, IPetFilterRequest } from '@/src/interfaces/pet';
 import { PET_SPECIES } from '@/src/utils/constants';
-import { useState } from 'react';
+import { get } from 'http';
+import { use, useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
 interface IPetFilterCard {
@@ -80,6 +81,11 @@ export const PetFilterCard = (props: IPetFilterCard) => {
     }
   };
 
+  const checkChecked = (filter: IPetFilter, value: number | string) => {
+    let values = getValues(filter.labelGetValues) as any[] | undefined;
+    return values !== undefined && values.includes(value);
+  };
+
   return (
     <div
       key={filter.id}
@@ -137,6 +143,7 @@ export const PetFilterCard = (props: IPetFilterCard) => {
                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                   onClick={() => handleClickFilter(filter.id, item.value)}
                   disabled={disabled}
+                  checked={checkChecked(filter, item.value)}
                 />
                 <label
                   htmlFor={`filter-${filter.label}-${item.id}`}

@@ -3,7 +3,7 @@ import { IPetFilter, IPetFilterRequest } from '@/src/interfaces/pet';
 import { getAvailableBreeds } from '@/src/services/pet.api';
 import { PET_FILTERS, PET_SPECIES, QUERY_KEYS } from '@/src/utils/constants';
 import { useQuery } from '@/src/utils/hooks';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { PetFilterCard } from './PetFilterCard';
 
@@ -51,11 +51,17 @@ export const PetFilterBar = (props: IFilterBar) => {
           id: PET_FILTERS.length + 10,
           items: filterItems,
           label: 'Giống',
+          labelGetValues: 'breed',
         });
       },
       enabled: species !== undefined,
     }
   );
+
+  useEffect(() => {
+    let speciesList = filterForm.watch('species');
+    speciesList && handleSetSpecies(speciesList);
+  }, [filterForm.watch('species')]);
 
   return (
     <form className="hidden lg:block">

@@ -1,6 +1,6 @@
 import { IPetFilter, IPetFilterRequest } from '@/src/interfaces/pet';
 import { useRef, useState, useEffect } from 'react';
-import { UseFormReturn } from 'react-hook-form';
+import { UseFormReturn, set } from 'react-hook-form';
 import { PET_FILTERS, PET_SPECIES, QUERY_KEYS } from '@/src/utils/constants';
 import { useClickOutside, useQuery } from '@/src/utils/hooks';
 import { PetFilterCard } from './PetFilterCard';
@@ -18,13 +18,11 @@ export function PetFilterBarMobile({
   filterForm: UseFormReturn<IPetFilterRequest, any, undefined>;
   disable: boolean;
 }) {
-  const { getValues } = filterForm;
   const [species, setSpecies] = useState<PET_SPECIES>();
   const [breedFilter, setBreedFilter] = useState<IPetFilter>();
 
   // HANDLERS
   const handleSetSpecies = (speciesList: PET_SPECIES[]) => {
-    if (!speciesList) return;
     if (speciesList.length == 1 && speciesList.includes(PET_SPECIES.DOG)) {
       setSpecies(PET_SPECIES.DOG);
       return;
@@ -61,11 +59,17 @@ export function PetFilterBarMobile({
           id: PET_FILTERS.length + 1,
           items: filterItems,
           label: 'Giống',
+          labelGetValues: 'breed',
         });
       },
       enabled: species !== undefined,
     }
   );
+
+  useEffect(() => {
+    let speciesList = filterForm.watch('species');
+    speciesList && handleSetSpecies(speciesList);
+  }, [filterForm.watch('species')]);
 
   if (!showFilterMobile) return null;
   return (
