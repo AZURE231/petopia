@@ -41,8 +41,8 @@ export const AvatarBlock = (props: IAvatarBlock) => {
       <Image
         src={image}
         alt="Picture of the author"
-        fill // required
-        objectFit="cover" // change to suit your needs
+        fill
+        objectFit="cover"
         className="rounded-full"
         quality={50}
       />

@@ -9,7 +9,7 @@ import { useMutation, useQuery } from '@/src/utils/hooks';
 import React, { useState } from 'react';
 import AddressDropdown from '../user/AddressDropdown';
 import { useForm } from 'react-hook-form';
-import { IUserInfo } from '@/src/interfaces/user';
+import { IUserInfoReponse } from '@/src/interfaces/user';
 import { usePathname } from 'next/navigation';
 import { Alert } from '../general/Alert';
 import { preCheckAdoption, sendAdoptRequest } from '@/src/services/adopt.api';
@@ -24,7 +24,7 @@ export default function PetAdoptForm({ handleClose }: Props) {
   const pathname = usePathname();
 
   // STATES
-  const [userInfo, setUserInfo] = useState<IUserInfo>();
+  const [userInfo, setUserInfo] = useState<IUserInfoReponse>();
   const [alertMessage, setAlertMessage] = useState<string>('');
   const [alertShow, setAlertShow] = useState<boolean>(false);
   const [alertFail, setAlertFail] = useState<boolean>(false);
@@ -67,7 +67,7 @@ export default function PetAdoptForm({ handleClose }: Props) {
   );
 
   // GET USER INFO AFTER PRE CHECK SUCCESSFULLY
-  useQuery<IApiResponse<IUserInfo>>(
+  useQuery<IApiResponse<IUserInfoReponse>>(
     [QUERY_KEYS.GET_USER_INFO_FOR_ADOPTION],
     getUserInfo,
     {
@@ -85,7 +85,7 @@ export default function PetAdoptForm({ handleClose }: Props) {
   );
 
   const sendAdoptRequestMutation = useMutation<
-    IApiResponse<IUserInfo>,
+    IApiResponse<IUserInfoReponse>,
     IAdoptPetRequest
   >(sendAdoptRequest, {
     onError: () => {

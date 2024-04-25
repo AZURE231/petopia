@@ -6,10 +6,8 @@ export interface IIndividualAttributes {
 }
 
 export interface IOrganizationAttributes {
-  entityName: string,
   type: ORG_TYPE,
   description: string,
-  taxCode: string,
   website: string,
   organizationName: string,
 }
@@ -46,6 +44,9 @@ export interface IUserUpdate {
   districtCode: string;
   wardCode: string;
   street: string;
+
+  website: string;
+  description: string;
 }
 
 export interface ICurrentUserCoreResponse {

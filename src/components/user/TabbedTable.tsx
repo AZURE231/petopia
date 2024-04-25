@@ -2,7 +2,7 @@ import { MdPets } from 'react-icons/md';
 import { RiUserReceived2Fill } from 'react-icons/ri';
 import { GrSend } from 'react-icons/gr';
 import { useState } from 'react';
-import { IUserInfo } from '@/src/interfaces/user';
+import { IUserInfoReponse } from '@/src/interfaces/user';
 import { PetCard } from '../search/PetCard';
 import AdoptionCard from '../adopt/AdoptionCard';
 import { IPetResponse } from '@/src/interfaces/pet';
@@ -15,7 +15,7 @@ import Pagination from '../general/Pagination';
 import { countNotify } from '@/src/services/adopt.api';
 import { NotifySortBlock } from '../adopt/NotifySortBlock';
 
-export default function TabbedTable({ userInfo }: { userInfo?: IUserInfo }) {
+export default function TabbedTable({ userInfo }: { userInfo?: IUserInfoReponse }) {
   // CONSTANTS
   const activeTab =
     'inline-flex items-center justify-center p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active';
@@ -55,6 +55,7 @@ export default function TabbedTable({ userInfo }: { userInfo?: IUserInfo }) {
       refetchOnWindowFocus: false,
     }
   );
+
   const getPetsQuery = useQuery<IApiResponse<IPetResponse[]>>(
     [QUERY_KEYS.GET_PETS, userInfo, paginationForm.watch('pageIndex')],
     () =>

@@ -29,6 +29,8 @@ export default function UserUpdateForm({
       districtCode: userInfo?.districtCode,
       lastName: userInfo?.attributes.lastName || '',
       firstName: userInfo?.attributes.lastName || '',
+      website: userInfo?.attributes.website || '',
+      description: userInfo?.attributes.description || '',
       wardCode: userInfo?.wardCode,
       street: userInfo?.street,
     },
@@ -63,7 +65,8 @@ export default function UserUpdateForm({
         <form className="md:px-10" onSubmit={handleSubmit}>
           <div className="flex flex-col py-2">
             {
-              userInfo.role !== USER_ROLE.ORGANIZATION && <div className="flex flex-row gap-3">
+              userInfo.role !== USER_ROLE.ORGANIZATION &&
+              <div className="flex flex-row gap-3">
                 <div className="mb-4 w-full">
                   <label
                     className="block text-gray-700 text-lg font-bold mb-2"
@@ -95,6 +98,45 @@ export default function UserUpdateForm({
                   />
                 </div>
               </div>
+            }
+            {
+              userInfo.role === USER_ROLE.ORGANIZATION &&
+              <>
+                <div className="flex flex-row gap-3">
+                  <div className="mb-4 w-full">
+                    <label
+                      className="block text-gray-700 text-lg font-bold mb-2"
+                      htmlFor="website"
+                    >
+                      Website
+                    </label>
+                    <input
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      id="website"
+                      type="text"
+                      onChange={(e) => setValue('website', e.target.value)}
+                      value={watch('website')}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-row gap-3">
+                  <div className="mb-4 w-full">
+                    <label
+                      className="block text-gray-700 text-lg font-bold mb-2"
+                      htmlFor="description"
+                    >
+                      Mô tả
+                    </label>
+                    <input
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      id="description"
+                      type="text"
+                      onChange={(e) => setValue('description', e.target.value)}
+                      value={watch('description')}
+                    />
+                  </div>
+                </div>
+              </>
             }
             <div className="flex flex-row gap-3">
               <div className="mb-4 w-full">
@@ -140,8 +182,7 @@ export default function UserUpdateForm({
           <div className="flex justify-center mt-5">
             <button
               type="submit"
-              className="w-fit text-black bg-yellow-300 hover:bg-primary-700 focus:ring-4 focus:outline-none
-                        focus:ring-primary-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center"
+              className="w-fit text-black border border-black bg-yellow-300 hover:bg-primary-700 font-medium rounded-lg text-lg px-5 py-2.5 text-center"
             >
               Xác nhận
               <span className="pl-2">
