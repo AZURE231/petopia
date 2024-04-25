@@ -6,10 +6,7 @@ import { IApiResponse } from '../../interfaces/common';
 import { QUERY_KEYS, STATIC_URLS, USER_ROLE } from '../../utils/constants';
 import { QueryProvider } from '../general/QueryProvider';
 import UserUpdateForm from './UserUpdateForm';
-import {
-  getPreUpgrade,
-  getUserInfo,
-} from '@/src/services/user.api';
+import { getPreUpgrade, getUserInfo } from '@/src/services/user.api';
 import Link from 'next/link';
 import UserSkeleton from '../general/UserSkeleton';
 import TabbedTable from './TabbedTable';
@@ -62,14 +59,25 @@ export const UserInformation = QueryProvider(() => {
       {!getUserQuery.isLoading && userInfo && (
         <div className="container max-w-3xl p-5 mx-auto shadow-2xl rounded-2xl mt-36">
           <div className="flex relative -mb-10">
-            <AvatarBlock image={image} setImage={(url: string) => setImage(url)} />
-            <NameRoleBlock name={'temp'} role={userInfo.role} />
+            <AvatarBlock
+              image={image}
+              setImage={(url: string) => setImage(url)}
+            />
+            <NameRoleBlock
+              name={'temp'}
+              role={userInfo.role}
+              type={userInfo.attributes.type}
+            />
             <button onClick={handleEdit}>
               <FaRegEdit className="text-2xl absolute bottom-15 right-0 md:right-10" />
             </button>
           </div>
 
-          <BasicInfoBlock email={userInfo.email} phone={userInfo.phone} address={userInfo.address} />
+          <BasicInfoBlock
+            email={userInfo.email}
+            phone={userInfo.phone}
+            address={userInfo.address}
+          />
 
           <OrganizationInfoBlock
             entityName={userInfo.attributes.entityName}
@@ -96,19 +104,25 @@ export const UserInformation = QueryProvider(() => {
                 >
                   Trở thành cộng tác viên
                 </button>
-                <Popup modal open={upgradeClicked} overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}>
+                <Popup
+                  modal
+                  open={upgradeClicked}
+                  overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
+                >
                   <UserUpgradeForm />
                 </Popup>
               </div>
             )}
-            <Link href={'user/change-password'}
+            <Link
+              href={'user/change-password'}
               className="w-fit text-black border border-black bg-yellow-300 hover:bg-yellow-400 focus:ring-4 focus:outline-none
                         focus:ring-primary-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center"
-            >Cập nhật mật khẩu</Link>
+            >
+              Cập nhật mật khẩu
+            </Link>
           </div>
 
           <UserUpdateForm userInfo={userInfo!} show={isEdit} />
-
         </div>
       )}
       <TabbedTable userInfo={userInfo} />
