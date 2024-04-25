@@ -74,6 +74,7 @@ export const NotifySortBlock = ({
       </div>
 
       <motion.div
+        initial={false}
         animate={showSort ? 'open' : 'closed'}
         variants={sortVariants}
         className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
