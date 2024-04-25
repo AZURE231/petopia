@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 import { Dispatch, SetStateAction, useRef, useState } from 'react';
 
 interface ISortBlock {
-  orderBy: 'newest' | 'popular',
-  setOrderBy: Dispatch<SetStateAction<'newest' | 'popular'>>,
-  disable: boolean,
+  orderBy: 'newest' | 'popular';
+  setOrderBy: Dispatch<SetStateAction<'newest' | 'popular'>>;
+  disable: boolean;
 }
 
 export const PetSortBlock = (props: ISortBlock) => {
@@ -16,8 +16,8 @@ export const PetSortBlock = (props: ISortBlock) => {
   const listRef = useRef<HTMLDivElement>(null);
 
   const sortVariants = {
-    open: { opacity: 1, height: 'auto', transition: { duration: 0.2 } },
     closed: { opacity: 0, height: 0, transition: { duration: 0.2 } },
+    open: { opacity: 1, height: 'auto', transition: { duration: 0.2 } },
   };
 
   const getSortLabel = (orderBy: 'newest' | 'popular') => {
@@ -57,6 +57,7 @@ export const PetSortBlock = (props: ISortBlock) => {
       </div>
 
       <motion.div
+        initial={false}
         animate={showSort ? 'open' : 'closed'}
         variants={sortVariants}
         className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
@@ -65,11 +66,7 @@ export const PetSortBlock = (props: ISortBlock) => {
         aria-labelledby="menu-button"
         tabIndex={-1}
       >
-        <div
-          className="py-1"
-          role="none"
-          ref={listRef}
-        >
+        <div className="py-1" role="none" ref={listRef}>
           <div
             className="font-medium text-gray-900 block px-4 py-2 text-sm cursor-pointer"
             onClick={() => handleOnClickSort('newest')}
