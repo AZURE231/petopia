@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div>
       {/* Hero */}
-      <div className="flex flex-col md:flex-row">
+      <div className="flex flex-col md:flex-row bg-red-600">
         <div className="basis-2/5 relative">
           <div className="bg-yellow-300 rounded-full">
             <Image
@@ -24,7 +24,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="basis-3/5 p-20 space-y-5 my-auto">
+        <div className="basis-3/5 p-5 md:p-20 space-y-5 my-auto">
           <div className="text-6xl sm:text-8xl  bg-white flex flex-col items-center justify-center">
             <div>
               Tìm <span className="text-yellow-300 uppercase">Boss</span>
@@ -46,11 +46,10 @@ export default function Home() {
       </div>
       {/* Introduction */}
       <div
-        className="bg-cover bg-center bg-no-repeat p-20 space-y-5"
+        className="bg-cover bg-right bg-no-repeat p-5 md:p-20 space-y-5 "
         style={{
           backgroundImage: `url("${STATIC_URLS.CAT_INTRO}")`,
           height: '600px',
-          objectFit: 'cover',
         }}
       >
         <div className="text-4xl sm:text-5xl md:text-6xl ">
@@ -59,7 +58,7 @@ export default function Home() {
             trở thành <span className="text-yellow-300">yêu thương</span>
           </div>
         </div>
-        <div className="max-w-xl lg:max-w-3xl">
+        <div className="text-sm max-w-lg lg:max-w-3xl">
           Tại Petopia chúng tôi đặt tâm huyết vào việc tạo ra một môi trường an
           lành và yêu thú cưng cho các bạn động vật bị hoàn cảnh khó khăn. Chúng
           tôi tin rằng mỗi con thú cưng xứng đáng có một gia đình yêu thương và
@@ -68,48 +67,58 @@ export default function Home() {
       </div>
 
       {/* Service */}
-      <div className="flex flex-col items-center justify-center bg-orange-50 py-5">
-        <div className="text-4xl my-5">Các dịch vụ của chúng tôi</div>
+      <div className="flex flex-col items-center justify-center bg-orange-50 py-5 p-5">
+        <div className="text-2xl md:text-4xl my-5 font-bold">
+          Các dịch vụ của chúng tôi
+        </div>
         <div className="flex space-x-10">
-          <div className="flex flex-col justify-center items-center space-y-3">
-            <div className="bg-white rounded-full h-36 w-36 flex items-center justify-center shadow-lg">
+          <div className="flex flex-col justify-center items-center">
+            <div className="bg-white relative rounded-full h-16 w-16 md:h-36 md:w-36 flex items-center justify-center shadow-lg">
               <Image
                 src={STATIC_URLS.ADOPT}
                 alt="adopt pet"
-                height={144}
-                width={144}
+                fill
+                className="rounded-full object-cover"
               ></Image>
             </div>
-            <div>Cho thú cưng</div>
+            <div className="font-medium flex items-center justify-center w-full bg-green-500">
+              Cho thú cưng
+            </div>
           </div>
-          <div className="flex flex-col justify-center items-center space-y-3">
-            <div className="flex bg-white rounded-full h-36 w-36 items-center justify-center shadow-lg">
+          <div className="flex flex-col justify-center items-center">
+            <div className="bg-white relative rounded-full h-16 w-16 md:h-36 md:w-36 flex items-center justify-center shadow-lg">
               <Image
                 src={STATIC_URLS.RECEIVE}
                 alt="adopt pet"
-                height={128}
-                width={128}
+                fill
+                className="rounded-full object-cover"
               ></Image>
             </div>
-            <div>Nhận nuôi</div>
+            <div className="font-medium flex items-center justify-center w-full bg-green-500">
+              Nhận nuôi
+            </div>
           </div>
-          <div className="flex flex-col justify-center items-center space-y-3">
-            <div className="bg-white rounded-full h-36 w-36 flex items-center justify-center shadow-lg">
+          <div className="flex flex-col justify-center items-center">
+            <div className="bg-white relative rounded-full h-16 w-16 md:h-36 md:w-36 flex items-center justify-center shadow-lg">
               <Image
                 src={STATIC_URLS.BLOG}
                 alt="adopt pet"
-                height={128}
-                width={128}
+                fill
+                className="rounded-full object-cover"
               ></Image>
             </div>
-            <div>Chia sẻ kiến thức</div>
+            <div className="font-medium flex items-center justify-center w-full bg-green-500">
+              Chia sẽ kiến thức
+            </div>
           </div>
         </div>
       </div>
 
       {/* Adopt step */}
       <div className="flex flex-col items-center justify-center p-4">
-        <div className="text-4xl my-5">Quy trình nhận nuôi</div>
+        <div className="text-2xl md:text-4xl my-5 font-bold">
+          Quy trình nhận nuôi
+        </div>
         <div className="flex space-x-10">
           <div className="flex flex-col justify-center items-center">
             <Image
