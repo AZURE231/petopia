@@ -39,11 +39,11 @@ export const UserInformation = QueryProvider(() => {
   useEffect(() => {
     if (userInfo?.role === USER_ROLE.ORGANIZATION) {
       setUserName(userInfo.attributes.organizationName);
-    }
-    else {
-      userInfo && setUserName(
-        userInfo.attributes.firstName + ' ' + userInfo.attributes.lastName
-      );
+    } else {
+      userInfo &&
+        setUserName(
+          userInfo.attributes.firstName + ' ' + userInfo.attributes.lastName
+        );
     }
   }, [userInfo]);
 
@@ -79,7 +79,8 @@ export const UserInformation = QueryProvider(() => {
 
           <ActionsBlock
             showUpgrade={userInfo.role === USER_ROLE.STANDARD_USER}
-            setShowEdit={setShowEdit} />
+            setShowEdit={setShowEdit}
+          />
 
           <UserUpdateForm userInfo={userInfo!} show={showEdit} />
         </div>
