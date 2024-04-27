@@ -6,8 +6,8 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 interface IAvatarBlock {
-  image: string,
-  setImage: (url: string) => void,
+  image: string;
+  setImage: (url: string) => void;
 }
 
 export const AvatarBlock = (props: IAvatarBlock) => {
