@@ -16,19 +16,28 @@ export interface IPetFilterItem {
 export interface IPetFilter {
   id: number;
   label: string;
+  labelGetValues: // | 'text'
+  | 'species'
+    | 'sex'
+    | 'color'
+    | 'breed'
+    | 'size'
+    | 'age'
+    | 'isVaccinated'
+    | 'isSterillized';
   items: IPetFilterItem[];
 }
 
 export interface IPetSelect extends IPetFilter {
   kind:
-  | 'breed'
-  | 'species'
-  | 'sex'
-  | 'age'
-  | 'color'
-  | 'size'
-  | 'isVaccinated'
-  | 'isSterillized';
+    | 'breed'
+    | 'species'
+    | 'sex'
+    | 'age'
+    | 'color'
+    | 'size'
+    | 'isVaccinated'
+    | 'isSterillized';
 }
 
 export interface IPetFilterRequest {
@@ -119,4 +128,4 @@ export interface ICreatePetResponse {
   id: string;
 }
 
-export interface IUpdatePeResponse extends ICreatePetResponse { }
+export interface IUpdatePeResponse extends ICreatePetResponse {}

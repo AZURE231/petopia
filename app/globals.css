@@ -48,6 +48,7 @@ input[type='search']::-webkit-search-results-decoration {
   from {
     background-position: left;
   }
+
   to {
     background-position: right;
   }

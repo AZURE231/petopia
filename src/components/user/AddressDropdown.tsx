@@ -14,12 +14,12 @@ enum LOCATION_LEVEL {
 }
 
 interface IAddressDropdown {
-  districtCode: string,
-  provinceCode: string,
-  wardCode: string,
-  setProvinceCode: (code: string) => void,
-  setDistrictCode: (code: string) => void,
-  setWardCode: (code: string) => void,
+  districtCode: string;
+  provinceCode: string;
+  wardCode: string;
+  setProvinceCode: (code: string) => void;
+  setDistrictCode: (code: string) => void;
+  setWardCode: (code: string) => void;
 }
 
 export default function AddressDropdown({
@@ -41,13 +41,20 @@ export default function AddressDropdown({
   const handleProvinceChange = (code: string) => {
     locationForm.setValue('Code', code);
     locationForm.setValue('Level', LOCATION_LEVEL.DISTRICT);
-    code != provinceCode && setProvinceCode(code);
+    if (code != provinceCode) {
+      setProvinceCode(code);
+      setDistrictCode('');
+      setWardCode('');
+    }
   };
 
   const handleDistrictChange = (code: string) => {
     locationForm.setValue('Code', code);
     locationForm.setValue('Level', LOCATION_LEVEL.WARD);
-    code != districtCode && setDistrictCode(code);
+    if (code != districtCode) {
+      setDistrictCode(code);
+      setWardCode('');
+    }
   };
 
   const handleWardChange = (code: string) => {
@@ -63,11 +70,9 @@ export default function AddressDropdown({
     () => getProvince(locationForm.getValues()),
     {
       onSuccess: (res) => {
-        // console.log(locationForm.getValues('Level'));
         if (locationForm.getValues('Level') === 1) {
           setProvinces(res.data.data);
         } else if (locationForm.getValues('Level') === 2) {
-          setWards([]);
           setDistricts(res.data.data);
         } else setWards(res.data.data);
       },
@@ -84,15 +89,17 @@ export default function AddressDropdown({
         >
           Tỉnh thành
         </label>
-        <AddressInput
-          options={provinces!}
-          onChange={handleProvinceChange}
-          title="Chọn Tỉnh/Thành phố"
-          value={provinceCode}
-          level={LOCATION_LEVEL.PROVINCE}
-          isLocationLoading={locationQuery.isFetching}
-          currentLevel={locationForm.watch('Level')}
-        />
+        {provinces && (
+          <AddressInput
+            options={provinces}
+            onChange={handleProvinceChange}
+            title="Chọn Tỉnh/Thành phố"
+            value={provinceCode}
+            level={LOCATION_LEVEL.PROVINCE}
+            isLocationLoading={locationQuery.isFetching}
+            currentLevel={locationForm.watch('Level')}
+          />
+        )}
       </div>
       <div>
         <label
@@ -101,15 +108,17 @@ export default function AddressDropdown({
         >
           Quận huyện
         </label>
-        <AddressInput
-          options={districts!}
-          onChange={handleDistrictChange}
-          title="Chọn Quận/huyện"
-          value={districtCode}
-          level={LOCATION_LEVEL.DISTRICT}
-          isLocationLoading={locationQuery.isFetching}
-          currentLevel={locationForm.watch('Level')}
-        />
+        {districts && (
+          <AddressInput
+            options={districts}
+            onChange={handleDistrictChange}
+            title="Chọn Quận/huyện"
+            value={districtCode}
+            level={LOCATION_LEVEL.DISTRICT}
+            isLocationLoading={locationQuery.isFetching}
+            currentLevel={locationForm.watch('Level')}
+          />
+        )}
       </div>
       <div>
         <label
@@ -118,15 +127,17 @@ export default function AddressDropdown({
         >
           Phường xã
         </label>
-        <AddressInput
-          options={wards!}
-          onChange={handleWardChange}
-          title="Chọn xã/phường"
-          value={wardCode}
-          level={LOCATION_LEVEL.WARD}
-          isLocationLoading={locationQuery.isFetching}
-          currentLevel={locationForm.watch('Level')}
-        />
+        {wards && (
+          <AddressInput
+            options={wards}
+            onChange={handleWardChange}
+            title="Chọn xã/phường"
+            value={wardCode}
+            level={LOCATION_LEVEL.WARD}
+            isLocationLoading={locationQuery.isFetching}
+            currentLevel={locationForm.watch('Level')}
+          />
+        )}
       </div>
     </div>
   );

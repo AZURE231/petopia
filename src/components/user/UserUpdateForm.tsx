@@ -1,41 +1,43 @@
 import AddressDropdown from './AddressDropdown';
-import { IUserInfo, IUserUpdate } from '../../interfaces/user';
+import { IIndividualAttributes, IUserInfoReponse, IUserUpdate } from '../../interfaces/user';
 import { useForm } from 'react-hook-form';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useMutation } from '../../utils/hooks';
 import { IApiResponse } from '../../interfaces/common';
 import { updateUser } from '../../services/user.api';
 import { Alert } from '../general/Alert';
 import { ClipLoader } from 'react-spinners';
+import { USER_ROLE } from '@/src/utils/constants';
 
 export default function UserUpdateForm({
   userInfo,
-  isEdit,
-  image,
-  setUserInfo,
+  show,
 }: {
-  userInfo: IUserInfo;
-  isEdit: boolean;
-  image: File | null;
-  setUserInfo: (userInfo: IUserInfo) => void;
+  userInfo: IUserInfoReponse;
+  show: boolean;
 }) {
+  // STATES
   const [alertMessage, setAlertMessage] = useState<string>('');
   const [alertShow, setAlertShow] = useState<boolean>(false);
   const [alertFail, setAlertFail] = useState<boolean>(false);
 
+  // FORMS
   const { getValues, setValue, watch } = useForm<IUserUpdate>({
     defaultValues: {
       phone: userInfo?.phone,
-      firstName: userInfo?.attributes.firstName,
-      lastName: userInfo?.attributes.lastName,
       provinceCode: userInfo?.provinceCode,
       districtCode: userInfo?.districtCode,
+      lastName: userInfo?.attributes.lastName || '',
+      firstName: userInfo?.attributes.lastName || '',
+      website: userInfo?.attributes.website || '',
+      description: userInfo?.attributes.description || '',
       wardCode: userInfo?.wardCode,
       street: userInfo?.street,
     },
   });
 
-  const updateUserMutation = useMutation<IApiResponse<IUserInfo>, IUserUpdate>(
+  // QUERIES
+  const updateUserMutation = useMutation<IApiResponse<IUserInfoReponse>, IUserUpdate>(
     updateUser,
     {
       onError: (err) => {
@@ -51,48 +53,91 @@ export default function UserUpdateForm({
     }
   );
 
+  // HANDLERS
   const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     updateUserMutation.mutate(getValues());
   };
 
   return (
-    <div>
-      {isEdit && (
+    <>
+      {show && (
         <form className="md:px-10" onSubmit={handleSubmit}>
           <div className="flex flex-col py-2">
-            <div className="flex flex-row gap-3">
-              <div className="mb-4 w-full">
-                <label
-                  className="block text-gray-700 text-lg font-bold mb-2"
-                  htmlFor="firstName"
-                >
-                  Tên
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="firstName"
-                  type="text"
-                  onChange={(e) => setValue('firstName', e.target.value)}
-                  value={watch('firstName')}
-                />
+            {
+              userInfo.role !== USER_ROLE.ORGANIZATION &&
+              <div className="flex flex-row gap-3">
+                <div className="mb-4 w-full">
+                  <label
+                    className="block text-gray-700 text-lg font-bold mb-2"
+                    htmlFor="firstName"
+                  >
+                    Tên
+                  </label>
+                  <input
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="firstName"
+                    type="text"
+                    onChange={(e) => setValue('firstName', e.target.value)}
+                    value={watch('firstName')}
+                  />
+                </div>
+                <div className="mb-4 w-full">
+                  <label
+                    className="block text-gray-700 text-lg font-bold mb-2"
+                    htmlFor="lastName"
+                  >
+                    Họ
+                  </label>
+                  <input
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="lastName"
+                    type="text"
+                    onChange={(e) => setValue('lastName', e.target.value)}
+                    value={watch('lastName')}
+                  />
+                </div>
               </div>
-              <div className="mb-4 w-full">
-                <label
-                  className="block text-gray-700 text-lg font-bold mb-2"
-                  htmlFor="lastName"
-                >
-                  Họ
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="lastName"
-                  type="text"
-                  onChange={(e) => setValue('lastName', e.target.value)}
-                  value={watch('lastName')}
-                />
-              </div>
-            </div>
+            }
+            {
+              userInfo.role === USER_ROLE.ORGANIZATION &&
+              <>
+                <div className="flex flex-row gap-3">
+                  <div className="mb-4 w-full">
+                    <label
+                      className="block text-gray-700 text-lg font-bold mb-2"
+                      htmlFor="website"
+                    >
+                      Website
+                    </label>
+                    <input
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      id="website"
+                      type="text"
+                      onChange={(e) => setValue('website', e.target.value)}
+                      value={watch('website')}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-row gap-3">
+                  <div className="mb-4 w-full">
+                    <label
+                      className="block text-gray-700 text-lg font-bold mb-2"
+                      htmlFor="description"
+                    >
+                      Mô tả
+                    </label>
+                    <input
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      id="description"
+                      type="text"
+                      onChange={(e) => setValue('description', e.target.value)}
+                      value={watch('description')}
+                    />
+                  </div>
+                </div>
+              </>
+            }
             <div className="flex flex-row gap-3">
               <div className="mb-4 w-full">
                 <label
@@ -137,8 +182,7 @@ export default function UserUpdateForm({
           <div className="flex justify-center mt-5">
             <button
               type="submit"
-              className="w-fit text-black bg-yellow-300 hover:bg-primary-700 focus:ring-4 focus:outline-none
-                        focus:ring-primary-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center"
+              className="w-fit text-black border border-black bg-yellow-300 hover:bg-primary-700 font-medium rounded-lg text-lg px-5 py-2.5 text-center"
             >
               Xác nhận
               <span className="pl-2">
@@ -160,6 +204,6 @@ export default function UserUpdateForm({
         setShow={setAlertShow}
         failed={alertFail}
       />
-    </div>
+    </>
   );
 }

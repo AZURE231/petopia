@@ -41,7 +41,7 @@ const PetProfileForm = QueryProvider(
         isVaccinated: -1,
         isAvailable: true,
         address: 'chưa điền',
-        breed: 'chưa rõ',
+        breed: 'Chưa rõ',
         files: [],
         images: [],
         showImages: [],
