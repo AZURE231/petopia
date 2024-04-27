@@ -85,7 +85,6 @@ export default function CreatePetPostForm({
     e.preventDefault();
     setIsLoading(true);
     await uploadImage();
-    console.log(createPostForm.getValues());
     createPostPetMutation.mutate(createPostForm.getValues());
   };
 
