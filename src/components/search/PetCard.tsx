@@ -60,7 +60,7 @@ export function PetCard(props: IPetCard) {
                 ></Image>
               ) : null}
             </div>
-            <div className="p-5">
+            <div className="p-2 md:p-5">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
                 <div className="flex flex-row gap-2 items-center">
                   {name}{' '}
@@ -74,13 +74,19 @@ export function PetCard(props: IPetCard) {
                 </div>
               </h5>
               {!simple && (
-                <>
-                  <h4 className="font-bold">{breed}</h4>
-                  <div className="flex flex-row justify-between">
-                    <div>{`Giới tính: ${getPetSexText(sex)}`}</div>
-                    <div>{`Tuổi: ${getPetAgeText(age)}`}</div>
+                <div className="">
+                  <h4 className="font-bold text-md md:text-lg">{breed}</h4>
+                  <div className="flex flex-col text-md md:text-lg">
+                    <div className="text-gray-600">
+                      Giới tính:{' '}
+                      <span className="font-medium">{getPetSexText(sex)}</span>
+                    </div>
+                    <div className="text-gray-600">
+                      Tuổi:{' '}
+                      <span className="font-medium">{getPetAgeText(age)}</span>
+                    </div>
                   </div>
-                </>
+                </div>
               )}
             </div>
           </div>

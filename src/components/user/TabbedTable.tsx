@@ -2,7 +2,7 @@ import { MdPets } from 'react-icons/md';
 import { RiUserReceived2Fill } from 'react-icons/ri';
 import { GrSend } from 'react-icons/gr';
 import { useState } from 'react';
-import { IUserInfo } from '@/src/interfaces/user';
+import { IUserInfoReponse } from '@/src/interfaces/user';
 import { PetCard } from '../search/PetCard';
 import AdoptionCard from '../adopt/AdoptionCard';
 import { IPetResponse } from '@/src/interfaces/pet';
@@ -15,7 +15,11 @@ import Pagination from '../general/Pagination';
 import { countNotify } from '@/src/services/adopt.api';
 import { NotifySortBlock } from '../adopt/NotifySortBlock';
 
-export default function TabbedTable({ userInfo }: { userInfo?: IUserInfo }) {
+export default function TabbedTable({
+  userInfo,
+}: {
+  userInfo?: IUserInfoReponse;
+}) {
   // CONSTANTS
   const activeTab =
     'inline-flex items-center justify-center p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active';
@@ -55,6 +59,7 @@ export default function TabbedTable({ userInfo }: { userInfo?: IUserInfo }) {
       refetchOnWindowFocus: false,
     }
   );
+
   const getPetsQuery = useQuery<IApiResponse<IPetResponse[]>>(
     [QUERY_KEYS.GET_PETS, userInfo, paginationForm.watch('pageIndex')],
     () =>
@@ -78,14 +83,15 @@ export default function TabbedTable({ userInfo }: { userInfo?: IUserInfo }) {
   return (
     <div className="container max-w-3xl p-5 mx-auto shadow-2xl rounded-2xl mt-10">
       <div className="border-b border-gray-200 ">
-        <ul className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 ">
+        <ul className="flex flex-row -mb-px text-sm font-medium text-center text-gray-500 ">
           <li className="me-2">
             <button
               className={`${tab === 0 ? activeTab : inactiveTab}`}
               onClick={() => setTab(0)}
             >
               <MdPets className={`${tab === 0 ? activeIcon : inactiveIcon}`} />
-              Thú cưng của bạn
+              Thú cưng{' '}
+              <span className="hidden md:inline-block ml-1"> Của bạn</span>
             </button>
           </li>
           <li className="me-2">
@@ -94,7 +100,8 @@ export default function TabbedTable({ userInfo }: { userInfo?: IUserInfo }) {
               onClick={() => setTab(1)}
             >
               <GrSend className={`${tab === 1 ? activeIcon : inactiveIcon}`} />
-              Yêu cầu đã gửi
+              <span className="hidden md:inline-block mr-1">Yêu cầu</span> Đã
+              gửi
             </button>
           </li>
           <li className="me-2">
@@ -112,7 +119,8 @@ export default function TabbedTable({ userInfo }: { userInfo?: IUserInfo }) {
                   </span>
                 </div>
               )}
-              Yêu cầu nhận được
+              <span className="hidden md:inline-block mr-1">Yêu cầu</span> Nhận
+              được
             </button>
           </li>
         </ul>

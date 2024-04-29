@@ -57,6 +57,7 @@ export const QUERY_KEYS = {
   GET_PRE_UPGRADE: 'GET_PRE_UPGRADE',
   GET_PET_BREEDS: 'GET_PET_BREEDS',
   GET_PET_POSTS: 'GET_PET_POSTS',
+  GET_BREED_DETAIL: 'GET_BREED_DETAIL',
 };
 
 export const EVENT_NAMES = {
@@ -142,6 +143,7 @@ export enum ORG_TYPE {
 export const PET_SPECIES_FILTER: IPetFilter = {
   id: 1,
   label: 'Loài',
+  labelGetValues: 'species',
   items: [
     {
       id: 1,
@@ -164,6 +166,7 @@ export const PET_SPECIES_FILTER: IPetFilter = {
 export const PET_SEX_FILTER: IPetFilter = {
   id: 2,
   label: 'Giới tính',
+  labelGetValues: 'sex',
   items: [
     {
       id: 1,
@@ -186,6 +189,7 @@ export const PET_SEX_FILTER: IPetFilter = {
 export const PET_COLOR_FILTER: IPetFilter = {
   id: 3,
   label: 'Màu sắc',
+  labelGetValues: 'color',
   items: [
     {
       id: 1,
@@ -223,6 +227,7 @@ export const PET_COLOR_FILTER: IPetFilter = {
 export const PET_SIZE_FILTER: IPetFilter = {
   id: 4,
   label: 'Kích thước',
+  labelGetValues: 'size',
   items: [
     {
       id: 1,
@@ -245,6 +250,7 @@ export const PET_SIZE_FILTER: IPetFilter = {
 export const PET_AGE_FILTER: IPetFilter = {
   id: 5,
   label: 'Độ tuổi',
+  labelGetValues: 'age',
   items: [
     {
       id: 1,
@@ -267,6 +273,7 @@ export const PET_AGE_FILTER: IPetFilter = {
 export const PET_VACCINATED_FILTER: IPetFilter = {
   id: 6,
   label: 'Tiêm chủng',
+  labelGetValues: 'isVaccinated',
   items: [
     {
       id: 1,
@@ -289,6 +296,7 @@ export const PET_VACCINATED_FILTER: IPetFilter = {
 export const PET_STERILIZED_FILTER: IPetFilter = {
   id: 7,
   label: 'Triệt sản',
+  labelGetValues: 'isSterillized',
   items: [
     {
       id: 1,
@@ -308,18 +316,6 @@ export const PET_STERILIZED_FILTER: IPetFilter = {
   ],
 };
 
-export const PET_BREED_FILTER: IPetFilter = {
-  id: 8,
-  label: 'Giống',
-  items: [
-    {
-      id: 1,
-      label: 'Chưa rõ',
-      value: PET_MEDICAL_STATUS.YES,
-    },
-  ],
-};
-
 export const PET_FILTERS: IPetFilter[] = [
   PET_SPECIES_FILTER,
   PET_AGE_FILTER,
@@ -332,7 +328,6 @@ export const PET_FILTERS: IPetFilter[] = [
 
 export const PET_SELECT: IPetSelect[] = [
   { ...PET_SPECIES_FILTER, kind: 'species' },
-  { ...PET_BREED_FILTER, kind: 'breed' },
   { ...PET_SEX_FILTER, kind: 'sex' },
   { ...PET_COLOR_FILTER, kind: 'color' },
   { ...PET_SIZE_FILTER, kind: 'size' },
