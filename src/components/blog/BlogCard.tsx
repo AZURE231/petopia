@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { BLOG_CATEGORIES_OPTION } from '@/src/utils/constants';
 
 const BlogCard = ({
+  id,
   image,
   category,
   title,
@@ -13,6 +14,7 @@ const BlogCard = ({
     <div
       className="blog-card rounded-lg overflow-hidden border border-gray-200 relative"
       style={{ width: '380px', height: '424px' }}
+      key={id}
     >
       {/* Image with rounded corners */}
       <div className="relative">
@@ -22,6 +24,7 @@ const BlogCard = ({
           width={364}
           height={240}
           className="object-cover object-center rounded-t-lg mt-2 ml-2"
+          style={{ objectFit: 'cover', width: '364px', height: '240px' }}
         />
         {/* Category */}
         <div className="bg-yellow-400 text-black text-xs font-bold uppercase px-2 py-1 absolute top-0 left-0 rounded-br-lg">

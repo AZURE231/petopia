@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import BlogSection from '@/src/components/blog/BlogSection';
-import { BLOG_CATEGORIES, STATIC_URLS } from '@/src/utils/constants';
+import { STATIC_URLS } from '@/src/utils/constants';
 
 export default function page() {
   return (
@@ -16,9 +16,7 @@ export default function page() {
           ></Image>
         </div>
         <div className="mt-20">
-          <BlogSection
-            bannerImage={STATIC_URLS.BLOG_BANNER}
-          />
+          <BlogSection props={{ bannerImage: STATIC_URLS.BLOG_BANNER }} />
         </div>
       </div>
     </div>
