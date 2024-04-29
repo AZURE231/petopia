@@ -1,4 +1,4 @@
-import { FileLoader } from "@ckeditor/ckeditor5-upload";
+import { FileLoader } from '@ckeditor/ckeditor5-upload';
 
 class UploadAdapter {
   loader: FileLoader;
@@ -33,17 +33,19 @@ class UploadAdapter {
     const xhr = (this.xhr = new XMLHttpRequest());
 
     xhr.open(
-      "POST",
-      "https://api.imgbb.com/1/upload?key=375280be5017acaf5d4d8561abc4f13b",
+      'POST',
+      'https://api.imgbb.com/1/upload?key=375280be5017acaf5d4d8561abc4f13b',
       true
     );
-    xhr.responseType = "json";
+    xhr.responseType = 'json';
 
     xhr.onload = () => {
       const response = xhr.response;
 
       if (!response || response.error) {
-        reject(response && response.error ? response.error.message : "Upload failed");
+        reject(
+          response && response.error ? response.error.message : 'Upload failed'
+        );
       } else {
         resolve({
           default: response.data.url,
@@ -52,7 +54,7 @@ class UploadAdapter {
     };
 
     xhr.onerror = () => {
-      reject("Upload failed");
+      reject('Upload failed');
     };
   }
 
@@ -65,7 +67,7 @@ class UploadAdapter {
     const loader = this.loader;
 
     if (xhr.upload) {
-      xhr.upload.addEventListener("progress", (evt) => {
+      xhr.upload.addEventListener('progress', (evt) => {
         if (evt.lengthComputable) {
           loader.uploadTotal = evt.total;
           loader.uploaded = evt.loaded;
@@ -79,7 +81,7 @@ class UploadAdapter {
     this.loader.file.then((file: File | null) => {
       if (file) {
         const data = new FormData();
-        data.append("image", file); // Change "upload" to "image"
+        data.append('image', file); // Change "upload" to "image"
 
         this.xhr!.send(data);
       }
@@ -88,7 +90,7 @@ class UploadAdapter {
 }
 
 function uploadAdapter(editor: any) {
-  editor.plugins.get("FileRepository").createUploadAdapter = (loader: any) => {
+  editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
     return new UploadAdapter(loader);
   };
 }
