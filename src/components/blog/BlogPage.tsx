@@ -5,10 +5,9 @@ import { IBlogResponse } from '@/src/interfaces/blog';
 interface Props {
   blogTitle: string;
   htmlContent: string;
-  blogs: IBlogResponse[];
 }
 
-const BlogPage: React.FC<Props> = ({ blogTitle, htmlContent, blogs }) => {
+const BlogPage: React.FC<Props> = ({ blogTitle, htmlContent }) => {
   // Modify only the images within the htmlContent
   const styledHTMLContent = htmlContent.replace(
     /<img/g,
@@ -25,7 +24,7 @@ const BlogPage: React.FC<Props> = ({ blogTitle, htmlContent, blogs }) => {
         className="w-full text-justify mt-10"
         dangerouslySetInnerHTML={{ __html: styledHTMLContent }}
       />
-      <div className="container mx-auto mt-20 text-lg font-bold">
+      {/* <div className="container mx-auto mt-20 text-lg font-bold">
         CÓ THỂ BẠN QUAN TÂM
       </div>
       <div className="flex justify-center mt-10">
@@ -41,7 +40,7 @@ const BlogPage: React.FC<Props> = ({ blogTitle, htmlContent, blogs }) => {
             />
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

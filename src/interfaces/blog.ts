@@ -1,9 +1,19 @@
 export interface IBlogResponse {
   id: string;
-  category: number;
+  userId: string;
   title: string;
   excerpt: string;
   image: string;
+  category: number;
+  content: string;
+}
+
+export interface IBlogCardResponse {
+  id: string;
+  title: string;
+  excerpt: string;
+  image: string;
+  category: number;
 }
 
 export interface IBlog {

@@ -6,20 +6,23 @@ import Pagination from '../general/Pagination';
 import { getBlogs } from '@/src/services/blog.api';
 import { useForm } from 'react-hook-form';
 import { IApiResponse, IPaginationModel } from '@/src/interfaces/common';
-import { BLOG_CATEGORIES_OPTION, PAGE_SIZE, QUERY_KEYS } from '@/src/utils/constants';
+import {
+  BLOG_CATEGORIES_OPTION,
+  PAGE_SIZE,
+  QUERY_KEYS,
+} from '@/src/utils/constants';
 
-import { IBlogResponse } from '@/src/interfaces/blog';
+import { IBlogCardResponse, IBlogResponse } from '@/src/interfaces/blog';
 import { useQuery } from '@/src/utils/hooks';
 import { QueryProvider } from '../general/QueryProvider';
-
 
 interface BlogSectionProps {
   bannerImage: string;
 }
 
-const BlogSection =QueryProvider(({props}:{props:BlogSectionProps})  => {
+const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
-  const [blogs, setBlogs] = useState<IBlogResponse[]>([]);
+  const [blogs, setBlogs] = useState<IBlogCardResponse[]>([]);
 
   const paginationForm = useForm<IPaginationModel>({
     defaultValues: {
@@ -29,12 +32,13 @@ const BlogSection =QueryProvider(({props}:{props:BlogSectionProps})  => {
   });
 
   const getBlogsQuery = useQuery<IApiResponse<IBlogResponse[]>>(
-    [QUERY_KEYS.GET_BLOGS,],
-    () => getBlogs({
-      pageIndex: paginationForm.getValues('pageIndex'),
-      pageSize: PAGE_SIZE,
-      filter: selectedCategory,
-    }),
+    [QUERY_KEYS.GET_BLOGS],
+    () =>
+      getBlogs({
+        pageIndex: paginationForm.getValues('pageIndex'),
+        pageSize: PAGE_SIZE,
+        filter: selectedCategory,
+      }),
     {
       onSuccess: (res) => {
         const { data, pageNumber } = res.data;
@@ -66,7 +70,12 @@ const BlogSection =QueryProvider(({props}:{props:BlogSectionProps})  => {
 
       {/* Banner */}
       <div className="flex items-center justify-center relative mt-5">
-        <Image alt="blog banner" src={ props.bannerImage} width={1246} height={413} />
+        <Image
+          alt="blog banner"
+          src={props.bannerImage}
+          width={1246}
+          height={413}
+        />
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-center">
           <h1 className="">{BLOG_CATEGORIES_OPTION[selectedCategory].label}</h1>
           <h1 className="text-3xl font-bold mt-10">
@@ -82,15 +91,16 @@ const BlogSection =QueryProvider(({props}:{props:BlogSectionProps})  => {
 
       {/* Blog Cards Grid */}
       <div className="flex justify-center mt-8">
-        <div className="blog-grid grid grid-cols-3 gap-12">
+        <div className="blog-grid grid grid-cols-2 md:grid-cols-3 gap-3">
           {blogs.map((blog) => (
             <BlogCard
-            id={blog.id}
-            image={blog.image}
-            category={blog.category}
-            title={blog.title}
-            excerpt={blog.excerpt}
-             />
+              key={blog.id}
+              id={blog.id}
+              image={blog.image}
+              category={blog.category}
+              title={blog.title}
+              excerpt={blog.excerpt}
+            />
           ))}
         </div>
       </div>
