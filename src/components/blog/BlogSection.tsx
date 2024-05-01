@@ -15,6 +15,7 @@ import {
 import { IBlogCardResponse, IBlogResponse } from '@/src/interfaces/blog';
 import { useQuery } from '@/src/utils/hooks';
 import { QueryProvider } from '../general/QueryProvider';
+import CardSkeleton from '../general/CardSkeleton';
 
 interface BlogSectionProps {
   bannerImage: string;
@@ -53,19 +54,21 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
     <section className="blog-section">
       {/* Horizontal Navigation Bar */}
       <nav className="flex justify-center">
-        <ul className="flex">
-          {BLOG_CATEGORIES_OPTION.map((category) => (
-            <li
-              key={category.value}
-              className={`mr-5 cursor-pointer ${
-                selectedCategory === category.value ? 'underline' : ''
-              }`}
-              onClick={() => setSelectedCategory(category.value)}
-            >
-              {category.label}
-            </li>
-          ))}
-        </ul>
+        {
+          <ul className="flex">
+            {BLOG_CATEGORIES_OPTION.map((category) => (
+              <li
+                key={category.value}
+                className={`mr-5 cursor-pointer ${
+                  selectedCategory === category.value ? 'underline' : ''
+                }`}
+                onClick={() => setSelectedCategory(category.value)}
+              >
+                {category.label}
+              </li>
+            ))}
+          </ul>
+        }
       </nav>
 
       {/* Banner */}
@@ -92,16 +95,21 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
       {/* Blog Cards Grid */}
       <div className="flex justify-center mt-8">
         <div className="blog-grid grid grid-cols-2 md:grid-cols-3 gap-3">
-          {blogs.map((blog) => (
-            <BlogCard
-              key={blog.id}
-              id={blog.id}
-              image={blog.image}
-              category={blog.category}
-              title={blog.title}
-              excerpt={blog.excerpt}
-            />
-          ))}
+          {getBlogsQuery.isLoading &&
+            Array.from({ length: 6 }).map((_, index) => (
+              <CardSkeleton key={index} />
+            ))}
+          {!getBlogsQuery.isLoading &&
+            blogs.map((blog) => (
+              <BlogCard
+                key={blog.id}
+                id={blog.id}
+                image={blog.image}
+                category={blog.category}
+                title={blog.title}
+                excerpt={blog.excerpt}
+              />
+            ))}
         </div>
       </div>
 
