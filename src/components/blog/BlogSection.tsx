@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import BlogCard from './BlogCard';
 import Pagination from '../general/Pagination';
@@ -22,8 +22,10 @@ interface BlogSectionProps {
 }
 
 const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
-  const [selectedCategory, setSelectedCategory] = useState<number>(0);
+  const [selectedCategory, setSelectedCategory] = useState<number>(-1);
   const [blogs, setBlogs] = useState<IBlogCardResponse[]>([]);
+  const [filteredBlogs, setFilteredBlogs] =
+    useState<IBlogCardResponse[]>(blogs);
 
   const paginationForm = useForm<IPaginationModel>({
     defaultValues: {
@@ -44,11 +46,22 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
       onSuccess: (res) => {
         const { data, pageNumber } = res.data;
         setBlogs(data);
+        setFilteredBlogs(data);
         pageNumber && paginationForm.setValue('pageNumber', pageNumber);
       },
       refetchOnWindowFocus: false,
     }
   );
+
+  useEffect(() => {
+    if (selectedCategory === -1) {
+      setFilteredBlogs(blogs);
+    } else {
+      setFilteredBlogs(
+        blogs.filter((blog) => blog.category === selectedCategory)
+      );
+    }
+  }, [selectedCategory]);
 
   return (
     <section className="blog-section">
@@ -80,7 +93,11 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
           height={413}
         />
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-center">
-          <h1 className="">{BLOG_CATEGORIES_OPTION[selectedCategory].label}</h1>
+          <h1 className="">
+            {selectedCategory === -1
+              ? 'Tất cả'
+              : BLOG_CATEGORIES_OPTION[selectedCategory].label}
+          </h1>
           <h1 className="text-3xl font-bold mt-10">
             Richird Norton photorealistic rendering as real photos
           </h1>
@@ -100,7 +117,7 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
               <CardSkeleton key={index} />
             ))}
           {!getBlogsQuery.isLoading &&
-            blogs.map((blog) => (
+            filteredBlogs.map((blog) => (
               <BlogCard
                 key={blog.id}
                 id={blog.id}
@@ -120,12 +137,6 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
           show={true}
         />
       </div>
-
-      <style jsx>{`
-        .underline {
-          text-decoration: underline;
-        }
-      `}</style>
     </section>
   );
 });

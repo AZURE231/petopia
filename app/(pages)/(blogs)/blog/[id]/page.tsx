@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { QUERY_KEYS, STATIC_URLS } from '@/src/utils/constants';
 import BlogPage from '@/src/components/blog/BlogPage';
 import { useState } from 'react';
-
 import { IApiResponse } from '@/src/interfaces/common';
 import { IBlogResponse } from '@/src/interfaces/blog';
 import { getBlogDetail } from '@/src/services/blog.api';

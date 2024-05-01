@@ -13,7 +13,7 @@ const BlogCard = ({
 }: IBlogCardResponse) => {
   return (
     <Link href={`/blog/${id}`}>
-      <div className="max-w-xs p-2 bg-white border border-gray-200 rounded-2xl shadow-lg">
+      <div className="max-w-xs p-2 h-full bg-white border border-gray-200 rounded-2xl shadow-lg">
         <div className="flex flex-col" key={id}>
           {/* Image with rounded corners */}
           <div className="relative w-full pt-[100%]">
@@ -26,7 +26,7 @@ const BlogCard = ({
             />
             {/* Category */}
             <div className="bg-yellow-400 text-black text-xs font-bold uppercase px-2 py-1 absolute top-0 left-0 rounded-br-lg">
-              {BLOG_CATEGORIES_OPTION[category].label}
+              {BLOG_CATEGORIES_OPTION[category + 1].label}
             </div>
           </div>
           {/* Content */}

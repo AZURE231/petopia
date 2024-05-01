@@ -401,6 +401,10 @@ export const ADOPT_ACTION = {
 
 export const BLOG_CATEGORIES_OPTION = [
   {
+    label: 'Tất cả',
+    value: -1,
+  },
+  {
     label: 'Sức khỏe',
     value: BLOG_CATEGORIES.HEALTH,
   },
