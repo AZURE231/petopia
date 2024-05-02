@@ -59,6 +59,7 @@ export const QUERY_KEYS = {
   GET_PET_POSTS: 'GET_PET_POSTS',
   GET_BREED_DETAIL: 'GET_BREED_DETAIL',
   GET_BLOGS: 'GET_BLOGS',
+  GET_BLOG_DETAIL: 'GET_BLOG_DETAIL',
 };
 
 export const EVENT_NAMES = {
@@ -128,9 +129,9 @@ export enum ADOPT_DELAY_DURATION {
 }
 
 export enum BLOG_CATEGORIES {
-  HEALTH ,
-  TRAINING ,
-  PRODUCT ,
+  HEALTH,
+  TRAINING,
+  PRODUCT,
   ART,
 }
 //////////////////////////////////////////////////////////////////
@@ -349,7 +350,6 @@ export enum USER_ROLE {
   ORGANIZATION = 2,
 }
 
-
 export const HOUSE_TYPE_OPTION = [
   {
     label: 'Chung cư',
@@ -400,7 +400,10 @@ export const ADOPT_ACTION = {
 };
 
 export const BLOG_CATEGORIES_OPTION = [
-
+  {
+    label: 'Tất cả',
+    value: -1,
+  },
   {
     label: 'Sức khỏe',
     value: BLOG_CATEGORIES.HEALTH,
@@ -417,7 +420,6 @@ export const BLOG_CATEGORIES_OPTION = [
     label: 'Nghệ thuật',
     value: BLOG_CATEGORIES.ART,
   },
- 
 ];
 export const PET_ORG_TYPE_OPTION = [
   {

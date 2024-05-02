@@ -1,2 +1,2 @@
 export const API_ROUTE =
-  'https://9f3b-2405-4802-a2b6-69b0-7ca3-423c-a644-fcca.ngrok-free.app/api';
+  'https://6027-2402-9d80-c15-d857-e969-e47f-46dc-69f1.ngrok-free.app/api';
