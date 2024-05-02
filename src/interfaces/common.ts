@@ -14,7 +14,7 @@ export interface IApiErrorResponse {
 export interface IPaginationRequest<T> {
   pageIndex: number;
   pageSize?: number;
-  filter: T;
+  filter?: T;
   orderBy?: string;
 }
 
