@@ -15,7 +15,7 @@ const page = observer(
     const [blogContent, setBlogContent] = useState<IBlogResponse>();
 
     const getPetQuery = useQuery<IApiResponse<IBlogResponse>>(
-      [QUERY_KEYS.GET_BREED_DETAIL, { id: params.id }],
+      [QUERY_KEYS.GET_BLOG_DETAIL, { id: params.id }],
       () => getBlogDetail(params.id),
       {
         onSuccess: (res) => {
