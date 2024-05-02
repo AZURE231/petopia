@@ -85,6 +85,7 @@ const BlogSection =QueryProvider(({props}:{props:BlogSectionProps})  => {
         <div className="blog-grid grid grid-cols-3 gap-12">
           {blogs.map((blog) => (
             <BlogCard
+            key= {blog.id}
             id={blog.id}
             image={blog.image}
             category={blog.category}
