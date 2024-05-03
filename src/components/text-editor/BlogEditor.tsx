@@ -151,7 +151,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
             createBlogForm.setValue('category', Number(e.target.value))
           }
         >
-          {BLOG_CATEGORIES_OPTION.map((category) => (
+          {BLOG_CATEGORIES_OPTION.slice(1,).map((category) => (
             <option key={category.label} value={category.value}>
               {category.label}
             </option>
