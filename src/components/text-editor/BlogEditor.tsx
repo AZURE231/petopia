@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import uploadAdapter from './UploadAdapter';
+import React, { useState } from 'react';
 import { IBlog, IBlogResponse } from '@/src/interfaces/blog';
 import { useForm } from 'react-hook-form';
 import { BLOG_CATEGORIES_OPTION, QUERY_KEYS } from '@/src/utils/constants';
@@ -10,12 +9,11 @@ import { getBlogDetail, postBlog } from '@/src/services/blog.api';
 import { useMutation, useQuery } from '@/src/utils/hooks';
 import { QueryProvider } from '../general/QueryProvider';
 import { Alert } from '../general/Alert';
+import TextEditor from './TextEditor';
 
 const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
   // STATE
   const [editorData, setEditorData] = useState('');
-  const [editorLoaded, setEditorLoaded] = useState(false);
-
   const [alertShow, setAlertShow] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
   const [alertFailed, setAlertFailed] = useState<boolean>(false);
@@ -63,32 +61,6 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
     await uploadImage();
     postBlogMutation.mutate(createBlogForm.getValues());
   };
-
-  useEffect(() => {
-    if (!editorLoaded) {
-      setEditorLoaded(true);
-      import('@ckeditor/ckeditor5-build-classic')
-        .then((ClassicEditor) => {
-          ClassicEditor.default
-            .create(document.querySelector('#editor') as HTMLElement, {
-              extraPlugins: [uploadAdapter],
-            })
-            .then((editor: any) => {
-              editor.setData(editorData);
-              editor.model.document.on('change:data', () => {
-                setEditorData(editor.getData());
-              });
-            })
-            .catch((error: any) => {
-              console.error(
-                'There was a problem initializing the editor.',
-                error
-              );
-            });
-        })
-        .catch((error) => console.error('CKEditor load error:', error));
-    }
-  }, [editorData, editorLoaded]);
 
   // QUERY
   const postBlogMutation = useMutation<IApiResponse<string>, IBlog>(postBlog, {
@@ -166,7 +138,11 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
             </option>
           ))}
         </select>
-        <div id="editor" />
+        <TextEditor
+          data={editorData}
+          createBlogForm={createBlogForm}
+          setData={setEditorData}
+        />
         <button className="w-fit p-3 px-8 rounded-full font-bold shadow-md bg-yellow-300 hover:bg-yellow-400 my-5">
           Đăng bài
         </button>
