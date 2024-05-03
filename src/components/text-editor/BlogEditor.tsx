@@ -1,7 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import uploadAdapter from './UploadAdapter';
+import React, { useEffect, useState } from 'react';
 import { IBlog, IBlogResponse } from '@/src/interfaces/blog';
 import { useForm } from 'react-hook-form';
 import { BLOG_CATEGORIES_OPTION, QUERY_KEYS } from '@/src/utils/constants';
@@ -12,8 +9,14 @@ import { getBlogDetail, postBlog } from '@/src/services/blog.api';
 import { useMutation, useQuery } from '@/src/utils/hooks';
 import { QueryProvider } from '../general/QueryProvider';
 import { Alert } from '../general/Alert';
+import dynamic from 'next/dynamic';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import uploadAdapter from './UploadAdapter';
 
 const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
+  const MyEditor = dynamic(() => import('./MyEditor'), {
+    ssr: false,
+  });
   // STATE
   const [editorData, setEditorData] = useState('');
 
@@ -66,21 +69,6 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
     postBlogMutation.mutate(createBlogForm.getValues());
   };
 
-  useEffect(() => {
-    ClassicEditor.create(document.querySelector('#editor') as HTMLElement, {
-      extraPlugins: [uploadAdapter],
-    })
-      .then((editor: any) => {
-        editor.setData(editorData);
-        editor.model.document.on('change:data', () => {
-          setEditorData(editor.getData());
-        });
-      })
-      .catch((error: any) => {
-        console.error('There was a problem initializing the editor.', error);
-      });
-  }, [editorData]);
-
   // QUERY
   const postBlogMutation = useMutation<IApiResponse<string>, IBlog>(postBlog, {
     onError: (err) => {
@@ -112,6 +100,21 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
       enabled: !!id,
     }
   );
+
+  // useEffect(() => {
+  //   ClassicEditor.create(document.querySelector('#editor') as HTMLElement, {
+  //     extraPlugins: [uploadAdapter],
+  //   })
+  //     .then((editor: any) => {
+  //       editor.setData(editorData);
+  //       editor.model.document.on('change:data', () => {
+  //         setEditorData(editor.getData());
+  //       });
+  //     })
+  //     .catch((error: any) => {
+  //       console.error('There was a problem initializing the editor.', error);
+  //     });
+  // }, [editorData]);
 
   return (
     <div>
@@ -157,16 +160,11 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
             </option>
           ))}
         </select>
-        <CKEditor
-          editor={ClassicEditor as any}
+
+        <MyEditor
+          createBlogForm={createBlogForm}
           data={editorData}
-          onChange={(event, editor) => {
-            const data = editor.getData();
-            createBlogForm.setValue('content', data);
-          }}
-          config={{
-            extraPlugins: [uploadAdapter],
-          }}
+          setData={setEditorData}
         />
         <button className="w-fit p-3 px-8 rounded-full font-bold shadow-md bg-yellow-300 hover:bg-yellow-400 my-5">
           Đăng bài
