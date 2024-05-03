@@ -96,7 +96,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
   });
 
   useQuery<IApiResponse<IBlogResponse>>(
-    [QUERY_KEYS.GET_BREED_DETAIL],
+    [QUERY_KEYS.GET_BLOG_DETAIL],
     () => getBlogDetail(id),
     {
       onSuccess: (res) => {
