@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import uploadAdapter from './UploadAdapter';
 import { IBlog, IBlogResponse } from '@/src/interfaces/blog';
 import { useForm } from 'react-hook-form';
@@ -16,6 +14,7 @@ import { Alert } from '../general/Alert';
 const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
   // STATE
   const [editorData, setEditorData] = useState('');
+  const [editorLoaded, setEditorLoaded] = useState(false);
 
   const [alertShow, setAlertShow] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
@@ -56,7 +55,6 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
         })
       );
     }
-    // setIsLoading(false);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -67,19 +65,30 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
   };
 
   useEffect(() => {
-    ClassicEditor.create(document.querySelector('#editor') as HTMLElement, {
-      extraPlugins: [uploadAdapter],
-    })
-      .then((editor: any) => {
-        editor.setData(editorData);
-        editor.model.document.on('change:data', () => {
-          setEditorData(editor.getData());
-        });
-      })
-      .catch((error: any) => {
-        console.error('There was a problem initializing the editor.', error);
-      });
-  }, [editorData]);
+    if (!editorLoaded) {
+      setEditorLoaded(true);
+      import('@ckeditor/ckeditor5-build-classic')
+        .then((ClassicEditor) => {
+          ClassicEditor.default
+            .create(document.querySelector('#editor') as HTMLElement, {
+              extraPlugins: [uploadAdapter],
+            })
+            .then((editor: any) => {
+              editor.setData(editorData);
+              editor.model.document.on('change:data', () => {
+                setEditorData(editor.getData());
+              });
+            })
+            .catch((error: any) => {
+              console.error(
+                'There was a problem initializing the editor.',
+                error
+              );
+            });
+        })
+        .catch((error) => console.error('CKEditor load error:', error));
+    }
+  }, [editorData, editorLoaded]);
 
   // QUERY
   const postBlogMutation = useMutation<IApiResponse<string>, IBlog>(postBlog, {
@@ -151,23 +160,13 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
             createBlogForm.setValue('category', Number(e.target.value))
           }
         >
-          {BLOG_CATEGORIES_OPTION.slice(1,).map((category) => (
+          {BLOG_CATEGORIES_OPTION.slice(1).map((category) => (
             <option key={category.label} value={category.value}>
               {category.label}
             </option>
           ))}
         </select>
-        <CKEditor
-          editor={ClassicEditor as any}
-          data={editorData}
-          onChange={(event, editor) => {
-            const data = editor.getData();
-            createBlogForm.setValue('content', data);
-          }}
-          config={{
-            extraPlugins: [uploadAdapter],
-          }}
-        />
+        <div id="editor" />
         <button className="w-fit p-3 px-8 rounded-full font-bold shadow-md bg-yellow-300 hover:bg-yellow-400 my-5">
           Đăng bài
         </button>

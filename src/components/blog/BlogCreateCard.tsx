@@ -1,6 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
-import { BLOG_CATEGORIES_OPTION } from '@/src/utils/constants';
 
 export default function BlogCreateCard() {
   return (
