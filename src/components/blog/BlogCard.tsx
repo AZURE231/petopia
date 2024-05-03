@@ -9,6 +9,7 @@ import { MdDelete } from 'react-icons/md';
 import { Alert } from '../general/Alert';
 import { useMutation } from '@/src/utils/hooks';
 import { deleteBlog } from '@/src/services/blog.api';
+import BlogEditor from '../text-editor/BlogEditor';
 
 interface IBlogCard extends IBlogCardResponse {
   isEditable?: boolean;
@@ -90,7 +91,14 @@ const BlogCard = ({
               </button>
             }
           >
-            haha{/* <PetProfileForm id={id} handleClose={handleClose} /> */}
+            <div className="max-w-3xl rounded-2xl bg-yellow-100 p-5">
+              <div
+                className="w-full p-5 mb-5 bg-gray-50 rounded-lg overflow-auto"
+                style={{ maxHeight: '400px' }}
+              >
+                <BlogEditor id={id} />
+              </div>
+            </div>
           </Popup>
 
           <button

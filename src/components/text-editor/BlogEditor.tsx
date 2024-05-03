@@ -2,27 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import uploadAdapter from './UploadAdapter';
-import { IBlog } from '@/src/interfaces/blog';
+import { IBlog, IBlogResponse } from '@/src/interfaces/blog';
 import { useForm } from 'react-hook-form';
-import { BLOG_CATEGORIES_OPTION } from '@/src/utils/constants';
+import { BLOG_CATEGORIES_OPTION, QUERY_KEYS } from '@/src/utils/constants';
 import Dropzone from '../general/Dropzone';
 import { IApiResponse, IUploadImage } from '@/src/interfaces/common';
 import { postImage } from '@/src/helpers/postImage';
-import { postBlog } from '@/src/services/blog.api';
-import { useMutation } from '@/src/utils/hooks';
+import { getBlogDetail, postBlog } from '@/src/services/blog.api';
+import { useMutation, useQuery } from '@/src/utils/hooks';
 import { QueryProvider } from '../general/QueryProvider';
 import { Alert } from '../general/Alert';
 
-interface CustomEditorProps {
-  initialData: string;
-  initialTitle: string;
-}
-
-const BlogEditor = QueryProvider(({ props }: { props: CustomEditorProps }) => {
+const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
   // STATE
   const [editorData, setEditorData] = useState('');
-  const [blogTitle, setBlogTitle] = useState('');
-  const [blogExcerpt, setBlogExcerpt] = useState('');
 
   const [alertShow, setAlertShow] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
@@ -70,8 +63,6 @@ const BlogEditor = QueryProvider(({ props }: { props: CustomEditorProps }) => {
     // Further actions for submitting the blog
     e.preventDefault();
     await uploadImage();
-    // image is added to createBlogForm
-    // useMutate de post data len la dc
     postBlogMutation.mutate(createBlogForm.getValues());
   };
 
@@ -104,13 +95,31 @@ const BlogEditor = QueryProvider(({ props }: { props: CustomEditorProps }) => {
     },
   });
 
+  useQuery<IApiResponse<IBlogResponse>>(
+    [QUERY_KEYS.GET_BREED_DETAIL],
+    () => getBlogDetail(id),
+    {
+      onSuccess: (res) => {
+        createBlogForm.setValue('title', res.data.data.title);
+        createBlogForm.setValue('excerpt', res.data.data.excerpt);
+        createBlogForm.setValue('image', res.data.data.image);
+        createBlogForm.setValue('category', res.data.data.category);
+        createBlogForm.setValue('content', res.data.data.content);
+        uploadImageForm.setValue('showImages', [res.data.data.image]);
+        setEditorData(res.data.data.content);
+      },
+      refetchOnWindowFocus: false,
+      enabled: !!id,
+    }
+  );
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="Nhập tiêu đề bài viết"
-          // value={blogTitle}
+          value={createBlogForm.watch('title')}
           onChange={(e) => createBlogForm.setValue('title', e.target.value)}
           className="w-full p-3 px-8 rounded-full font-bold shadow-md bg-white border border-gray-300 mb-5"
           maxLength={50}
@@ -118,7 +127,7 @@ const BlogEditor = QueryProvider(({ props }: { props: CustomEditorProps }) => {
         <input
           type="text"
           placeholder="Nhập mô tả ngắn cho bài viết"
-          // value={blogExcerpt}
+          value={createBlogForm.watch('excerpt')}
           onChange={(e) => createBlogForm.setValue('excerpt', e.target.value)}
           className="w-full p-3 px-8 rounded-full font-bold shadow-md bg-white border border-gray-300 mb-5"
           maxLength={200}

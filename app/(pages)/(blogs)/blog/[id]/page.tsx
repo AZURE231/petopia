@@ -14,7 +14,7 @@ const page = observer(
   QueryProvider(({ params }: { params: { id: string } }) => {
     const [blogContent, setBlogContent] = useState<IBlogResponse>();
 
-    const getPetQuery = useQuery<IApiResponse<IBlogResponse>>(
+    const getBlogQuery = useQuery<IApiResponse<IBlogResponse>>(
       [QUERY_KEYS.GET_BLOG_DETAIL, { id: params.id }],
       () => getBlogDetail(params.id),
       {
