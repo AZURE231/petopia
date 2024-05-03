@@ -15,7 +15,7 @@ const BlogPage: React.FC<Props> = ({ blogTitle, htmlContent }) => {
   );
 
   return (
-    <div className="container mx-auto mt-10 p-5 justify-center">
+    <div className="container mx-auto mt-10 p-5 justify-center"  style={{ width: '1180px' }}>
       <h1 className="text-4xl font-bold">{blogTitle}</h1>
       <div
         className="w-full text-justify mt-10"
