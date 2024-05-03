@@ -1,6 +1,5 @@
 export interface IBlogResponse {
   id: string;
-  userId: string;
   title: string;
   excerpt: string;
   image: string;
