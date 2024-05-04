@@ -1,13 +1,17 @@
 import AddressDropdown from './AddressDropdown';
-import { IIndividualAttributes, IUserInfoReponse, IUserUpdate } from '../../interfaces/user';
+import {
+  IIndividualAttributes,
+  IUserInfoReponse,
+  IUserUpdate,
+} from '../../interfaces/user';
 import { useForm } from 'react-hook-form';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useMutation } from '../../utils/hooks';
 import { IApiResponse } from '../../interfaces/common';
 import { updateUser } from '../../services/user.api';
 import { Alert } from '../general/Alert';
-import { ClipLoader } from 'react-spinners';
 import { USER_ROLE } from '@/src/utils/constants';
+import QueryButton from '../general/QueryButton';
 
 export default function UserUpdateForm({
   userInfo,
@@ -37,21 +41,21 @@ export default function UserUpdateForm({
   });
 
   // QUERIES
-  const updateUserMutation = useMutation<IApiResponse<IUserInfoReponse>, IUserUpdate>(
-    updateUser,
-    {
-      onError: (err) => {
-        setAlertMessage('Tạo hồ sơ thú cưng thất bại');
-        setAlertFail(true);
-        setAlertShow(true);
-      },
-      onSuccess: (res) => {
-        setAlertMessage('Cập nhật thông tin thành công');
-        setAlertFail(false);
-        setAlertShow(true);
-      },
-    }
-  );
+  const updateUserMutation = useMutation<
+    IApiResponse<IUserInfoReponse>,
+    IUserUpdate
+  >(updateUser, {
+    onError: (err) => {
+      setAlertMessage('Tạo hồ sơ thú cưng thất bại');
+      setAlertFail(true);
+      setAlertShow(true);
+    },
+    onSuccess: (res) => {
+      setAlertMessage('Cập nhật thông tin thành công');
+      setAlertFail(false);
+      setAlertShow(true);
+    },
+  });
 
   // HANDLERS
   const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
@@ -64,8 +68,7 @@ export default function UserUpdateForm({
       {show && (
         <form className="md:px-10" onSubmit={handleSubmit}>
           <div className="flex flex-col py-2">
-            {
-              userInfo.role !== USER_ROLE.ORGANIZATION &&
+            {userInfo.role !== USER_ROLE.ORGANIZATION && (
               <div className="flex flex-row gap-3">
                 <div className="mb-4 w-full">
                   <label
@@ -98,9 +101,8 @@ export default function UserUpdateForm({
                   />
                 </div>
               </div>
-            }
-            {
-              userInfo.role === USER_ROLE.ORGANIZATION &&
+            )}
+            {userInfo.role === USER_ROLE.ORGANIZATION && (
               <>
                 <div className="flex flex-row gap-3">
                   <div className="mb-4 w-full">
@@ -137,7 +139,7 @@ export default function UserUpdateForm({
                   </div>
                 </div>
               </>
-            }
+            )}
             <div className="flex flex-row gap-3">
               <div className="mb-4 w-full">
                 <label
@@ -159,9 +161,15 @@ export default function UserUpdateForm({
               districtCode={watch('districtCode')}
               provinceCode={watch('provinceCode')}
               wardCode={watch('wardCode')}
-              setProvinceCode={(code: string) => { setValue('provinceCode', code); }}
-              setDistrictCode={(code: string) => { setValue('districtCode', code); }}
-              setWardCode={(code: string) => { setValue('wardCode', code); }}
+              setProvinceCode={(code: string) => {
+                setValue('provinceCode', code);
+              }}
+              setDistrictCode={(code: string) => {
+                setValue('districtCode', code);
+              }}
+              setWardCode={(code: string) => {
+                setValue('wardCode', code);
+              }}
             />
             <div className="mb-4">
               <label
@@ -180,21 +188,10 @@ export default function UserUpdateForm({
             </div>
           </div>
           <div className="flex justify-center mt-5">
-            <button
-              type="submit"
-              className="w-fit text-black border border-black bg-yellow-300 hover:bg-primary-700 font-medium rounded-lg text-lg px-5 py-2.5 text-center"
-            >
-              Xác nhận
-              <span className="pl-2">
-                <ClipLoader
-                  color={'#000000'}
-                  loading={updateUserMutation.isLoading}
-                  size={14}
-                  aria-label="Loading Spinner"
-                  data-testid="loader"
-                />
-              </span>
-            </button>
+            <QueryButton
+              name={'Xác nhận'}
+              isLoading={updateUserMutation.isLoading}
+            />
           </div>
         </form>
       )}

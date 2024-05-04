@@ -16,6 +16,7 @@ export const STATIC_URLS = {
   NO_AVATAR: '/img/no-avatar.png',
   BANNER: '/img/Banner.png',
   BLOG_BANNER: '/img/blog_banner.png',
+  BLOG_CREATE_CARD: '/img/BlogCardCreate.jpg',
 };
 
 export const COOKIES_NAME = {
@@ -58,6 +59,9 @@ export const QUERY_KEYS = {
   GET_PET_BREEDS: 'GET_PET_BREEDS',
   GET_PET_POSTS: 'GET_PET_POSTS',
   GET_BREED_DETAIL: 'GET_BREED_DETAIL',
+  GET_BLOGS: 'GET_BLOGS',
+  GET_BLOG_DETAIL: 'GET_BLOG_DETAIL',
+  GET_BLOGS_USER: 'GET_BLOGS_USER',
 };
 
 export const EVENT_NAMES = {
@@ -126,6 +130,13 @@ export enum ADOPT_DELAY_DURATION {
   Other,
 }
 
+export enum BLOG_CATEGORIES {
+  HEALTH,
+  TRAINING,
+  PRODUCT,
+  ART,
+}
+//////////////////////////////////////////////////////////////////
 export enum ORG_TYPE {
   RESCUE,
   BUSINESS,
@@ -341,14 +352,6 @@ export enum USER_ROLE {
   ORGANIZATION = 2,
 }
 
-export const BLOG_CATEGORIES = [
-  'Sức khỏe',
-  'Đời sống',
-  'Công nghệ',
-  'Thời trang',
-  'Ẩm thực',
-];
-
 export const HOUSE_TYPE_OPTION = [
   {
     label: 'Chung cư',
@@ -398,6 +401,28 @@ export const ADOPT_ACTION = {
   CANCEL: 'Cancel',
 };
 
+export const BLOG_CATEGORIES_OPTION = [
+  {
+    label: 'Tất cả',
+    value: undefined,
+  },
+  {
+    label: 'Sức khỏe',
+    value: BLOG_CATEGORIES.HEALTH,
+  },
+  {
+    label: 'Huấn luyện',
+    value: BLOG_CATEGORIES.TRAINING,
+  },
+  {
+    label: 'Sản phẩm',
+    value: BLOG_CATEGORIES.PRODUCT,
+  },
+  {
+    label: 'Nghệ thuật',
+    value: BLOG_CATEGORIES.ART,
+  },
+];
 export const PET_ORG_TYPE_OPTION = [
   {
     label: 'Giải cứu động vật',

@@ -10,10 +10,14 @@ import { useForm } from 'react-hook-form';
 import { IApiResponse, IPaginationModel } from '@/src/interfaces/common';
 import { useQuery } from '@/src/utils/hooks';
 import { getPetsByUser } from '@/src/services/pet.api';
-import { QUERY_KEYS } from '@/src/utils/constants';
+import { QUERY_KEYS, USER_ROLE } from '@/src/utils/constants';
 import Pagination from '../general/Pagination';
 import { countNotify } from '@/src/services/adopt.api';
 import { NotifySortBlock } from '../adopt/NotifySortBlock';
+import { IBlogResponse } from '@/src/interfaces/blog';
+import { getBlogsByUser } from '@/src/services/blog.api';
+import BlogCard from '../blog/BlogCard';
+import BlogCreateCard from '../blog/BlogCreateCard';
 
 export default function TabbedTable({
   userInfo,
@@ -27,11 +31,12 @@ export default function TabbedTable({
     'inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300  group';
   const activeIcon = 'w-4 h-4 me-2 text-blue-600 group-hover:text-blue-700';
   const inactiveIcon = 'w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500';
-  const PAGE_SIZE = 3;
+  const PAGE_SIZE = 5;
 
   // STATES
   const [tab, setTab] = useState(0);
   const [pets, setPets] = useState<IPetResponse[]>([]);
+  const [blogs, setBlogs] = useState<IBlogResponse[]>([]);
   const [notifyCount, setNotifyCount] = useState<number>(0);
   const [orderByIncoming, setOrderByIncoming] = useState<
     'Rejected' | 'Waiting' | 'Accepted' | 'All'
@@ -41,7 +46,14 @@ export default function TabbedTable({
   >('All');
 
   // FORMS
-  const paginationForm = useForm<IPaginationModel>({
+  const paginationFormPet = useForm<IPaginationModel>({
+    defaultValues: {
+      pageIndex: 1,
+      pageNumber: 1,
+    },
+  });
+
+  const paginationFormBlog = useForm<IPaginationModel>({
     defaultValues: {
       pageIndex: 1,
       pageNumber: 1,
@@ -61,11 +73,11 @@ export default function TabbedTable({
   );
 
   const getPetsQuery = useQuery<IApiResponse<IPetResponse[]>>(
-    [QUERY_KEYS.GET_PETS, userInfo, paginationForm.watch('pageIndex')],
+    [QUERY_KEYS.GET_PETS, userInfo, paginationFormPet.watch('pageIndex')],
     () =>
       userInfo &&
       getPetsByUser({
-        pageIndex: paginationForm.getValues('pageIndex'),
+        pageIndex: paginationFormPet.getValues('pageIndex'),
         pageSize: PAGE_SIZE,
         orderBy: '',
         filter: userInfo.id,
@@ -73,10 +85,33 @@ export default function TabbedTable({
     {
       onSuccess: (res) => {
         setPets(res.data.data);
-        paginationForm.setValue('pageNumber', res.data.pageNumber!);
+        paginationFormPet.setValue('pageNumber', res.data.pageNumber!);
       },
       refetchOnWindowFocus: false,
       enabled: !!userInfo,
+    }
+  );
+
+  const getUserBlogsQuery = useQuery<IApiResponse<IBlogResponse[]>>(
+    [
+      QUERY_KEYS.GET_BLOGS_USER,
+      userInfo,
+      paginationFormBlog.watch('pageIndex'),
+    ],
+    () =>
+      userInfo &&
+      getBlogsByUser({
+        pageIndex: paginationFormBlog.getValues('pageIndex'),
+        pageSize: PAGE_SIZE,
+        orderBy: '',
+      }),
+    {
+      onSuccess: (res) => {
+        setBlogs(res.data.data);
+        paginationFormBlog.setValue('pageNumber', res.data.pageNumber!);
+      },
+      refetchOnWindowFocus: false,
+      enabled: !!userInfo && userInfo.role === USER_ROLE.ORGANIZATION,
     }
   );
 
@@ -94,20 +129,41 @@ export default function TabbedTable({
               <span className="hidden md:inline-block ml-1"> Của bạn</span>
             </button>
           </li>
+          {userInfo?.role === USER_ROLE.ORGANIZATION && (
+            <li className="me-2">
+              <button
+                className={`${tab === 1 ? activeTab : inactiveTab} relative`}
+                onClick={() => setTab(1)}
+              >
+                <RiUserReceived2Fill
+                  className={`${tab === 1 ? activeIcon : inactiveIcon}`}
+                />
+                {notifyCount > 0 && (
+                  <div>
+                    <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2  bg-red-600 rounded-full">
+                      {notifyCount > 9 ? '9+' : notifyCount}
+                    </span>
+                  </div>
+                )}
+                Bài viết
+                <span className="hidden md:inline-block ml-1">Của bạn</span>
+              </button>
+            </li>
+          )}
           <li className="me-2">
             <button
-              className={`${tab === 1 ? activeTab : inactiveTab}`}
-              onClick={() => setTab(1)}
+              className={`${tab === 2 ? activeTab : inactiveTab}`}
+              onClick={() => setTab(2)}
             >
-              <GrSend className={`${tab === 1 ? activeIcon : inactiveIcon}`} />
+              <GrSend className={`${tab === 2 ? activeIcon : inactiveIcon}`} />
               <span className="hidden md:inline-block mr-1">Yêu cầu</span> Đã
               gửi
             </button>
           </li>
           <li className="me-2">
             <button
-              className={`${tab === 2 ? activeTab : inactiveTab} relative`}
-              onClick={() => setTab(2)}
+              className={`${tab === 3 ? activeTab : inactiveTab} relative`}
+              onClick={() => setTab(3)}
             >
               <RiUserReceived2Fill
                 className={`${tab === 2 ? activeIcon : inactiveIcon}`}
@@ -136,23 +192,51 @@ export default function TabbedTable({
             </div>
             <div className="flex items-center justify-center mt-5">
               <Pagination
-                paginationForm={paginationForm}
+                paginationForm={paginationFormPet}
                 disable={getPetsQuery.isFetching}
                 show={
                   pets.length !== 0 &&
-                  paginationForm.getValues('pageNumber') != 1
+                  paginationFormPet.getValues('pageNumber') != 1
                 }
               />
             </div>
           </>
         )}
         {tab === 1 && (
+          <>
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
+              <BlogCreateCard />
+              {blogs.map((item) => (
+                <BlogCard
+                  key={item.id}
+                  id={item.id}
+                  title={item.title}
+                  excerpt={item.excerpt}
+                  image={item.image}
+                  category={item.category}
+                  isEditable={true}
+                />
+              ))}
+            </div>
+            <div className="flex items-center justify-center mt-5">
+              <Pagination
+                paginationForm={paginationFormBlog}
+                disable={getUserBlogsQuery.isFetching}
+                show={
+                  blogs.length !== 0 &&
+                  paginationFormBlog.getValues('pageNumber') != 1
+                }
+              />
+            </div>
+          </>
+        )}
+        {tab === 2 && (
           <div>
             <NotifySortBlock setFilter={setOrderBySent} />
             <AdoptionCard type="Sent" filter={orderBySent} />
           </div>
         )}
-        {tab === 2 && (
+        {tab === 3 && (
           <div>
             <NotifySortBlock setFilter={setOrderByIncoming} />
             <AdoptionCard
