@@ -2,7 +2,7 @@ import React, { useState, useEffect, use } from 'react';
 
 import uploadAdapter from './UploadAdapter';
 import { IBlog, IBlogResponse, IBlogUpdate } from '@/src/interfaces/blog';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import { BLOG_CATEGORIES_OPTION, QUERY_KEYS } from '@/src/utils/constants';
 import Dropzone from '../general/Dropzone';
 import { IApiResponse, IUploadImage } from '@/src/interfaces/common';
@@ -20,6 +20,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
   const [alertMessage, setAlertMessage] = useState<string>('');
   const [alertFailed, setAlertFailed] = useState<boolean>(false);
   const [myEditor, setMyEditor] = useState<any>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const uploadImageForm = useForm<IUploadImage>({
     defaultValues: {
@@ -57,11 +58,13 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
         })
       );
     }
+    setIsLoading(false);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     // Further actions for submitting the blog
     e.preventDefault();
+    setIsLoading(true);
     await uploadImage();
     if (!id)
       postBlogMutation.mutate({
@@ -195,13 +198,13 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
         {id === '' && (
           <QueryButton
             name={'Đăng bài'}
-            isLoading={postBlogMutation.isLoading}
+            isLoading={postBlogMutation.isLoading || isLoading}
           />
         )}
         {id !== '' && (
           <QueryButton
             name={'Cập nhật'}
-            isLoading={updateBlogMutation.isLoading}
+            isLoading={updateBlogMutation.isLoading || isLoading}
           />
         )}
       </form>
