@@ -1,10 +1,14 @@
 export interface IBlogResponse {
   id: string;
+  userId: string;
   title: string;
   excerpt: string;
   image: string;
   category: number;
   content: string;
+  view: number;
+  isCreatedAt: string;
+  userName: string;
 }
 
 export interface IBlogCardResponse {

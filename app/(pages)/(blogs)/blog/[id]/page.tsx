@@ -36,10 +36,16 @@ const page = observer(
               height={378}
             />
           </div>
+          {blogContent && (
             <BlogPage
-              blogTitle={blogContent?.title || ''}
-              htmlContent={blogContent?.content || ''}
+              userName={blogContent.userName}
+              blogTitle={blogContent.title}
+              htmlContent={blogContent.content}
+              createdAt={blogContent.isCreatedAt}
+              view={blogContent.view}
+              image={blogContent.image}
             />
+          )}
         </div>
       </div>
     );

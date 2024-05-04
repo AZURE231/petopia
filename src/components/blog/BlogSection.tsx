@@ -66,25 +66,6 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
   return (
     <section className="blog-section">
       {/* Horizontal Navigation Bar */}
-      <nav className="flex justify-center">
-        {
-          <ul className="flex">
-            {BLOG_CATEGORIES_OPTION.map((category, index) => (
-              <li
-                key={index}
-                className={`mr-5 cursor-pointer ${
-                  selectedCategory === category.value ? 'underline' : ''
-                }`}
-                onClick={() => {
-                  setSelectedCategory(category.value);
-                }}
-              >
-                {category.label}
-              </li>
-            ))}
-          </ul>
-        }
-      </nav>
 
       {/* Banner */}
       <div className="flex items-center justify-center relative mt-5">
@@ -115,13 +96,32 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
       </div>
 
       {/* Blog Cards Grid */}
-      <div className="mt-8">
+      <div className="container max-w-5xl mx-auto p-5 justify-center">
+        <nav className="flex justify-center my-5">
+          {
+            <ul className="flex">
+              {BLOG_CATEGORIES_OPTION.map((category, index) => (
+                <li
+                  key={index}
+                  className={`mr-5 cursor-pointer ${
+                    selectedCategory === category.value ? 'underline' : ''
+                  }`}
+                  onClick={() => {
+                    setSelectedCategory(category.value);
+                  }}
+                >
+                  {category.label}
+                </li>
+              ))}
+            </ul>
+          }
+        </nav>
         <PetSortBlock
           orderBy={orderBy}
           setOrderBy={setOrderBy}
           disable={getBlogsQuery.isFetching}
         />
-        <div className="blog-grid grid grid-cols-2 md:grid-cols-3 gap-3 mt-5">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-5">
           {getBlogsQuery.isLoading &&
             Array.from({ length: 6 }).map((_, index) => (
               <CardSkeleton key={index} />

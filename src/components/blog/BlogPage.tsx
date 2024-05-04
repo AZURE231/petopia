@@ -1,13 +1,24 @@
 import React from 'react';
-import BlogCard from './BlogCard';
-import { IBlogResponse } from '@/src/interfaces/blog';
+import Image from 'next/image';
+import { IoEye } from 'react-icons/io5';
 
 interface Props {
   blogTitle: string;
   htmlContent: string;
+  view: number;
+  userName: string;
+  createdAt: string;
+  image: string;
 }
 
-const BlogPage: React.FC<Props> = ({ blogTitle, htmlContent }) => {
+const BlogPage: React.FC<Props> = ({
+  blogTitle,
+  htmlContent,
+  view,
+  userName,
+  createdAt,
+  image,
+}) => {
   // Modify only the images within the htmlContent
   const styledHTMLContent = htmlContent.replace(
     /<img/g,
@@ -15,8 +26,31 @@ const BlogPage: React.FC<Props> = ({ blogTitle, htmlContent }) => {
   );
 
   return (
-    <div className="container mx-auto mt-10 p-5 justify-center"  style={{ width: '1180px' }}>
+    <div
+      className="container max-w-3xl mx-auto mt-10 p-5 justify-center"
+      style={{ width: '1180px' }}
+    >
       <h1 className="text-4xl font-bold">{blogTitle}</h1>
+      <div className="flex justify-between items-center mt-5">
+        <div className="text-gray-400 text-sm flex justify-center items-center">
+          <div className="relative h-9 w-9">
+            <Image
+              src={image}
+              alt="user-avatar"
+              fill
+              className="object-cover rounded-full"
+            ></Image>
+          </div>
+          <span className="ml-2 items-center text-lg">
+            {userName} - {new Date(createdAt).toLocaleDateString()}
+          </span>
+        </div>
+
+        <div className="flex justify-center items-center">
+          <span className="text-gray-800 font-medium text-lg">{view}</span>
+          <IoEye size={20} className="ml-2" />
+        </div>
+      </div>
       <div
         className="w-full text-justify mt-10"
         dangerouslySetInnerHTML={{ __html: styledHTMLContent }}

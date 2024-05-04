@@ -70,7 +70,7 @@ const BlogCard = ({
             {/* Content */}
             <div className="p-2 md:p-4">
               {/* Title */}
-              <h2 className="text-xl font-bold mb-2 truncate">{title}</h2>
+              <h2 className="text-lg font-bold mb-2 line-clamp-2">{title}</h2>
               {/* Excerpt */}
               <p className="text-sm text-gray-600 line-clamp-3">{excerpt}</p>
             </div>
