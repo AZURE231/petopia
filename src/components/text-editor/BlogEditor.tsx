@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 
 import uploadAdapter from './UploadAdapter';
 import { IBlog, IBlogResponse } from '@/src/interfaces/blog';
@@ -8,15 +8,13 @@ import Dropzone from '../general/Dropzone';
 import { IApiResponse, IUploadImage } from '@/src/interfaces/common';
 import { postImage } from '@/src/helpers/postImage';
 import { getBlogDetail, postBlog } from '@/src/services/blog.api';
-import { useMutation, useQuery } from '@/src/utils/hooks';
+import { useMutation, useQuery, useRunOnce } from '@/src/utils/hooks';
 import { QueryProvider } from '../general/QueryProvider';
 import { Alert } from '../general/Alert';
 
 const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
   // STATE
-  const [editorData, setEditorData] = useState('');
   const [editorLoaded, setEditorLoaded] = useState(false);
-
   const [alertShow, setAlertShow] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
   const [alertFailed, setAlertFailed] = useState<boolean>(false);
@@ -64,32 +62,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
     await uploadImage();
     postBlogMutation.mutate(createBlogForm.getValues());
   };
-
-  useEffect(() => {
-    if (!editorLoaded) {
-      setEditorLoaded(true);
-      import('@ckeditor/ckeditor5-build-classic')
-        .then((ClassicEditor) => {
-          ClassicEditor.default
-            .create(document.querySelector('#editor') as HTMLElement, {
-              extraPlugins: [uploadAdapter],
-            })
-            .then((editor: any) => {
-              editor.setData(editorData);
-              editor.model.document.on('change:data', () => {
-                setEditorData(editor.getData());
-              });
-            })
-            .catch((error: any) => {
-              console.error(
-                'There was a problem initializing the editor.',
-                error
-              );
-            });
-        })
-        .catch((error) => console.error('CKEditor load error:', error));
-    }
-  }, [editorData, editorLoaded]);
+  const [myEditor, setMyEditor] = useState<any>();
 
   // QUERY
   const postBlogMutation = useMutation<IApiResponse<string>, IBlog>(postBlog, {
@@ -105,7 +78,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
     },
   });
 
-  useQuery<IApiResponse<IBlogResponse>>(
+  const getBlogQuery = useQuery<IApiResponse<IBlogResponse>>(
     [QUERY_KEYS.GET_BLOG_DETAIL],
     () => getBlogDetail(id),
     {
@@ -116,12 +89,40 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
         createBlogForm.setValue('category', res.data.data.category);
         createBlogForm.setValue('content', res.data.data.content);
         uploadImageForm.setValue('showImages', [res.data.data.image]);
-        setEditorData(res.data.data.content);
       },
       refetchOnWindowFocus: false,
       enabled: !!id,
     }
   );
+
+  useRunOnce(() => {
+    import('@ckeditor/ckeditor5-build-classic')
+      .then((ClassicEditor) => {
+        ClassicEditor.default
+          .create(document.querySelector('#editor') as HTMLElement, {
+            extraPlugins: [uploadAdapter],
+          })
+          .then((editor: any) => {
+            setMyEditor(editor);
+          })
+          .catch((error: any) => {
+            console.error(
+              'There was a problem initializing the editor.',
+              error
+            );
+          });
+      })
+      .catch((error) => console.error('CKEditor load error:', error));
+  });
+
+  useEffect(() => {
+    if (myEditor) {
+      myEditor.setData(createBlogForm.watch('content'));
+      myEditor.model.document.on('change:data', () => {
+        createBlogForm.setValue('content', myEditor.getData());
+      });
+    }
+  }, [getBlogQuery.isLoading, myEditor]);
 
   return (
     <div>

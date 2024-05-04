@@ -3,7 +3,6 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import React, { useEffect, useState } from 'react';
 import uploadAdapter from './UploadAdapter';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { watch } from 'fs';
 
 export default function TextEditor({
   data,
@@ -14,11 +13,9 @@ export default function TextEditor({
   createBlogForm: any;
   setData: any;
 }) {
- 
-    useEffect(() => {
-        setData(data);
-    }, [data]);
-
+  useEffect(() => {
+    setData(data);
+  }, [data]);
 
   return (
     <CKEditor
