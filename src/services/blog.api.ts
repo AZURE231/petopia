@@ -15,3 +15,5 @@ export const getBlogsByUser = async (data: IPaginationRequest<string>) =>
 
 export const deleteBlog = async (id: string) =>
   await http.delete(`/Blog/${id}`);
+
+export const updateBlog = async (data: IBlog) => await http.put('/Blog', data);

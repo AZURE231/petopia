@@ -1,5 +1,5 @@
 import { FaLongArrowAltLeft, FaLongArrowAltRight } from 'react-icons/fa';
-import ClipLoader from 'react-spinners/ClipLoader';
+import QueryButton from '../general/QueryButton';
 
 export default function ControlForm({
   handleBack,
@@ -40,24 +40,7 @@ export default function ControlForm({
           </button>
         </div>
       )}
-      {type === 4 && (
-        <button
-          className="whitespace-nowrap whitespace-no-wrap p-3 flex text-black bg-yellow-300 hover:bg-yellow-400 rounded-lg items-center"
-          type="submit"
-          disabled={isLoading}
-        >
-          Hoàn thành
-          <span className="ml-2 leading-5">
-            <ClipLoader
-              color={'#000000'}
-              loading={isLoading}
-              size={14}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />
-          </span>
-        </button>
-      )}
+      {type === 4 && <QueryButton name={'Hoàn thành'} isLoading={isLoading} />}
     </div>
   );
 }

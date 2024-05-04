@@ -6,8 +6,8 @@ import { postImage } from '@/src/helpers/postImage';
 import { useMutation } from '@/src/utils/hooks';
 import { createPost } from '@/src/services/post.api';
 import { useState } from 'react';
-import { ClipLoader } from 'react-spinners';
 import { Alert } from '../general/Alert';
+import QueryButton from '../general/QueryButton';
 
 export default function CreatePetPostForm({
   petId,
@@ -120,22 +120,10 @@ export default function CreatePetPostForm({
           </div>
         </div>
         <div className="flex justify-center">
-          <button
-            className="w-fit p-3 flex text-black bg-yellow-300 hover:bg-yellow-400 rounded-lg font-bold"
-            type="submit"
-            disabled={createPostPetMutation.isLoading || isLoading}
-          >
-            Hoàn thành
-            <span className="ml-2">
-              <ClipLoader
-                color={'#000000'}
-                loading={createPostPetMutation.isLoading || isLoading}
-                size={14}
-                aria-label="Loading Spinner"
-                data-testid="loader"
-              />
-            </span>
-          </button>
+          <QueryButton
+            name={'Hoàn thành'}
+            isLoading={createPostPetMutation.isLoading || isLoading}
+          />
         </div>
       </form>
 

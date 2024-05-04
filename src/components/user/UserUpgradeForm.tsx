@@ -11,7 +11,7 @@ import { useStores } from '@/src/stores';
 import { useMutation } from '@/src/utils/hooks';
 import { IApiResponse } from '@/src/interfaces/common';
 import { upgradeToOrg } from '@/src/services/user.api';
-import { ClipLoader } from 'react-spinners';
+import QueryButton from '../general/QueryButton';
 
 export const UserUpgradeForm = observer(() => {
   const { userStore } = useStores();
@@ -275,21 +275,10 @@ export const UserUpgradeForm = observer(() => {
           </div>
         </div>
         <div className="flex justify-center">
-          <button
-            type="submit"
-            className="w-fit p-3 flex text-black bg-yellow-300 hover:bg-yellow-400 rounded-lg font-bold"
-          >
-            Hoàn thành
-            <span className="ml-2 leading-5">
-              <ClipLoader
-                color={'#000000'}
-                loading={upgradeAccountMutation.isLoading}
-                size={14}
-                aria-label="Loading Spinner"
-                data-testid="loader"
-              />
-            </span>
-          </button>
+          <QueryButton
+            name={'Hoàn thành'}
+            isLoading={upgradeAccountMutation.isLoading}
+          />
         </div>
       </form>
       <Alert
