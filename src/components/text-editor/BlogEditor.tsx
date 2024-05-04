@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
+
+import uploadAdapter from './UploadAdapter';
 import { IBlog, IBlogResponse } from '@/src/interfaces/blog';
 import { useForm } from 'react-hook-form';
 import { BLOG_CATEGORIES_OPTION, QUERY_KEYS } from '@/src/utils/constants';
@@ -6,21 +8,17 @@ import Dropzone from '../general/Dropzone';
 import { IApiResponse, IUploadImage } from '@/src/interfaces/common';
 import { postImage } from '@/src/helpers/postImage';
 import { getBlogDetail, postBlog } from '@/src/services/blog.api';
-import { useMutation, useQuery } from '@/src/utils/hooks';
+import { useMutation, useQuery, useRunOnce } from '@/src/utils/hooks';
 import { QueryProvider } from '../general/QueryProvider';
 import { Alert } from '../general/Alert';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import uploadAdapter from './UploadAdapter';
 
 const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
   // STATE
-  const [editorData, setEditorData] = useState('');
+  const [editorLoaded, setEditorLoaded] = useState(false);
   const [alertShow, setAlertShow] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
   const [alertFailed, setAlertFailed] = useState<boolean>(false);
 
-  //dynamic import CKEditor so not to load it on the server
   const uploadImageForm = useForm<IUploadImage>({
     defaultValues: {
       showImages: [],
@@ -64,6 +62,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
     await uploadImage();
     postBlogMutation.mutate(createBlogForm.getValues());
   };
+  const [myEditor, setMyEditor] = useState<any>();
 
   // QUERY
   const postBlogMutation = useMutation<IApiResponse<string>, IBlog>(postBlog, {
@@ -79,7 +78,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
     },
   });
 
-  useQuery<IApiResponse<IBlogResponse>>(
+  const getBlogQuery = useQuery<IApiResponse<IBlogResponse>>(
     [QUERY_KEYS.GET_BLOG_DETAIL],
     () => getBlogDetail(id),
     {
@@ -90,12 +89,40 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
         createBlogForm.setValue('category', res.data.data.category);
         createBlogForm.setValue('content', res.data.data.content);
         uploadImageForm.setValue('showImages', [res.data.data.image]);
-        setEditorData(res.data.data.content);
       },
       refetchOnWindowFocus: false,
       enabled: !!id,
     }
   );
+
+  useRunOnce(() => {
+    import('@ckeditor/ckeditor5-build-classic')
+      .then((ClassicEditor) => {
+        ClassicEditor.default
+          .create(document.querySelector('#editor') as HTMLElement, {
+            extraPlugins: [uploadAdapter],
+          })
+          .then((editor: any) => {
+            setMyEditor(editor);
+          })
+          .catch((error: any) => {
+            console.error(
+              'There was a problem initializing the editor.',
+              error
+            );
+          });
+      })
+      .catch((error) => console.error('CKEditor load error:', error));
+  });
+
+  useEffect(() => {
+    if (myEditor) {
+      myEditor.setData(createBlogForm.watch('content'));
+      myEditor.model.document.on('change:data', () => {
+        createBlogForm.setValue('content', myEditor.getData());
+      });
+    }
+  }, [getBlogQuery.isLoading, myEditor]);
 
   return (
     <div>
@@ -141,18 +168,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
             </option>
           ))}
         </select>
-        <CKEditor
-          editor={ClassicEditor as any}
-          data={editorData}
-          onChange={(event, editor) => {
-            const data = editor.getData();
-            createBlogForm.setValue('content', data);
-            setEditorData(data);
-          }}
-          config={{
-            extraPlugins: [uploadAdapter],
-          }}
-        />
+        <div id="editor" />
         <button className="w-fit p-3 px-8 rounded-full font-bold shadow-md bg-yellow-300 hover:bg-yellow-400 my-5">
           Đăng bài
         </button>
