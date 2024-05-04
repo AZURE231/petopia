@@ -81,10 +81,8 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
       setAlertFailed(true);
       setAlertShow(true);
     },
-    onSuccess: () => {
-      setAlertMessage('Đăng bài thành công');
-      setAlertFailed(false);
-      setAlertShow(true);
+    onSuccess: (res) => {
+      window.location.href = `/blog/${res.data.data}`;
     },
   });
 
@@ -97,9 +95,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
         setAlertShow(true);
       },
       onSuccess: () => {
-        setAlertMessage('Cập nhật bài viết thành công');
-        setAlertFailed(false);
-        setAlertShow(true);
+        window.location.href = `/blog/${id}`;
       },
     }
   );

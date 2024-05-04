@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 import { GoogleLoginButton } from './GoogleLoginButton';
 import { Alert } from '../general/Alert';
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
-import ClipLoader from 'react-spinners/ClipLoader';
 import { QueryProvider } from '../general/QueryProvider';
 import {
   IGoogleLoginRequest,
