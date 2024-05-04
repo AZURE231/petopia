@@ -17,6 +17,7 @@ import { NotifySortBlock } from '../adopt/NotifySortBlock';
 import { IBlogResponse } from '@/src/interfaces/blog';
 import { getBlogsByUser } from '@/src/services/blog.api';
 import BlogCard from '../blog/BlogCard';
+import BlogCreateCard from '../blog/BlogCreateCard';
 
 export default function TabbedTable({
   userInfo,
@@ -30,7 +31,7 @@ export default function TabbedTable({
     'inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300  group';
   const activeIcon = 'w-4 h-4 me-2 text-blue-600 group-hover:text-blue-700';
   const inactiveIcon = 'w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500';
-  const PAGE_SIZE = 3;
+  const PAGE_SIZE = 5;
 
   // STATES
   const [tab, setTab] = useState(0);
@@ -204,6 +205,7 @@ export default function TabbedTable({
         {tab === 1 && (
           <>
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
+              <BlogCreateCard />
               {blogs.map((item) => (
                 <BlogCard
                   key={item.id}
