@@ -7,6 +7,7 @@ import { getBlogs } from '@/src/services/blog.api';
 import { useForm } from 'react-hook-form';
 import { IApiResponse, IPaginationModel } from '@/src/interfaces/common';
 import {
+  BLOG_CATEGORIES,
   BLOG_CATEGORIES_OPTION,
   PAGE_SIZE,
   QUERY_KEYS,
@@ -16,16 +17,18 @@ import { IBlogCardResponse, IBlogResponse } from '@/src/interfaces/blog';
 import { useQuery } from '@/src/utils/hooks';
 import { QueryProvider } from '../general/QueryProvider';
 import CardSkeleton from '../general/CardSkeleton';
+import { PetSortBlock } from '../search/PetSortBlock';
 
 interface BlogSectionProps {
   bannerImage: string;
 }
 
 const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
-  const [selectedCategory, setSelectedCategory] = useState<number>(-1);
+  const [selectedCategory, setSelectedCategory] = useState<
+    BLOG_CATEGORIES | undefined
+  >();
   const [blogs, setBlogs] = useState<IBlogCardResponse[]>([]);
-  const [filteredBlogs, setFilteredBlogs] =
-    useState<IBlogCardResponse[]>(blogs);
+  const [orderBy, setOrderBy] = useState<'newest' | 'popular'>('newest');
 
   const paginationForm = useForm<IPaginationModel>({
     defaultValues: {
@@ -35,33 +38,30 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
   });
 
   const getBlogsQuery = useQuery<IApiResponse<IBlogResponse[]>>(
-    [QUERY_KEYS.GET_BLOGS],
+    [
+      QUERY_KEYS.GET_BLOGS,
+      selectedCategory,
+      paginationForm.getValues('pageIndex'),
+      orderBy,
+    ],
     () =>
       getBlogs({
         pageIndex: paginationForm.getValues('pageIndex'),
         pageSize: PAGE_SIZE,
-        filter: selectedCategory,
+        orderBy: orderBy,
+        filter: {
+          category: selectedCategory,
+        },
       }),
     {
       onSuccess: (res) => {
         const { data, pageNumber } = res.data;
         setBlogs(data);
-        setFilteredBlogs(data);
         pageNumber && paginationForm.setValue('pageNumber', pageNumber);
       },
       refetchOnWindowFocus: false,
     }
   );
-
-  useEffect(() => {
-    if (selectedCategory === -1) {
-      setFilteredBlogs(blogs);
-    } else {
-      setFilteredBlogs(
-        blogs.filter((blog) => blog.category === selectedCategory)
-      );
-    }
-  }, [selectedCategory]);
 
   return (
     <section className="blog-section">
@@ -69,13 +69,15 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
       <nav className="flex justify-center">
         {
           <ul className="flex">
-            {BLOG_CATEGORIES_OPTION.map((category) => (
+            {BLOG_CATEGORIES_OPTION.map((category, index) => (
               <li
-                key={category.value}
+                key={index}
                 className={`mr-5 cursor-pointer ${
                   selectedCategory === category.value ? 'underline' : ''
                 }`}
-                onClick={() => setSelectedCategory(category.value)}
+                onClick={() => {
+                  setSelectedCategory(category.value);
+                }}
               >
                 {category.label}
               </li>
@@ -113,14 +115,19 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
       </div>
 
       {/* Blog Cards Grid */}
-      <div className="flex justify-center mt-8">
-        <div className="blog-grid grid grid-cols-2 md:grid-cols-3 gap-3">
+      <div className="mt-8">
+        <PetSortBlock
+          orderBy={orderBy}
+          setOrderBy={setOrderBy}
+          disable={getBlogsQuery.isFetching}
+        />
+        <div className="blog-grid grid grid-cols-2 md:grid-cols-3 gap-3 mt-5">
           {getBlogsQuery.isLoading &&
             Array.from({ length: 6 }).map((_, index) => (
               <CardSkeleton key={index} />
             ))}
           {!getBlogsQuery.isLoading &&
-            filteredBlogs.map((blog) => (
+            blogs.map((blog) => (
               <BlogCard
                 key={blog.id}
                 id={blog.id}
@@ -137,7 +144,9 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
         <Pagination
           paginationForm={paginationForm}
           disable={false}
-          show={true}
+          show={
+            blogs.length !== 0 && paginationForm.getValues('pageNumber') != 1
+          }
         />
       </div>
     </section>

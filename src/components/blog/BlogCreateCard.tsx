@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
+import { STATIC_URLS } from '@/src/utils/constants';
 
 export default function BlogCreateCard() {
   const [styleHover, setStyleHover] = useState('opacity-0');
@@ -24,7 +25,7 @@ export default function BlogCreateCard() {
           {/* Image with rounded corners */}
           <div className="relative w-full pt-[100%]">
             <Image
-              src="/img/BlogCardCreate.jpg"
+              src={STATIC_URLS.BLOG_CREATE_CARD}
               alt="create blog"
               fill
               className="rounded-t-2xl object-cover"

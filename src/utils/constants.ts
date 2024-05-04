@@ -16,6 +16,7 @@ export const STATIC_URLS = {
   NO_AVATAR: '/img/no-avatar.png',
   BANNER: '/img/Banner.png',
   BLOG_BANNER: '/img/blog_banner.png',
+  BLOG_CREATE_CARD: '/img/BlogCardCreate.jpg',
 };
 
 export const COOKIES_NAME = {
@@ -403,7 +404,7 @@ export const ADOPT_ACTION = {
 export const BLOG_CATEGORIES_OPTION = [
   {
     label: 'Tất cả',
-    value: -1,
+    value: undefined,
   },
   {
     label: 'Sức khỏe',
