@@ -35,8 +35,7 @@ export default function FormUploadImage({
     if (index < watch('images').length) {
       const newImages = watch('images').filter((_, i) => i !== index);
       setValue('images', newImages);
-    }
-    else {
+    } else {
       const fileIndex = index - watch('images').length;
       const newFiles = watch('files').filter((_, i) => i !== fileIndex);
       setValue('files', newFiles);
@@ -100,14 +99,14 @@ export default function FormUploadImage({
                 className="absolute top-0 bg-red-300 right-0 p-1 rounded-full flex justify-center items-center cursor-pointer"
                 onClick={() => deleteFile(index)}
               >
-                <IoClose color='black' />
+                <IoClose color="black" />
               </div>
             </div>
           ))}
       </div>
 
       {/* Controller */}
-      <ControlForm handleBack={() => { }} handleNext={handleNext} type={1} />
+      <ControlForm handleBack={() => {}} handleNext={handleNext} type={1} />
     </div>
   );
 }

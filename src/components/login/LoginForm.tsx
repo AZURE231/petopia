@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 import { GoogleLoginButton } from './GoogleLoginButton';
 import { Alert } from '../general/Alert';
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
-import ClipLoader from 'react-spinners/ClipLoader';
 import { QueryProvider } from '../general/QueryProvider';
 import {
   IGoogleLoginRequest,
@@ -17,6 +16,7 @@ import { useMutation } from '@/src/utils/hooks';
 import { IApiResponse } from '@/src/interfaces/common';
 import { googleLogin, login } from '@/src/services/authentication.api';
 import { getErrorMessage } from '@/src/helpers/getErrorMessage';
+import QueryButton from '../general/QueryButton';
 
 export const LoginForm = QueryProvider(() => {
   // STATES
@@ -146,22 +146,10 @@ export const LoginForm = QueryProvider(() => {
                 Quên mật khẩu?
               </Link>
             </div>
-            <button
-              type="submit"
-              className="w-full text-black bg-yellow-300 hover:bg-primary-700 focus:ring-4 focus:outline-none 
-              focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-            >
-              Đăng nhập
-              <span className="ml-2 leading-5">
-                <ClipLoader
-                  color={'#000000'}
-                  loading={loginMutation.isLoading}
-                  size={14}
-                  aria-label="Loading Spinner"
-                  data-testid="loader"
-                />
-              </span>
-            </button>
+            <QueryButton
+              name={'Đăng nhập'}
+              isLoading={loginMutation.isLoading}
+            />
 
             <GoogleLoginButton
               onSuccess={(tokenId) =>

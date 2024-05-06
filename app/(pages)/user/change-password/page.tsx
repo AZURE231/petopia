@@ -8,8 +8,8 @@ import { useForm } from 'react-hook-form';
 import { getErrorMessage } from '@/src/helpers/getErrorMessage';
 import { QueryProvider } from '@/src/components/general/QueryProvider';
 import { Alert } from '@/src/components/general/Alert';
-import { ClipLoader } from 'react-spinners';
 import { checkPasswordFormat } from '@/src/helpers/inputValidator';
+import QueryButton from '@/src/components/general/QueryButton';
 
 const page = QueryProvider(() => {
   // ALERT STATES
@@ -56,7 +56,7 @@ const page = QueryProvider(() => {
   }, [watch('newPassword')]);
 
   return (
-    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto my-auto h-fit-screen">
+    <div className="flex flex-col items-center justify-center h-fit-screen">
       <div className="w-full bg-white rounded-lg shadow  md:mt-0 sm:max-w-md xl:p-0 ">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
           <div>
@@ -106,22 +106,10 @@ const page = QueryProvider(() => {
               />
               {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
             </div>
-            <button
-              type="submit"
-              className="w-full text-black bg-yellow-300 hover:bg-primary-700 focus:ring-4 focus:outline-none
-                  focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-            >
-              Đổi mật khẩu
-              <span className="ml-2">
-                <ClipLoader
-                  color={'#000000'}
-                  loading={changePasswordMutation.isLoading}
-                  size={14}
-                  aria-label="Loading Spinner"
-                  data-testid="loader"
-                />
-              </span>
-            </button>
+            <QueryButton
+              name={'Đổi mật khẩu'}
+              isLoading={changePasswordMutation.isLoading}
+            />
           </form>
         </div>
       </div>

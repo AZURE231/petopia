@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { UseFormReturn } from 'react-hook-form';
 
 export const postImage = async (formData: FormData) => {
   try {

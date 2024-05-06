@@ -10,12 +10,21 @@ import {
 export interface IPetFilterItem {
   id: number;
   label: string;
-  value: number;
+  value: number | string;
 }
 
 export interface IPetFilter {
   id: number;
   label: string;
+  labelGetValues: // | 'text'
+  | 'species'
+    | 'sex'
+    | 'color'
+    | 'breed'
+    | 'size'
+    | 'age'
+    | 'isVaccinated'
+    | 'isSterillized';
   items: IPetFilterItem[];
 }
 
@@ -35,6 +44,7 @@ export interface IPetFilterRequest {
   sex?: PET_SEX[];
   color?: PET_COLOR[];
   species?: PET_SPECIES[];
+  breed?: string[];
   size?: PET_SIZE[];
   age?: PET_AGE[];
   isVaccinated?: PET_MEDICAL_STATUS[];

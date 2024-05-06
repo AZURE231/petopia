@@ -16,6 +16,7 @@ export const STATIC_URLS = {
   NO_AVATAR: '/img/no-avatar.png',
   BANNER: '/img/Banner.png',
   BLOG_BANNER: '/img/blog_banner.png',
+  BLOG_CREATE_CARD: '/img/BlogCardCreate.jpg',
 };
 
 export const COOKIES_NAME = {
@@ -55,6 +56,12 @@ export const QUERY_KEYS = {
   GET_NOTIFICATION: 'GET_NOTIFICATION',
   GET_NOTIFICATION_COUNT: 'GET_NOTIFICATION_COUNT',
   GET_PRE_UPGRADE: 'GET_PRE_UPGRADE',
+  GET_PET_BREEDS: 'GET_PET_BREEDS',
+  GET_PET_POSTS: 'GET_PET_POSTS',
+  GET_BREED_DETAIL: 'GET_BREED_DETAIL',
+  GET_BLOGS: 'GET_BLOGS',
+  GET_BLOG_DETAIL: 'GET_BLOG_DETAIL',
+  GET_BLOGS_USER: 'GET_BLOGS_USER',
 };
 
 export const EVENT_NAMES = {
@@ -123,6 +130,13 @@ export enum ADOPT_DELAY_DURATION {
   Other,
 }
 
+export enum BLOG_CATEGORIES {
+  HEALTH,
+  TRAINING,
+  PRODUCT,
+  ART,
+}
+//////////////////////////////////////////////////////////////////
 export enum ORG_TYPE {
   RESCUE,
   BUSINESS,
@@ -130,11 +144,10 @@ export enum ORG_TYPE {
   OTHER,
 }
 
-//////////////////////////////////////////////////////////////////
-
 export const PET_SPECIES_FILTER: IPetFilter = {
   id: 1,
   label: 'Loài',
+  labelGetValues: 'species',
   items: [
     {
       id: 1,
@@ -157,6 +170,7 @@ export const PET_SPECIES_FILTER: IPetFilter = {
 export const PET_SEX_FILTER: IPetFilter = {
   id: 2,
   label: 'Giới tính',
+  labelGetValues: 'sex',
   items: [
     {
       id: 1,
@@ -179,6 +193,7 @@ export const PET_SEX_FILTER: IPetFilter = {
 export const PET_COLOR_FILTER: IPetFilter = {
   id: 3,
   label: 'Màu sắc',
+  labelGetValues: 'color',
   items: [
     {
       id: 1,
@@ -216,6 +231,7 @@ export const PET_COLOR_FILTER: IPetFilter = {
 export const PET_SIZE_FILTER: IPetFilter = {
   id: 4,
   label: 'Kích thước',
+  labelGetValues: 'size',
   items: [
     {
       id: 1,
@@ -238,6 +254,7 @@ export const PET_SIZE_FILTER: IPetFilter = {
 export const PET_AGE_FILTER: IPetFilter = {
   id: 5,
   label: 'Độ tuổi',
+  labelGetValues: 'age',
   items: [
     {
       id: 1,
@@ -260,6 +277,7 @@ export const PET_AGE_FILTER: IPetFilter = {
 export const PET_VACCINATED_FILTER: IPetFilter = {
   id: 6,
   label: 'Tiêm chủng',
+  labelGetValues: 'isVaccinated',
   items: [
     {
       id: 1,
@@ -282,6 +300,7 @@ export const PET_VACCINATED_FILTER: IPetFilter = {
 export const PET_STERILIZED_FILTER: IPetFilter = {
   id: 7,
   label: 'Triệt sản',
+  labelGetValues: 'isSterillized',
   items: [
     {
       id: 1,
@@ -301,18 +320,6 @@ export const PET_STERILIZED_FILTER: IPetFilter = {
   ],
 };
 
-export const PET_BREED_FILTER: IPetFilter = {
-  id: 8,
-  label: 'Giống',
-  items: [
-    {
-      id: 1,
-      label: 'Chưa rõ',
-      value: PET_MEDICAL_STATUS.YES,
-    },
-  ],
-};
-
 export const PET_FILTERS: IPetFilter[] = [
   PET_SPECIES_FILTER,
   PET_AGE_FILTER,
@@ -325,7 +332,6 @@ export const PET_FILTERS: IPetFilter[] = [
 
 export const PET_SELECT: IPetSelect[] = [
   { ...PET_SPECIES_FILTER, kind: 'species' },
-  { ...PET_BREED_FILTER, kind: 'breed' },
   { ...PET_SEX_FILTER, kind: 'sex' },
   { ...PET_COLOR_FILTER, kind: 'color' },
   { ...PET_SIZE_FILTER, kind: 'size' },
@@ -345,14 +351,6 @@ export enum USER_ROLE {
   SYSTEM_ADMIN = 1,
   ORGANIZATION = 2,
 }
-
-export const BLOG_CATEGORIES = [
-  'Sức khỏe',
-  'Đời sống',
-  'Công nghệ',
-  'Thời trang',
-  'Ẩm thực',
-];
 
 export const HOUSE_TYPE_OPTION = [
   {
@@ -403,6 +401,28 @@ export const ADOPT_ACTION = {
   CANCEL: 'Cancel',
 };
 
+export const BLOG_CATEGORIES_OPTION = [
+  {
+    label: 'Tất cả',
+    value: undefined,
+  },
+  {
+    label: 'Sức khỏe',
+    value: BLOG_CATEGORIES.HEALTH,
+  },
+  {
+    label: 'Huấn luyện',
+    value: BLOG_CATEGORIES.TRAINING,
+  },
+  {
+    label: 'Sản phẩm',
+    value: BLOG_CATEGORIES.PRODUCT,
+  },
+  {
+    label: 'Nghệ thuật',
+    value: BLOG_CATEGORIES.ART,
+  },
+];
 export const PET_ORG_TYPE_OPTION = [
   {
     label: 'Giải cứu động vật',

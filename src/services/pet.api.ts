@@ -5,6 +5,7 @@ import {
   ILocationRequest,
   IPetFilterRequest,
 } from '../interfaces/pet';
+import { PET_SPECIES } from '../utils/constants';
 
 export const getPets = async (data: IPaginationRequest<IPetFilterRequest>) =>
   await http.post('/Pet/Get', data);
@@ -26,3 +27,9 @@ export const updatePet = async (data: ICreatePetProfileRequest) =>
 
 export const getPetsByUser = async (data: IPaginationRequest<string>) =>
   await http.post('/Pet/User', data);
+
+export const getAvailableBreeds = async (data: { species: PET_SPECIES }) =>
+  await http.get('/Pet/AvailableBreed', data);
+
+export const getBreed = async (data: number) =>
+  await http.get('/Pet/Breed', { species: data });

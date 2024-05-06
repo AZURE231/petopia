@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { MdDelete } from 'react-icons/md';
 import { Alert } from '../general/Alert';
 import { useState } from 'react';
-import { useMutation, useQuery } from '@/src/utils/hooks';
+import { useMutation } from '@/src/utils/hooks';
 import { deletePet } from '@/src/services/pet.api';
 import { CiEdit } from 'react-icons/ci';
 import Popup from 'reactjs-popup';
@@ -60,27 +60,33 @@ export function PetCard(props: IPetCard) {
                 ></Image>
               ) : null}
             </div>
-            <div className="p-5">
+            <div className="p-2 md:p-5">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
                 <div className="flex flex-row gap-2 items-center">
                   {name}{' '}
                   {isOrgOwned && (
                     <Tooltip content="Cộng tác viên">
-                      <Button className="p-0 shadow-none">
-                        <FaShieldDog color="green" size={25} />
+                      <Button className="p-0 shadow-none bg-white">
+                        <FaShieldDog color="green" size={20} />
                       </Button>
                     </Tooltip>
                   )}
                 </div>
               </h5>
               {!simple && (
-                <>
-                  <h4 className="font-bold">{breed}</h4>
-                  <div className="flex flex-row justify-between">
-                    <div>{`Giới tính: ${getPetSexText(sex)}`}</div>
-                    <div>{`Tuổi: ${getPetAgeText(age)}`}</div>
+                <div className="">
+                  <h4 className="font-bold text-md md:text-lg">{breed}</h4>
+                  <div className="flex flex-col text-md md:text-lg">
+                    <div className="text-gray-600">
+                      Giới tính:{' '}
+                      <span className="font-medium">{getPetSexText(sex)}</span>
+                    </div>
+                    <div className="text-gray-600">
+                      Tuổi:{' '}
+                      <span className="font-medium">{getPetAgeText(age)}</span>
+                    </div>
                   </div>
-                </>
+                </div>
               )}
             </div>
           </div>
