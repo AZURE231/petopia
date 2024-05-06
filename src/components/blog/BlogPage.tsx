@@ -8,7 +8,7 @@ interface Props {
   view: number;
   userName: string;
   createdAt: string;
-  image: string;
+  userImage: string;
 }
 
 const BlogPage: React.FC<Props> = ({
@@ -17,7 +17,7 @@ const BlogPage: React.FC<Props> = ({
   view,
   userName,
   createdAt,
-  image,
+  userImage,
 }) => {
   // Modify only the images within the htmlContent
   const styledHTMLContent = htmlContent.replace(
@@ -35,7 +35,7 @@ const BlogPage: React.FC<Props> = ({
         <div className="text-gray-400 text-sm flex justify-center items-center">
           <div className="relative h-9 w-9">
             <Image
-              src={image}
+              src={userImage}
               alt="user-avatar"
               fill
               className="object-cover rounded-full"
