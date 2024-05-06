@@ -1,4 +1,25 @@
-export default function page() {
+'use client';
+import { QueryProvider } from '@/src/components/general/QueryProvider';
+import { IApiResponse } from '@/src/interfaces/common';
+import { IPaymentTypes } from '@/src/interfaces/payment';
+import { getAdTypes } from '@/src/services/payment.api';
+import { QUERY_KEYS } from '@/src/utils/constants';
+import { useQuery } from '@/src/utils/hooks';
+import React, { useState } from 'react';
+
+const BlogAdPage = QueryProvider(() => {
+  const [adTypes, setAdTypes] = useState<IPaymentTypes[]>([]);
+
+  useQuery<IApiResponse<IPaymentTypes[]>>(
+    [QUERY_KEYS.GET_AD_TYPES],
+    () => getAdTypes(),
+    {
+      onSuccess: (data) => {
+        setAdTypes(data.data.data);
+      },
+    }
+  );
+
   return (
     <div className="container mx-auto px-4 py-8 w-3/4">
       {/* <h1 className="font-bold text-3xl mb-4">Bảng Gía Quảng Cáo Blog</h1> */}
@@ -14,67 +35,32 @@ export default function page() {
             </p>
           </div>
           <div className="space-y-8 lg:grid lg:grid-cols-4 sm:gap-6 xl:gap-10 lg:space-y-0">
-            <div className="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow">
-              <h3 className="mb-4 text-2xl font-semibold">Starter</h3>
-              <p className="font-light text-gray-500 sm:text-lg dark:text-gray-400">
-                Best option for personal use & for your next project.
-              </p>
-              <div className="flex justify-center items-baseline my-8">
-                <span className="mr-2 text-5xl font-extrabold">$29</span>
-              </div>
-              <button
-                className="w-full text-black bg-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-yellow-400"
-                // onClick={checkLoggedIn}
-              >
-                Bắt đầu
-              </button>
-            </div>
-            <div className="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
-              <h3 className="mb-4 text-2xl font-semibold">Starter</h3>
-              <p className="font-light text-gray-500 sm:text-lg dark:text-gray-400">
-                Best option for personal use & for your next project.
-              </p>
-              <div className="flex justify-center items-baseline my-8">
-                <span className="mr-2 text-5xl font-extrabold">$29</span>
-              </div>
-              <button
-                className="w-full text-black bg-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-yellow-400"
-                // onClick={checkLoggedIn}
-              >
-                Bắt đầu
-              </button>
-            </div>
-            <div className="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
-              <h3 className="mb-4 text-2xl font-semibold">Starter</h3>
-              <p className="font-light text-gray-500 sm:text-lg dark:text-gray-400">
-                Best option for personal use & for your next project.
-              </p>
-              <div className="flex justify-center items-baseline my-8">
-                <span className="mr-2 text-5xl font-extrabold">$29</span>
-              </div>
-              <button
-                className="w-full text-black bg-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-yellow-400"
-                // onClick={checkLoggedIn}
-              >
-                Bắt đầu
-              </button>
-            </div>
-            <div className="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
-              <h3 className="mb-4 text-2xl font-semibold">Starter</h3>
-              <p className="font-light text-gray-500 sm:text-lg dark:text-gray-400">
-                Best option for personal use & for your next project.
-              </p>
-              <div className="flex justify-center items-baseline my-8">
-                <span className="mr-2 text-5xl font-extrabold">$29</span>
-              </div>
-              <button
-                className="w-full text-black bg-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-yellow-400"
-                // onClick={checkLoggedIn}
-              >
-                Bắt đầu
-              </button>
-            </div>
-
+            {adTypes.map((adType) => {
+              return (
+                <div className="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow">
+                  <h3 className="mb-4 text-2xl font-semibold">
+                    {adType.monthDuration} tháng
+                  </h3>
+                  <p className="font-light h-10 text-gray-500 sm:text-lg ">
+                    {adType.description}
+                  </p>
+                  <div className="flex justify-center items-baseline my-8">
+                    <span className="mr-2 text-3xl font-extrabold">
+                      {adType.price
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{' '}
+                      VND
+                    </span>
+                  </div>
+                  <button
+                    className="w-full text-black bg-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-yellow-400"
+                    // onClick={checkLoggedIn}
+                  >
+                    Bắt đầu
+                  </button>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -97,4 +83,6 @@ export default function page() {
       </div> */}
     </div>
   );
-}
+});
+
+export default BlogAdPage;
