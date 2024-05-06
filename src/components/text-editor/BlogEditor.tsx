@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
 import uploadAdapter from './UploadAdapter';
 import { IBlog, IBlogResponse, IBlogUpdate } from '@/src/interfaces/blog';
 import { useForm } from 'react-hook-form';
@@ -21,7 +20,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
   const [alertFailed, setAlertFailed] = useState<boolean>(false);
   const [myEditor, setMyEditor] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
+  const [alertAction, setAlertAction] = useState<() => void>(() => () => { });
   const uploadImageForm = useForm<IUploadImage>({
     defaultValues: {
       showImages: [],
@@ -66,6 +65,17 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
     e.preventDefault();
     setIsLoading(true);
     await uploadImage();
+    //check if all fields are filled
+    if (
+      !createBlogForm.getValues('image') ||
+      !createBlogForm.getValues('content')
+    ) {
+      setAlertMessage('Vui lòng điền đầy đủ thông tin');
+      setAlertFailed(true);
+      setAlertShow(true);
+      setIsLoading(false);
+      return;
+    }
     if (!id)
       postBlogMutation.mutate({
         title: createBlogForm.getValues('title'),
@@ -79,13 +89,18 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
 
   // QUERY
   const postBlogMutation = useMutation<IApiResponse<string>, IBlog>(postBlog, {
-    onError: (err) => {
+    onError: () => {
       setAlertMessage('Đăng bài thất bại');
       setAlertFailed(true);
       setAlertShow(true);
     },
     onSuccess: (res) => {
-      window.location.href = `/blog/${res.data.data}`;
+      setAlertMessage('Đăng bài thành công');
+      setAlertFailed(false);
+      setAlertShow(true);
+      setAlertAction(() => () => {
+        window.location.href = `/blog/${res.data.data}`;
+      });
     },
   });
 
@@ -98,7 +113,12 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
         setAlertShow(true);
       },
       onSuccess: () => {
-        window.location.href = `/blog/${id}`;
+        setAlertMessage('Cập nhật bài viết thành công');
+        setAlertFailed(false);
+        setAlertShow(true);
+        setAlertAction(() => () => {
+          window.location.href = `/blog/${id}`;
+        });
       },
     }
   );
@@ -159,6 +179,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
           value={createBlogForm.watch('title')}
           onChange={(e) => createBlogForm.setValue('title', e.target.value)}
           className="w-full p-3 px-8 rounded-full font-bold shadow-md bg-white border border-gray-300 mb-5"
+          required
           maxLength={50}
         />
         <input
@@ -166,6 +187,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
           placeholder="Nhập mô tả ngắn cho bài viết"
           value={createBlogForm.watch('excerpt')}
           onChange={(e) => createBlogForm.setValue('excerpt', e.target.value)}
+          required
           className="w-full p-3 px-8 rounded-full font-bold shadow-md bg-white border border-gray-300 mb-5"
           maxLength={200}
         />
@@ -195,6 +217,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
           ))}
         </select>
         <div id="editor" />
+        <div className="mt-5" />
         {id === '' && (
           <QueryButton
             name={'Đăng bài'}
@@ -213,6 +236,8 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
         show={alertShow}
         setShow={setAlertShow}
         failed={alertFailed}
+        action={alertAction}
+        showCancel={false}
       />
     </div>
   );

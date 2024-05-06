@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import BlogCard from './BlogCard';
 import Pagination from '../general/Pagination';
@@ -75,24 +75,6 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
           width={1246}
           height={413}
         />
-        {/* <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-center">
-          <div className="bg-red-600">
-            <h1 className="">
-              {selectedCategory === -1
-                ? 'Tất cả'
-                : BLOG_CATEGORIES_OPTION[selectedCategory].label}
-            </h1>
-
-            <h1 className="text-md md:text-3xl font-bold mt-10">
-              Richird Norton photorealistic rendering as real photos
-            </h1>
-            <p className="mt-10 font-thin">
-              The rendering of the project is a process that is carried out
-              throughout the project, from the first sketches to the final
-              presentation.
-            </p>
-          </div>
-        </div> */}
       </div>
 
       {/* Blog Cards Grid */}
@@ -103,9 +85,8 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
               {BLOG_CATEGORIES_OPTION.map((category, index) => (
                 <li
                   key={index}
-                  className={`mr-5 cursor-pointer ${
-                    selectedCategory === category.value ? 'underline' : ''
-                  }`}
+                  className={`mr-5 cursor-pointer ${selectedCategory === category.value ? 'underline' : ''
+                    }`}
                   onClick={() => {
                     setSelectedCategory(category.value);
                   }}
@@ -135,6 +116,7 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
                 category={blog.category}
                 title={blog.title}
                 excerpt={blog.excerpt}
+
               />
             ))}
         </div>
