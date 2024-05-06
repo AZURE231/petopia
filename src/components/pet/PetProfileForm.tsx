@@ -186,7 +186,7 @@ const PetProfileForm = QueryProvider(
     });
 
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="max-h-screen overflow-y-auto">
         {/* breadscrum stepper */}
         <ol className="flex items-center justify-center w-full p-3 mb-5 space-x-2 text-sm font-medium text-center text-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm  sm:p-4 sm:space-x-4 rtl:space-x-reverse">
           <li
