@@ -35,7 +35,7 @@ export const FilterDropDown = (props: IFilterDropDown) => {
     if (value) {
       setFilterText(value);
     } else {
-      setFilterText('Chưa chọn');
+      setFilterText('Không rõ');
     }
   }, [value]);
 
@@ -70,7 +70,7 @@ export const FilterDropDown = (props: IFilterDropDown) => {
           />
         </span>
       </div>
-      {showDropdown && (
+      {showDropdown && options.length !== 0 && (
         <div
           ref={listRef}
           className="w-full absolute text-center max-h-80 overflow-y-auto mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 "

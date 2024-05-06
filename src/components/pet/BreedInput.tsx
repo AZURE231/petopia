@@ -22,7 +22,6 @@ export default function BreedInput({
     () => getBreed(watch('species')),
     {
       onSuccess: (res) => {
-        console.log(watch('species'));
         setBreeds(res.data.data);
       },
       enabled: watch('species') !== -1,
@@ -31,7 +30,7 @@ export default function BreedInput({
   );
 
   useEffect(() => {
-    setValue('breed', '');
+    setValue('breed', 'Không rõ');
   }, [watch('species')]);
 
   return (

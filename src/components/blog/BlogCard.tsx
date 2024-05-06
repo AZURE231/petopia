@@ -50,7 +50,6 @@ const BlogCard = ({
   });
 
   const deleteBlogFunc = () => {
-    console.log('Delete pet', id);
     deleteBlogMutation.mutate(id);
   };
   return (
