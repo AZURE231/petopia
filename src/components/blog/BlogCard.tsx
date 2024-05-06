@@ -33,9 +33,6 @@ const BlogCard = ({
 }: IBlogCard) => {
   const [showAlert, setShowAlert] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  const handleClose = () => {
-    window.location.reload();
-  };
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     setShowAlert(true);

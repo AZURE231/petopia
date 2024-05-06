@@ -1,8 +1,7 @@
-import React, { useState, useEffect, use } from 'react';
-
+import React, { useState, useEffect } from 'react';
 import uploadAdapter from './UploadAdapter';
 import { IBlog, IBlogResponse, IBlogUpdate } from '@/src/interfaces/blog';
-import { set, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { BLOG_CATEGORIES_OPTION, QUERY_KEYS } from '@/src/utils/constants';
 import Dropzone from '../general/Dropzone';
 import { IApiResponse, IUploadImage } from '@/src/interfaces/common';
@@ -21,7 +20,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
   const [alertFailed, setAlertFailed] = useState<boolean>(false);
   const [myEditor, setMyEditor] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [alertAction, setAlertAction] = useState<() => void>(() => () => {});
+  const [alertAction, setAlertAction] = useState<() => void>(() => () => { });
   const uploadImageForm = useForm<IUploadImage>({
     defaultValues: {
       showImages: [],
@@ -90,7 +89,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
 
   // QUERY
   const postBlogMutation = useMutation<IApiResponse<string>, IBlog>(postBlog, {
-    onError: (err) => {
+    onError: () => {
       setAlertMessage('Đăng bài thất bại');
       setAlertFailed(true);
       setAlertShow(true);
