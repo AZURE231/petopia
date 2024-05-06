@@ -9,6 +9,7 @@ export interface IBlogResponse {
   view: number;
   isCreatedAt: string;
   userName: string;
+  userImage: string;
 }
 
 export interface IBlogCardResponse {

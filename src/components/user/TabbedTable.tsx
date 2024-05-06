@@ -32,9 +32,15 @@ export default function TabbedTable({
   const activeIcon = 'w-4 h-4 me-2 text-blue-600 group-hover:text-blue-700';
   const inactiveIcon = 'w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500';
   const PAGE_SIZE = 5;
+  const TAB = {
+    PET: 0,
+    BLOG: 1,
+    IMCOMMING: 3,
+    SENT: 2,
+  };
 
   // STATES
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState(TAB.PET);
   const [pets, setPets] = useState<IPetResponse[]>([]);
   const [blogs, setBlogs] = useState<IBlogResponse[]>([]);
   const [notifyCount, setNotifyCount] = useState<number>(0);
@@ -97,6 +103,7 @@ export default function TabbedTable({
       QUERY_KEYS.GET_BLOGS_USER,
       userInfo,
       paginationFormBlog.watch('pageIndex'),
+      tab,
     ],
     () =>
       userInfo &&
@@ -111,7 +118,7 @@ export default function TabbedTable({
         paginationFormBlog.setValue('pageNumber', res.data.pageNumber!);
       },
       refetchOnWindowFocus: false,
-      enabled: !!userInfo && userInfo.role === USER_ROLE.ORGANIZATION,
+      enabled: !!userInfo && userInfo.role === USER_ROLE.ORGANIZATION && tab === TAB.BLOG,
     }
   );
 
@@ -122,7 +129,7 @@ export default function TabbedTable({
           <li className="me-2">
             <button
               className={`${tab === 0 ? activeTab : inactiveTab}`}
-              onClick={() => setTab(0)}
+              onClick={() => setTab(TAB.PET)}
             >
               <MdPets className={`${tab === 0 ? activeIcon : inactiveIcon}`} />
               Thú cưng{' '}
@@ -133,7 +140,7 @@ export default function TabbedTable({
             <li className="me-2">
               <button
                 className={`${tab === 1 ? activeTab : inactiveTab} relative`}
-                onClick={() => setTab(1)}
+                onClick={() => setTab(TAB.BLOG)}
               >
                 <RiUserReceived2Fill
                   className={`${tab === 1 ? activeIcon : inactiveIcon}`}
@@ -153,7 +160,7 @@ export default function TabbedTable({
           <li className="me-2">
             <button
               className={`${tab === 2 ? activeTab : inactiveTab}`}
-              onClick={() => setTab(2)}
+              onClick={() => setTab(TAB.SENT)}
             >
               <GrSend className={`${tab === 2 ? activeIcon : inactiveIcon}`} />
               <span className="hidden md:inline-block mr-1">Yêu cầu</span> Đã
@@ -163,7 +170,7 @@ export default function TabbedTable({
           <li className="me-2">
             <button
               className={`${tab === 3 ? activeTab : inactiveTab} relative`}
-              onClick={() => setTab(3)}
+              onClick={() => setTab(TAB.IMCOMMING)}
             >
               <RiUserReceived2Fill
                 className={`${tab === 2 ? activeIcon : inactiveIcon}`}
@@ -183,7 +190,7 @@ export default function TabbedTable({
       </div>
 
       <div className="p-5">
-        {tab === 0 && (
+        {tab === TAB.PET && (
           <>
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
               {pets.map((item) => (
@@ -202,7 +209,7 @@ export default function TabbedTable({
             </div>
           </>
         )}
-        {tab === 1 && (
+        {tab === TAB.BLOG && (
           <>
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
               <BlogCreateCard />
@@ -215,7 +222,7 @@ export default function TabbedTable({
                   image={item.image}
                   category={item.category}
                   isEditable={true}
-                  query = {getUserBlogsQuery}
+                  query={getUserBlogsQuery}
                 />
               ))}
             </div>
@@ -231,13 +238,13 @@ export default function TabbedTable({
             </div>
           </>
         )}
-        {tab === 2 && (
+        {tab === TAB.SENT && (
           <div>
             <NotifySortBlock setFilter={setOrderBySent} />
             <AdoptionCard type="Sent" filter={orderBySent} />
           </div>
         )}
-        {tab === 3 && (
+        {tab === TAB.IMCOMMING && (
           <div>
             <NotifySortBlock setFilter={setOrderByIncoming} />
             <AdoptionCard
