@@ -5,7 +5,7 @@ import { PetSearchBar } from './PetSearchBar';
 import { PetCard } from './PetCard';
 import Pagination from '../general/Pagination';
 import { QueryProvider } from '../general/QueryProvider';
-import { PetSortBlock } from './PetSortBlock';
+import { SortBlock } from '../general/SortBlock';
 import { PetFilterBar } from './PetFilterBar';
 import { useForm } from 'react-hook-form';
 import { IApiResponse, IPaginationModel } from '@/src/interfaces/common';
@@ -13,7 +13,7 @@ import { useQuery } from '@/src/utils/hooks';
 import { getPets } from '@/src/services/pet.api';
 import { NoResultBackground } from '../general/NoResultBackground';
 import { IPetFilterRequest, IPetResponse } from '@/src/interfaces/pet';
-import { PAGE_SIZE, PET_FILTERS, QUERY_KEYS } from '@/src/utils/constants';
+import { PAGE_SIZE, QUERY_KEYS } from '@/src/utils/constants';
 import CardSkeleton from '../general/CardSkeleton';
 
 export const SearchPetSection = QueryProvider(() => {
@@ -92,7 +92,7 @@ export const SearchPetSection = QueryProvider(() => {
                 ) : (
                   <></>
                 )}
-                <PetSortBlock
+                <SortBlock
                   orderBy={orderBy}
                   setOrderBy={setOrderBy}
                   disable={getPetsQuery.isFetching}
@@ -117,13 +117,26 @@ export const SearchPetSection = QueryProvider(() => {
                 </button>
               </div>
               <div className="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 xl:gap-x-8">
-                {getPetsQuery.isLoading
-                  ? Array.from({ length: PAGE_SIZE }).map((_, index) => (
-                      <CardSkeleton key={index} />
-                    ))
-                  : pets.map((pet) => (
-                      <PetCard isEditable={false} key={pet.id} {...pet} />
-                    ))}
+                {getPetsQuery.isLoading && Array.from({ length: PAGE_SIZE }).map((_, index) => (
+                  <CardSkeleton key={index} />
+                ))}
+                {
+                  !getPetsQuery.isLoading &&
+                  pets.length > 0 &&
+                  pets.map((pet) => (
+                    <PetCard
+                      isEditable={false}
+                      key={pet.id}
+                      id={pet.id}
+                      name={pet.name}
+                      breed={pet.breed}
+                      sex={pet.sex}
+                      age={pet.age}
+                      image={pet.image}
+                      isOrgOwned={pet.isOrgOwned}
+                    />
+                  ))
+                }
               </div>
               <NoResultBackground show={pets.length === 0} />
               <div className="flex items-center justify-center mt-5">
