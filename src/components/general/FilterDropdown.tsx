@@ -1,25 +1,28 @@
 import { useClickOutside } from '@/src/utils/hooks';
 import { useEffect, useRef, useState } from 'react';
+import { set } from 'react-hook-form';
 
 interface IFilterDropDownOption {
-  label: string,
-  value: string,
+  label: string;
+  value: string;
 }
 
 interface IFilterDropDown {
-  options: IFilterDropDownOption[],
-  value: string,
-  setValue: (value: string) => void,
-  title?: string,
+  options: IFilterDropDownOption[];
+  value: string;
+  setValue: (value: string) => void;
+  title?: string;
+  disabled?: boolean;
 }
 
 export const FilterDropDown = (props: IFilterDropDown) => {
-  const { title = '', options, value, setValue } = props;
+  const { title = '', options, value, setValue, disabled } = props;
 
   // STATES
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [filterText, setFilterText] = useState<string>('');
-  const [displayedOptions, setDisplayedOptions] = useState<IFilterDropDownOption[]>(options);
+  const [displayedOptions, setDisplayedOptions] =
+    useState<IFilterDropDownOption[]>(options);
 
   // EFFECTS
   const listRef = useRef<HTMLDivElement>(null);
@@ -30,15 +33,14 @@ export const FilterDropDown = (props: IFilterDropDown) => {
 
   useEffect(() => {
     if (value) {
-      const currentOptions = options.filter(e => e.value === value);
-      currentOptions.length && setFilterText(currentOptions[0].label);
+      setFilterText(value);
     } else {
-      setFilterText('Chưa chọn');
+      setFilterText('Không rõ');
     }
   }, [value]);
 
   useEffect(() => {
-    if (options.filter(e => e.label === filterText).length) {
+    if (options.filter((e) => e.label === filterText).length) {
       setDisplayedOptions(options);
     } else {
       const newOptions = options.filter((e) =>
@@ -54,12 +56,11 @@ export const FilterDropDown = (props: IFilterDropDown) => {
 
   return (
     <div className="relative inline-block text-left">
-      {
-        title && <div className="text-sm font-medium mb-2">{title}</div>
-      }
+      {title && <div className="text-sm font-medium mb-2">{title}</div>}
       <div>
         <span className="rounded-md shadow-sm">
           <input
+            disabled={disabled}
             ref={buttonRef}
             type="text"
             value={filterText}
@@ -69,27 +70,25 @@ export const FilterDropDown = (props: IFilterDropDown) => {
           />
         </span>
       </div>
-      {showDropdown && (
+      {showDropdown && options.length !== 0 && (
         <div
           ref={listRef}
           className="w-full absolute text-center max-h-80 overflow-y-auto mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 "
         >
           <div className="py-1" role="menu">
-            {
-              displayedOptions.map((option, index) => (
-                <div
-                  key={index}
-                  className="block px-4 py-2 text-sm text-black hover:bg-gray-100 cursor-pointer"
-                  role="menuitem"
-                  onClick={() => {
-                    setValue(option.value);
-                    setShowDropdown(false);
-                  }}
-                >
-                  {option.label}
-                </div>
-              ))
-            }
+            {displayedOptions.map((option, index) => (
+              <div
+                key={index}
+                className="block px-4 py-2 text-sm text-black hover:bg-gray-100 cursor-pointer"
+                role="menuitem"
+                onClick={() => {
+                  setValue(option.value);
+                  setShowDropdown(false);
+                }}
+              >
+                {option.label}
+              </div>
+            ))}
           </div>
         </div>
       )}
