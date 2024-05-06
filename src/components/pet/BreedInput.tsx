@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import { useQuery } from '@/src/utils/hooks';
 import { QUERY_KEYS } from '@/src/utils/constants';
 import { IApiResponse } from '@/src/interfaces/common';
@@ -22,7 +22,7 @@ export default function BreedInput({
     () => getBreed(watch('species')),
     {
       onSuccess: (res) => {
-        setBreeds(breed => [...breed, ...res.data.data]);
+        setBreeds((breed) => [...breed, ...res.data.data]);
       },
       enabled: watch('species') !== -1,
       refetchOnWindowFocus: false,
@@ -31,10 +31,10 @@ export default function BreedInput({
 
   return (
     <FilterDropDown
-      options={breeds.map(e => ({ label: e, value: e }))}
+      options={breeds.map((e) => ({ label: e, value: e }))}
       value={watch('breed')}
       setValue={(value: string) => setValue('breed', value)}
-      title='Chọn giống'
+      title="Chọn giống"
     />
   );
 }

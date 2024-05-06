@@ -1,5 +1,4 @@
-import { useState } from "react";
-import ControlForm from "./ControlForm";
+import ControlForm from './ControlForm';
 
 export default function FormRules({
   handleBack,
@@ -8,7 +7,6 @@ export default function FormRules({
   handleBack: () => void;
   isLoading: boolean;
 }) {
-
   return (
     <div className="w-full rounded-2xl bg-yellow-100 p-5">
       <h2 className="font-bold mb-2">Điều khoản</h2>
@@ -29,8 +27,7 @@ export default function FormRules({
           <p>1. Tôi cam kết rằng tôi đã đủ 18 tuổi trở lên.</p>
           <p>
             2. Tôi xác nhận tất cả các thành viên trong hộ gia đình đồng ý nhận
-            nuôi một con vật mới - tất cả người lớn đều sẵn lòng tham gia phỏng
-            vấn (trên Zoom).
+            nuôi một con vật mới.
           </p>
           <p>
             3. Tôi cam kết thông tin mà tôi đã cung cấp là chính xác và nhận ra
@@ -51,11 +48,7 @@ export default function FormRules({
           </p>
         </div>
         <div className="mb-4">
-          <input
-            type="checkbox"
-            id="agreeCheckbox"
-            required
-          />
+          <input type="checkbox" id="agreeCheckbox" required />
           <label htmlFor="agreeCheckbox" className="ml-2">
             Tôi đồng ý với các điều khoản nhận nuôi.
           </label>
@@ -67,7 +60,6 @@ export default function FormRules({
         handleNext={() => {}}
         type={4}
         isLoading={isLoading}
-       
       />
     </div>
   );
