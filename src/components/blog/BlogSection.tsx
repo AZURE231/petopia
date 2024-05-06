@@ -135,6 +135,7 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
                 category={blog.category}
                 title={blog.title}
                 excerpt={blog.excerpt}
+                
               />
             ))}
         </div>

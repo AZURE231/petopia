@@ -16,7 +16,10 @@ import { IApiErrorResponse, IApiResponse } from '@/src/interfaces/common';
 
 interface IBlogCard extends IBlogCardResponse {
   isEditable?: boolean;
-  query: UseQueryResult<AxiosResponse<IApiResponse<IBlogResponse[]>, any>, AxiosResponse<IApiErrorResponse, any>>;
+  query?: UseQueryResult<
+    AxiosResponse<IApiResponse<IBlogResponse[]>, any>,
+    AxiosResponse<IApiErrorResponse, any>
+  >;
 }
 
 const BlogCard = ({
@@ -45,7 +48,7 @@ const BlogCard = ({
   const deleteBlogMutation = useMutation(deleteBlog, {
     onSuccess: () => {
       // window.location.reload();
-      query.refetch();
+      query && query.refetch();
     },
   });
 
