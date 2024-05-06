@@ -215,6 +215,7 @@ export default function TabbedTable({
                   image={item.image}
                   category={item.category}
                   isEditable={true}
+                  query = {getUserBlogsQuery}
                 />
               ))}
             </div>

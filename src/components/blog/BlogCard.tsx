@@ -10,9 +10,13 @@ import { Alert } from '../general/Alert';
 import { useMutation } from '@/src/utils/hooks';
 import { deleteBlog } from '@/src/services/blog.api';
 import BlogEditor from '../text-editor/BlogEditor';
+import { UseQueryResult } from 'react-query';
+import { AxiosResponse } from 'axios';
+import { IApiErrorResponse, IApiResponse } from '@/src/interfaces/common';
 
 interface IBlogCard extends IBlogCardResponse {
   isEditable?: boolean;
+  query: UseQueryResult<AxiosResponse<IApiResponse<IBlogResponse[]>, any>, AxiosResponse<IApiErrorResponse, any>>;
 }
 
 const BlogCard = ({
@@ -22,6 +26,7 @@ const BlogCard = ({
   title,
   excerpt,
   isEditable,
+  query,
 }: IBlogCard) => {
   const [showAlert, setShowAlert] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
@@ -39,8 +44,8 @@ const BlogCard = ({
 
   const deleteBlogMutation = useMutation(deleteBlog, {
     onSuccess: () => {
-      console.log('Delete blog success');
-      window.location.reload();
+      // window.location.reload();
+      query.refetch();
     },
   });
 
