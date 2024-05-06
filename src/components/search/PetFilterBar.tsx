@@ -65,7 +65,7 @@ export const PetFilterBar = (props: IFilterBar) => {
 
   return (
     <form className="hidden lg:block">
-      {PET_FILTERS.map((filter, index) => (
+      {PET_FILTERS.map((filter) => (
         <div key={filter.id}>
           <PetFilterCard
             filter={filter}
