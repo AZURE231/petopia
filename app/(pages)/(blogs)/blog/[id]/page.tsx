@@ -43,7 +43,7 @@ const page = observer(
               htmlContent={blogContent.content}
               createdAt={blogContent.isCreatedAt}
               view={blogContent.view}
-              image={blogContent.image}
+              userImage={blogContent.userImage}
             />
           )}
         </div>
