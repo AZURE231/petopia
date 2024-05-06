@@ -1,6 +1,6 @@
 import React, { use, useEffect, useState } from 'react';
 import { useQuery } from '@/src/utils/hooks';
-import { QUERY_KEYS } from '@/src/utils/constants';
+import { PET_SPECIES, QUERY_KEYS } from '@/src/utils/constants';
 import { IApiResponse } from '@/src/interfaces/common';
 import { getBreed } from '@/src/services/pet.api';
 import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
@@ -24,22 +24,27 @@ export default function BreedInput({
       onSuccess: (res) => {
         setBreeds(res.data.data);
       },
-      enabled: watch('species') !== -1,
+      enabled: watch('species') !== PET_SPECIES.OTHER,
       refetchOnWindowFocus: false,
     }
   );
 
   useEffect(() => {
     setValue('breed', 'Không rõ');
+    console.log('watch species', watch('species'));
   }, [watch('species')]);
 
   return (
-    <FilterDropDown
-      disabled={getBreedQuery.isLoading}
-      options={breeds.map((e) => ({ label: e, value: e }))}
-      value={watch('breed')}
-      setValue={(value: string) => setValue('breed', value)}
-      title="Chọn giống"
-    />
+    <>
+      {watch('species') != PET_SPECIES.OTHER && (
+        <FilterDropDown
+          disabled={getBreedQuery.isLoading}
+          options={breeds.map((e) => ({ label: e, value: e }))}
+          value={watch('breed')}
+          setValue={(value: string) => setValue('breed', value)}
+          title="Chọn giống"
+        />
+      )}
+    </>
   );
 }
