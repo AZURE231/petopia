@@ -18,6 +18,7 @@ import { useQuery } from '@/src/utils/hooks';
 import { QueryProvider } from '../general/QueryProvider';
 import CardSkeleton from '../general/CardSkeleton';
 import { PetSortBlock } from '../search/PetSortBlock';
+import BlogCarousel from './BlogCarousel';
 
 interface BlogSectionProps {
   bannerImage: string;
@@ -69,12 +70,13 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
 
       {/* Banner */}
       <div className="flex items-center justify-center relative mt-5">
-        <Image
+        {/* <Image
           alt="blog banner"
           src={props.bannerImage}
           width={1246}
           height={413}
-        />
+        /> */}
+        <BlogCarousel />
       </div>
 
       {/* Blog Cards Grid */}
@@ -85,8 +87,9 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
               {BLOG_CATEGORIES_OPTION.map((category, index) => (
                 <li
                   key={index}
-                  className={`mr-5 cursor-pointer ${selectedCategory === category.value ? 'underline' : ''
-                    }`}
+                  className={`mr-5 cursor-pointer ${
+                    selectedCategory === category.value ? 'underline' : ''
+                  }`}
                   onClick={() => {
                     setSelectedCategory(category.value);
                   }}
@@ -116,7 +119,6 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
                 category={blog.category}
                 title={blog.title}
                 excerpt={blog.excerpt}
-
               />
             ))}
         </div>
