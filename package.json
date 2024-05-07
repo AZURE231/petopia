@@ -21,6 +21,8 @@
     "@material-tailwind/react": "^2.1.9",
     "@react-oauth/google": "^0.12.1",
     "axios": "^1.6.1",
+    "braintree-web": "^3.102.0",
+    "braintree-web-drop-in": "^1.42.0",
     "ckeditor5-custom-build": "file:ckeditor5",
     "cookies-next": "^4.1.0",
     "framer-motion": "^10.16.16",
@@ -41,6 +43,8 @@
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",
+    "@types/braintree-web": "^3.96.11",
+    "@types/braintree-web-drop-in": "^1.39.3",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
