@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@/src/utils/hooks';
 import { QueryProvider } from '@/src/components/general/QueryProvider';
 import PaymentDropIn from '@/src/components/payment/PaymentDropIn';
@@ -8,7 +8,7 @@ import { IPayment, IPaymentTypes } from '@/src/interfaces/payment';
 import { createPayment, getAdTypes } from '@/src/services/payment.api';
 import { QUERY_KEYS } from '@/src/utils/constants';
 import QueryButton from '@/src/components/general/QueryButton';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import { Alert } from '@/src/components/general/Alert';
 const BlogAdPage = QueryProvider(({ params }: { params: { id: string } }) => {
   const [adTypes, setAdTypes] = useState<IPaymentTypes[]>([]);
@@ -16,6 +16,9 @@ const BlogAdPage = QueryProvider(({ params }: { params: { id: string } }) => {
   const [alertShow, setAlertShow] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
   const [alertFailed, setAlertFailed] = useState<boolean>(false);
+  const [showBtn, setShowBtn] = useState<boolean>(false);
+  const [alertAction, setAlertAction] = useState<() => void>(() => () => {});
+
   useQuery<IApiResponse<IPaymentTypes[]>>(
     [QUERY_KEYS.GET_AD_TYPES],
     () => getAdTypes(),
@@ -51,6 +54,9 @@ const BlogAdPage = QueryProvider(({ params }: { params: { id: string } }) => {
         setAlertMessage('Thanh toán thành công');
         setAlertFailed(false);
         setAlertShow(true);
+        setAlertAction(() => () => {
+          window.location.href = `/blog/${params.id}`;
+        });
       },
     }
   );
@@ -58,6 +64,12 @@ const BlogAdPage = QueryProvider(({ params }: { params: { id: string } }) => {
   const handlePayment = () => {
     createPaymentMutation.mutate(paymentForm.getValues());
   };
+
+  useEffect(() => {
+    if (paymentForm.getValues().nonce && selectedAdType) {
+      setShowBtn(true);
+    }
+  }, [paymentForm.watch('nonce'), selectedAdType]);
 
   return (
     <div className="container mx-auto px-4 py-8 w-3/4">
@@ -107,8 +119,8 @@ const BlogAdPage = QueryProvider(({ params }: { params: { id: string } }) => {
       <PaymentDropIn
         setNonce={(nonce) => paymentForm.setValue('nonce', nonce)}
       />
-      {paymentForm.getValues().nonce && (
-        <div className="flex justify-center mt-5">
+      {showBtn && (
+        <div className="flex justify-center mt-10">
           <div className="w-64">
             <QueryButton
               name={'Thanh toán'}
@@ -123,6 +135,8 @@ const BlogAdPage = QueryProvider(({ params }: { params: { id: string } }) => {
         show={alertShow}
         setShow={setAlertShow}
         failed={alertFailed}
+        action={alertAction}
+        showCancel={false}
       />
     </div>
   );
