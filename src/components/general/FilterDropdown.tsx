@@ -1,6 +1,5 @@
 import { useClickOutside } from '@/src/utils/hooks';
 import { useEffect, useRef, useState } from 'react';
-import { set } from 'react-hook-form';
 
 interface IFilterDropDownOption {
   label: string;
@@ -33,7 +32,6 @@ export const FilterDropDown = (props: IFilterDropDown) => {
 
   useEffect(() => {
     if (value) {
-      console.log('value', value);
       const currentOptions = options.filter((e) => e.value === value);
       currentOptions.length && setFilterText(currentOptions[0].label);
     } else {
