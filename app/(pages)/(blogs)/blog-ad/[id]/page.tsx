@@ -1,40 +1,28 @@
 'use client';
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@/src/utils/hooks';
 import { QueryProvider } from '@/src/components/general/QueryProvider';
 import PaymentDropIn from '@/src/components/payment/PaymentDropIn';
 import { IApiResponse } from '@/src/interfaces/common';
-import { IPayment, IPaymentTypes } from '@/src/interfaces/payment';
+import { ICreatePaymentRequest, IPaymentTypesResponse } from '@/src/interfaces/payment';
 import { createPayment, getAdTypes } from '@/src/services/payment.api';
 import { QUERY_KEYS } from '@/src/utils/constants';
 import QueryButton from '@/src/components/general/QueryButton';
-import { set, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { Alert } from '@/src/components/general/Alert';
+
 const BlogAdPage = QueryProvider(({ params }: { params: { id: string } }) => {
-  const [adTypes, setAdTypes] = useState<IPaymentTypes[]>([]);
+  // STATES
+  const [paymentTypes, setPaymentTypes] = useState<IPaymentTypesResponse[]>([]);
   const [selectedAdType, setSelectedAdType] = useState<string>('');
+  const [showBtn, setShowBtn] = useState<boolean>(false);
+
   const [alertShow, setAlertShow] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
   const [alertFailed, setAlertFailed] = useState<boolean>(false);
-  const [showBtn, setShowBtn] = useState<boolean>(false);
-  const [alertAction, setAlertAction] = useState<() => void>(() => () => {});
-
-  useQuery<IApiResponse<IPaymentTypes[]>>(
-    [QUERY_KEYS.GET_AD_TYPES],
-    () => getAdTypes(),
-    {
-      onSuccess: (data) => {
-        setAdTypes(data.data.data);
-      },
-    }
-  );
-
-  const handleSelect = (adTypeId: string) => () => {
-    setSelectedAdType(adTypeId);
-    paymentForm.setValue('advertisementId', adTypeId);
-  };
-
-  const paymentForm = useForm<IPayment>({
+  const [alertAction, setAlertAction] = useState<() => void>(() => () => { });
+  // FORMS
+  const paymentForm = useForm<ICreatePaymentRequest>({
     defaultValues: {
       blogId: params.id,
       advertisementId: selectedAdType,
@@ -42,16 +30,42 @@ const BlogAdPage = QueryProvider(({ params }: { params: { id: string } }) => {
     },
   });
 
-  const createPaymentMutation = useMutation<IApiResponse<boolean>, IPayment>(
+  // HANDLERS
+  const handleSelect = (adTypeId: string) => () => {
+    setSelectedAdType(adTypeId);
+    paymentForm.setValue('advertisementId', adTypeId);
+  };
+
+  const handleCreatePayment = () => {
+    createPaymentMutation.mutate(paymentForm.getValues());
+  };
+
+  // QUERIES
+  useQuery<IApiResponse<IPaymentTypesResponse[]>>(
+    [QUERY_KEYS.GET_AD_TYPES],
+    () => getAdTypes(),
+    {
+      onSuccess: (data) => {
+        setPaymentTypes(data.data.data);
+      },
+      onError: () => {
+        setAlertFailed(true);
+        setAlertMessage('Có lỗi xảy ra. Vui lòng thử lại sau.');
+      },
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  const createPaymentMutation = useMutation<IApiResponse<boolean>, ICreatePaymentRequest>(
     createPayment,
     {
-      onError: (err) => {
-        setAlertMessage('Thanh toán thất bại. Kiểm tra lại thông tin nhập.');
+      onError: () => {
+        setAlertMessage('Thanh toán thất bại.');
         setAlertFailed(true);
         setAlertShow(true);
       },
       onSuccess: () => {
-        setAlertMessage('Thanh toán thành công');
+        setAlertMessage('Thanh toán thành công. Xem hoá đơn được gửi qua email.');
         setAlertFailed(false);
         setAlertShow(true);
         setAlertAction(() => () => {
@@ -61,10 +75,7 @@ const BlogAdPage = QueryProvider(({ params }: { params: { id: string } }) => {
     }
   );
 
-  const handlePayment = () => {
-    createPaymentMutation.mutate(paymentForm.getValues());
-  };
-
+  // EFFECTS
   useEffect(() => {
     if (paymentForm.getValues().nonce && selectedAdType) {
       setShowBtn(true);
@@ -85,26 +96,25 @@ const BlogAdPage = QueryProvider(({ params }: { params: { id: string } }) => {
             </p>
           </div>
           <div className="space-y-8 lg:grid lg:grid-cols-4 sm:gap-6 xl:gap-10 lg:space-y-0">
-            {adTypes.map((adType) => {
+            {paymentTypes.map((paymentType) => {
               return (
                 <div
-                  className={`flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border ${
-                    selectedAdType === adType.id
-                      ? 'border-yellow-300 border-4 bg-gray-300'
-                      : 'bg-white'
-                  } shadow hover:bg-gray-100 cursor-pointer`}
-                  key={adType.id}
-                  onClick={handleSelect(adType.id)}
+                  className={`flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border ${selectedAdType === paymentType.id
+                    ? 'border-yellow-300 border-4 bg-gray-300'
+                    : 'bg-white'
+                    } shadow hover:bg-gray-100 cursor-pointer`}
+                  key={paymentType.id}
+                  onClick={() => handleSelect(paymentType.id)}
                 >
                   <h3 className="mb-4 text-2xl font-semibold">
-                    {adType.monthDuration} tháng
+                    {paymentType.monthDuration} tháng
                   </h3>
                   <p className="font-light h-10 text-gray-500 sm:text-lg ">
-                    {adType.description}
+                    {paymentType.description}
                   </p>
                   <div className="flex justify-center items-baseline my-8">
                     <span className="mr-2 text-3xl font-extrabold">
-                      {adType.price
+                      {paymentType.price
                         .toString()
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{' '}
                       VND
@@ -125,7 +135,7 @@ const BlogAdPage = QueryProvider(({ params }: { params: { id: string } }) => {
             <QueryButton
               name={'Thanh toán'}
               isLoading={false}
-              action={handlePayment}
+              action={handleCreatePayment}
             />
           </div>
         </div>
