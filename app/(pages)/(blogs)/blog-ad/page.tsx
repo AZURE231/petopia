@@ -1,5 +1,6 @@
 'use client';
 import { QueryProvider } from '@/src/components/general/QueryProvider';
+import PaymentDropIn from '@/src/components/payment/PaymentDropIn';
 import { IApiResponse } from '@/src/interfaces/common';
 import { IPaymentTypes } from '@/src/interfaces/payment';
 import { getAdTypes } from '@/src/services/payment.api';
@@ -59,7 +60,7 @@ const BlogAdPage = QueryProvider(() => {
                     className="w-full text-black bg-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-yellow-400"
                     // onClick={checkLoggedIn}
                   >
-                    Bắt đầu
+                    Thanh toán
                   </button>
                 </div>
               );
@@ -67,23 +68,7 @@ const BlogAdPage = QueryProvider(() => {
           </div>
         </div>
       </section>
-
-      {/* <div className="text-justify">
-        <h2 className="font-bold text-xl mb-2 my-10">
-          Lợi ích khi áp dụng quảng cáo
-        </h2>
-        <p>
-          Petopia là một tổ chức về thú cưng vô gia cư và nhận nuôi thú cưng các
-          tổ chức. Tính chính xác và đầy đủ của thông tin hiển thị trong trang
-          web không được đảm bảo dưới bất kỳ hình thức nào. Mặc dù thông tin về
-          Petopia được cập nhật thường xuyên và chúng tôi cố gắng giữ mọi thông
-          tin càng chính xác càng tốt, chúng tôi luôn khuyến nghị gọi cho cơ sở
-          hoặc tổ chức cứu hộ chăm sóc thú cưng để đảm bảo nó vẫn có sẵn. Đó là
-          trách nhiệm duy nhất của bất kỳ người nào xem trang web này để xác
-          minh tính chính xác và đầy đủ của thông tin chứa trong đó trước khi
-          thực hiện bất kỳ hành động nào.
-        </p>
-      </div> */}
+      <PaymentDropIn />
     </div>
   );
 });
