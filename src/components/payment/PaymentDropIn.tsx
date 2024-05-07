@@ -1,12 +1,16 @@
 import { useQuery } from '@/src/utils/hooks';
 import { getPaymentToken } from '@/src/services/payment.api';
-import { useEffect, useState } from 'react'; // Removed unnecessary import
+import { useEffect, useState } from 'react';
 import { IApiResponse } from '@/src/interfaces/common';
 import { QUERY_KEYS } from '@/src/utils/constants';
 import { Alert } from '../general/Alert';
-import * as braintree from 'braintree-web-drop-in'; // Changed import statement
+import * as braintree from 'braintree-web-drop-in';
 
-export default function PaymentDropIn() {
+export default function PaymentDropIn({
+  setNonce,
+}: {
+  setNonce: (nonce: string) => void;
+}) {
   const [clientToken, setClientToken] = useState<string>('');
   const [alertShow, setAlertShow] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
@@ -28,8 +32,7 @@ export default function PaymentDropIn() {
   );
 
   useEffect(() => {
-    const dropinContainer = document.getElementById('dropin-container');
-    if (clientToken && dropinContainer) {
+    if (clientToken) {
       braintree.create(
         {
           authorization: clientToken,
@@ -39,12 +42,6 @@ export default function PaymentDropIn() {
               required: true,
             },
             overrides: {
-              fields: {
-                cvv: {
-                  placeholder: '123',
-                  selector: '#dropin-container #cvv',
-                },
-              },
               styles: {
                 input: {
                   'font-size': '16px',
@@ -69,15 +66,36 @@ export default function PaymentDropIn() {
             console.error('Braintree error:', error);
             return;
           }
+          let submitButton = document.getElementById('payment-btn');
+          submitButton?.addEventListener('click', () => {
+            dropinInstance?.requestPaymentMethod((error, payload) => {
+              if (error) {
+                console.error('Braintree error:', error);
+                setAlertMessage('Thẻ không hợp lệ. Vui lòng thử lại.');
+                setAlertFailed(true);
+                setAlertShow(true);
+                return;
+              }
+              setNonce(payload.nonce);
+            });
+          });
         }
       );
     }
   }, [clientToken]);
 
   return (
-    <div style={{ maxWidth: '400px', margin: 'auto', marginTop: '50px' }}>
-      <h1 style={{ textAlign: 'center' }}>Thanh toán</h1>
+    <div style={{ maxWidth: '400px', margin: 'auto' }}>
       <div id="dropin-container"></div>
+      {clientToken && (
+        <button
+          id="payment-btn"
+          className="btn btn-primary text-center w-full border rounded border-gray-400 hover:bg-gray-100"
+        >
+          Xác nhận thẻ
+        </button>
+      )}
+
       <Alert
         message={alertMessage}
         show={alertShow}

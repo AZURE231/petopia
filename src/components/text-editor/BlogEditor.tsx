@@ -20,7 +20,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
   const [alertFailed, setAlertFailed] = useState<boolean>(false);
   const [myEditor, setMyEditor] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [alertAction, setAlertAction] = useState<() => void>(() => () => { });
+  const [alertAction, setAlertAction] = useState<() => void>(() => () => {});
   const [isAd, setIsAd] = useState<boolean>(false);
   const uploadImageForm = useForm<IUploadImage>({
     defaultValues: {
@@ -100,7 +100,10 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
       setAlertFailed(false);
       setAlertShow(true);
       setAlertAction(() => () => {
-        window.location.href = `/blog/${res.data.data}`;
+        const direction = isAd
+          ? `/blog-ad/${res.data.data}`
+          : `/blog/${res.data.data}`;
+        window.location.href = direction;
       });
     },
   });
@@ -218,8 +221,16 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
           ))}
         </select>
         <label className="block font-bold mb-2">Quảng cáo</label>
-        <input type='radio' id='isAd' name='isAd' value='true' onChange={() => setIsAd(true)} />
-        <label htmlFor='isAd' className='mx-2'>Áp dụng quảng cáo cho bài viết</label>
+        <input
+          type="radio"
+          id="isAd"
+          name="isAd"
+          value="true"
+          onChange={() => setIsAd(true)}
+        />
+        <label htmlFor="isAd" className="mx-2">
+          Áp dụng quảng cáo cho bài viết
+        </label>
         <label className="block font-bold my-5">Nội dung</label>
         <div id="editor" />
         <div className="mt-5" />

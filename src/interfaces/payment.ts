@@ -4,3 +4,9 @@ export interface IPaymentTypes {
     monthDuration: number;
     description: string;
 }
+
+export interface IPayment {
+    blogId: string;
+    advertisementId: string;
+    nonce: string;
+}
