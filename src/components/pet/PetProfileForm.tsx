@@ -18,6 +18,7 @@ import {
 import { getPetDetail, postPet, updatePet } from '@/src/services/pet.api';
 import { QUERY_KEYS } from '@/src/utils/constants';
 import { postImage } from '@/src/helpers/postImage';
+import { get } from 'http';
 
 const PetProfileForm = QueryProvider(
   ({ id = '' }: { id?: string; handleClose?: () => void }) => {
@@ -41,11 +42,12 @@ const PetProfileForm = QueryProvider(
         isVaccinated: -1,
         isAvailable: true,
         address: 'chưa điền',
-        breed: 'Chưa rõ',
+        breed: '',
         files: [],
         images: [],
         showImages: [],
         id: id,
+        listBreed: [],
       },
     });
 
@@ -71,8 +73,13 @@ const PetProfileForm = QueryProvider(
         setShowAlert(true);
       } else {
         await uploadImage();
+        if (getValues('breed') === '') {
+          setValue('breed', 'Không rõ');
+        }
         if (id) await updatePetMutation.mutateAsync(getValues());
-        else await createPetMutation.mutateAsync(getValues());
+        else {
+          await createPetMutation.mutateAsync(getValues());
+        }
         // setIsLoading(false);
       }
     };

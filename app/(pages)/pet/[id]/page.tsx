@@ -13,9 +13,9 @@ import {
 import { IApiResponse } from '@/src/interfaces/common';
 import { IPetDetailResponse } from '@/src/interfaces/pet';
 import { getPetDetail } from '@/src/services/pet.api';
-import { QUERY_KEYS } from '@/src/utils/constants';
+import { PET_SPECIES, QUERY_KEYS } from '@/src/utils/constants';
 import { useQuery } from '@/src/utils/hooks';
-import { use, useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import ImageCarousel from '@/src/components/general/Carousel';
 import PetDetailSkeleton from '@/src/components/general/PetDetailSkeleton';
@@ -62,6 +62,19 @@ const page = observer(
         refetchOnWindowFocus: false,
       }
     );
+
+    const renderPetSpecies = (species: number) => {
+      switch (species) {
+        case PET_SPECIES.DOG:
+          return 'Chó';
+        case PET_SPECIES.CAT:
+          return 'Mèo';
+        case PET_SPECIES.OTHER:
+          return 'Khác';
+        default:
+          return 'Không rõ';
+      }
+    };
 
     return (
       <div>
@@ -118,6 +131,13 @@ const page = observer(
                     </div>
                   </div>
                   <div className="flex flex-col divide-y">
+                    <div className="flex flex-row py-2">
+                      <div className="w-1/3 font-bold">Loài</div>
+                      <div className="w-2/3">
+                        <span>: </span>
+                        {renderPetSpecies(petDetail.species)}
+                      </div>
+                    </div>
                     <div className="flex flex-row py-2">
                       <div className="w-1/3 font-bold">Giống</div>
                       <div className="w-2/3">

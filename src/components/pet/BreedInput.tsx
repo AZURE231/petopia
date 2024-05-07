@@ -14,24 +14,21 @@ export default function BreedInput({
   setValue: UseFormSetValue<ICreatePetProfileRequest>;
   watch: UseFormWatch<ICreatePetProfileRequest>;
 }) {
-  const [breeds, setBreeds] = useState<string[]>(['Chưa rõ']);
-
   // QUERY
   const getBreedQuery = useQuery<IApiResponse<string[]>>(
     [QUERY_KEYS.GET_BREED_DETAIL, watch('species')],
     () => getBreed(watch('species')),
     {
       onSuccess: (res) => {
-        setBreeds(res.data.data);
+        setValue('listBreed', res.data.data);
       },
-      enabled: watch('species') !== PET_SPECIES.OTHER,
+      enabled: watch('species') !== -1,
       refetchOnWindowFocus: false,
     }
   );
 
   useEffect(() => {
-    setValue('breed', 'Không rõ');
-    console.log('watch species', watch('species'));
+    setValue('breed', '');
   }, [watch('species')]);
 
   return (
@@ -39,7 +36,7 @@ export default function BreedInput({
       {watch('species') != PET_SPECIES.OTHER && (
         <FilterDropDown
           disabled={getBreedQuery.isLoading}
-          options={breeds.map((e) => ({ label: e, value: e }))}
+          options={watch('listBreed')?.map((e) => ({ label: e, value: e }))}
           value={watch('breed')}
           setValue={(value: string) => setValue('breed', value)}
           title="Chọn giống"

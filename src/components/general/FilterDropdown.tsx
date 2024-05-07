@@ -33,7 +33,9 @@ export const FilterDropDown = (props: IFilterDropDown) => {
 
   useEffect(() => {
     if (value) {
-      setFilterText(value);
+      console.log('value', value);
+      const currentOptions = options.filter((e) => e.value === value);
+      currentOptions.length && setFilterText(currentOptions[0].label);
     } else {
       setFilterText('Không rõ');
     }
