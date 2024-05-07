@@ -31,5 +31,5 @@ export const getPetsByUser = async (data: IPaginationRequest<string>) =>
 export const getAvailableBreeds = async (data: { species: PET_SPECIES }) =>
   await http.get('/Pet/AvailableBreed', data);
 
-export const getBreed = async (data: number) =>
+export const getBreed = async (data: PET_SPECIES) =>
   await http.get('/Pet/Breed', { species: data });

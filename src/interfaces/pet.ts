@@ -79,6 +79,7 @@ export interface ICreatePetProfileRequest {
   images: string[];
   showImages: string[];
   id?: string;
+  listBreed: string[];
 }
 
 export interface ILocationResponse {
