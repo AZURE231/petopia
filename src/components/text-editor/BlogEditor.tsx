@@ -22,6 +22,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [alertAction, setAlertAction] = useState<() => void>(() => () => {});
   const [isAd, setIsAd] = useState<boolean>(false);
+  const [showAdOption, setShowAdOption] = useState<boolean>(true);
   const uploadImageForm = useForm<IUploadImage>({
     defaultValues: {
       showImages: [],
@@ -121,7 +122,8 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
         setAlertFailed(false);
         setAlertShow(true);
         setAlertAction(() => () => {
-          window.location.href = `/blog/${id}`;
+          const direction = isAd ? `/blog-ad/${id}` : `/blog/${id}`;
+          window.location.href = direction;
         });
       },
     }
@@ -138,6 +140,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
         createBlogForm.setValue('category', res.data.data.category);
         createBlogForm.setValue('content', res.data.data.content);
         uploadImageForm.setValue('showImages', [res.data.data.image]);
+        if (res.data.data.isAdvertised) setShowAdOption(false);
         setContent(res.data.data.content);
       },
       refetchOnWindowFocus: false,
@@ -220,17 +223,21 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
             </option>
           ))}
         </select>
-        <label className="block font-bold mb-2">Quảng cáo</label>
-        <input
-          type="radio"
-          id="isAd"
-          name="isAd"
-          value="true"
-          onChange={() => setIsAd(true)}
-        />
-        <label htmlFor="isAd" className="mx-2">
-          Áp dụng quảng cáo cho bài viết
-        </label>
+        {showAdOption && (
+          <div>
+            <label className="block font-bold mb-2">Quảng cáo</label>
+            <input
+              type="radio"
+              id="isAd"
+              name="isAd"
+              value="true"
+              onChange={() => setIsAd(true)}
+            />
+            <label htmlFor="isAd" className="mx-2">
+              Áp dụng quảng cáo cho bài viết
+            </label>
+          </div>
+        )}
         <label className="block font-bold my-5">Nội dung</label>
         <div id="editor" />
         <div className="mt-5" />
