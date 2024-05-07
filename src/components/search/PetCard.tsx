@@ -13,22 +13,26 @@ import PetProfileForm from '../pet/PetProfileForm';
 import { FaShieldDog } from 'react-icons/fa6';
 import { Tooltip, Button } from '@material-tailwind/react';
 
-type IPetCard = IPetResponse & { isEditable?: boolean; simple?: boolean };
+interface IPetCard extends IPetResponse {
+  isEditable?: boolean;
+  simple?: boolean;
+}
 
 export function PetCard(props: IPetCard) {
-  const { id, name, breed, sex, age, image, isEditable, simple, isOrgOwned } =
+  const { id, name, breed, sex, age, image, isEditable = false, simple = false, isOrgOwned } =
     props;
   const [showAlert, setShowAlert] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+
   const handleClose = () => {
     window.location.reload();
   };
 
-  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDelete = () => {
     setShowAlert(true);
   };
 
-  const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleEdit = () => {
     setShowEdit(!showEdit);
   };
 
@@ -40,7 +44,6 @@ export function PetCard(props: IPetCard) {
   });
 
   const deletePetFunc = () => {
-    console.log('Delete pet', id);
     deletePetMutation.mutate({ id: id });
   };
 
@@ -50,15 +53,13 @@ export function PetCard(props: IPetCard) {
         <div className="max-w-xs p-2 bg-white border border-gray-200 rounded-2xl shadow-lg ">
           <div className="flex flex-col">
             <div className="w-full relative pt-[100%]">
-              {image ? (
-                <Image
-                  src={image}
-                  alt="profile"
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="w-full h-full top-0 left-0 object-cover rounded-2xl"
-                ></Image>
-              ) : null}
+              <Image
+                src={image}
+                alt="profile"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="w-full h-full top-0 left-0 object-cover rounded-2xl"
+              ></Image>
             </div>
             <div className="p-2 md:p-5">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
