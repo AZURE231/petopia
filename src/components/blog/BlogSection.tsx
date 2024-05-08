@@ -60,6 +60,10 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
         setBlogs(data);
         pageNumber && paginationForm.setValue('pageNumber', pageNumber);
       },
+      onError: () => {
+        // Handle error
+      },
+
       refetchOnWindowFocus: false,
     }
   );
@@ -70,12 +74,6 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
 
       {/* Banner */}
       <div className="flex items-center justify-center relative mt-5">
-        {/* <Image
-          alt="blog banner"
-          src={props.bannerImage}
-          width={1246}
-          height={413}
-        /> */}
         <BlogCarousel />
       </div>
 

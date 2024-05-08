@@ -9,17 +9,23 @@ import { getBlogDetail } from '@/src/services/blog.api';
 import { useQuery } from '@/src/utils/hooks';
 import { observer } from 'mobx-react-lite';
 import { QueryProvider } from '@/src/components/general/QueryProvider';
+import { NoResultBackground } from '@/src/components/general/NoResultBackground';
+import PetDetailSkeleton from '@/src/components/general/PetDetailSkeleton';
 
 const page = observer(
   QueryProvider(({ params }: { params: { id: string } }) => {
     const [blogContent, setBlogContent] = useState<IBlogResponse>();
-
+    const [error, setError] = useState<boolean>(false);
     const getBlogQuery = useQuery<IApiResponse<IBlogResponse>>(
       [QUERY_KEYS.GET_BLOG_DETAIL, { id: params.id }],
       () => getBlogDetail(params.id),
       {
         onSuccess: (res) => {
           setBlogContent(res.data.data);
+        },
+        onError: () => {
+          // Handle error
+          setError(true);
         },
 
         refetchOnWindowFocus: false,
@@ -36,7 +42,8 @@ const page = observer(
               height={378}
             />
           </div>
-          {blogContent && (
+          {getBlogQuery.isLoading && <PetDetailSkeleton />}
+          {!getBlogQuery.isLoading && blogContent && (
             <BlogPage
               userName={blogContent.userName}
               blogTitle={blogContent.title}
@@ -45,6 +52,10 @@ const page = observer(
               view={blogContent.view}
               userImage={blogContent.userImage}
             />
+          )}
+
+          {error && (
+            <NoResultBackground className="h-fit-screen w-full items-center" />
           )}
         </div>
       </div>
