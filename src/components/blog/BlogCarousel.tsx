@@ -6,11 +6,11 @@ import { useQuery } from '@/src/utils/hooks';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-export default function BlogCarousel() {
+export default function AdvertisementCarousel() {
   const TRANSTION_DURATION = 5000;
+
   const [activeIndex, setActiveIndex] = useState(0);
-  const [transitionDuration, setTransitionDuration] =
-    useState(TRANSTION_DURATION);
+  const [transitionDuration, setTransitionDuration] = useState(TRANSTION_DURATION);
   const [blogAd, setBlogAd] = useState<IBlogAd[]>([]);
 
   const getAdQuery = useQuery<IApiResponse<IBlogAd[]>>(
@@ -20,9 +20,7 @@ export default function BlogCarousel() {
       onSuccess: (data) => {
         setBlogAd(data.data.data);
       },
-      onError: () => {
-        // Handle error
-      },
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -38,7 +36,6 @@ export default function BlogCarousel() {
         }
       });
     }, transitionDuration);
-    console.log('activeIndex', activeIndex);
     return () => clearInterval(interval);
   }, [activeIndex, blogAd.length, getAdQuery, transitionDuration]);
 
@@ -76,9 +73,8 @@ export default function BlogCarousel() {
         {blogAd?.map((item, index) => (
           <div
             key={index}
-            className={`absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 transition duration-700 ease-in-out transform opacity-70 ${
-              activeIndex === index ? 'visible' : 'hidden'
-            }`}
+            className={`absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 transition duration-700 ease-in-out transform opacity-70 ${activeIndex === index ? 'visible' : 'hidden'
+              }`}
             data-carousel-item
           >
             <div className="w-full h-full relative">
@@ -108,9 +104,8 @@ export default function BlogCarousel() {
           <button
             key={index}
             type="button"
-            className={`w-3 h-3 rounded-full border border-black ${
-              activeIndex === index ? 'bg-black' : 'bg-white'
-            }`}
+            className={`w-3 h-3 rounded-full border border-black ${activeIndex === index ? 'bg-black' : 'bg-white'
+              }`}
             aria-current={activeIndex === index ? 'true' : 'false'}
             aria-label={`Slide ${index + 1}`}
             onClick={() => goToSlide(index)}

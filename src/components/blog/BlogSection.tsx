@@ -1,6 +1,5 @@
 'use client';
 import React, { useState } from 'react';
-import Image from 'next/image';
 import BlogCard from './BlogCard';
 import Pagination from '../general/Pagination';
 import { getBlogs } from '@/src/services/blog.api';
@@ -12,19 +11,14 @@ import {
   PAGE_SIZE,
   QUERY_KEYS,
 } from '@/src/utils/constants';
-
 import { IBlogCardResponse, IBlogResponse } from '@/src/interfaces/blog';
 import { useQuery } from '@/src/utils/hooks';
 import { QueryProvider } from '../general/QueryProvider';
 import CardSkeleton from '../general/CardSkeleton';
-import BlogCarousel from './BlogCarousel';
+import AdvertisementCarousel from './BlogCarousel';
 import { SortBlock } from '../general/SortBlock';
 
-interface BlogSectionProps {
-  bannerImage: string;
-}
-
-const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
+const BlogSection = QueryProvider(() => {
   const [selectedCategory, setSelectedCategory] = useState<
     BLOG_CATEGORIES | undefined
   >();
@@ -60,10 +54,6 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
         setBlogs(data);
         pageNumber && paginationForm.setValue('pageNumber', pageNumber);
       },
-      onError: () => {
-        // Handle error
-      },
-
       refetchOnWindowFocus: false,
     }
   );
@@ -74,7 +64,7 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
 
       {/* Banner */}
       <div className="flex items-center justify-center relative mt-5">
-        <BlogCarousel />
+        <AdvertisementCarousel />
       </div>
 
       {/* Blog Cards Grid */}
@@ -85,9 +75,8 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
               {BLOG_CATEGORIES_OPTION.map((category, index) => (
                 <li
                   key={index}
-                  className={`mr-5 cursor-pointer ${
-                    selectedCategory === category.value ? 'underline' : ''
-                  }`}
+                  className={`mr-5 cursor-pointer ${selectedCategory === category.value ? 'underline' : ''
+                    }`}
                   onClick={() => {
                     setSelectedCategory(category.value);
                   }}
