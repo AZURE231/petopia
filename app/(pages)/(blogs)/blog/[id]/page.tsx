@@ -11,6 +11,7 @@ import { observer } from 'mobx-react-lite';
 import { QueryProvider } from '@/src/components/general/QueryProvider';
 import { NoResultBackground } from '@/src/components/general/NoResultBackground';
 import PetDetailSkeleton from '@/src/components/general/PetDetailSkeleton';
+import BlogDetailSkeleton from '@/src/components/blog/BlogDetailSkeleton';
 
 const page = observer(
   QueryProvider(({ params }: { params: { id: string } }) => {
@@ -42,7 +43,7 @@ const page = observer(
               height={378}
             />
           </div>
-          {getBlogQuery.isLoading && <PetDetailSkeleton />}
+          {getBlogQuery.isLoading && <BlogDetailSkeleton />}
           {!getBlogQuery.isLoading && blogContent && (
             <BlogPage
               userName={blogContent.userName}
