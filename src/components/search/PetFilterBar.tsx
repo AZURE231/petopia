@@ -54,6 +54,7 @@ export const PetFilterBar = (props: IFilterBar) => {
           labelGetValues: 'breed',
         });
       },
+      refetchOnWindowFocus: false,
       enabled: species !== undefined,
     }
   );
