@@ -4,6 +4,7 @@ import { getBlogAd } from '@/src/services/blog.api';
 import { QUERY_KEYS } from '@/src/utils/constants';
 import { useQuery } from '@/src/utils/hooks';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 export default function BlogCarousel() {
   const TRANSTION_DURATION = 5000;
@@ -80,11 +81,14 @@ export default function BlogCarousel() {
             }`}
             data-carousel-item
           >
-            <img
-              src={item.image}
-              alt={`Slide ${index + 1}`}
-              className="object-cover w-full h-full"
-            />
+            <div className="w-full h-full relative">
+              <Image
+                src={item.image}
+                alt={`Slide ${index + 1}`}
+                className="object-cover"
+                fill
+              />
+            </div>
             <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center text-center">
               <a href={`/blog/${blogAd[activeIndex].id}`}>
                 <h2 className="text-white mb-14 font-extrabold text-3xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)] transition duration-300 hover:underline hover:text-yellow-500">
