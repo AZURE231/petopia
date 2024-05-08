@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div>
       {/* Hero */}
-      <div className="flex flex-col md:flex-row">
+      <div className="flex flex-col md:flex-row" data-testid="homepage-hero">
         <div className="basis-2/5 relative">
           <div className="relative h-96 w-96 md:h-[600px] md:w-[600px] bg-yellow-300 rounded-full">
             <Image
