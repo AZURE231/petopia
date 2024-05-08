@@ -37,7 +37,6 @@ export const NavNotificationBlock = () => {
     {
       onSuccess: (res) => {
         setNotifications(res.data.data);
-        console.log(res.data.data);
       },
       refetchOnWindowFocus: false,
     }

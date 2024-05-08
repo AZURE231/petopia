@@ -8,7 +8,7 @@ interface ISortBlock {
   disable: boolean;
 }
 
-export const PetSortBlock = (props: ISortBlock) => {
+export const SortBlock = (props: ISortBlock) => {
   const { orderBy, setOrderBy, disable: isFetching } = props;
 
   const [showSort, setShowSort] = useState(false);

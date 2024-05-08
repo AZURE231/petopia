@@ -1,6 +1,6 @@
 'use client';
 import { ChangeEvent, useState } from 'react';
-import { set, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useMutation, useQuery } from '@/src/utils/hooks';
 import { IApiResponse } from '@/src/interfaces/common';
 import { QueryProvider } from '../general/QueryProvider';
@@ -18,6 +18,7 @@ import {
 import { getPetDetail, postPet, updatePet } from '@/src/services/pet.api';
 import { QUERY_KEYS } from '@/src/utils/constants';
 import { postImage } from '@/src/helpers/postImage';
+import { get } from 'http';
 
 const PetProfileForm = QueryProvider(
   ({ id = '' }: { id?: string; handleClose?: () => void }) => {
@@ -41,11 +42,12 @@ const PetProfileForm = QueryProvider(
         isVaccinated: -1,
         isAvailable: true,
         address: 'chưa điền',
-        breed: 'Chưa rõ',
+        breed: '',
         files: [],
         images: [],
         showImages: [],
         id: id,
+        listBreed: [],
       },
     });
 
@@ -71,8 +73,13 @@ const PetProfileForm = QueryProvider(
         setShowAlert(true);
       } else {
         await uploadImage();
+        if (getValues('breed') === '') {
+          setValue('breed', 'Không rõ');
+        }
         if (id) await updatePetMutation.mutateAsync(getValues());
-        else await createPetMutation.mutateAsync(getValues());
+        else {
+          await createPetMutation.mutateAsync(getValues());
+        }
         // setIsLoading(false);
       }
     };
@@ -186,7 +193,7 @@ const PetProfileForm = QueryProvider(
     });
 
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="max-h-screen overflow-y-auto">
         {/* breadscrum stepper */}
         <ol className="flex items-center justify-center w-full p-3 mb-5 space-x-2 text-sm font-medium text-center text-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm  sm:p-4 sm:space-x-4 rtl:space-x-reverse">
           <li

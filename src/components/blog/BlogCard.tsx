@@ -34,23 +34,21 @@ const BlogCard = ({
   const [showAlert, setShowAlert] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
 
-  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDelete = () => {
     setShowAlert(true);
   };
 
-  const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleEdit = () => {
     setShowEdit(!showEdit);
   };
 
   const deleteBlogMutation = useMutation(deleteBlog, {
     onSuccess: () => {
-      // window.location.reload();
       query && query.refetch();
     },
   });
 
   const deleteBlogFunc = () => {
-    console.log('Delete pet', id);
     deleteBlogMutation.mutate(id);
   };
   return (

@@ -17,8 +17,8 @@ import { IBlogCardResponse, IBlogResponse } from '@/src/interfaces/blog';
 import { useQuery } from '@/src/utils/hooks';
 import { QueryProvider } from '../general/QueryProvider';
 import CardSkeleton from '../general/CardSkeleton';
-import { PetSortBlock } from '../search/PetSortBlock';
 import BlogCarousel from './BlogCarousel';
+import { SortBlock } from '../general/SortBlock';
 
 interface BlogSectionProps {
   bannerImage: string;
@@ -98,7 +98,7 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
             </ul>
           }
         </nav>
-        <PetSortBlock
+        <SortBlock
           orderBy={orderBy}
           setOrderBy={setOrderBy}
           disable={getBlogsQuery.isFetching}

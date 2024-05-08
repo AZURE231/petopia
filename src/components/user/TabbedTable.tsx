@@ -193,9 +193,24 @@ export default function TabbedTable({
         {tab === TAB.PET && (
           <>
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
-              {pets.map((item) => (
-                <PetCard isEditable={true} key={item.id} {...item} simple />
-              ))}
+              {
+                !getPetsQuery.isLoading &&
+                pets.length > 0 &&
+                pets.map((item, index) => (
+                  <PetCard
+                    isEditable={true}
+                    key={item.id}
+                    simple
+                    id={item.id}
+                    name={item.name}
+                    breed={item.breed}
+                    sex={item.sex}
+                    age={item.age}
+                    image={item.image}
+                    isOrgOwned={item.isOrgOwned}
+                  />
+                ))
+              }
             </div>
             <div className="flex items-center justify-center mt-5">
               <Pagination
@@ -213,18 +228,22 @@ export default function TabbedTable({
           <>
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
               <BlogCreateCard />
-              {blogs.map((item) => (
-                <BlogCard
-                  key={item.id}
-                  id={item.id}
-                  title={item.title}
-                  excerpt={item.excerpt}
-                  image={item.image}
-                  category={item.category}
-                  isEditable={true}
-                  query={getUserBlogsQuery}
-                />
-              ))}
+              {
+                !getUserBlogsQuery.isLoading &&
+                blogs.length > 0 &&
+                blogs.map((item) => (
+                  <BlogCard
+                    key={item.id}
+                    id={item.id}
+                    title={item.title}
+                    excerpt={item.excerpt}
+                    image={item.image}
+                    category={item.category}
+                    isEditable={true}
+                    query={getUserBlogsQuery}
+                  />
+                ))
+              }
             </div>
             <div className="flex items-center justify-center mt-5">
               <Pagination
