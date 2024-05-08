@@ -1,3 +1,4 @@
+import { REPORT_ENTITY, REPORT_TYPE } from '@/src/utils/constants';
 import { ORG_TYPE, USER_ROLE } from '../utils/constants';
 
 export interface IIndividualAttributes {
@@ -6,10 +7,10 @@ export interface IIndividualAttributes {
 }
 
 export interface IOrganizationAttributes {
-  type: ORG_TYPE,
-  description: string,
-  website: string,
-  organizationName: string,
+  type: ORG_TYPE;
+  description: string;
+  website: string;
+  organizationName: string;
 }
 
 export interface IUserInfoReponse {
@@ -59,4 +60,10 @@ export interface ICurrentUserCoreResponse {
 
 export interface IOtherUserRequest {
   userId: string;
+}
+
+export interface IReportRequest {
+  id: string;
+  entity: REPORT_ENTITY;
+  reportType: number[];
 }

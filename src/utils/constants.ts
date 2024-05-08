@@ -443,3 +443,16 @@ export const PET_ORG_TYPE_OPTION = [
     value: ORG_TYPE.OTHER,
   },
 ];
+
+export const REPORT_TYPE = {
+  SPAM: 0,
+  SCAM: 1,
+  INAPPROPRIATE_CONTENT: 2,
+  OTHER: 3,
+};
+
+export enum REPORT_ENTITY {
+  User,
+  Pet,
+  Blog,
+}

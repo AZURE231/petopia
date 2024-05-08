@@ -2,6 +2,7 @@ import { IOrgUpgradeRequest } from '../interfaces/org';
 import {
   IChangePasswordResponse,
   IOtherUserRequest,
+  IReportRequest,
   IResetPasswordRequest,
   IUserUpdate,
 } from '../interfaces/user';
@@ -34,3 +35,6 @@ export const upgradeToOrg = async (data: IOrgUpgradeRequest) =>
   await http.post('/User/UpgradeAccount', data);
 
 export const getPreUpgrade = async () => await http.get('/User/PreUpgrade');
+
+export const report = async (data: IReportRequest) =>
+  await http.post('/Report/Report', data);
