@@ -1,6 +1,5 @@
 'use client';
 import React, { useState } from 'react';
-import Image from 'next/image';
 import BlogCard from './BlogCard';
 import Pagination from '../general/Pagination';
 import { getBlogs } from '@/src/services/blog.api';
@@ -12,18 +11,14 @@ import {
   PAGE_SIZE,
   QUERY_KEYS,
 } from '@/src/utils/constants';
-
 import { IBlogCardResponse, IBlogResponse } from '@/src/interfaces/blog';
 import { useQuery } from '@/src/utils/hooks';
 import { QueryProvider } from '../general/QueryProvider';
 import CardSkeleton from '../general/CardSkeleton';
+import AdvertisementCarousel from './BlogCarousel';
 import { SortBlock } from '../general/SortBlock';
 
-interface BlogSectionProps {
-  bannerImage: string;
-}
-
-const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
+const BlogSection = QueryProvider(() => {
   const [selectedCategory, setSelectedCategory] = useState<
     BLOG_CATEGORIES | undefined
   >();
@@ -69,12 +64,7 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
 
       {/* Banner */}
       <div className="flex items-center justify-center relative mt-5">
-        <Image
-          alt="blog banner"
-          src={props.bannerImage}
-          width={1246}
-          height={413}
-        />
+        <AdvertisementCarousel />
       </div>
 
       {/* Blog Cards Grid */}

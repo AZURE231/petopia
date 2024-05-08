@@ -62,6 +62,7 @@ export function PetFilterBarMobile({
           labelGetValues: 'breed',
         });
       },
+      refetchOnWindowFocus: false,
       enabled: species !== undefined,
     }
   );

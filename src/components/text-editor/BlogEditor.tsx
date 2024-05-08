@@ -20,7 +20,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
   const [alertFailed, setAlertFailed] = useState<boolean>(false);
   const [myEditor, setMyEditor] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [alertAction, setAlertAction] = useState<() => void>(() => () => {});
+  const [alertAction, setAlertAction] = useState<() => void>(() => () => { });
   const [isAd, setIsAd] = useState<boolean>(false);
   const [showAdOption, setShowAdOption] = useState<boolean>(true);
   const uploadImageForm = useForm<IUploadImage>({
@@ -161,14 +161,10 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
               createBlogForm.setValue('content', editor.getData());
             });
           })
-          .catch((error: any) => {
-            console.error(
-              'There was a problem initializing the editor.',
-              error
-            );
-          });
+          .catch(() => { }
+          );
       })
-      .catch((error) => console.error('CKEditor load error:', error));
+      .catch((error) => { });
   });
 
   useEffect(() => {

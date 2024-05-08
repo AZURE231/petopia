@@ -28,6 +28,7 @@ export default function PaymentDropIn({
         setAlertFailed(true);
         setAlertShow(true);
       },
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -63,14 +64,12 @@ export default function PaymentDropIn({
         },
         (error, dropinInstance) => {
           if (error) {
-            console.error('Braintree error:', error);
             return;
           }
           let submitButton = document.getElementById('payment-btn');
           submitButton?.addEventListener('click', () => {
             dropinInstance?.requestPaymentMethod((error, payload) => {
               if (error) {
-                console.error('Braintree error:', error);
                 setAlertMessage('Thẻ không hợp lệ. Vui lòng thử lại.');
                 setAlertFailed(true);
                 setAlertShow(true);

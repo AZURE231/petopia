@@ -7,8 +7,5 @@ export const uploadImage = async (formData: FormData) => {
       formData
     );
     return res;
-    //   setValue('images', [...getValues('images'), res.data.data.url]);
-  } catch (err) {
-    console.error(err);
-  }
+  } catch (err) { }
 };

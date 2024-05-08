@@ -37,3 +37,12 @@ export interface IBlogUpdate {
   category: number;
   content: string;
 }
+
+export interface IBlogAd{
+  id: string;
+  title: string;
+  excerpt: string;
+  image: string;
+  category: number;
+  userName: string;
+}
