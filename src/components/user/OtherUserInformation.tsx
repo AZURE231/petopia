@@ -23,7 +23,7 @@ import { BasicInfoBlock } from './BasicInfoBlock';
 import Image from 'next/image';
 import { GoReport } from 'react-icons/go';
 import Popup from 'reactjs-popup';
-import ReportUserForm from './ReportUserForm';
+import ReportUserForm from './ReportForm';
 import { Alert } from '../general/Alert';
 
 export const OtherUserInformation = QueryProvider(
@@ -33,7 +33,7 @@ export const OtherUserInformation = QueryProvider(
     const [pets, setPets] = useState<IPetResponse[]>([]);
     const [userName, setUserName] = useState<string>('');
     const [showReport, setShowReport] = useState(false);
-    const [isReported, setIsReported] = useState<boolean>(false);
+    const [isReported, setIsReported] = useState<boolean>(true);
     const [alertShow, setAlertShow] = useState<boolean>(false);
     const [alertMessage, setAlertMessage] = useState<string>('');
     const [alertFailed, setAlertFailed] = useState<boolean>(false);
@@ -155,6 +155,7 @@ export const OtherUserInformation = QueryProvider(
                 onClose={() => setShowReport(false)}
               >
                 <ReportUserForm
+                  preCheckQuery={getPreReportQuery}
                   id={userId}
                   type={REPORT_ENTITY.User}
                   handleClose={() => setShowReport(false)}

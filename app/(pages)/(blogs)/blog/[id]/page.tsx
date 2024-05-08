@@ -38,6 +38,7 @@ const page = observer(
           </div>
           {blogContent && (
             <BlogPage
+              blogId={blogContent.id}
               userName={blogContent.userName}
               blogTitle={blogContent.title}
               htmlContent={blogContent.content}
