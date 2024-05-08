@@ -13,7 +13,7 @@ import {
 import { IApiResponse } from '@/src/interfaces/common';
 import { IPetDetailResponse } from '@/src/interfaces/pet';
 import { getPetDetail } from '@/src/services/pet.api';
-import { PET_SPECIES, QUERY_KEYS } from '@/src/utils/constants';
+import { PET_SPECIES, QUERY_KEYS, REPORT_ENTITY } from '@/src/utils/constants';
 import { useQuery } from '@/src/utils/hooks';
 import { useState } from 'react';
 import Image from 'next/image';
@@ -30,6 +30,11 @@ import { observer } from 'mobx-react-lite';
 import { useStores } from '@/src/stores';
 import { IGetPostResponse } from '@/src/interfaces/post';
 import { getPetPosts } from '@/src/services/post.api';
+import Popup from 'reactjs-popup';
+import ReportForm from '@/src/components/user/ReportForm';
+import { getPreReport } from '@/src/services/user.api';
+import { GoReport } from 'react-icons/go';
+import { Alert } from '@/src/components/general/Alert';
 
 const page = observer(
   QueryProvider(({ params }: { params: { id: string } }) => {
@@ -39,6 +44,11 @@ const page = observer(
     const [displayedImage, setDisplayedImage] = useState<string>('');
     const { userStore } = useStores();
     const [petPost, setPetPost] = useState<IGetPostResponse[]>([]);
+    const [isReported, setIsReported] = useState<boolean>(true);
+    const [showReport, setShowReport] = useState(false);
+    const [alertShow, setAlertShow] = useState<boolean>(false);
+    const [alertMessage, setAlertMessage] = useState<string>('');
+    const [alertFailed, setAlertFailed] = useState<boolean>(false);
 
     const getPetQuery = useQuery<IApiResponse<IPetDetailResponse>>(
       [QUERY_KEYS.GET_PET_DETAIL],
@@ -75,6 +85,28 @@ const page = observer(
           return 'Không rõ';
       }
     };
+    // HANDLE
+    const handleShowReport = () => {
+      if (!isReported) {
+        setAlertMessage('Bạn đã báo cáo thú cưng này');
+        setAlertFailed(true);
+        setAlertShow(true);
+        return;
+      }
+      setShowReport(true);
+    };
+
+    // QUERY
+    const getPreReportQuery = useQuery<IApiResponse<boolean>>(
+      [QUERY_KEYS.GET_PRE_REPORT],
+      () => getPreReport({ id: params.id, entity: REPORT_ENTITY.Pet }),
+      {
+        onSuccess: (res) => {
+          setIsReported(res.data.data);
+        },
+        refetchOnWindowFocus: false,
+      }
+    );
 
     return (
       <div>
@@ -209,6 +241,28 @@ const page = observer(
                       </div>
                     </div>
                   </div>
+                  <Popup
+                    modal
+                    overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
+                    open={showReport}
+                    onClose={() => setShowReport(false)}
+                  >
+                    <ReportForm
+                      preCheckQuery={getPreReportQuery}
+                      id={params.id}
+                      type={REPORT_ENTITY.Pet}
+                      handleClose={() => setShowReport(false)}
+                    />
+                  </Popup>
+
+                  <div className="w-full flex justify-end">
+                    <button
+                      className="hover:bg-gray-100 p-2 rounded-full border"
+                      onClick={handleShowReport}
+                    >
+                      <GoReport size={30} className="" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -224,6 +278,12 @@ const page = observer(
         {error && (
           <NoResultBackground className="h-fit-screen w-full items-center" />
         )}
+        <Alert
+          message={alertMessage}
+          show={alertShow}
+          setShow={setAlertShow}
+          failed={alertFailed}
+        />
       </div>
     );
   })

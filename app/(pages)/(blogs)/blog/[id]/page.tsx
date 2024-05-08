@@ -10,7 +10,6 @@ import { useQuery } from '@/src/utils/hooks';
 import { observer } from 'mobx-react-lite';
 import { QueryProvider } from '@/src/components/general/QueryProvider';
 import { NoResultBackground } from '@/src/components/general/NoResultBackground';
-import PetDetailSkeleton from '@/src/components/general/PetDetailSkeleton';
 import BlogDetailSkeleton from '@/src/components/blog/BlogDetailSkeleton';
 
 const page = observer(

@@ -103,7 +103,7 @@ const BlogPage: React.FC<Props> = ({
           </Popup>
 
           <button
-            className="hover:bg-gray-100 p-2 rounded-full"
+            className="hover:bg-gray-100 p-2 rounded-full border"
             onClick={handleShowReport}
           >
             <GoReport size={30} className="" />
