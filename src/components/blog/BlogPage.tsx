@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { IoEye } from 'react-icons/io5';
+import { GoReport } from 'react-icons/go';
+import Popup from 'reactjs-popup';
+import { QUERY_KEYS, REPORT_ENTITY } from '@/src/utils/constants';
+import ReportForm from '../user/ReportForm';
+import { Alert } from '../general/Alert';
+import { useQuery } from '@/src/utils/hooks';
+import { IApiResponse } from '@/src/interfaces/common';
+import { getPreReport } from '@/src/services/user.api';
 
 interface Props {
+  blogId: string;
   blogTitle: string;
   htmlContent: string;
   view: number;
@@ -12,6 +21,7 @@ interface Props {
 }
 
 const BlogPage: React.FC<Props> = ({
+  blogId,
   blogTitle,
   htmlContent,
   view,
@@ -19,12 +29,39 @@ const BlogPage: React.FC<Props> = ({
   createdAt,
   userImage,
 }) => {
+  const [isReported, setIsReported] = useState<boolean>(true);
+  const [showReport, setShowReport] = useState(false);
+  const [alertShow, setAlertShow] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>('');
+  const [alertFailed, setAlertFailed] = useState<boolean>(false);
   // Modify only the images within the htmlContent
   const styledHTMLContent = htmlContent.replace(
     /<img/g,
     '<img style="display: block; margin: 0 auto; max-width: 500px; height: 500px; object-fit:contain;"'
   );
 
+  // HANDLE
+  const handleShowReport = () => {
+    if (!isReported) {
+      setAlertMessage('Bạn đã báo cáo bài viết này');
+      setAlertFailed(true);
+      setAlertShow(true);
+      return;
+    }
+    setShowReport(true);
+  };
+
+  // QUERY
+  const getPreReportQuery = useQuery<IApiResponse<boolean>>(
+    [QUERY_KEYS.GET_PRE_REPORT],
+    () => getPreReport({ id: blogId, entity: REPORT_ENTITY.Blog }),
+    {
+      onSuccess: (res) => {
+        setIsReported(res.data.data);
+      },
+      refetchOnWindowFocus: false,
+    }
+  );
   return (
     <div
       className="container max-w-3xl mx-auto mt-10 p-5 justify-center"
@@ -46,9 +83,31 @@ const BlogPage: React.FC<Props> = ({
           </span>
         </div>
 
-        <div className="flex justify-center items-center">
-          <span className="text-gray-800 font-medium text-lg">{view}</span>
-          <IoEye size={20} className="ml-2" />
+        <div className="flex gap-5">
+          <div className="flex justify-center items-center">
+            <span className="text-gray-800 font-medium text-lg">{view}</span>
+            <IoEye size={20} className="ml-2" />
+          </div>
+          <Popup
+            modal
+            overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
+            open={showReport}
+            onClose={() => setShowReport(false)}
+          >
+            <ReportForm
+              preCheckQuery={getPreReportQuery}
+              id={blogId}
+              type={REPORT_ENTITY.Blog}
+              handleClose={() => setShowReport(false)}
+            />
+          </Popup>
+
+          <button
+            className="hover:bg-gray-100 p-2 rounded-full border"
+            onClick={handleShowReport}
+          >
+            <GoReport size={30} className="" />
+          </button>
         </div>
       </div>
       <div
@@ -72,6 +131,12 @@ const BlogPage: React.FC<Props> = ({
           ))}
         </div>
       </div> */}
+      <Alert
+        message={alertMessage}
+        show={alertShow}
+        setShow={setAlertShow}
+        failed={alertFailed}
+      />
     </div>
   );
 };

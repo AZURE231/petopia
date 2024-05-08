@@ -65,6 +65,7 @@ export const QUERY_KEYS = {
   GET_AD_TYPES: 'GET_ADVERTISEMENT_TYPES',
   GET_PAYMENT_TOKEN: 'GET_PAYMENT_TOKEN',
   GET_BLOG_AD: 'GET_BLOG_AD',
+  GET_PRE_REPORT: 'GET_PRE_REPORT',
 };
 
 export const EVENT_NAMES = {
@@ -444,3 +445,16 @@ export const PET_ORG_TYPE_OPTION = [
     value: ORG_TYPE.OTHER,
   },
 ];
+
+export const REPORT_TYPE = {
+  SPAM: 0,
+  SCAM: 1,
+  INAPPROPRIATE_CONTENT: 2,
+  OTHER: 3,
+};
+
+export enum REPORT_ENTITY {
+  User,
+  Pet,
+  Blog,
+}
