@@ -19,3 +19,5 @@ export const deleteBlog = async (id: string) =>
   await http.delete(`/Blog/${id}`);
 
 export const updateBlog = async (data: IBlog) => await http.put('/Blog', data);
+
+export const getBlogAd = async () => await http.get('/Blog/Advertisement');
