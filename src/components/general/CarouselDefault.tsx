@@ -34,7 +34,6 @@ export function CarouselDefault({
     deletePost,
     {
       onSuccess: (res) => {
-        console.log('Delete post success');
         query.refetch();
       },
     }

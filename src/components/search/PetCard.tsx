@@ -38,7 +38,6 @@ export function PetCard(props: IPetCard) {
 
   const deletePetMutation = useMutation(deletePet, {
     onSuccess: () => {
-      console.log('Delete pet success');
       window.location.reload();
     },
   });

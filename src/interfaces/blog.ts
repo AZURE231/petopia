@@ -10,6 +10,7 @@ export interface IBlogResponse {
   isCreatedAt: string;
   userName: string;
   userImage: string;
+  isAdvertised: boolean;
 }
 
 export interface IBlogCardResponse {
