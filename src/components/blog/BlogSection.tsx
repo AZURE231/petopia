@@ -17,6 +17,7 @@ import { IBlogCardResponse, IBlogResponse } from '@/src/interfaces/blog';
 import { useQuery } from '@/src/utils/hooks';
 import { QueryProvider } from '../general/QueryProvider';
 import CardSkeleton from '../general/CardSkeleton';
+import BlogCarousel from './BlogCarousel';
 import { SortBlock } from '../general/SortBlock';
 
 interface BlogSectionProps {
@@ -59,6 +60,10 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
         setBlogs(data);
         pageNumber && paginationForm.setValue('pageNumber', pageNumber);
       },
+      onError: () => {
+        // Handle error
+      },
+
       refetchOnWindowFocus: false,
     }
   );
@@ -69,12 +74,7 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
 
       {/* Banner */}
       <div className="flex items-center justify-center relative mt-5">
-        <Image
-          alt="blog banner"
-          src={props.bannerImage}
-          width={1246}
-          height={413}
-        />
+        <BlogCarousel />
       </div>
 
       {/* Blog Cards Grid */}
@@ -85,8 +85,9 @@ const BlogSection = QueryProvider(({ props }: { props: BlogSectionProps }) => {
               {BLOG_CATEGORIES_OPTION.map((category, index) => (
                 <li
                   key={index}
-                  className={`mr-5 cursor-pointer ${selectedCategory === category.value ? 'underline' : ''
-                    }`}
+                  className={`mr-5 cursor-pointer ${
+                    selectedCategory === category.value ? 'underline' : ''
+                  }`}
                   onClick={() => {
                     setSelectedCategory(category.value);
                   }}
