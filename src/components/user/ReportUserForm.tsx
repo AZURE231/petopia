@@ -89,13 +89,13 @@ export default function ReportUserForm({
             <div className="ms-2 text-lg">
               <label
                 htmlFor="helper-checkbox"
-                className="font-medium text-gray-900 dark:text-gray-300"
+                className="font-medium text-gray-900 "
               >
                 Tin rác
               </label>
               <p
                 id="helper-checkbox-text"
-                className="text-md font-normal text-gray-500 dark:text-gray-300"
+                className="text-md font-normal text-gray-500 "
               >
                 Người dùng này đăng thông tin không liên quan
               </p>
@@ -130,13 +130,13 @@ export default function ReportUserForm({
             <div className="ms-2 text-lg">
               <label
                 htmlFor="helper-checkbox"
-                className="font-medium text-gray-900 dark:text-gray-300"
+                className="font-medium text-gray-900 "
               >
                 Lừa đảo
               </label>
               <p
                 id="helper-checkbox-text"
-                className="text-md font-normal text-gray-500 dark:text-gray-300"
+                className="text-md font-normal text-gray-500 "
               >
                 Người dùng có dấu hiệu lừa đảo
               </p>
@@ -171,13 +171,13 @@ export default function ReportUserForm({
             <div className="ms-2 text-lg">
               <label
                 htmlFor="helper-checkbox"
-                className="font-medium text-gray-900 dark:text-gray-300"
+                className="font-medium text-gray-900 "
               >
                 Nội dung không phù hợp
               </label>
               <p
                 id="helper-checkbox-text"
-                className="text-md font-normal text-gray-500 dark:text-gray-300"
+                className="text-md font-normal text-gray-500 "
               >
                 Nội dung vi phạm tiêu chuẩn cộng đồng
               </p>
@@ -212,13 +212,13 @@ export default function ReportUserForm({
             <div className="ms-2 text-lg">
               <label
                 htmlFor="helper-checkbox"
-                className="font-medium text-gray-900 dark:text-gray-300"
+                className="font-medium text-gray-900 "
               >
                 Khác
               </label>
               <p
                 id="helper-checkbox-text"
-                className="text-md font-normal text-gray-500 dark:text-gray-300"
+                className="text-md font-normal text-gray-500 "
               >
                 Báo cáo vi phạm khác
               </p>

@@ -65,5 +65,10 @@ export interface IOtherUserRequest {
 export interface IReportRequest {
   id: string;
   entity: REPORT_ENTITY;
-  reportType: number[];
+  reportTypes: number[];
+}
+
+export interface IPreReportRequest {
+  id: string;
+  entity: REPORT_ENTITY;
 }
