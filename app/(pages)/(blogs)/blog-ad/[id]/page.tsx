@@ -4,7 +4,10 @@ import { useMutation, useQuery } from '@/src/utils/hooks';
 import { QueryProvider } from '@/src/components/general/QueryProvider';
 import PaymentDropIn from '@/src/components/payment/PaymentDropIn';
 import { IApiResponse } from '@/src/interfaces/common';
-import { ICreatePaymentRequest, IPaymentTypesResponse } from '@/src/interfaces/payment';
+import {
+  ICreatePaymentRequest,
+  IPaymentTypesResponse,
+} from '@/src/interfaces/payment';
 import { createPayment, getAdTypes } from '@/src/services/payment.api';
 import { QUERY_KEYS } from '@/src/utils/constants';
 import QueryButton from '@/src/components/general/QueryButton';
@@ -20,7 +23,7 @@ const BlogAdPage = QueryProvider(({ params }: { params: { id: string } }) => {
   const [alertShow, setAlertShow] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
   const [alertFailed, setAlertFailed] = useState<boolean>(false);
-  const [alertAction, setAlertAction] = useState<() => void>(() => () => { });
+  const [alertAction, setAlertAction] = useState<() => void>(() => () => {});
   // FORMS
   const paymentForm = useForm<ICreatePaymentRequest>({
     defaultValues: {
@@ -56,24 +59,24 @@ const BlogAdPage = QueryProvider(({ params }: { params: { id: string } }) => {
     }
   );
 
-  const createPaymentMutation = useMutation<IApiResponse<boolean>, ICreatePaymentRequest>(
-    createPayment,
-    {
-      onError: () => {
-        setAlertMessage('Thanh toán thất bại.');
-        setAlertFailed(true);
-        setAlertShow(true);
-      },
-      onSuccess: () => {
-        setAlertMessage('Thanh toán thành công. Xem hoá đơn được gửi qua email.');
-        setAlertFailed(false);
-        setAlertShow(true);
-        setAlertAction(() => () => {
-          window.location.href = `/blog/${params.id}`;
-        });
-      },
-    }
-  );
+  const createPaymentMutation = useMutation<
+    IApiResponse<boolean>,
+    ICreatePaymentRequest
+  >(createPayment, {
+    onError: () => {
+      setAlertMessage('Thanh toán thất bại.');
+      setAlertFailed(true);
+      setAlertShow(true);
+    },
+    onSuccess: () => {
+      setAlertMessage('Thanh toán thành công. Xem hoá đơn được gửi qua email.');
+      setAlertFailed(false);
+      setAlertShow(true);
+      setAlertAction(() => () => {
+        window.location.href = `/blog/${params.id}`;
+      });
+    },
+  });
 
   // EFFECTS
   useEffect(() => {
@@ -84,13 +87,13 @@ const BlogAdPage = QueryProvider(({ params }: { params: { id: string } }) => {
 
   return (
     <div className="container mx-auto px-4 py-8 w-3/4">
-      <section className="bg-white dark:bg-gray-900">
+      <section className="bg-white">
         <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
           <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
-            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
+            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900">
               Quảng cáo bài viết của bạn ngay hôm nay!
             </h2>
-            <p className="mb-5 font-light text-gray-500 sm:text-xl dark:text-gray-400">
+            <p className="mb-5 font-light text-gray-500 sm:text-xl">
               Hãy để bài viết của bạn được mọi người trên Petopia biết đến nhiều
               hơn với dịch vụ quảng cáo của chúng tôi.
             </p>
@@ -99,10 +102,11 @@ const BlogAdPage = QueryProvider(({ params }: { params: { id: string } }) => {
             {paymentTypes.map((paymentType) => {
               return (
                 <div
-                  className={`flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border ${selectedAdType === paymentType.id
-                    ? 'border-yellow-300 border-4 bg-gray-300'
-                    : 'bg-white'
-                    } shadow hover:bg-gray-100 cursor-pointer`}
+                  className={`flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border ${
+                    selectedAdType === paymentType.id
+                      ? 'border-yellow-300 border-4 bg-gray-300'
+                      : 'bg-white'
+                  } shadow hover:bg-gray-100 cursor-pointer`}
                   key={paymentType.id}
                   onClick={() => handleSelect(paymentType.id)}
                 >

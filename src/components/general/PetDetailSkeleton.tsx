@@ -10,7 +10,7 @@ export default function PetDetailSkeleton() {
           <div className="flex items-center justify-center">
             <div className="flex items-center justify-center w-full h-96 bg-gray-300 rounded-lg sm:w-96">
               <svg
-                className="w-10 h-10 text-gray-200 dark:text-gray-600"
+                className="w-10 h-10 text-gray-200"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -24,16 +24,16 @@ export default function PetDetailSkeleton() {
             <div className="h-6 bg-gray-200 rounded-full w-48 mb-4"></div>
 
             <div className="flex flex-col divide-y">
-              <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[480px] mb-2.5"></div>
-              <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[480px] mb-2.5"></div>
-              <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[480px] mb-2.5"></div>
-              <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[480px] mb-2.5"></div>
-              <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[480px] mb-2.5"></div>
-              <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[480px] mb-2.5"></div>
-              <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[480px] mb-2.5"></div>
-              <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[480px] mb-2.5"></div>
-              <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[480px] mb-2.5"></div>
-              <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[480px] mb-2.5"></div>
+              <div className="h-3 bg-gray-200 rounded-full max-w-[480px] mb-2.5"></div>
+              <div className="h-3 bg-gray-200 rounded-full max-w-[480px] mb-2.5"></div>
+              <div className="h-3 bg-gray-200 rounded-full max-w-[480px] mb-2.5"></div>
+              <div className="h-3 bg-gray-200 rounded-full max-w-[480px] mb-2.5"></div>
+              <div className="h-3 bg-gray-200 rounded-full max-w-[480px] mb-2.5"></div>
+              <div className="h-3 bg-gray-200 rounded-full max-w-[480px] mb-2.5"></div>
+              <div className="h-3 bg-gray-200 rounded-full max-w-[480px] mb-2.5"></div>
+              <div className="h-3 bg-gray-200 rounded-full max-w-[480px] mb-2.5"></div>
+              <div className="h-3 bg-gray-200 rounded-full max-w-[480px] mb-2.5"></div>
+              <div className="h-3 bg-gray-200 rounded-full max-w-[480px] mb-2.5"></div>
             </div>
           </div>
         </div>
