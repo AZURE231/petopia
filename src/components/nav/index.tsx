@@ -53,7 +53,7 @@ export const Navbar = observer(
                 <button className="mx-4">Đăng kí</button>
               </Link>
               <Link href="/login">
-                <button className="text-black bg-yellow-300 rounded-full py-2 px-4 hover:bg-yellow-400">
+                <button test-id="login-button" className="text-black bg-yellow-300 rounded-full py-2 px-4 hover:bg-yellow-400">
                   Đăng nhập
                 </button>
               </Link>
