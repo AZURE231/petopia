@@ -8,7 +8,7 @@ import {
   QUERY_KEYS,
 } from '@/src/utils/constants';
 import { useMutation, useQuery } from '@/src/utils/hooks';
-import { use, useState } from 'react';
+import { useState } from 'react';
 import { PetCard } from '../search/PetCard';
 import { IPetDetailResponse, IPetResponse } from '@/src/interfaces/pet';
 import { getPetDetail } from '@/src/services/pet.api';
