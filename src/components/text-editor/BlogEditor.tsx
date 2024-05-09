@@ -20,9 +20,10 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
   const [alertFailed, setAlertFailed] = useState<boolean>(false);
   const [myEditor, setMyEditor] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [alertAction, setAlertAction] = useState<() => void>(() => () => { });
   const [isAd, setIsAd] = useState<boolean>(false);
   const [showAdOption, setShowAdOption] = useState<boolean>(true);
+
+  // FORMS
   const uploadImageForm = useForm<IUploadImage>({
     defaultValues: {
       showImages: [],
@@ -31,7 +32,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
     },
   });
 
-  const createBlogForm = useForm<IBlogUpdate>({
+  const blogForm = useForm<IBlogUpdate>({
     defaultValues: {
       id: id,
       title: '',
@@ -55,7 +56,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
           const formData = new FormData();
           formData.append('image', file);
           const url: string = await postImage(formData);
-          url && createBlogForm.setValue('image', url);
+          url && blogForm.setValue('image', url);
         })
       );
     }
@@ -69,8 +70,8 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
     await uploadImage();
     //check if all fields are filled
     if (
-      !createBlogForm.getValues('image') ||
-      !createBlogForm.getValues('content')
+      !blogForm.getValues('image') ||
+      !blogForm.getValues('content')
     ) {
       setAlertMessage('Vui lòng điền đầy đủ thông tin');
       setAlertFailed(true);
@@ -80,13 +81,13 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
     }
     if (!id)
       postBlogMutation.mutate({
-        title: createBlogForm.getValues('title'),
-        excerpt: createBlogForm.getValues('excerpt'),
-        image: createBlogForm.getValues('image'),
-        category: createBlogForm.getValues('category'),
-        content: createBlogForm.getValues('content'),
+        title: blogForm.getValues('title'),
+        excerpt: blogForm.getValues('excerpt'),
+        image: blogForm.getValues('image'),
+        category: blogForm.getValues('category'),
+        content: blogForm.getValues('content'),
       });
-    else updateBlogMutation.mutate(createBlogForm.getValues());
+    else updateBlogMutation.mutate(blogForm.getValues());
   };
 
   // QUERY
@@ -100,19 +101,14 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
       setAlertMessage('Đăng bài thành công');
       setAlertFailed(false);
       setAlertShow(true);
-      setAlertAction(() => () => {
-        const direction = isAd
-          ? `/blog-ad/${res.data.data}`
-          : `/blog/${res.data.data}`;
-        window.location.href = direction;
-      });
+      blogForm.setValue('id', res.data.data);
     },
   });
 
   const updateBlogMutation = useMutation<IApiResponse<string>, IBlogUpdate>(
     updateBlog,
     {
-      onError: (err) => {
+      onError: () => {
         setAlertMessage('Cập nhật bài viết thất bại');
         setAlertFailed(true);
         setAlertShow(true);
@@ -121,10 +117,6 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
         setAlertMessage('Cập nhật bài viết thành công');
         setAlertFailed(false);
         setAlertShow(true);
-        setAlertAction(() => () => {
-          const direction = isAd ? `/blog-ad/${id}` : `/blog/${id}`;
-          window.location.href = direction;
-        });
       },
     }
   );
@@ -134,11 +126,11 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
     () => getBlogDetail(id),
     {
       onSuccess: (res) => {
-        createBlogForm.setValue('title', res.data.data.title);
-        createBlogForm.setValue('excerpt', res.data.data.excerpt);
-        createBlogForm.setValue('image', res.data.data.image);
-        createBlogForm.setValue('category', res.data.data.category);
-        createBlogForm.setValue('content', res.data.data.content);
+        blogForm.setValue('title', res.data.data.title);
+        blogForm.setValue('excerpt', res.data.data.excerpt);
+        blogForm.setValue('image', res.data.data.image);
+        blogForm.setValue('category', res.data.data.category);
+        blogForm.setValue('content', res.data.data.content);
         uploadImageForm.setValue('showImages', [res.data.data.image]);
         if (res.data.data.isAdvertised) setShowAdOption(false);
         setContent(res.data.data.content);
@@ -158,13 +150,13 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
           .then((editor: any) => {
             setMyEditor(editor);
             editor.model.document.on('change:data', () => {
-              createBlogForm.setValue('content', editor.getData());
+              blogForm.setValue('content', editor.getData());
             });
           })
           .catch(() => { }
           );
       })
-      .catch((error) => { });
+      .catch(() => { });
   });
 
   useEffect(() => {
@@ -179,8 +171,8 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
         <input
           type="text"
           placeholder="Nhập tiêu đề bài viết"
-          value={createBlogForm.watch('title')}
-          onChange={(e) => createBlogForm.setValue('title', e.target.value)}
+          value={blogForm.watch('title')}
+          onChange={(e) => blogForm.setValue('title', e.target.value)}
           className="w-full p-3 px-8 rounded-full font-bold shadow-md bg-white border border-gray-300 mb-5"
           required
           maxLength={50}
@@ -188,8 +180,8 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
         <input
           type="text"
           placeholder="Nhập mô tả ngắn cho bài viết"
-          value={createBlogForm.watch('excerpt')}
-          onChange={(e) => createBlogForm.setValue('excerpt', e.target.value)}
+          value={blogForm.watch('excerpt')}
+          onChange={(e) => blogForm.setValue('excerpt', e.target.value)}
           required
           className="w-full p-3 px-8 rounded-full font-bold shadow-md bg-white border border-gray-300 mb-5"
           maxLength={200}
@@ -210,7 +202,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
           name="owner-time"
           className="w-fit px-10 p-3 border border-gray-300 rounded-lg mb-5"
           onChange={(e) =>
-            createBlogForm.setValue('category', Number(e.target.value))
+            blogForm.setValue('category', Number(e.target.value))
           }
         >
           {BLOG_CATEGORIES_OPTION.slice(1).map((category) => (
@@ -255,7 +247,9 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
         show={alertShow}
         setShow={setAlertShow}
         failed={alertFailed}
-        action={alertAction}
+        action={() => window.location.replace(isAd
+          ? `/blog-ad/${blogForm.getValues('id')}`
+          : `/blog/${blogForm.getValues('id')}`)}
         showCancel={false}
       />
     </div>

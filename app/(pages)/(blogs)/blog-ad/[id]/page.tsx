@@ -17,28 +17,22 @@ import { Alert } from '@/src/components/general/Alert';
 const BlogAdPage = QueryProvider(({ params }: { params: { id: string } }) => {
   // STATES
   const [paymentTypes, setPaymentTypes] = useState<IPaymentTypesResponse[]>([]);
-  const [selectedAdType, setSelectedAdType] = useState<string>('');
   const [showBtn, setShowBtn] = useState<boolean>(false);
 
   const [alertShow, setAlertShow] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
   const [alertFailed, setAlertFailed] = useState<boolean>(false);
-  const [alertAction, setAlertAction] = useState<() => void>(() => () => {});
+
   // FORMS
   const paymentForm = useForm<ICreatePaymentRequest>({
     defaultValues: {
       blogId: params.id,
-      advertisementId: selectedAdType,
+      advertisementId: '',
       nonce: '',
     },
   });
 
   // HANDLERS
-  const handleSelect = (adTypeId: string) => () => {
-    setSelectedAdType(adTypeId);
-    paymentForm.setValue('advertisementId', adTypeId);
-  };
-
   const handleCreatePayment = () => {
     createPaymentMutation.mutate(paymentForm.getValues());
   };
@@ -72,18 +66,15 @@ const BlogAdPage = QueryProvider(({ params }: { params: { id: string } }) => {
       setAlertMessage('Thanh toán thành công. Xem hoá đơn được gửi qua email.');
       setAlertFailed(false);
       setAlertShow(true);
-      setAlertAction(() => () => {
-        window.location.href = `/blog/${params.id}`;
-      });
     },
   });
 
   // EFFECTS
   useEffect(() => {
-    if (paymentForm.getValues().nonce && selectedAdType) {
+    if (paymentForm.watch('nonce') && paymentForm.watch('advertisementId')) {
       setShowBtn(true);
     }
-  }, [paymentForm.watch('nonce'), selectedAdType]);
+  }, [paymentForm.watch('nonce'), paymentForm.watch('advertisementId')]);
 
   return (
     <div className="container mx-auto px-4 py-8 w-3/4">
@@ -102,13 +93,11 @@ const BlogAdPage = QueryProvider(({ params }: { params: { id: string } }) => {
             {paymentTypes.map((paymentType) => {
               return (
                 <div
-                  className={`flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border ${
-                    selectedAdType === paymentType.id
-                      ? 'border-yellow-300 border-4 bg-gray-300'
-                      : 'bg-white'
-                  } shadow hover:bg-gray-100 cursor-pointer`}
+                  className={`flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 rounded-lg border ${paymentForm.watch('advertisementId') === paymentType.id
+                    && 'border-yellow-300 border-spacing-1 bg-gray-100'
+                    } shadow hover:bg-gray-100 cursor-pointer`}
                   key={paymentType.id}
-                  onClick={() => handleSelect(paymentType.id)}
+                  onClick={() => paymentForm.setValue('advertisementId', paymentType.id)}
                 >
                   <h3 className="mb-4 text-2xl font-semibold">
                     {paymentType.monthDuration} tháng
@@ -149,7 +138,7 @@ const BlogAdPage = QueryProvider(({ params }: { params: { id: string } }) => {
         show={alertShow}
         setShow={setAlertShow}
         failed={alertFailed}
-        action={alertAction}
+        action={() => window.location.replace(`/blog/${params.id}`)}
         showCancel={false}
       />
     </div>
