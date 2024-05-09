@@ -6,13 +6,16 @@ import { useState } from 'react';
 export default function CreatePetPostButton({
   petId,
   query,
+  show,
 }: {
   petId: string;
   query: any;
+  show: boolean;
 }) {
   const [open, setOpen] = useState(false);
-  return (
-    <div>
+  return !show
+    ? <></>
+    : (<div>
       <Popup
         modal
         overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
@@ -33,6 +36,5 @@ export default function CreatePetPostButton({
         </span>
         Tạo bài đăng
       </button>
-    </div>
-  );
+    </div>);
 }

@@ -3,8 +3,8 @@ import { FormEvent, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
 interface IPetSearchBar {
-  filterForm: UseFormReturn<IPetFilterRequest, any, undefined>,
-  disable: boolean,
+  filterForm: UseFormReturn<IPetFilterRequest, any, undefined>;
+  disable: boolean;
 }
 
 export function PetSearchBar(props: IPetSearchBar) {
@@ -18,7 +18,7 @@ export function PetSearchBar(props: IPetSearchBar) {
   };
 
   return (
-    <form 
+    <form
       className="flex items-center justify-center mb-10"
       onSubmit={handleOnSubmit}
     >
@@ -32,11 +32,11 @@ export function PetSearchBar(props: IPetSearchBar) {
         />
         <button
           className="text-white absolute end-2.5 bottom-2.5 bg-none hover:bg-gray-300 font-medium rounded-lg text-sm px-4 py-2 "
-          type='submit'
+          type="submit"
           onClick={() => handleOnSubmit}
         >
           <svg
-            className="w-4 h-4 text-gray-500 dark:text-gray-400"
+            className="w-4 h-4 text-gray-500"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 20 20"

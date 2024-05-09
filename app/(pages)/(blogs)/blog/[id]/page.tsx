@@ -44,6 +44,7 @@ const page = observer(
           {getBlogQuery.isLoading && <BlogDetailSkeleton />}
           {!getBlogQuery.isLoading && blogContent && (
             <BlogPage
+              blogId={blogContent.id}
               userName={blogContent.userName}
               blogTitle={blogContent.title}
               htmlContent={blogContent.content}
@@ -51,6 +52,10 @@ const page = observer(
               view={blogContent.view}
               userImage={blogContent.userImage}
             />
+          )}
+
+          {error && (
+            <NoResultBackground className="h-fit-screen w-full items-center" />
           )}
 
           {error && (
