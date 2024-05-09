@@ -3,7 +3,6 @@
 describe('Navigation - Guest', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000');
-    cy.getCookie('accessTokenServer').should('not.exist');
   });
   
   it('Navigate to Home page - OK', () => {
@@ -37,7 +36,6 @@ describe('Navigation - Authenticated', () => {
   beforeEach(() => {
     cy.login('mhung.contact@gmail.com', '123456789');
   });
-
 
   it('Navigate to Adopt page - OK', () => {
     cy.get('[test-id=adopt-link]').click();

@@ -79,6 +79,7 @@ export const FilterDropDown = (props: IFilterDropDown) => {
           <div className="py-1" role="menu">
             {displayedOptions.map((option, index) => (
               <div
+              test-id = "dropdown-option"
                 key={index}
                 className="block px-4 py-2 text-sm text-black hover:bg-gray-100 cursor-pointer"
                 role="menuitem"

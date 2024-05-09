@@ -106,7 +106,7 @@ const page = observer(
                 <div className="md:pl-10">
                   <div>
                     <div className="flex flex-row gap-2">
-                      <h1 className="mt-5 md:mt-0 font-bold text-4xl">
+                      <h1 test-id="pet-profile-name" className="mt-5 md:mt-0 font-bold text-4xl">
                         {petDetail.name}
                       </h1>
                       {petDetail.isOrgOwned && (

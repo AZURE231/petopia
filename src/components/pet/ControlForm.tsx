@@ -17,6 +17,7 @@ export default function ControlForm({
       {type !== 1 && (
         <div className="w-full flex justify-start">
           <button
+            test-id="back-button-form"
             onClick={handleBack}
             className="w-fit p-3 flex text-black bg-yellow-300 hover:bg-yellow-400 rounded-lg"
           >
@@ -30,6 +31,7 @@ export default function ControlForm({
       {type !== 4 && (
         <div className="w-full flex justify-end">
           <button
+            test-id="next-button-form"
             onClick={handleNext}
             className="w-fit p-3 flex justify-end text-black bg-yellow-300 hover:bg-yellow-400 rounded-lg"
           >

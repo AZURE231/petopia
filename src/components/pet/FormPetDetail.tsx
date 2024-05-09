@@ -29,6 +29,7 @@ export default function FormPetDetail({
               Tên thú cưng
             </label>
             <input
+              test-id = "pet-name-give-form"
               id="pet-name"
               name="pet-name"
               type="text"
@@ -57,6 +58,7 @@ export default function FormPetDetail({
               Giới thiệu về thú cưng
             </label>
             <textarea
+              test-id = "pet-description-give-form"
               id="pet-description"
               name="pet-description"
               value={watch('description')}

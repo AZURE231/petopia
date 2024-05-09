@@ -48,7 +48,7 @@ export default function FormRules({
           </p>
         </div>
         <div className="mb-4">
-          <input type="checkbox" id="agreeCheckbox" required />
+          <input test-id="check-box-give-form" type="checkbox" id="agreeCheckbox" required />
           <label htmlFor="agreeCheckbox" className="ml-2">
             Tôi đồng ý với các điều khoản nhận nuôi.
           </label>
