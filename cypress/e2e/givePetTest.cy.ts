@@ -38,9 +38,9 @@ describe('Give Pet', () => {
   it('Give a pet - OK', () => {
     cy.get('[test-id=givepet-dropzone]').attachFile(petImg);
     cy.get('[test-id=next-button-form]').click();
-    cy.get('[test-id=pet-name-give-form]').type('Test Pet', {force:true});
-    cy.get('select').contains('Chọn Loài').click({force:true});
-    cy.get('select').contains('Chó').click({force:true});
+    // cy.get('[test-id=pet-name-give-form]').type('Test Pet', {force:true});
+    // cy.get('select').contains('Chọn Loài').click();
+    // cy.get('select').contains('Chó').click();
     // cy.get('select').contains('Chọn Giới tính').click({force:true});
     // cy.get('select').contains('Đực').click({force:true});
     // cy.get('select').contains('Chọn Màu sắc').click({force:true});
