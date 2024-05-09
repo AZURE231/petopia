@@ -15,7 +15,7 @@ import { IBlogCardResponse, IBlogResponse } from '@/src/interfaces/blog';
 import { useQuery } from '@/src/utils/hooks';
 import { QueryProvider } from '../general/QueryProvider';
 import CardSkeleton from '../general/CardSkeleton';
-import AdvertisementCarousel from './BlogCarousel';
+import AdvertisementCarousel from './AdvertisementCarousel';
 import { SortBlock } from '../general/SortBlock';
 
 const BlogSection = QueryProvider(() => {

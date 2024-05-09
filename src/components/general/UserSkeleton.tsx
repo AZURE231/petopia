@@ -22,14 +22,14 @@ export default function UserSkeleton() {
         </div>
 
         <div className="md:px-10">
-          <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-72 mb-4"></div>
-          <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-60 mb-4"></div>
-          <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-[90] mb-4"></div>
+          <div className="h-2.5 bg-gray-200 rounded-full w-72 mb-4"></div>
+          <div className="h-2.5 bg-gray-200 rounded-full w-60 mb-4"></div>
+          <div className="h-2.5 bg-gray-200 rounded-full w-[90] mb-4"></div>
         </div>
         <div className="mt-5 flex justify-end"></div>
       </div>
       <div className="container max-w-3xl p-5 mx-auto rounded-2xl mt-20">
-        <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
+        <div className="h-6 bg-gray-200 rounded-full  w-48 mb-4"></div>
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
           {Array.from({ length: 3 }).map((_, index) => (
             <CardSkeleton key={index} />

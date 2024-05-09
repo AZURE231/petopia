@@ -18,15 +18,14 @@ import {
 import { getPetDetail, postPet, updatePet } from '@/src/services/pet.api';
 import { QUERY_KEYS } from '@/src/utils/constants';
 import { postImage } from '@/src/helpers/postImage';
-import { get } from 'http';
 
 const PetProfileForm = QueryProvider(
   ({ id = '' }: { id?: string; handleClose?: () => void }) => {
+
     // STATES
     const [error, setError] = useState<string>('');
     const [showAlert, setShowAlert] = useState<boolean>(false);
     const [activeStep, setActiveStep] = useState(0);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     // FORMS
     const { getValues, setValue, watch } = useForm<ICreatePetProfileRequest>({
@@ -66,21 +65,15 @@ const PetProfileForm = QueryProvider(
 
     const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
       event.preventDefault();
-      setIsLoading(true);
       let errorMessage = validateInputs();
       if (errorMessage) {
         setError(errorMessage);
         setShowAlert(true);
       } else {
-        await uploadImage();
-        if (getValues('breed') === '') {
-          setValue('breed', 'Không rõ');
-        }
+        !getValues('breed') && setValue('breed', 'Không rõ');
+        await uploadImagesMutation.mutateAsync(undefined);
         if (id) await updatePetMutation.mutateAsync(getValues());
-        else {
-          await createPetMutation.mutateAsync(getValues());
-        }
-        // setIsLoading(false);
+        else await createPetMutation.mutateAsync(getValues());
       }
     };
 
@@ -88,10 +81,7 @@ const PetProfileForm = QueryProvider(
       const files = getValues('files');
 
       if (files && files.length > 0) {
-        // Convert FileList to array
         const filesArray = Array.from(files);
-
-        // Use Promise.all to await all image uploads
         await Promise.all(
           filesArray.map(async (file) => {
             const formData = new FormData();
@@ -101,7 +91,6 @@ const PetProfileForm = QueryProvider(
           })
         );
       }
-      setIsLoading(false);
     };
 
     const validateInputs = () => {
@@ -191,6 +180,8 @@ const PetProfileForm = QueryProvider(
         window.location.replace(`/pet/${res.data.data.id}`);
       },
     });
+
+    const uploadImagesMutation = useMutation<void, undefined>(uploadImage);
 
     return (
       <form onSubmit={handleSubmit} className="max-h-screen overflow-y-auto">
@@ -296,7 +287,11 @@ const PetProfileForm = QueryProvider(
         {activeStep === 2 && (
           <FormRules
             handleBack={handleBack}
-            isLoading={isLoading || createPetMutation.isLoading}
+            isLoading={
+              createPetMutation.isLoading ||
+              updatePetMutation.isLoading ||
+              uploadImagesMutation.isLoading
+            }
           />
         )}
         <Alert

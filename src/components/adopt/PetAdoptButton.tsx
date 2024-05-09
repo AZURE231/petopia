@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Popup from 'reactjs-popup';
-import PetAdoptForm from './PetAdoptForm';
+import { PetAdoptForm } from './PetAdoptForm';
 import { observer } from 'mobx-react-lite';
 import { useStores } from '@/src/stores';
 import { Alert } from '../general/Alert';

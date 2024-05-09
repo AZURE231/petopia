@@ -54,7 +54,7 @@ export const ActionsBlock = (props: IActionsBlock) => {
             open={upgradeClicked}
             overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
           >
-            <UserUpgradeForm />
+            <UserUpgradeForm handleClose={() => setUpgradeClicked(false)} />
           </Popup>
         </div>
       )}
