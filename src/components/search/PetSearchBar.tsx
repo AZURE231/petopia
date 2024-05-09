@@ -24,6 +24,7 @@ export function PetSearchBar(props: IPetSearchBar) {
     >
       <div className="relative w-2/3">
         <input
+          test-id="search-pet-bar"
           type="search"
           className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:ring-blue-500 focus:border-blue-500   "
           placeholder="Tìm kiếm..."
