@@ -128,10 +128,10 @@ export default function TabbedTable({
         <ul className="flex flex-row -mb-px text-sm font-medium text-center text-gray-500 ">
           <li className="me-2">
             <button
-              className={`${tab === 0 ? activeTab : inactiveTab}`}
+              className={`${tab === TAB.PET ? activeTab : inactiveTab}`}
               onClick={() => setTab(TAB.PET)}
             >
-              <MdPets className={`${tab === 0 ? activeIcon : inactiveIcon}`} />
+              <MdPets className={`${tab === TAB.PET ? activeIcon : inactiveIcon}`} />
               Thú cưng{' '}
               <span className="hidden md:inline-block ml-1"> Của bạn</span>
             </button>
@@ -139,19 +139,12 @@ export default function TabbedTable({
           {userInfo?.role === USER_ROLE.ORGANIZATION && (
             <li className="me-2">
               <button
-                className={`${tab === 1 ? activeTab : inactiveTab} relative`}
+                className={`${tab === TAB.BLOG ? activeTab : inactiveTab} relative`}
                 onClick={() => setTab(TAB.BLOG)}
               >
                 <RiUserReceived2Fill
-                  className={`${tab === 1 ? activeIcon : inactiveIcon}`}
+                  className={`${tab === TAB.BLOG ? activeIcon : inactiveIcon}`}
                 />
-                {notifyCount > 0 && (
-                  <div>
-                    <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2  bg-red-600 rounded-full">
-                      {notifyCount > 9 ? '9+' : notifyCount}
-                    </span>
-                  </div>
-                )}
                 Bài viết
                 <span className="hidden md:inline-block ml-1">Của bạn</span>
               </button>
@@ -159,21 +152,21 @@ export default function TabbedTable({
           )}
           <li className="me-2">
             <button
-              className={`${tab === 2 ? activeTab : inactiveTab}`}
+              className={`${tab === TAB.SENT ? activeTab : inactiveTab}`}
               onClick={() => setTab(TAB.SENT)}
             >
-              <GrSend className={`${tab === 2 ? activeIcon : inactiveIcon}`} />
+              <GrSend className={`${tab === TAB.SENT ? activeIcon : inactiveIcon}`} />
               <span className="hidden md:inline-block mr-1">Yêu cầu</span> Đã
               gửi
             </button>
           </li>
           <li className="me-2">
             <button
-              className={`${tab === 3 ? activeTab : inactiveTab} relative`}
+              className={`${tab === TAB.IMCOMMING ? activeTab : inactiveTab} relative`}
               onClick={() => setTab(TAB.IMCOMMING)}
             >
               <RiUserReceived2Fill
-                className={`${tab === 2 ? activeIcon : inactiveIcon}`}
+                className={`${tab === TAB.IMCOMMING ? activeIcon : inactiveIcon}`}
               />
               {notifyCount > 0 && (
                 <div>
@@ -196,7 +189,7 @@ export default function TabbedTable({
               {
                 !getPetsQuery.isLoading &&
                 pets.length > 0 &&
-                pets.map((item, index) => (
+                pets.map((item) => (
                   <PetCard
                     isEditable={true}
                     key={item.id}
