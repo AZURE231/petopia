@@ -15,13 +15,16 @@ import { Alert } from '../general/Alert';
 import { preCheckAdoption, sendAdoptRequest } from '@/src/services/adopt.api';
 import { IAdoptPetRequest } from '@/src/interfaces/adopt';
 import { getErrorMessage } from '@/src/helpers/getErrorMessage';
+import { observer } from 'mobx-react-lite';
+import { useStores } from '@/src/stores';
 
 interface Props {
   handleClose: () => void;
 }
 
-export default function PetAdoptForm({ handleClose }: Props) {
+export const PetAdoptForm = observer(({ handleClose }: Props) => {
   const pathname = usePathname();
+  const { userStore } = useStores();
 
   // STATES
   const [userInfo, setUserInfo] = useState<IUserInfoReponse>();
@@ -124,11 +127,7 @@ export default function PetAdoptForm({ handleClose }: Props) {
                   name="owner-name"
                   type="text"
                   required
-                  value={
-                    userInfo?.attributes.firstName +
-                    ' ' +
-                    userInfo?.attributes.lastName
-                  }
+                  value={userStore.userContext?.name}
                   readOnly
                   className="w-full p-2 border border-gray-300 rounded-lg"
                 />
@@ -292,4 +291,4 @@ export default function PetAdoptForm({ handleClose }: Props) {
       />
     </div>
   );
-}
+});

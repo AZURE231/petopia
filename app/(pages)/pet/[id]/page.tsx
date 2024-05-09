@@ -22,7 +22,7 @@ import PetDetailSkeleton from '@/src/components/general/PetDetailSkeleton';
 import { NoResultBackground } from '@/src/components/general/NoResultBackground';
 import Link from 'next/link';
 import { FaHouseUser } from 'react-icons/fa';
-import { Button, Tooltip, Carousel } from '@material-tailwind/react';
+import { Button, Tooltip } from '@material-tailwind/react';
 import { FaShieldDog } from 'react-icons/fa6';
 import CreatePetPostButton from '@/src/components/post/CreatePetPostButton';
 import { CarouselDefault } from '@/src/components/general/CarouselDefault';
@@ -266,12 +266,17 @@ const page = observer(
                 </div>
               </div>
             </div>
-            <div className="container max-w-5xl mx-auto p-5 shadow-2xl rounded-2xl my-5">
-              {userStore.userContext?.id === petDetail.ownerId && (
-                <CreatePetPostButton petId={params.id} query={getPostQuery} />
-              )}
-              <CarouselDefault posts={petPost} query={getPostQuery} />
-            </div>
+            {
+              petPost.length || userStore.userContext?.id === petDetail.ownerId &&
+              <div className="container max-w-5xl mx-auto p-5 shadow-2xl rounded-2xl my-5">
+                <CreatePetPostButton
+                  petId={params.id}
+                  query={getPostQuery}
+                  show={userStore.userContext?.id === petDetail.ownerId}
+                />
+                <CarouselDefault posts={petPost} query={getPostQuery} />
+              </div>
+            }
             <SeeMore petList={petDetail.seeMore} />
           </div>
         )}
