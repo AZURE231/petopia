@@ -66,7 +66,11 @@ export default function UserUpdateForm({
   return (
     <>
       {show && (
-        <form className="md:px-10" onSubmit={handleSubmit}>
+        <form
+          test-id="user-update-form"
+          className="md:px-10"
+          onSubmit={handleSubmit}
+        >
           <div className="flex flex-col py-2">
             {userInfo.role !== USER_ROLE.ORGANIZATION && (
               <div className="flex flex-row gap-3">
@@ -78,6 +82,7 @@ export default function UserUpdateForm({
                     Tên
                   </label>
                   <input
+                    test-id="user-profile-first-name-input"
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="firstName"
                     type="text"
@@ -93,6 +98,7 @@ export default function UserUpdateForm({
                     Họ
                   </label>
                   <input
+                    test-id="user-profile-last-name-input"
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="lastName"
                     type="text"
@@ -149,6 +155,7 @@ export default function UserUpdateForm({
                   Số điện thoại
                 </label>
                 <input
+                  test-id="user-profile-phone-input"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="username"
                   type="text"
@@ -179,6 +186,7 @@ export default function UserUpdateForm({
                 Số nhà
               </label>
               <input
+                test-id="user-profile-street-input"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="username"
                 type="text"
@@ -189,6 +197,7 @@ export default function UserUpdateForm({
           </div>
           <div className="flex justify-center mt-5">
             <QueryButton
+              testId="user-update-button"
               name={'Xác nhận'}
               isLoading={updateUserMutation.isLoading}
             />
@@ -196,6 +205,7 @@ export default function UserUpdateForm({
         </form>
       )}
       <Alert
+      testId='user-update-alert'
         message={alertMessage}
         show={alertShow}
         setShow={setAlertShow}
