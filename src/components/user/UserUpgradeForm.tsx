@@ -69,6 +69,7 @@ export const UserUpgradeForm = observer(
         <form
           onSubmit={handleSubmit}
           className="w-full rounded-2xl bg-blue-200 p-5"
+          test-id="org-upgrade-form"
         >
           <h2 className="font-bold mb-2">Đơn nhận nuôi thú cưng</h2>
           {/* form */}
@@ -86,6 +87,7 @@ export const UserUpgradeForm = observer(
                   Tên tổ chức
                 </label>
                 <input
+                  test-id="org-name"
                   id="org-name"
                   name="org-name"
                   type="text"
@@ -104,6 +106,7 @@ export const UserUpgradeForm = observer(
                   Tên pháp nhân
                 </label>
                 <input
+                  test-id="org-owner-name"
                   id="owner-name"
                   name="owner-name"
                   type="text"
@@ -124,6 +127,7 @@ export const UserUpgradeForm = observer(
                   Số điện thoại
                 </label>
                 <input
+                  test-id="org-phone"
                   id="org-phone"
                   name="org-phone"
                   type="tel"
@@ -144,6 +148,7 @@ export const UserUpgradeForm = observer(
                   Email
                 </label>
                 <input
+                  test-id="org-email"
                   id="org-email"
                   type="email"
                   required
@@ -177,6 +182,7 @@ export const UserUpgradeForm = observer(
                   Số nhà, tên đường
                 </label>
                 <input
+                  test-id="org-street"
                   id="org-address"
                   name="org-address"
                   type="text"
@@ -197,6 +203,7 @@ export const UserUpgradeForm = observer(
                   Website / Mạng xã hội
                 </label>
                 <input
+                  test-id="org-website"
                   id="link"
                   name="link"
                   type="text"
@@ -214,6 +221,7 @@ export const UserUpgradeForm = observer(
                   Mã số thuế
                 </label>
                 <input
+                  test-id="org-tax-code"
                   id="tax-code"
                   name="tax-code"
                   required
@@ -231,6 +239,7 @@ export const UserUpgradeForm = observer(
                   Loại tổ chức
                 </label>
                 <select
+                  test-id="org-type"
                   className="text-black hover:bg-slate-100 border border-gray-300  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
                   name="org-type"
                   required
@@ -252,6 +261,7 @@ export const UserUpgradeForm = observer(
                   Giới thiệu về tổ chức
                 </label>
                 <textarea
+                  test-id="org-mission"
                   id="org-mission"
                   name="org-mission"
                   onChange={(e) => {
@@ -278,6 +288,7 @@ export const UserUpgradeForm = observer(
           </div>
           <div className="flex justify-center">
             <QueryButton
+              testId="user-upgrade-button"
               name={'Hoàn thành'}
               isLoading={upgradeAccountMutation.isLoading}
             />

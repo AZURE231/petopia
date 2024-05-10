@@ -44,6 +44,7 @@ export const ActionsBlock = (props: IActionsBlock) => {
       {showUpgrade && (
         <div>
           <button
+          test-id="show-upgrade-button"
             className="w-fit border border-black hover:bg-gray-100 font-medium rounded-lg text-md md:text-lg px-5 py-2.5 text-center"
             onClick={handleClickUpgrade}
           >
