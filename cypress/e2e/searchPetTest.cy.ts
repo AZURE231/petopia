@@ -1,6 +1,8 @@
 
  //use cypress config
 
+import { PET_INFO } from "../support/constant";
+
 
 describe('Search Pet - Filterbar', () => {
   beforeEach(() => {
@@ -14,11 +16,11 @@ describe('Search Pet - Filterbar', () => {
 
   it('Show the filter options when clicked - OK', () => {
     cy.get('button').contains('Loài').click(); // Clicks on the 'Species' filter button
-    cy.get('label').contains('Chó'); // Clicks on the 'Dog' filter checkbox
+    cy.get('label').contains(PET_INFO.SPECIES); // Clicks on the 'Dog' filter checkbox
     cy.get('button').contains('Kích thước').click(); // Clicks on the 'Size' filter button
-    cy.get('label').contains('Nhỏ');
+    cy.get('label').contains(PET_INFO.SIZE);
     cy.get('button').contains('Màu sắc').click(); // Clicks on the 'Color' filter button
-    cy.get('label').contains('Đen');
+    cy.get('label').contains(PET_INFO.COLOR);
   });
 
   // it('Pet list should be filtered according to filter bar - OK', () => {

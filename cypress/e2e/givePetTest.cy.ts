@@ -1,43 +1,40 @@
+import { NORMAL_ACCOUNT } from "../support/constant";
+
 const petImg = 'pet_img.jpg'
 const petImg2 = 'pet_img2.jpg'
 const petImg3 = 'pet_img3.jpg'
  
 describe('Give Pet', () => {
   beforeEach(() => {
-    cy.login('mhung.contact@gmail.com', '123456789');
+    cy.login(NORMAL_ACCOUNT.EMAIL, NORMAL_ACCOUNT.PASSWORD);
     cy.wait(500);
     cy.visit('http://localhost:3000/give-pet');
   });
 
-  // it('Upload a pet image - OK', () => {
+  it('Upload a pet image - OK', () => {
   
-  //   cy.get('[test-id=givepet-dropzone]').attachFile(petImg);
+    cy.get('[test-id=givepet-dropzone]').attachFile(petImg);
 
-  //   // Assert that the uploaded image is displayed
-  //   cy.get('[test-id=show-images-dropzone]').should('have.length', 1);
+    cy.get('[test-id=show-images-dropzone]').should('have.length', 1);
 
-  //   // Assert that the uploaded image is displayed correctly
   
-  // });
+  });
 
-  // it('Delete a pet image - OK', () => {
+  it('Delete a pet image - OK', () => {
 
 
-  //   cy.get('[test-id=givepet-dropzone]').attachFile(petImg);
+    cy.get('[test-id=givepet-dropzone]').attachFile(petImg);
 
-  //   // Assert that the uploaded image is displayed
-  //   cy.get('[test-id=show-images-dropzone]').should('have.length', 1);
+    cy.get('[test-id=show-images-dropzone]').should('have.length', 1);
 
-  //   // Delete the uploaded image
-  //   cy.get('[test-id=delete-image-dropzone]').click();
+    cy.get('[test-id=delete-image-dropzone]').click();
 
-  //   // Assert that the uploaded image is removed
-  //   cy.get('[test-id=show-images-dropzone]').should('not.exist');
-  // });
+    cy.get('[test-id=show-images-dropzone]').should('not.exist');
+  });
 
   it('Give a pet - OK', () => {
     cy.get('[test-id=givepet-dropzone]').attachFile(petImg);
-    cy.get('[test-id=next-button-form]').click();
+    cy.get('[test-id=next-button-form]').click(); // THIS IS WHERE THE ERROR OCCURS
     // cy.get('[test-id=pet-name-give-form]').type('Test Pet', {force:true});
     // cy.get('select').contains('Chọn Loài').click();
     // cy.get('select').contains('Chó').click();
@@ -62,7 +59,5 @@ describe('Give Pet', () => {
     // cy.url().should('include', '/pet/');
     // cy.get('[test-id=pet-profile-name]').should('contain', 'Test Pet');
   });
-
-
 
 });

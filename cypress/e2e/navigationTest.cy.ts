@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { NORMAL_ACCOUNT } from "../support/constant";
+
 describe('Navigation - Guest', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000');
@@ -34,7 +36,7 @@ describe('Navigation - Guest', () => {
 
 describe('Navigation - Authenticated', () => {
   beforeEach(() => {
-    cy.login('mhung.contact@gmail.com', '123456789');
+    cy.login(NORMAL_ACCOUNT.EMAIL, NORMAL_ACCOUNT.PASSWORD);
   });
 
   it('Navigate to Adopt page - OK', () => {
