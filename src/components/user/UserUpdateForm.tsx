@@ -1,17 +1,13 @@
 import AddressDropdown from './AddressDropdown';
-import {
-  IIndividualAttributes,
-  IUserInfoReponse,
-  IUserUpdate,
-} from '../../interfaces/user';
 import { useForm } from 'react-hook-form';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useMutation } from '../../utils/hooks';
 import { IApiResponse } from '../../interfaces/common';
 import { updateUser } from '../../services/user.api';
 import { Alert } from '../general/Alert';
 import { USER_ROLE } from '@/src/utils/constants';
 import QueryButton from '../general/QueryButton';
+import { IUserInfoReponse, IUserUpdate } from '@/src/interfaces/user';
 
 export default function UserUpdateForm({
   userInfo,
