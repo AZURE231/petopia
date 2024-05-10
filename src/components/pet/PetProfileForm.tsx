@@ -16,8 +16,9 @@ import {
   IUpdatePeResponse,
 } from '@/src/interfaces/pet';
 import { getPetDetail, postPet, updatePet } from '@/src/services/pet.api';
-import { QUERY_KEYS } from '@/src/utils/constants';
+import { GIVE_PET_STEP, QUERY_KEYS } from '@/src/utils/constants';
 import { postImage } from '@/src/helpers/postImage';
+import { GivePetHeaderBar } from './GivePetHeaderBar';
 
 const PetProfileForm = QueryProvider(
   ({ id = '' }: { id?: string; handleClose?: () => void }) => {
@@ -25,7 +26,7 @@ const PetProfileForm = QueryProvider(
     // STATES
     const [error, setError] = useState<string>('');
     const [showAlert, setShowAlert] = useState<boolean>(false);
-    const [activeStep, setActiveStep] = useState(0);
+    const [activeStep, setActiveStep] = useState(GIVE_PET_STEP.UPLOAD_IMAGE);
 
     // FORMS
     const { getValues, setValue, watch } = useForm<ICreatePetProfileRequest>({
@@ -49,10 +50,6 @@ const PetProfileForm = QueryProvider(
         listBreed: [],
       },
     });
-
-    // CONSTANTS
-    const activeStepper = 'text-blue-600';
-    const activeStepperBorder = 'border-blue-600';
 
     // HANDLERS
     const handleNext = () => {
@@ -186,86 +183,10 @@ const PetProfileForm = QueryProvider(
     return (
       <form onSubmit={handleSubmit} className="max-h-screen overflow-y-auto">
         {/* breadscrum stepper */}
-        <ol className="flex items-center justify-center w-full p-3 mb-5 space-x-2 text-sm font-medium text-center text-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm  sm:p-4 sm:space-x-4 rtl:space-x-reverse">
-          <li
-            className={
-              'flex items-center ' + (activeStep === 0 ? activeStepper : '')
-            }
-          >
-            <span
-              className={
-                'flex items-center justify-center w-5 h-5 me-2 text-xs border rounded-full shrink-0 ' +
-                (activeStep === 0 ? activeStepperBorder : 'border-gray-500')
-              }
-            >
-              1
-            </span>
-            Tải hình ảnh{' '}
-            <svg
-              className="w-3 h-3 ms-2 sm:ms-4 rtl:rotate-180"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 12 10"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="m7 9 4-4-4-4M1 9l4-4-4-4"
-              />
-            </svg>
-          </li>
-          <li
-            className={
-              'flex items-center ' + (activeStep === 1 ? activeStepper : '')
-            }
-          >
-            <span
-              className={
-                'flex items-center justify-center w-5 h-5 me-2 text-xs border rounded-full shrink-0 ' +
-                (activeStep === 1 ? activeStepperBorder : 'border-gray-500')
-              }
-            >
-              2
-            </span>
-            Thông tin thú cưng{' '}
-            <svg
-              className="w-3 h-3 ms-2 sm:ms-4 rtl:rotate-180"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 12 10"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="m7 9 4-4-4-4M1 9l4-4-4-4"
-              />
-            </svg>
-          </li>
-
-          <li
-            className={
-              'flex items-center ' + (activeStep === 2 ? activeStepper : '')
-            }
-          >
-            <span
-              className={
-                'flex items-center justify-center w-5 h-5 me-2 text-xs border rounded-full shrink-0 ' +
-                (activeStep === 2 ? activeStepperBorder : 'border-gray-500')
-              }
-            >
-              3
-            </span>
-            Xác nhận
-          </li>
-        </ol>
+        <GivePetHeaderBar activeStep={activeStep} />
 
         {/* form upload images */}
-        {activeStep === 0 && (
+        {activeStep === GIVE_PET_STEP.UPLOAD_IMAGE && (
           <FormUploadImage
             handleNext={handleNext}
             setValue={setValue}
@@ -274,7 +195,7 @@ const PetProfileForm = QueryProvider(
         )}
 
         {/* form pet detail */}
-        {activeStep === 1 && (
+        {activeStep === GIVE_PET_STEP.PET_DETAIL && (
           <FormPetDetail
             handleNext={handleNext}
             handleBack={handleBack}
@@ -284,7 +205,7 @@ const PetProfileForm = QueryProvider(
         )}
 
         {/* rules */}
-        {activeStep === 2 && (
+        {activeStep === GIVE_PET_STEP.RULE && (
           <FormRules
             handleBack={handleBack}
             isLoading={
@@ -294,6 +215,7 @@ const PetProfileForm = QueryProvider(
             }
           />
         )}
+
         <Alert
           message={error || 'Tạo hồ sơ thú cưng thành công'}
           show={showAlert}
