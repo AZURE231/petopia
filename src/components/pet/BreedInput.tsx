@@ -22,7 +22,7 @@ export default function BreedInput({
       onSuccess: (res) => {
         setValue('listBreed', res.data.data);
       },
-      enabled: watch('species') !== PET_SPECIES.OTHER,
+      enabled: watch('species') !== PET_SPECIES.OTHER && watch('species') !== -1,
       refetchOnWindowFocus: false,
     }
   );
