@@ -458,3 +458,9 @@ export enum REPORT_ENTITY {
   Pet,
   Blog,
 }
+
+export const GIVE_PET_STEP = {
+  UPLOAD_IMAGE: 1,
+  PET_DETAIL: 2,
+  RULE: 3,
+};
