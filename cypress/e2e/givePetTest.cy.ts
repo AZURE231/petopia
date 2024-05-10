@@ -35,6 +35,7 @@ describe('Give Pet', () => {
   it('Give a pet - OK', () => {
     cy.get('[test-id=givepet-dropzone]').attachFile(petImg);
     cy.get('[test-id=next-button-form]').click(); // THIS IS WHERE THE ERROR OCCURS
+    
     // cy.get('[test-id=pet-name-give-form]').type('Test Pet', {force:true});
     // cy.get('select').contains('Chọn Loài').click();
     // cy.get('select').contains('Chó').click();
