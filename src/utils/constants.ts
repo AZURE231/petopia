@@ -38,6 +38,7 @@ export const DOMAIN_ERROR_MESSAGES = {
   '10009': 'Mật khẩu không đúng.',
   '12002': 'Không thể nhận nuôi thú cưng của chính bạn.',
   '12003': 'Bạn đã gửi yêu cầu nhận nuôi thú cưng này rồi.',
+  '10010': 'Vui lòng nhập địa chỉ.',
 };
 
 export const QUERY_KEYS = {
