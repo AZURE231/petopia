@@ -76,6 +76,7 @@ export const ActionsBlock = (props: IActionsBlock) => {
       </button>
 
       <Alert
+        testId="already-submit-org-alert"
         failed={true}
         message={'Bạn đã gửi yêu cầu cộng tác viên rồi!'}
         show={showAlert}

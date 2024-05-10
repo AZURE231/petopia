@@ -273,9 +273,14 @@ export const UserUpgradeForm = observer(
                 />
               </div>
               <div className="col-span-2 flex items-center">
-                <input type="checkbox" required onChange={(e) => {
-                  if (!isReadTerms) e.target.checked = false;
-                }} />
+                <input
+                  test-id="org-terms-tickbox"
+                  type="checkbox"
+                  required
+                  onChange={(e) => {
+                    if (!isReadTerms) e.target.checked = false;
+                  }}
+                />
                 <span className="ml-1">
                   Tôi cam kết tuân thủ các
                   <i
@@ -292,13 +297,14 @@ export const UserUpgradeForm = observer(
           </div>
           <div className="flex justify-center">
             <QueryButton
-              testId="user-upgrade-button"
+              testId="org-upgrade-button"
               name={'Hoàn thành'}
               isLoading={upgradeAccountMutation.isLoading}
             />
           </div>
         </form>
         <Alert
+          testId="org-upgrade-alert"
           failed={alertFail}
           message={alertMessage}
           show={alertShow}

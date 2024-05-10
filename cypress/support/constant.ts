@@ -25,7 +25,7 @@ export enum ORG_INFO {
     PROVINCE = 'Hà Nội',
     DISTRICT = 'Ba Đình',
     WARD='Cống Vị',
-    TYPE = 'Cá nhân',
+    TYPE = 'Khác',
 }
 
 export enum PET_INFO {
@@ -38,4 +38,10 @@ export enum PET_INFO {
     SPAY = 'Chưa triệt sản',
     BREED = 'Shiba Inu',
     DESCRIPTION = 'Test Pet Description'
+}
+
+export enum KEYWORDS {
+  SUCCESS = 'Thành công',
+  FAIL = 'Thất bại',
+  TERMS = 'điều khoản',
 }
