@@ -10,7 +10,7 @@ export const BasicInfoBlock = ({
   address: string;
 }) => {
   return (
-    <div className="p-5 md:px-10 border w-fit rounded-xl divide-y-2 ">
+    <div className="p-5 md:px-10 border w-full rounded-xl divide-y-2">
       <div className="py-2 grid grid-cols-2">
         <div className="block text-gray-500 text-md">Email:</div>
         <Tooltip content={email}>

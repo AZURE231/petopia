@@ -19,9 +19,11 @@ import { FaRegUserCircle } from 'react-icons/fa';
 export default function PetAdoptionInfo({
   id,
   type,
+  close,
 }: {
   id: string;
   type: string;
+  close: () => void;
 }) {
   const [formInfo, setFormInfo] = useState<IAdoptFormInfo>();
   const [petInfo, setPetInfo] = useState<IPetResponse>();
@@ -37,6 +39,7 @@ export default function PetAdoptionInfo({
       setAlertShow(true);
       setAlertFailed(false);
       setAlertMessage('Huỷ đơn nhận nuôi thành công');
+      close();
     },
     onError: () => {
       setAlertShow(true);
@@ -53,6 +56,7 @@ export default function PetAdoptionInfo({
       setAlertShow(true);
       setAlertFailed(false);
       setAlertMessage('Từ chối đơn nhận nuôi thành công');
+      close();
     },
     onError: () => {
       setAlertShow(true);
@@ -69,6 +73,7 @@ export default function PetAdoptionInfo({
       setAlertShow(true);
       setAlertFailed(false);
       setAlertMessage('Chấp nhận đơn nhận nuôi thành công');
+      close();
     },
     onError: () => {
       setAlertShow(true);

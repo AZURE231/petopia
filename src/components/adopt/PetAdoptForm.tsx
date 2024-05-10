@@ -286,7 +286,7 @@ export const PetAdoptForm = observer(({ handleClose }: Props) => {
         message={alertMessage}
         show={alertShow}
         setShow={setAlertShow}
-        action={handleClose}
+        action={() => !alertFail && handleClose()}
         showCancel={false}
       />
     </div>

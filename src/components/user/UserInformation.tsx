@@ -78,11 +78,15 @@ export const UserInformation = QueryProvider(() => {
           />
 
           <ActionsBlock
-            showUpgrade={userInfo.role === USER_ROLE.STANDARD_USER}
+            showUpgradeButton={userInfo.role === USER_ROLE.STANDARD_USER}
             setShowEdit={setShowEdit}
           />
 
-          <UserUpdateForm userInfo={userInfo!} show={showEdit} />
+          <UserUpdateForm
+            userInfo={userInfo!}
+            show={showEdit}
+            onSuccess={() => getUserQuery.refetch()}
+          />
         </div>
       )}
       <TabbedTable userInfo={userInfo} />
