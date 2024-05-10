@@ -2,6 +2,7 @@
 
 import 'cypress-file-upload';
 
+
 Cypress.Commands.add('login', (email: string, password: string) => {
     cy.visit('http://localhost:3000');
     cy.get('[test-id=login-button]').click();
@@ -9,6 +10,12 @@ Cypress.Commands.add('login', (email: string, password: string) => {
     cy.get('[test-id=login-password-input]').type(password);
     cy.get('button').contains('Đăng nhập').click();
   });
+
+Cypress.config({
+  viewportWidth: 1280,
+  viewportHeight: 720,
+})
+
 
 
   
