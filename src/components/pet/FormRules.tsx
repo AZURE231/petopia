@@ -1,3 +1,4 @@
+import { GIVE_PET_STEP } from '@/src/utils/constants';
 import ControlForm from './ControlForm';
 
 export default function FormRules({
@@ -57,8 +58,8 @@ export default function FormRules({
       {/* Controller */}
       <ControlForm
         handleBack={handleBack}
-        handleNext={() => {}}
-        type={4}
+        handleNext={() => { }}
+        step={GIVE_PET_STEP.RULE}
         isLoading={isLoading}
       />
     </div>

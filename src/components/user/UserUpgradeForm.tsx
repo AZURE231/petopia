@@ -10,6 +10,7 @@ import { useMutation } from '@/src/utils/hooks';
 import { IApiResponse } from '@/src/interfaces/common';
 import { upgradeToOrg } from '@/src/services/user.api';
 import QueryButton from '../general/QueryButton';
+import { getErrorMessage } from '@/src/helpers/getErrorMessage';
 
 export const UserUpgradeForm = observer(
   ({ handleClose }: { handleClose: () => void }) => {
@@ -46,7 +47,7 @@ export const UserUpgradeForm = observer(
       IOrgUpgradeRequest
     >(upgradeToOrg, {
       onError: (err) => {
-        setAlertMessage('Bạn đã gửi đăng ký, không thể gửi đăng kí lại');
+        setAlertMessage(getErrorMessage(err.data.errorCode.toString()));
         setAlertShow(true);
         setAlertFail(true);
       },
@@ -71,7 +72,7 @@ export const UserUpgradeForm = observer(
           className="w-full rounded-2xl bg-blue-200 p-5"
           test-id="org-upgrade-form"
         >
-          <h2 className="font-bold mb-2">Đơn nhận nuôi thú cưng</h2>
+          <h2 className="font-bold mb-2">Đơn xác minh tổ chức</h2>
           {/* form */}
           <div
             className="w-full p-5 mb-5 bg-gray-50 rounded-lg overflow-auto"
@@ -262,6 +263,7 @@ export const UserUpgradeForm = observer(
                 </label>
                 <textarea
                   test-id="org-mission"
+                  required
                   id="org-mission"
                   name="org-mission"
                   onChange={(e) => {
@@ -271,7 +273,9 @@ export const UserUpgradeForm = observer(
                 />
               </div>
               <div className="col-span-2 flex items-center">
-                <input disabled={!isReadTerms} type="checkbox" required />
+                <input type="checkbox" required onChange={(e) => {
+                  if (!isReadTerms) e.target.checked = false;
+                }} />
                 <span className="ml-1">
                   Tôi cam kết tuân thủ các
                   <i
@@ -299,7 +303,8 @@ export const UserUpgradeForm = observer(
           message={alertMessage}
           show={alertShow}
           setShow={setAlertShow}
-          action={handleClose}
+          showCancel={false}
+          action={() => !alertFail && handleClose()}
         />
       </div>
     );

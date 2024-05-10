@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import { ICreatePetProfileRequest } from '@/src/interfaces/pet';
 import { IoClose } from 'react-icons/io5';
+import { GIVE_PET_STEP } from '@/src/utils/constants';
 
 export default function FormUploadImage({
   handleNext,
@@ -112,7 +113,7 @@ export default function FormUploadImage({
       </div>
 
       {/* Controller */}
-      <ControlForm handleBack={() => {}} handleNext={handleNext} type={1} />
+      <ControlForm handleBack={() => { }} handleNext={handleNext} step={GIVE_PET_STEP.UPLOAD_IMAGE} />
     </div>
   );
 }

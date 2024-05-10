@@ -1,7 +1,7 @@
 import AttributeSelect from './AttributeSelect';
 import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import ControlForm from './ControlForm';
-import { PET_SELECT } from '@/src/utils/constants';
+import { GIVE_PET_STEP, PET_SELECT } from '@/src/utils/constants';
 import { ICreatePetProfileRequest } from '@/src/interfaces/pet';
 import BreedInput from './BreedInput';
 
@@ -83,7 +83,7 @@ export default function FormPetDetail({
         </div>
       </div>
       {/* Controller */}
-      <ControlForm handleBack={handleBack} handleNext={handleNext} type={2} />
+      <ControlForm handleBack={handleBack} handleNext={handleNext} step={GIVE_PET_STEP.PET_DETAIL} />
     </div>
   );
 }

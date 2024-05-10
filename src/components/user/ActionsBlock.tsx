@@ -32,7 +32,7 @@ export const ActionsBlock = (props: IActionsBlock) => {
   };
 
   // QUERIES
-  useQuery<IApiResponse<boolean>>([QUERY_KEYS.GET_PRE_UPGRADE], getPreUpgrade, {
+  const preUpgradeQuery = useQuery<IApiResponse<boolean>>([QUERY_KEYS.GET_PRE_UPGRADE], getPreUpgrade, {
     onSuccess: (res) => {
       setAllowUpgrade(res.data.data);
     },
@@ -41,7 +41,7 @@ export const ActionsBlock = (props: IActionsBlock) => {
 
   return (
     <div className="mt-5 w-full flex flex-col md:flex-row items-end justify-end gap-2 md:gap-3">
-      {showUpgrade && (
+      {showUpgrade && !preUpgradeQuery.isLoading && (
         <div>
           <button
           test-id="show-upgrade-button"
