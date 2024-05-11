@@ -29,16 +29,22 @@ export enum ORG_INFO {
 }
 
 export enum PET_INFO {
-    NAME = 'Test Pet',
-    SPECIES = 'Chó',
-    COLOR = 'Đen',
-    SIZE = 'Nhỏ',
-    AGE = 'Dưới 1 năm',
-    VACCINE = 'Đã tiêm',
-    SPAY = 'Chưa triệt sản',
-    BREED = 'Shiba Inu',
-    DESCRIPTION = 'Test Pet Description'
+  NAME = 'Test Pet',
+  IMAGE_1 = 'pet_img.jpg',
+  IMAGE_2 = 'pet_img_2.jpg',
+  IMAGE_3 = 'pet_img_3.jpg',
+  SPECIES = 'Chó',
+  COLOR = 'Đen',
+  SEX = 'Đực',
+  SIZE = 'Nhỏ',
+  AGE = 'Dưới 1 năm',
+  VACCINE = 'Đã tiêm',
+  SPAY = 'Chưa triệt sản',
+  BREED = 'Shiba Inu',
+  DESCRIPTION = 'Test Pet Description'
 }
+
+
 
 export enum KEYWORDS {
   SUCCESS = 'Thành công',

@@ -35,6 +35,7 @@ export default function BreedInput({
     <>
       {watch('species') != PET_SPECIES.OTHER && (
         <FilterDropDown
+          testId="dropdown-option-breed"
           disabled={getBreedQuery.isLoading}
           options={watch('listBreed')?.map((e) => ({ label: e, value: e }))}
           value={watch('breed')}

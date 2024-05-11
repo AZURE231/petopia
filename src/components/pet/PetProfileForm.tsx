@@ -217,6 +217,7 @@ const PetProfileForm = QueryProvider(
         )}
 
         <Alert
+          testId='give-pet-form-alert'
           message={error || 'Tạo hồ sơ thú cưng thành công'}
           show={showAlert}
           setShow={setShowAlert}

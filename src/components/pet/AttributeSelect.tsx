@@ -4,16 +4,17 @@ interface AttributeSelectProps {
   label: string;
   options: IPetFilterItem[];
   value:
-  | 'breed'
-  | 'species'
-  | 'sex'
-  | 'age'
-  | 'color'
-  | 'size'
-  | 'isVaccinated'
-  | 'isSterillized';
+    | 'breed'
+    | 'species'
+    | 'sex'
+    | 'age'
+    | 'color'
+    | 'size'
+    | 'isVaccinated'
+    | 'isSterillized';
   setValue: UseFormSetValue<ICreatePetProfileRequest>;
   watch: UseFormWatch<ICreatePetProfileRequest>;
+  testId?: string;
 }
 
 export default function AttributeSelect({
@@ -22,6 +23,7 @@ export default function AttributeSelect({
   label,
   value,
   options,
+  testId,
 }: AttributeSelectProps) {
   return (
     <div className="flex flex-col space-y-2">
@@ -29,6 +31,7 @@ export default function AttributeSelect({
         {label}
       </label>
       <select
+        test-id={testId}
         onChange={(e) => setValue(value, e.target.value)}
         className="text-black hover:bg-slate-100 border border-gray-300  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
         defaultValue={watch(value)}

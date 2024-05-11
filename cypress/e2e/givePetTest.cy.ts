@@ -1,9 +1,5 @@
-import { NORMAL_ACCOUNT } from "../support/constant";
+import { KEYWORDS, NORMAL_ACCOUNT, PET_INFO } from "../support/constant";
 
-const petImg = 'pet_img.jpg'
-const petImg2 = 'pet_img2.jpg'
-const petImg3 = 'pet_img3.jpg'
- 
 describe('Give Pet', () => {
   beforeEach(() => {
     cy.login(NORMAL_ACCOUNT.EMAIL, NORMAL_ACCOUNT.PASSWORD);
@@ -13,17 +9,25 @@ describe('Give Pet', () => {
 
   it('Upload a pet image - OK', () => {
   
-    cy.get('[test-id=givepet-dropzone]').attachFile(petImg);
+    cy.get('[test-id=givepet-dropzone]').attachFile(PET_INFO.IMAGE_1);
 
     cy.get('[test-id=show-images-dropzone]').should('have.length', 1);
 
-  
   });
+
+  it('Upload multiple pet images - OK', () => {
+  
+    cy.get('[test-id=givepet-dropzone]').attachFile(PET_INFO.IMAGE_1);
+    cy.get('[test-id=givepet-dropzone]').attachFile(PET_INFO.IMAGE_2);
+    cy.get('[test-id=givepet-dropzone]').attachFile(PET_INFO.IMAGE_3);
+    cy.get('[test-id=show-images-dropzone]').should('have.length', 3);
+
+  });
+
 
   it('Delete a pet image - OK', () => {
 
-
-    cy.get('[test-id=givepet-dropzone]').attachFile(petImg);
+    cy.get('[test-id=givepet-dropzone]').attachFile(PET_INFO.IMAGE_1);
 
     cy.get('[test-id=show-images-dropzone]').should('have.length', 1);
 
@@ -32,33 +36,53 @@ describe('Give Pet', () => {
     cy.get('[test-id=show-images-dropzone]').should('not.exist');
   });
 
+
+
+it('Give a pet without Pet Image - Fail Alert', () => {
+    cy.get('[test-id=next-button-form]').click();
+    cy.get('[test-id=pet-name-give-form]').type('Test Pet');
+    cy.get('[test-id=dropdown-option-species]').select(PET_INFO.SPECIES);
+    cy.get('[test-id=dropdown-option-sex]').select(PET_INFO.SEX);
+    cy.get('[test-id=dropdown-option-color]').select(PET_INFO.COLOR);
+    cy.get('[test-id=dropdown-option-size]').select(PET_INFO.SIZE);
+    cy.get('[test-id=dropdown-option-age]').select(PET_INFO.AGE);
+    cy.get('[test-id=dropdown-option-isVaccinated]').select(PET_INFO.VACCINE);
+    cy.get('[test-id=dropdown-option-isSterillized]').select(PET_INFO.SPAY);
+    cy.get('[test-id=dropdown-option-breed]').click();
+    cy.get('[test-id="dropdown-option"]').contains(PET_INFO.BREED).click();
+    cy.get('[test-id=pet-description-give-form]').type(PET_INFO.DESCRIPTION);
+    cy.get('[test-id=next-button-form]').click();
+    cy.get('[test-id=check-box-give-form]').click();
+    cy.get('[test-id=submit-give-pet-button]').click();
+    cy.get('[test-id=give-pet-form-alert]').should('be.visible').should('contain.text', KEYWORDS.FAIL);
+  });
+
+  it('Give a pet without Pet Image - Fail Alert', () => {
+    cy.get('[test-id=next-button-form]').click();
+    cy.get('[test-id=next-button-form]').click();
+    cy.get('[test-id=check-box-give-form]').click();
+    cy.get('[test-id=submit-give-pet-button]').click();
+    cy.get('[test-id=give-pet-form-alert]').should('be.visible').should('contain.text', KEYWORDS.FAIL);
+  });
+
   it('Give a pet - OK', () => {
-    cy.get('[test-id=givepet-dropzone]').attachFile(petImg);
-    cy.get('[test-id=next-button-form]').click(); // THIS IS WHERE THE ERROR OCCURS
-    
-    // cy.get('[test-id=pet-name-give-form]').type('Test Pet', {force:true});
-    // cy.get('select').contains('Chọn Loài').click();
-    // cy.get('select').contains('Chó').click();
-    // cy.get('select').contains('Chọn Giới tính').click({force:true});
-    // cy.get('select').contains('Đực').click({force:true});
-    // cy.get('select').contains('Chọn Màu sắc').click({force:true});
-    // cy.get('select').contains('Đen').click({force:true});
-    // cy.get('select').contains('Chọn Kích thước').click({force:true});
-    // cy.get('select').contains('Nhỏ').click({force:true});
-    // cy.get('select').contains('Chọn Độ tuổi').click({force:true});
-    // cy.get('select').contains('Dưới 1 năm').click({force:true});
-    // cy.get('select').contains('Chọn Tiêm chủng').click({force:true});
-    // cy.get('select').contains('Đã tiêm').click({force:true});
-    // cy.get('select').contains('Chọn Triệt sản').click({force:true});
-    // cy.get('select').contains('Chưa triệt sản').click({force:true});
-    // cy.get('select').contains('Không rõ').click({force:true});
-    // cy.get('[test-id=dropdown-option]').contains('Shiba Inu').click({force:true});
-    // cy.get('[test-id=pet-description-give-form]').type('Test Pet Description', {force:true});
-    // cy.get('[test-id=next-button-form]').click();
-    // cy.get('[test-id=check-box-give-form]').click({force:true});
-    // cy.get('[test-id=next-button-form]').click();
-    // cy.url().should('include', '/pet/');
-    // cy.get('[test-id=pet-profile-name]').should('contain', 'Test Pet');
+    cy.get('[test-id=givepet-dropzone]').attachFile(PET_INFO.IMAGE_1);
+    cy.get('[test-id=next-button-form]').click();
+    cy.get('[test-id=pet-name-give-form]').type('Test Pet');
+    cy.get('[test-id=dropdown-option-species]').select(PET_INFO.SPECIES);
+    cy.get('[test-id=dropdown-option-sex]').select(PET_INFO.SEX);
+    cy.get('[test-id=dropdown-option-color]').select(PET_INFO.COLOR);
+    cy.get('[test-id=dropdown-option-size]').select(PET_INFO.SIZE);
+    cy.get('[test-id=dropdown-option-age]').select(PET_INFO.AGE);
+    cy.get('[test-id=dropdown-option-isVaccinated]').select(PET_INFO.VACCINE);
+    cy.get('[test-id=dropdown-option-isSterillized]').select(PET_INFO.SPAY);
+    cy.get('[test-id=dropdown-option-breed]').click();
+    cy.get('[test-id="dropdown-option"]').contains(PET_INFO.BREED).click();
+    cy.get('[test-id=pet-description-give-form]').type(PET_INFO.DESCRIPTION);
+    cy.get('[test-id=next-button-form]').click();
+    cy.get('[test-id=check-box-give-form]').click();
+    cy.get('[test-id=submit-give-pet-button]').click();
+    cy.url().should('include', '/pet');
   });
 
 });
