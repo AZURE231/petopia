@@ -1,9 +1,9 @@
-import { KEYWORDS, NORMAL_ACCOUNT, PET_INFO } from "../support/constant";
+import { KEYWORDS, NORMAL_ACCOUNT, PET_INFO, RESOLUTION } from "../support/constant";
 
 describe('Give Pet', () => {
   beforeEach(() => {
+    cy.viewport(RESOLUTION.PC_WIDTH, RESOLUTION.PC_HEIGHT);
     cy.login(NORMAL_ACCOUNT.EMAIL, NORMAL_ACCOUNT.PASSWORD);
-    cy.wait(500);
     cy.visit('http://localhost:3000/give-pet');
   });
 

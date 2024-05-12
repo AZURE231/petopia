@@ -1,9 +1,10 @@
 //use cypress config
 /// <reference types="cypress" />
-import { KEYWORDS, NORMAL_ACCOUNT, PET_INFO } from '../support/constant';
+import { KEYWORDS, NORMAL_ACCOUNT, PET_INFO, RESOLUTION } from '../support/constant';
 
 describe('Search Pet - Filterbar', () => {
   beforeEach(() => {
+    cy.viewport(RESOLUTION.PC_HEIGHT, RESOLUTION.PC_WIDTH);
     cy.login(NORMAL_ACCOUNT.EMAIL, NORMAL_ACCOUNT.PASSWORD);
     cy.visit('http://localhost:3000/search');
   });

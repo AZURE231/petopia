@@ -2,11 +2,13 @@ import {
   KEYWORDS,
   NORMAL_ACCOUNT,
   ORG_INFO,
+  RESOLUTION,
   USER_INFO,
 } from '../support/constant';
 
 describe('Update User infomation', () => {
   beforeEach(() => {
+    cy.viewport(RESOLUTION.PC_WIDTH, RESOLUTION.PC_HEIGHT);
     cy.login(NORMAL_ACCOUNT.EMAIL, NORMAL_ACCOUNT.PASSWORD);
     cy.visit('http://localhost:3000/user');
     cy.get('[test-id=show-edit-button]').click();
@@ -77,6 +79,7 @@ describe('Update User infomation', () => {
 
 describe('Upgrade to Partner', () => {
   beforeEach(() => {
+    cy.viewport(RESOLUTION.PC_WIDTH, RESOLUTION.PC_HEIGHT);
     cy.login(NORMAL_ACCOUNT.EMAIL, NORMAL_ACCOUNT.PASSWORD);
     cy.visit('http://localhost:3000/user');
   });

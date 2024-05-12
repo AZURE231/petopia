@@ -1,9 +1,10 @@
 /// <reference types="cypress" />
 
-import { KEYWORDS, NORMAL_ACCOUNT } from "../support/constant";
+import { KEYWORDS, NORMAL_ACCOUNT, RESOLUTION } from "../support/constant";
 
 describe('Navigation - Guest', () => {
   beforeEach(() => {
+    cy.viewport(RESOLUTION.PC_WIDTH, RESOLUTION.PC_HEIGHT);
     cy.visit('http://localhost:3000');
   });
   
@@ -36,6 +37,7 @@ describe('Navigation - Guest', () => {
 
 describe('Navigation - Authenticated', () => {
   beforeEach(() => {
+    cy.viewport(RESOLUTION.PC_WIDTH, RESOLUTION.PC_HEIGHT);
     cy.login(NORMAL_ACCOUNT.EMAIL, NORMAL_ACCOUNT.PASSWORD);
   });
 

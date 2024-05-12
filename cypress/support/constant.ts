@@ -8,6 +8,7 @@ export enum ORG_ACCOUNT {
   PASSWORD = '123456789',
 }
 
+
 export enum USER_INFO {
   FIRST_NAME = 'First',
   LAST_NAME = 'Last',
@@ -63,4 +64,11 @@ export enum KEYWORDS {
   SPAY = 'Triệt sản',
   LOG_OUT = 'Đăng xuất',
   LOG_IN = 'Đăng nhập',
+}
+
+export enum RESOLUTION {
+  PC_WIDTH = 1280,
+  PC_HEIGHT = 720,
+  MOBILE_WIDTH = 375,
+  MOBILE_HEIGHT = 667,
 }
