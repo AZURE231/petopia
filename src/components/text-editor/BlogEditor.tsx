@@ -69,10 +69,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
     setIsLoading(true);
     await uploadImage();
     //check if all fields are filled
-    if (
-      !blogForm.getValues('image') ||
-      !blogForm.getValues('content')
-    ) {
+    if (!blogForm.getValues('image') || !blogForm.getValues('content')) {
       setAlertMessage('Vui lòng điền đầy đủ thông tin');
       setAlertFailed(true);
       setAlertShow(true);
@@ -153,10 +150,9 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
               blogForm.setValue('content', editor.getData());
             });
           })
-          .catch(() => { }
-          );
+          .catch(() => {});
       })
-      .catch(() => { });
+      .catch(() => {});
   });
 
   useEffect(() => {
@@ -166,7 +162,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
   }, [content, myEditor]);
 
   return (
-    <div>
+    <div className="max-w-3xl">
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -247,9 +243,13 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
         show={alertShow}
         setShow={setAlertShow}
         failed={alertFailed}
-        action={() => window.location.replace(isAd
-          ? `/blog-ad/${blogForm.getValues('id')}`
-          : `/blog/${blogForm.getValues('id')}`)}
+        action={() =>
+          window.location.replace(
+            isAd
+              ? `/blog-ad/${blogForm.getValues('id')}`
+              : `/blog/${blogForm.getValues('id')}`
+          )
+        }
         showCancel={false}
       />
     </div>

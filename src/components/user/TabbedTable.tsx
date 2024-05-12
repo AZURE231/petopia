@@ -29,8 +29,8 @@ export default function TabbedTable({
     'inline-flex items-center justify-center p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active';
   const inactiveTab =
     'inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300  group';
-  const activeIcon = 'w-4 h-4 me-2 text-blue-600 group-hover:text-blue-700';
-  const inactiveIcon = 'w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500';
+  const activeIcon = 'w-4 h-4 me-1 text-blue-600 group-hover:text-blue-700';
+  const inactiveIcon = 'w-4 h-4 me-1 text-gray-400 group-hover:text-gray-500';
   const PAGE_SIZE = 5;
   const TAB = {
     PET: 0,
@@ -118,28 +118,35 @@ export default function TabbedTable({
         paginationFormBlog.setValue('pageNumber', res.data.pageNumber!);
       },
       refetchOnWindowFocus: false,
-      enabled: !!userInfo && userInfo.role === USER_ROLE.ORGANIZATION && tab === TAB.BLOG,
+      enabled:
+        !!userInfo &&
+        userInfo.role === USER_ROLE.ORGANIZATION &&
+        tab === TAB.BLOG,
     }
   );
 
   return (
     <div className="container max-w-3xl p-5 mx-auto shadow-2xl rounded-2xl mt-10">
       <div className="border-b border-gray-200 ">
-        <ul className="flex flex-row -mb-px text-sm font-medium text-center text-gray-500 ">
-          <li className="me-2">
+        <ul className="flex flex-row text-sm font-medium text-center text-gray-500 ">
+          <li>
             <button
               className={`${tab === TAB.PET ? activeTab : inactiveTab}`}
               onClick={() => setTab(TAB.PET)}
             >
-              <MdPets className={`${tab === TAB.PET ? activeIcon : inactiveIcon}`} />
+              <MdPets
+                className={`${tab === TAB.PET ? activeIcon : inactiveIcon}`}
+              />
               Thú cưng{' '}
               <span className="hidden md:inline-block ml-1"> Của bạn</span>
             </button>
           </li>
           {userInfo?.role === USER_ROLE.ORGANIZATION && (
-            <li className="me-2">
+            <li>
               <button
-                className={`${tab === TAB.BLOG ? activeTab : inactiveTab} relative`}
+                className={`${
+                  tab === TAB.BLOG ? activeTab : inactiveTab
+                } relative`}
                 onClick={() => setTab(TAB.BLOG)}
               >
                 <RiUserReceived2Fill
@@ -150,23 +157,29 @@ export default function TabbedTable({
               </button>
             </li>
           )}
-          <li className="me-2">
+          <li>
             <button
               className={`${tab === TAB.SENT ? activeTab : inactiveTab}`}
               onClick={() => setTab(TAB.SENT)}
             >
-              <GrSend className={`${tab === TAB.SENT ? activeIcon : inactiveIcon}`} />
+              <GrSend
+                className={`${tab === TAB.SENT ? activeIcon : inactiveIcon}`}
+              />
               <span className="hidden md:inline-block mr-1">Yêu cầu</span> Đã
               gửi
             </button>
           </li>
-          <li className="me-2">
+          <li>
             <button
-              className={`${tab === TAB.IMCOMMING ? activeTab : inactiveTab} relative`}
+              className={`${
+                tab === TAB.IMCOMMING ? activeTab : inactiveTab
+              } relative`}
               onClick={() => setTab(TAB.IMCOMMING)}
             >
               <RiUserReceived2Fill
-                className={`${tab === TAB.IMCOMMING ? activeIcon : inactiveIcon}`}
+                className={`${
+                  tab === TAB.IMCOMMING ? activeIcon : inactiveIcon
+                }`}
               />
               {notifyCount > 0 && (
                 <div>
@@ -186,8 +199,7 @@ export default function TabbedTable({
         {tab === TAB.PET && (
           <>
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
-              {
-                !getPetsQuery.isLoading &&
+              {!getPetsQuery.isLoading &&
                 pets.length > 0 &&
                 pets.map((item) => (
                   <PetCard
@@ -202,8 +214,7 @@ export default function TabbedTable({
                     image={item.image}
                     isOrgOwned={item.isOrgOwned}
                   />
-                ))
-              }
+                ))}
             </div>
             <div className="flex items-center justify-center mt-5">
               <Pagination
@@ -221,8 +232,7 @@ export default function TabbedTable({
           <>
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
               <BlogCreateCard />
-              {
-                !getUserBlogsQuery.isLoading &&
+              {!getUserBlogsQuery.isLoading &&
                 blogs.length > 0 &&
                 blogs.map((item) => (
                   <BlogCard
@@ -235,8 +245,7 @@ export default function TabbedTable({
                     isEditable={true}
                     query={getUserBlogsQuery}
                   />
-                ))
-              }
+                ))}
             </div>
             <div className="flex items-center justify-center mt-5">
               <Pagination
