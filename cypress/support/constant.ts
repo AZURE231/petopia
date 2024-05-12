@@ -78,3 +78,11 @@ export enum RESOLUTION {
   MOBILE_WIDTH = 375,
   MOBILE_HEIGHT = 667,
 }
+
+export enum BLOG_INFO {
+  TITLE = 'Test Blog',
+  EXCERPT = 'Test Excerpt',
+  CONTENT = 'Typing some stuff',
+  CATEGORY = BLOG_CATEGORIES.ART,
+  IMAGE = 'blog_img.jpg',
+}

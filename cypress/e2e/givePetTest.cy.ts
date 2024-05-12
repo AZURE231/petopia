@@ -9,7 +9,7 @@ describe('Give Pet', () => {
 
   it('Upload a pet image - OK', () => {
   
-    cy.get('[test-id=givepet-dropzone]').attachFile(PET_INFO.IMAGE_1);
+    cy.get('[test-id=image-dropzone]').attachFile(PET_INFO.IMAGE_1);
 
     cy.get('[test-id=show-images-dropzone]').should('have.length', 1);
 
@@ -17,9 +17,9 @@ describe('Give Pet', () => {
 
   it('Upload multiple pet images - OK', () => {
   
-    cy.get('[test-id=givepet-dropzone]').attachFile(PET_INFO.IMAGE_1);
-    cy.get('[test-id=givepet-dropzone]').attachFile(PET_INFO.IMAGE_2);
-    cy.get('[test-id=givepet-dropzone]').attachFile(PET_INFO.IMAGE_3);
+    cy.get('[test-id=image-dropzone]').attachFile(PET_INFO.IMAGE_1);
+    cy.get('[test-id=image-dropzone]').attachFile(PET_INFO.IMAGE_2);
+    cy.get('[test-id=image-dropzone]').attachFile(PET_INFO.IMAGE_3);
     cy.get('[test-id=show-images-dropzone]').should('have.length', 3);
 
   });
@@ -27,7 +27,7 @@ describe('Give Pet', () => {
 
   it('Delete a pet image - OK', () => {
 
-    cy.get('[test-id=givepet-dropzone]').attachFile(PET_INFO.IMAGE_1);
+    cy.get('[test-id=image-dropzone]').attachFile(PET_INFO.IMAGE_1);
 
     cy.get('[test-id=show-images-dropzone]').should('have.length', 1);
 
@@ -66,7 +66,7 @@ it('Give a pet without Pet Image - Fail Alert', () => {
   });
 
   it('Give a pet - OK', () => {
-    cy.get('[test-id=givepet-dropzone]').attachFile(PET_INFO.IMAGE_1);
+    cy.get('[test-id=image-dropzone]').attachFile(PET_INFO.IMAGE_1);
     cy.get('[test-id=next-button-form]').click();
     cy.get('[test-id=pet-name-give-form]').type('Test Pet');
     cy.get('[test-id=dropdown-option-species]').select(PET_INFO.SPECIES);

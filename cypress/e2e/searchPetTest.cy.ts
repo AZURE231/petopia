@@ -5,7 +5,6 @@ import { KEYWORDS, NORMAL_ACCOUNT, PET_INFO, RESOLUTION } from '../support/const
 describe('Search Pet - Filterbar', () => {
   beforeEach(() => {
     cy.viewport(RESOLUTION.PC_HEIGHT, RESOLUTION.PC_WIDTH);
-    cy.login(NORMAL_ACCOUNT.EMAIL, NORMAL_ACCOUNT.PASSWORD);
     cy.visit('http://localhost:3000/search');
   });
 
@@ -102,5 +101,7 @@ describe('Search Pet - Filterbar', () => {
     cy.get('[test-id="pet-card-0"]').click();
     cy.get('[test-id="pet-detail-sex"]').should('contain.text', PET_INFO.SEX);
   });
+
+
 
 });

@@ -68,6 +68,7 @@ export default function Dropzone({
             <p className="text-xs text-gray-500 ">PNG, JPG, JPEG</p>
           </div>
           <input
+            test-id="image-dropzone"
             id="dropzone-file"
             disabled={watch('showImages').length >= imagesNumber}
             type="file"

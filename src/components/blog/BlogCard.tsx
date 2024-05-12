@@ -102,6 +102,7 @@ const BlogCard = ({
               <button
                 className="p-2 bg-gray-200 rounded-full hover:bg-gray-300"
                 onClick={handleEdit}
+                test-id={testId+'-edit'}
               >
                 <CiEdit size={20} />
               </button>

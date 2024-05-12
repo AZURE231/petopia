@@ -76,7 +76,7 @@ export default function FormUploadImage({
             <p className="text-xs text-gray-500 ">PNG, JPG, JPEG</p>
           </div>
           <input
-            test-id="givepet-dropzone"
+            test-id="image-dropzone"
             id="dropzone-file"
             disabled={watch('showImages').length >= 3}
             type="file"
@@ -113,7 +113,11 @@ export default function FormUploadImage({
       </div>
 
       {/* Controller */}
-      <ControlForm handleBack={() => { }} handleNext={handleNext} step={GIVE_PET_STEP.UPLOAD_IMAGE} />
+      <ControlForm
+        handleBack={() => {}}
+        handleNext={handleNext}
+        step={GIVE_PET_STEP.UPLOAD_IMAGE}
+      />
     </div>
   );
 }

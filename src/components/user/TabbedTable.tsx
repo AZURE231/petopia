@@ -118,7 +118,10 @@ export default function TabbedTable({
         paginationFormBlog.setValue('pageNumber', res.data.pageNumber!);
       },
       refetchOnWindowFocus: false,
-      enabled: !!userInfo && userInfo.role === USER_ROLE.ORGANIZATION && tab === TAB.BLOG,
+      enabled:
+        !!userInfo &&
+        userInfo.role === USER_ROLE.ORGANIZATION &&
+        tab === TAB.BLOG,
     }
   );
 
@@ -131,7 +134,9 @@ export default function TabbedTable({
               className={`${tab === TAB.PET ? activeTab : inactiveTab}`}
               onClick={() => setTab(TAB.PET)}
             >
-              <MdPets className={`${tab === TAB.PET ? activeIcon : inactiveIcon}`} />
+              <MdPets
+                className={`${tab === TAB.PET ? activeIcon : inactiveIcon}`}
+              />
               Thú cưng{' '}
               <span className="hidden md:inline-block ml-1"> Của bạn</span>
             </button>
@@ -139,7 +144,10 @@ export default function TabbedTable({
           {userInfo?.role === USER_ROLE.ORGANIZATION && (
             <li className="me-2">
               <button
-                className={`${tab === TAB.BLOG ? activeTab : inactiveTab} relative`}
+              test-id="blog-tab"
+                className={`${
+                  tab === TAB.BLOG ? activeTab : inactiveTab
+                } relative`}
                 onClick={() => setTab(TAB.BLOG)}
               >
                 <RiUserReceived2Fill
@@ -155,18 +163,24 @@ export default function TabbedTable({
               className={`${tab === TAB.SENT ? activeTab : inactiveTab}`}
               onClick={() => setTab(TAB.SENT)}
             >
-              <GrSend className={`${tab === TAB.SENT ? activeIcon : inactiveIcon}`} />
+              <GrSend
+                className={`${tab === TAB.SENT ? activeIcon : inactiveIcon}`}
+              />
               <span className="hidden md:inline-block mr-1">Yêu cầu</span> Đã
               gửi
             </button>
           </li>
           <li className="me-2">
             <button
-              className={`${tab === TAB.IMCOMMING ? activeTab : inactiveTab} relative`}
+              className={`${
+                tab === TAB.IMCOMMING ? activeTab : inactiveTab
+              } relative`}
               onClick={() => setTab(TAB.IMCOMMING)}
             >
               <RiUserReceived2Fill
-                className={`${tab === TAB.IMCOMMING ? activeIcon : inactiveIcon}`}
+                className={`${
+                  tab === TAB.IMCOMMING ? activeIcon : inactiveIcon
+                }`}
               />
               {notifyCount > 0 && (
                 <div>
@@ -186,8 +200,7 @@ export default function TabbedTable({
         {tab === TAB.PET && (
           <>
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
-              {
-                !getPetsQuery.isLoading &&
+              {!getPetsQuery.isLoading &&
                 pets.length > 0 &&
                 pets.map((item) => (
                   <PetCard
@@ -202,8 +215,7 @@ export default function TabbedTable({
                     image={item.image}
                     isOrgOwned={item.isOrgOwned}
                   />
-                ))
-              }
+                ))}
             </div>
             <div className="flex items-center justify-center mt-5">
               <Pagination
@@ -221,11 +233,11 @@ export default function TabbedTable({
           <>
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
               <BlogCreateCard />
-              {
-                !getUserBlogsQuery.isLoading &&
+              {!getUserBlogsQuery.isLoading &&
                 blogs.length > 0 &&
-                blogs.map((item) => (
+                blogs.map((item, index) => (
                   <BlogCard
+                    testId={`blog-card-${index}`}
                     key={item.id}
                     id={item.id}
                     title={item.title}
@@ -235,8 +247,7 @@ export default function TabbedTable({
                     isEditable={true}
                     query={getUserBlogsQuery}
                   />
-                ))
-              }
+                ))}
             </div>
             <div className="flex items-center justify-center mt-5">
               <Pagination

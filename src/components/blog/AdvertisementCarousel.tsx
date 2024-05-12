@@ -10,7 +10,8 @@ export default function AdvertisementCarousel() {
   const TRANSTION_DURATION = 5000;
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const [transitionDuration, setTransitionDuration] = useState(TRANSTION_DURATION);
+  const [transitionDuration, setTransitionDuration] =
+    useState(TRANSTION_DURATION);
   const [blogAd, setBlogAd] = useState<IBlogAd[]>([]);
 
   const getAdQuery = useQuery<IApiResponse<IBlogAd[]>>(
@@ -73,8 +74,9 @@ export default function AdvertisementCarousel() {
         {blogAd?.map((item, index) => (
           <div
             key={index}
-            className={`absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 transition duration-700 ease-in-out transform opacity-70 ${activeIndex === index ? 'visible' : 'hidden'
-              }`}
+            className={`absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 transition duration-700 ease-in-out transform opacity-70 ${
+              activeIndex === index ? 'visible' : 'hidden'
+            }`}
             data-carousel-item
           >
             <div className="w-full h-full relative">
@@ -87,7 +89,10 @@ export default function AdvertisementCarousel() {
             </div>
             <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center text-center">
               <a href={`/blog/${blogAd[activeIndex].id}`}>
-                <h2 className="text-white mb-14 font-extrabold text-3xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)] transition duration-300 hover:underline hover:text-yellow-500">
+                <h2
+                  test-id={'carousel-title-' + activeIndex}
+                  className="text-white mb-14 font-extrabold text-3xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)] transition duration-300 hover:underline hover:text-yellow-500"
+                >
                   {item.title}
                 </h2>
               </a>
@@ -104,8 +109,9 @@ export default function AdvertisementCarousel() {
           <button
             key={index}
             type="button"
-            className={`w-3 h-3 rounded-full border border-black ${activeIndex === index ? 'bg-black' : 'bg-white'
-              }`}
+            className={`w-3 h-3 rounded-full border border-black ${
+              activeIndex === index ? 'bg-black' : 'bg-white'
+            }`}
             aria-current={activeIndex === index ? 'true' : 'false'}
             aria-label={`Slide ${index + 1}`}
             onClick={() => goToSlide(index)}
