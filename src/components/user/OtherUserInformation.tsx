@@ -7,9 +7,9 @@ import { IUserInfoReponse } from '@/src/interfaces/user';
 import { IApiResponse, IPaginationModel } from '@/src/interfaces/common';
 import { useQuery } from '@/src/utils/hooks';
 import {
-  PAGE_SIZE,
   QUERY_KEYS,
   REPORT_ENTITY,
+  STATIC_URLS,
   USER_ROLE,
 } from '@/src/utils/constants';
 import { useForm } from 'react-hook-form';
@@ -53,20 +53,21 @@ export const OtherUserInformation = QueryProvider(
     );
 
     const getPetsQuery = useQuery<IApiResponse<IPetResponse[]>>(
-      [QUERY_KEYS.GET_PETS, getUserQuery.isError],
+      [QUERY_KEYS.GET_PETS, getUserQuery.isLoading, paginationForm.watch('pageIndex')],
       () =>
         getPetsByUser({
           pageIndex: paginationForm.getValues('pageIndex'),
-          pageSize: PAGE_SIZE,
+          pageSize: 6,
           orderBy: '',
           filter: userId,
         }),
       {
         onSuccess: (res) => {
           setPets(res.data.data);
+          paginationForm.setValue('pageNumber', res.data.pageNumber!);
         },
         refetchOnWindowFocus: false,
-        enabled: !getUserQuery.isError,
+        enabled: !getUserQuery.isLoading,
       }
     );
 
@@ -91,7 +92,7 @@ export const OtherUserInformation = QueryProvider(
             <div className="flex relative h-40">
               <div className="relative h-52 w-52 bottom-20">
                 <Image
-                  src={userInfo.image}
+                  src={userInfo.image || STATIC_URLS.NO_AVATAR}
                   alt="Picture of the author"
                   fill
                   objectFit="cover"
