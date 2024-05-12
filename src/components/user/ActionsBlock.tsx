@@ -10,22 +10,23 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { Alert } from '../general/Alert';
 
 interface IActionsBlock {
-  showUpgrade: boolean;
+  showUpgradeButton: boolean;
   setShowEdit: Dispatch<SetStateAction<boolean>>;
 }
 
 export const ActionsBlock = (props: IActionsBlock) => {
-  const { showUpgrade, setShowEdit } = props;
+  const { showUpgradeButton, setShowEdit } = props;
 
   // STATES
   const [alowUpgrade, setAllowUpgrade] = useState<boolean>(false);
-  const [upgradeClicked, setUpgradeClicked] = useState<boolean>(false);
+  const [showUpgradeForm, setShowUpgradeForm] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState<boolean>(false);
 
   // HANDLERS
   const handleClickUpgrade = () => {
     if (alowUpgrade) {
-      setUpgradeClicked(true);
+      console.log('okokokok');
+      setShowUpgradeForm(true);
     } else {
       setShowAlert(true);
     }
@@ -41,7 +42,7 @@ export const ActionsBlock = (props: IActionsBlock) => {
 
   return (
     <div className="mt-5 w-full flex flex-col md:flex-row items-end justify-end gap-2 md:gap-3">
-      {showUpgrade && !preUpgradeQuery.isLoading && (
+      {showUpgradeButton && !preUpgradeQuery.isLoading && (
         <div>
           <button
           test-id="show-upgrade-button"
@@ -52,10 +53,11 @@ export const ActionsBlock = (props: IActionsBlock) => {
           </button>
           <Popup
             modal
-            open={upgradeClicked}
+            open={showUpgradeForm}
+            onClose={() => setShowUpgradeForm(false)}
             overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
           >
-            <UserUpgradeForm handleClose={() => setUpgradeClicked(false)} />
+            <UserUpgradeForm handleClose={() => setShowUpgradeForm(false)} />
           </Popup>
         </div>
       )}

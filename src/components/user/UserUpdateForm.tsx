@@ -8,13 +8,16 @@ import { Alert } from '../general/Alert';
 import { USER_ROLE } from '@/src/utils/constants';
 import QueryButton from '../general/QueryButton';
 import { IUserInfoReponse, IUserUpdate } from '@/src/interfaces/user';
+import { getErrorMessage } from '@/src/helpers/getErrorMessage';
 
 export default function UserUpdateForm({
   userInfo,
   show,
+  onSuccess,
 }: {
   userInfo: IUserInfoReponse;
   show: boolean;
+  onSuccess: () => void;
 }) {
   // STATES
   const [alertMessage, setAlertMessage] = useState<string>('');
@@ -24,15 +27,15 @@ export default function UserUpdateForm({
   // FORMS
   const { getValues, setValue, watch } = useForm<IUserUpdate>({
     defaultValues: {
-      phone: userInfo?.phone,
-      provinceCode: userInfo?.provinceCode,
-      districtCode: userInfo?.districtCode,
-      lastName: userInfo?.attributes.lastName || '',
-      firstName: userInfo?.attributes.lastName || '',
+      phone: userInfo?.phone || '',
+      provinceCode: userInfo?.provinceCode || '',
+      districtCode: userInfo?.districtCode || '',
+      lastName: userInfo?.attributes.lastName || 'Họ',
+      firstName: userInfo?.attributes.firstName || 'Tên',
       website: userInfo?.attributes.website || '',
-      description: userInfo?.attributes.description || '',
-      wardCode: userInfo?.wardCode,
-      street: userInfo?.street,
+      description: userInfo?.attributes.description || 'Mô tả',
+      wardCode: userInfo?.wardCode || '',
+      street: userInfo?.street || '',
     },
   });
 
@@ -42,14 +45,15 @@ export default function UserUpdateForm({
     IUserUpdate
   >(updateUser, {
     onError: (err) => {
-      setAlertMessage('Tạo hồ sơ thú cưng thất bại');
+      setAlertMessage(getErrorMessage(err.data.errorCode.toString()));
       setAlertFail(true);
       setAlertShow(true);
     },
-    onSuccess: (res) => {
+    onSuccess: () => {
       setAlertMessage('Cập nhật thông tin thành công');
       setAlertFail(false);
       setAlertShow(true);
+      onSuccess();
     },
   });
 
@@ -62,12 +66,8 @@ export default function UserUpdateForm({
   return (
     <>
       {show && (
-        <form
-          test-id="user-update-form"
-          className="md:px-10"
-          onSubmit={handleSubmit}
-        >
-          <div className="flex flex-col py-2">
+        <form className="md:px-10" onSubmit={handleSubmit}>
+          <div className="flex flex-col py-4">
             {userInfo.role !== USER_ROLE.ORGANIZATION && (
               <div className="flex flex-row gap-3">
                 <div className="mb-4 w-full">
@@ -82,6 +82,7 @@ export default function UserUpdateForm({
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="firstName"
                     type="text"
+                    required
                     onChange={(e) => setValue('firstName', e.target.value)}
                     value={watch('firstName')}
                   />
@@ -98,6 +99,7 @@ export default function UserUpdateForm({
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="lastName"
                     type="text"
+                    required
                     onChange={(e) => setValue('lastName', e.target.value)}
                     value={watch('lastName')}
                   />
@@ -135,6 +137,7 @@ export default function UserUpdateForm({
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       id="description"
                       type="text"
+                      required
                       onChange={(e) => setValue('description', e.target.value)}
                       value={watch('description')}
                     />
@@ -155,6 +158,7 @@ export default function UserUpdateForm({
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="username"
                   type="text"
+                  required
                   onChange={(e) => setValue('phone', e.target.value)}
                   value={watch('phone')}
                 />
@@ -186,6 +190,7 @@ export default function UserUpdateForm({
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="username"
                 type="text"
+                required
                 onChange={(e) => setValue('street', e.target.value)}
                 value={watch('street')}
               />

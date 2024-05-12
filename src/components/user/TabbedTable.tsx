@@ -4,7 +4,7 @@ import { GrSend } from 'react-icons/gr';
 import { useState } from 'react';
 import { IUserInfoReponse } from '@/src/interfaces/user';
 import { PetCard } from '../search/PetCard';
-import AdoptionCard from '../adopt/AdoptionCard';
+import AdoptionCardList from '../adopt/AdoptionCardList';
 import { IPetResponse } from '@/src/interfaces/pet';
 import { useForm } from 'react-hook-form';
 import { IApiResponse, IPaginationModel } from '@/src/interfaces/common';
@@ -253,13 +253,13 @@ export default function TabbedTable({
         {tab === TAB.SENT && (
           <div>
             <NotifySortBlock setFilter={setOrderBySent} />
-            <AdoptionCard type="Sent" filter={orderBySent} />
+            <AdoptionCardList type="Sent" filter={orderBySent} />
           </div>
         )}
         {tab === TAB.IMCOMMING && (
           <div>
             <NotifySortBlock setFilter={setOrderByIncoming} />
-            <AdoptionCard
+            <AdoptionCardList
               type="Incoming"
               notifyCount={setNotifyCount}
               filter={orderByIncoming}
