@@ -79,8 +79,9 @@ const BlogSection = QueryProvider(() => {
               {BLOG_CATEGORIES_OPTION.map((category, index) => (
                 <li
                   key={index}
-                  className={`mr-5 cursor-pointer ${selectedCategory === category.value ? 'underline' : ''
-                    }`}
+                  className={`mr-5 cursor-pointer ${
+                    selectedCategory === category.value ? 'underline' : ''
+                  }`}
                   onClick={() => {
                     setSelectedCategory(category.value);
                   }}

@@ -52,6 +52,7 @@
     "@types/react-google-recaptcha": "^2.1.8",
     "autoprefixer": "^10",
     "ckeditor5": "^41.3.1",
+    "cypress": "^13.8.1",
     "eslint": "^8",
     "eslint-config-next": "13.5.5",
     "postcss": "^8",
