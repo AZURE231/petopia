@@ -15,19 +15,19 @@ export const NameRoleBlock = (props: INameRoleBlock) => {
     switch (type) {
       case ORG_TYPE.RESCUE:
         return (
-          <div className="ml-5 w-fit text-sm md:text-lg rounded-lg bg-blue-600 p-3 text-white font-semibold">
+          <div className="ml-5 w-fit text-sm text-center md:text-lg rounded-lg bg-blue-600 p-3 text-white font-semibold">
             Cứu hộ động vật
           </div>
         );
       case ORG_TYPE.VET:
         return (
-          <div className="ml-5 w-fit text-sm md:text-lg rounded-lg bg-blue-600 p-3 text-white font-semibold">
+          <div className="ml-5 w-fit text-sm text-center md:text-lg rounded-lg bg-blue-600 p-3 text-white font-semibold">
             Thú y
           </div>
         );
       case ORG_TYPE.BUSINESS:
         return (
-          <div className="ml-5 w-fit text-sm md:text-lg rounded-lg bg-blue-600 p-3 text-white font-semibold ita">
+          <div className="ml-5 w-fit text-sm text-center md:text-lg rounded-lg bg-blue-600 p-3 text-white font-semibold ita">
             Doanh nghiệp
           </div>
         );
@@ -61,7 +61,7 @@ export const NameRoleBlock = (props: INameRoleBlock) => {
           </>
         )}
         {role === USER_ROLE.SYSTEM_ADMIN && (
-          <div className="ml-5 rounded-lg bg-blue-600 p-3 text-white">
+          <div className="ml-5 text-center rounded-lg bg-blue-600 p-3 text-white">
             {' Quản trị viên'}
           </div>
         )}

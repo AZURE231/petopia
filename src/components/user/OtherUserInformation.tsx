@@ -10,6 +10,7 @@ import {
   PAGE_SIZE,
   QUERY_KEYS,
   REPORT_ENTITY,
+  STATIC_URLS,
   USER_ROLE,
 } from '@/src/utils/constants';
 import { set, useForm } from 'react-hook-form';
@@ -116,10 +117,10 @@ export const OtherUserInformation = QueryProvider(
 
         {!getUserQuery.isLoading && userInfo && (
           <div className="container max-w-3xl p-5 mx-auto shadow-2xl rounded-2xl mt-36">
-            <div className="flex relative h-40">
-              <div className="relative md:h-52 md:w-52 bottom-20">
+            <div className="flex relative md:-mb-10">
+              <div className="relative h-32 w-32 md:h-52 md:w-52 bottom-10 md:bottom-20">
                 <Image
-                  src={userInfo.image}
+                  src={userInfo.image || STATIC_URLS.NO_AVATAR}
                   alt="Picture of the author"
                   fill
                   objectFit="cover"

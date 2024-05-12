@@ -34,7 +34,7 @@ export const AvatarBlock = (props: IAvatarBlock) => {
 
   return (
     <div
-      className="relative h-32 w-32 md:h-52 md:w-52 bott\ md:bottom-20"
+      className="relative h-32 w-32 md:h-52 md:w-52 md:bottom-20"
       onMouseEnter={() => setIsEditAvatar(true)}
       onMouseLeave={() => setIsEditAvatar(false)}
     >
