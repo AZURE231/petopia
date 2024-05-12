@@ -57,10 +57,6 @@ const page = observer(
           {error && (
             <NoResultBackground className="h-fit-screen w-full items-center" />
           )}
-
-          {error && (
-            <NoResultBackground className="h-fit-screen w-full items-center" />
-          )}
         </div>
       </div>
     );
