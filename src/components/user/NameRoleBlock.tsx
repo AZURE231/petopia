@@ -15,19 +15,19 @@ export const NameRoleBlock = (props: INameRoleBlock) => {
     switch (type) {
       case ORG_TYPE.RESCUE:
         return (
-          <div className="ml-5 rounded-lg bg-blue-600 p-3 text-white font-semibold ita">
+          <div className="ml-5 w-fit text-sm md:text-lg rounded-lg bg-blue-600 p-3 text-white font-semibold">
             Cứu hộ động vật
           </div>
         );
       case ORG_TYPE.VET:
         return (
-          <div className="ml-5 rounded-lg bg-blue-600 p-3 text-white font-semibold ita">
+          <div className="ml-5 w-fit text-sm md:text-lg rounded-lg bg-blue-600 p-3 text-white font-semibold">
             Thú y
           </div>
         );
       case ORG_TYPE.BUSINESS:
         return (
-          <div className="ml-5 rounded-lg bg-blue-600 p-3 text-white font-semibold ita">
+          <div className="ml-5 w-fit text-sm md:text-lg rounded-lg bg-blue-600 p-3 text-white font-semibold ita">
             Doanh nghiệp
           </div>
         );
@@ -37,30 +37,29 @@ export const NameRoleBlock = (props: INameRoleBlock) => {
   };
 
   return (
-    <div className='flex-1'>
-      <h1 className="font-bold text-4xl ml-5 relative w-fit">
+    <div className="flex-1">
+      <h1 className="font-bold text-xl md:text-4xl ml-5 w-fit flex">
         {name}
-        {
-          role !== USER_ROLE.STANDARD_USER &&
-          <span className="bg-blue-600 w-fit rounded-full p-1 absolute -right-8">
+        {role !== USER_ROLE.STANDARD_USER && (
+          <span className="flex justify-center ml-2 items-center bg-blue-600 h-8 w-8 rounded-full p-1">
             <RiVerifiedBadgeFill size={16} color="white" />
           </span>
-        }
+        )}
       </h1>
-      <div className="mt-4 w-fit flex">
-        {role === USER_ROLE.ORGANIZATION && (<>
-          {
-            renderRole()
-          }
-          {
-            website &&
-            <Link
-              className="ml-5 rounded-lg p-3 bg-yellow-300 border border-black hover:bg-yellow-400"
-              href={website}>
-              Website
-            </Link>
-          }
-        </>)}
+      <div className="mt-4 w-full flex justify-end flex-col md:flex-row gap-2">
+        {role === USER_ROLE.ORGANIZATION && (
+          <>
+            {renderRole()}
+            {website && (
+              <Link
+                className="ml-5 w-fit text-sm md:text-lg text-center rounded-lg p-3 bg-yellow-300 border border-black hover:bg-yellow-400"
+                href={website}
+              >
+                Website
+              </Link>
+            )}
+          </>
+        )}
         {role === USER_ROLE.SYSTEM_ADMIN && (
           <div className="ml-5 rounded-lg bg-blue-600 p-3 text-white">
             {' Quản trị viên'}

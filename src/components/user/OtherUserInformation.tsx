@@ -117,7 +117,7 @@ export const OtherUserInformation = QueryProvider(
         {!getUserQuery.isLoading && userInfo && (
           <div className="container max-w-3xl p-5 mx-auto shadow-2xl rounded-2xl mt-36">
             <div className="flex relative h-40">
-              <div className="relative h-52 w-52 bottom-20">
+              <div className="relative md:h-52 md:w-52 bottom-20">
                 <Image
                   src={userInfo.image}
                   alt="Picture of the author"
