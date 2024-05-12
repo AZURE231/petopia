@@ -1,34 +1,27 @@
-import React, { use, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import QueryButton from '../general/QueryButton';
 import { REPORT_ENTITY, REPORT_TYPE } from '@/src/utils/constants';
 import { useForm } from 'react-hook-form';
 import { IReportRequest } from '@/src/interfaces/user';
-import { IApiErrorResponse, IApiResponse } from '@/src/interfaces/common';
+import { IApiResponse } from '@/src/interfaces/common';
 import { report } from '@/src/services/user.api';
 import { useMutation } from '@/src/utils/hooks';
 import { Alert } from '../general/Alert';
-import { UseQueryResult } from 'react-query';
-import { AxiosResponse } from 'axios';
 
 export default function ReportForm({
   id,
   type,
   handleClose,
-  preCheckQuery,
 }: {
   id: string;
   type: REPORT_ENTITY;
   handleClose: () => void;
-  preCheckQuery: UseQueryResult<
-    AxiosResponse<IApiResponse<boolean>, any>,
-    AxiosResponse<IApiErrorResponse, any>
-  >;
 }) {
   const [alertShow, setAlertShow] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertFailed, setAlertFailed] = useState(false);
 
-  const { getValues, setValue, watch } = useForm<IReportRequest>({
+  const { getValues, setValue } = useForm<IReportRequest>({
     defaultValues: {
       id: id,
       entity: type,
@@ -45,7 +38,6 @@ export default function ReportForm({
         setAlertShow(true);
       },
       onSuccess: () => {
-        preCheckQuery.refetch();
         setAlertMessage('Báo cáo thành công');
         setAlertFailed(false);
         setAlertShow(true);
@@ -243,6 +235,7 @@ export default function ReportForm({
         setShow={setAlertShow}
         failed={alertFailed}
         action={handleClose}
+        showCancel={false}
       />
     </div>
   );
