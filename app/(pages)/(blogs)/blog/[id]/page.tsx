@@ -35,7 +35,7 @@ const page = observer(
       <div>
         <div className="container mx-auto my-10">
           <div className="flex items-center justify-center mt-5">
-           <AdvertisementCarousel />
+            <AdvertisementCarousel />
           </div>
           {getBlogQuery.isLoading && <BlogDetailSkeleton />}
           {!getBlogQuery.isLoading && blogContent && (
@@ -48,10 +48,6 @@ const page = observer(
               view={blogContent.view}
               userImage={blogContent.userImage}
             />
-          )}
-
-          {error && (
-            <NoResultBackground className="h-fit-screen w-full items-center" />
           )}
 
           {error && (

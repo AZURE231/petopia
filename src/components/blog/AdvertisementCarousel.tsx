@@ -66,9 +66,8 @@ export default function AdvertisementCarousel() {
   return (
     <div
       id="default-carousel"
-      className="relative max-w-5xl"
+      className="relative max-w-5xl h-72 md:h-96 lg:h-413 w-full"
       data-carousel="slide"
-      style={{ height: '413px', width: '100%' }}
     >
       <div className="relative h-56 overflow-hidden rounded-lg md:h-96">
         {blogAd?.map((item, index) => (
@@ -104,7 +103,7 @@ export default function AdvertisementCarousel() {
         ))}
       </div>
 
-      <div className="absolute z-30 flex -translate-x-1/2 bottom-0.5 left-1/2 space-x-3 rtl:space-x-reverse">
+      <div className="absolute z-30 flex -translate-x-1/2 mt-2 left-1/2 space-x-3 rtl:space-x-reverse">
         {blogAd.map((_, index) => (
           <button
             key={index}

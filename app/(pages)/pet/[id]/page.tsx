@@ -35,7 +35,6 @@ import { ReportBlock } from '@/src/components/general/ReportBlock';
 
 const page = observer(
   QueryProvider(({ params }: { params: { id: string } }) => {
-
     //STATES
     const [petDetail, setPetDetail] = useState<IPetDetailResponse>();
     const [error, setError] = useState<boolean>(false);
@@ -177,7 +176,7 @@ const page = observer(
                       <div className="w-1/3 font-bold">Tuổi</div>
                       <div className="w-2/3" test-id="pet-detail-age">
                         <span>: </span>
-                        {getPetAgeText(petDetail.age)}
+                        {getPetAgeText(petDetail.age)} tuổi
                       </div>
                     </div>
                     <div className="flex flex-row py-2">
@@ -231,16 +230,13 @@ const page = observer(
                     </div>
                   </div>
                   <div className="w-full flex justify-end">
-                    <ReportBlock
-                      id={params.id}
-                      type={REPORT_ENTITY.Pet}
-                    />
+                    <ReportBlock id={params.id} type={REPORT_ENTITY.Pet} />
                   </div>
                 </div>
               </div>
             </div>
-            {
-              petPost.length || userStore.userContext?.id === petDetail.ownerId &&
+            {(petPost.length ||
+              userStore.userContext?.id === petDetail.ownerId) && (
               <div className="container max-w-5xl mx-auto p-5 shadow-2xl rounded-2xl my-5">
                 <CreatePetPostButton
                   petId={params.id}
@@ -249,7 +245,7 @@ const page = observer(
                 />
                 <CarouselDefault posts={petPost} query={getPostQuery} />
               </div>
-            }
+            )}
             <SeeMore petList={petDetail.seeMore} />
           </div>
         )}

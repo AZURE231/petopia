@@ -26,14 +26,13 @@ const BlogPage: React.FC<Props> = ({
   // Modify only the images within the htmlContent
   const styledHTMLContent = htmlContent.replace(
     /<img/g,
-    '<img style="display: block; margin: 0 auto; max-width: 500px; height: 500px; object-fit:contain;"'
+    '<img style="display: block; margin: 0 auto; max-width: 90%; height: auto; object-fit:contain; margin-top: 20px; margin-bottom: 20px;"'
   );
 
 
   return (
     <div
-      className="container max-w-3xl mx-auto mt-10 p-5 justify-center"
-      style={{ width: '1180px' }}
+      className="relative container max-w-5xl mx-auto mt-10 p-5 justify-center w-full"
     >
       <h1 test-id="blog-page-title" className="text-4xl font-bold">{blogTitle}</h1>
       <div className="flex justify-between items-center mt-5">

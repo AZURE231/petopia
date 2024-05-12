@@ -29,8 +29,8 @@ export default function TabbedTable({
     'inline-flex items-center justify-center p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active';
   const inactiveTab =
     'inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300  group';
-  const activeIcon = 'w-4 h-4 me-2 text-blue-600 group-hover:text-blue-700';
-  const inactiveIcon = 'w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500';
+  const activeIcon = 'w-4 h-4 me-1 text-blue-600 group-hover:text-blue-700';
+  const inactiveIcon = 'w-4 h-4 me-1 text-gray-400 group-hover:text-gray-500';
   const PAGE_SIZE = 5;
   const TAB = {
     PET: 0,
@@ -128,8 +128,8 @@ export default function TabbedTable({
   return (
     <div className="container max-w-3xl p-5 mx-auto shadow-2xl rounded-2xl mt-10">
       <div className="border-b border-gray-200 ">
-        <ul className="flex flex-row -mb-px text-sm font-medium text-center text-gray-500 ">
-          <li className="me-2">
+        <ul className="flex flex-row text-sm font-medium text-center text-gray-500 ">
+          <li>
             <button
               className={`${tab === TAB.PET ? activeTab : inactiveTab}`}
               onClick={() => setTab(TAB.PET)}
@@ -142,7 +142,7 @@ export default function TabbedTable({
             </button>
           </li>
           {userInfo?.role === USER_ROLE.ORGANIZATION && (
-            <li className="me-2">
+            <li>
               <button
               test-id="blog-tab"
                 className={`${
@@ -158,7 +158,7 @@ export default function TabbedTable({
               </button>
             </li>
           )}
-          <li className="me-2">
+          <li>
             <button
               className={`${tab === TAB.SENT ? activeTab : inactiveTab}`}
               onClick={() => setTab(TAB.SENT)}
@@ -170,7 +170,7 @@ export default function TabbedTable({
               gửi
             </button>
           </li>
-          <li className="me-2">
+          <li>
             <button
               className={`${
                 tab === TAB.IMCOMMING ? activeTab : inactiveTab

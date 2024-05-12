@@ -168,7 +168,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
   }, [content, myEditor]);
 
   return (
-    <div>
+    <div className="max-w-3xl">
       <form onSubmit={handleSubmit}>
         <input
           test-id="blog-title-input"

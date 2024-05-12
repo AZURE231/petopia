@@ -62,7 +62,7 @@ export function PetCard(props: IPetCard) {
       <Link href={`/pet/${id}`}>
         <div
           test-id={testId}
-          className="max-w-xs p-2 bg-white border border-gray-200 rounded-2xl shadow-lg "
+          className="max-w-xs h-full p-2 bg-white border border-gray-200 rounded-2xl shadow-lg"
         >
           <div className="flex flex-col">
             <div className="w-full relative pt-[100%]">

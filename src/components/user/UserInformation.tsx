@@ -53,7 +53,7 @@ export const UserInformation = QueryProvider(() => {
 
       {!getUserQuery.isLoading && userInfo && (
         <div className="container max-w-3xl p-5 mx-auto shadow-2xl rounded-2xl mt-36">
-          <div className="flex relative -mb-10">
+          <div className="flex relative mb-5 md:-mb-10">
             <AvatarBlock
               image={image}
               setImage={(url: string) => setImage(url)}

@@ -1,6 +1,7 @@
 import { uploadImage } from '@/src/helpers/uploadImage';
 import { IApiResponse } from '@/src/interfaces/common';
 import { updateAvatar } from '@/src/services/user.api';
+import { STATIC_URLS } from '@/src/utils/constants';
 import { useMutation } from '@/src/utils/hooks';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -34,12 +35,12 @@ export const AvatarBlock = (props: IAvatarBlock) => {
 
   return (
     <div
-      className="relative h-52 w-52 bottom-20"
+      className="relative h-32 w-32 md:h-52 md:w-52 md:bottom-20"
       onMouseEnter={() => setIsEditAvatar(true)}
       onMouseLeave={() => setIsEditAvatar(false)}
     >
       <Image
-        src={image}
+        src={image || STATIC_URLS.NO_AVATAR}
         alt="Picture of the author"
         fill
         objectFit="cover"

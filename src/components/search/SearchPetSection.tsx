@@ -116,12 +116,12 @@ export const SearchPetSection = QueryProvider(() => {
                   </svg>
                 </button>
               </div>
-              <div className="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 xl:gap-x-8">
-                {getPetsQuery.isLoading && Array.from({ length: PAGE_SIZE }).map((_, index) => (
-                  <CardSkeleton key={index} />
-                ))}
-                {
-                  !getPetsQuery.isLoading &&
+              <div className="mt-6 grid grid-cols-2 gap-y-5 gap-x-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 xl:gap-x-8">
+                {getPetsQuery.isLoading &&
+                  Array.from({ length: PAGE_SIZE }).map((_, index) => (
+                    <CardSkeleton key={index} />
+                  ))}
+                {!getPetsQuery.isLoading &&
                   pets.length > 0 &&
                   pets.map((pet,index) => (
                     <PetCard
@@ -136,8 +136,7 @@ export const SearchPetSection = QueryProvider(() => {
                       image={pet.image}
                       isOrgOwned={pet.isOrgOwned}
                     />
-                  ))
-                }
+                  ))}
               </div>
               <NoResultBackground show={pets.length === 0} />
               <div className="flex items-center justify-center mt-5">
