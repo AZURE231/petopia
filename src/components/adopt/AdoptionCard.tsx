@@ -16,16 +16,15 @@ export const AdoptionCard = (props: IAdoptionCard) => {
   return (
     <>
       <div
-        className={`flex justify-between w-full p-3  ${card.isSeen ? 'bg-white' : 'bg-gray-100'
-          } border border-gray-200 rounded-lg shadow hover:bg-gray-200 cursor-pointer`}
+        className={`flex justify-between w-full p-3  ${
+          card.isSeen ? 'bg-white' : 'bg-gray-100'
+        } border border-gray-200 rounded-lg shadow hover:bg-gray-200 cursor-pointer`}
         onClick={() => setShow(true)}
       >
-        <div>
+        <div className="w-2/3">
           <h5 className="mb-2 text-xl font-medium tracking-tight text-gray-900">
             {'Đơn nhận nuôi '}
-            <span className="text-2xl font-bold">
-              {card.petName}
-            </span>
+            <span className="text-2xl font-bold">{card.petName}</span>
             {type === 'Incoming' && (
               <span className="text-2xl font-bold">
                 {' - ' + card.adopterName}
@@ -38,26 +37,28 @@ export const AdoptionCard = (props: IAdoptionCard) => {
               new Date(card.lastUpdatedAt).toLocaleTimeString()}
           </p>
         </div>
-        {card.status === 1 && (
-          <div className="bg-green-300 font-bold w-fit p-3 rounded-lg flex items-center">
-            Đã xác nhận
-          </div>
-        )}
-        {card.status === 2 && (
-          <div className="bg-red-300 font-bold w-fit p-3 rounded-lg flex items-center">
-            Đã từ chối
-          </div>
-        )}
-        {card.status === 0 && (
-          <div className="bg-yellow-300 font-bold w-fit p-3 rounded-lg flex items-center">
-            Đang chờ
-          </div>
-        )}
-        {card.status === 4 && (
-          <div className="bg-green-400 font-bold w-fit p-3 rounded-lg flex items-center">
-            Hoàn thành
-          </div>
-        )}
+        <div className="w-1/3">
+          {card.status === 1 && (
+            <div className="bg-green-300 font-bold w-full text-center p-3 rounded-lg flex items-center justify-center">
+              Đã xác nhận
+            </div>
+          )}
+          {card.status === 2 && (
+            <div className="bg-red-300 font-bold w-full text-center p-3 rounded-lg flex items-center justify-center">
+              Đã từ chối
+            </div>
+          )}
+          {card.status === 0 && (
+            <div className="bg-yellow-300 font-bold w-full text-center p-3 rounded-lg flex items-center justify-center">
+              Đang chờ
+            </div>
+          )}
+          {card.status === 4 && (
+            <div className="bg-green-400 font-bold w-full text-center p-3 rounded-lg flex items-center justify-center">
+              Hoàn thành
+            </div>
+          )}
+        </div>
       </div>
       <Popup
         key={card.id}
@@ -69,7 +70,11 @@ export const AdoptionCard = (props: IAdoptionCard) => {
         }}
         overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
       >
-        <PetAdoptionInfo id={card.id} type={type} close={() => setShow(false)} />
+        <PetAdoptionInfo
+          id={card.id}
+          type={type}
+          close={() => setShow(false)}
+        />
       </Popup>
     </>
   );

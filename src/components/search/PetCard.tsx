@@ -19,8 +19,17 @@ interface IPetCard extends IPetResponse {
 }
 
 export function PetCard(props: IPetCard) {
-  const { id, name, breed, sex, age, image, isEditable = false, simple = false, isOrgOwned } =
-    props;
+  const {
+    id,
+    name,
+    breed,
+    sex,
+    age,
+    image,
+    isEditable = false,
+    simple = false,
+    isOrgOwned,
+  } = props;
   const [showAlert, setShowAlert] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
 
@@ -49,7 +58,7 @@ export function PetCard(props: IPetCard) {
   return (
     <div className="relative">
       <Link href={`/pet/${id}`}>
-        <div className="max-w-xs p-2 bg-white border border-gray-200 rounded-2xl shadow-lg ">
+        <div className="max-w-xs h-full p-2 bg-white border border-gray-200 rounded-2xl shadow-lg ">
           <div className="flex flex-col">
             <div className="w-full relative pt-[100%]">
               <Image
