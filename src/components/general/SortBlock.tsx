@@ -1,5 +1,4 @@
 import { useClickOutside } from '@/src/utils/hooks';
-import { motion } from 'framer-motion';
 import { Dispatch, SetStateAction, useRef, useState } from 'react';
 
 interface ISortBlock {
@@ -14,11 +13,6 @@ export const SortBlock = (props: ISortBlock) => {
   const [showSort, setShowSort] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
-
-  const sortVariants = {
-    closed: { opacity: 0, height: 0, transition: { duration: 0.2 } },
-    open: { opacity: 1, height: 'auto', transition: { duration: 0.2 } },
-  };
 
   const getSortLabel = (orderBy: 'newest' | 'popular') => {
     return orderBy === 'newest' ? 'Mới nhất' : 'Phổ biến';
@@ -56,15 +50,8 @@ export const SortBlock = (props: ISortBlock) => {
         </button>
       </div>
 
-      <motion.div
-        initial={false}
-        animate={showSort ? 'open' : 'closed'}
-        variants={sortVariants}
-        className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
-        role="menu"
-        aria-orientation="vertical"
-        aria-labelledby="menu-button"
-        tabIndex={-1}
+      <div
+        className={`${!showSort && 'hidden'} absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none`}
       >
         <div className="py-1" role="none" ref={listRef}>
           <div
@@ -80,7 +67,7 @@ export const SortBlock = (props: ISortBlock) => {
             Phổ biến
           </div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };

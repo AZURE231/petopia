@@ -240,7 +240,7 @@ const page = observer(
               </div>
             </div>
             {
-              petPost.length || userStore.userContext?.id === petDetail.ownerId &&
+              (petPost.length || userStore.userContext?.id === petDetail.ownerId) &&
               <div className="container max-w-5xl mx-auto p-5 shadow-2xl rounded-2xl my-5">
                 <CreatePetPostButton
                   petId={params.id}
