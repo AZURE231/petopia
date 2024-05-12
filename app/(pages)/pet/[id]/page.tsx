@@ -30,11 +30,8 @@ import { observer } from 'mobx-react-lite';
 import { useStores } from '@/src/stores';
 import { IGetPostResponse } from '@/src/interfaces/post';
 import { getPetPosts } from '@/src/services/post.api';
-import Popup from 'reactjs-popup';
-import ReportForm from '@/src/components/user/ReportForm';
-import { getPreReport } from '@/src/services/user.api';
-import { GoReport } from 'react-icons/go';
 import { Alert } from '@/src/components/general/Alert';
+import { ReportBlock } from '@/src/components/general/ReportBlock';
 
 const page = observer(
   QueryProvider(({ params }: { params: { id: string } }) => {
@@ -50,28 +47,16 @@ const page = observer(
     const [alertMessage, setAlertMessage] = useState<string>('');
     const [alertFailed, setAlertFailed] = useState<boolean>(false);
 
-    const getPetQuery = useQuery<IApiResponse<IPetDetailResponse>>(
-      [QUERY_KEYS.GET_PET_DETAIL],
-      () => getPetDetail({ id: params.id }),
-      {
-        onSuccess: (res) => {
-          setPetDetail(res.data.data);
-          setDisplayedImage(res.data.data.images[0]);
-        },
-        onError: () => setError(true),
-        refetchOnWindowFocus: false,
+    // HANDLERS
+    const handleShowReport = () => {
+      if (!isReported) {
+        setAlertMessage('Bạn đã báo cáo thú cưng này');
+        setAlertFailed(true);
+        setAlertShow(true);
+        return;
       }
-    );
-    const getPostQuery = useQuery<IApiResponse<IGetPostResponse[]>>(
-      [QUERY_KEYS.GET_PET_POSTS],
-      () => getPetPosts(params.id),
-      {
-        onSuccess: (res) => {
-          setPetPost(res.data.data);
-        },
-        refetchOnWindowFocus: false,
-      }
-    );
+      setShowReport(true);
+    };
 
     const renderPetSpecies = (species: number) => {
       switch (species) {
@@ -85,24 +70,27 @@ const page = observer(
           return 'Không rõ';
       }
     };
-    // HANDLE
-    const handleShowReport = () => {
-      if (!isReported) {
-        setAlertMessage('Bạn đã báo cáo thú cưng này');
-        setAlertFailed(true);
-        setAlertShow(true);
-        return;
-      }
-      setShowReport(true);
-    };
 
     // QUERY
-    const getPreReportQuery = useQuery<IApiResponse<boolean>>(
-      [QUERY_KEYS.GET_PRE_REPORT],
-      () => getPreReport({ id: params.id, entity: REPORT_ENTITY.Pet }),
+    const getPetQuery = useQuery<IApiResponse<IPetDetailResponse>>(
+      [QUERY_KEYS.GET_PET_DETAIL],
+      () => getPetDetail({ id: params.id }),
       {
         onSuccess: (res) => {
-          setIsReported(res.data.data);
+          setPetDetail(res.data.data);
+          setDisplayedImage(res.data.data.images[0]);
+        },
+        onError: () => setError(true),
+        refetchOnWindowFocus: false,
+      }
+    );
+
+    const getPostQuery = useQuery<IApiResponse<IGetPostResponse[]>>(
+      [QUERY_KEYS.GET_PET_POSTS],
+      () => getPetPosts(params.id),
+      {
+        onSuccess: (res) => {
+          setPetPost(res.data.data);
         },
         refetchOnWindowFocus: false,
       }
@@ -241,42 +229,23 @@ const page = observer(
                       </div>
                     </div>
                   </div>
-                  <Popup
-                    modal
-                    overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)' }}
-                    open={showReport}
-                    onClose={() => setShowReport(false)}
-                  >
-                    <ReportForm
-                      preCheckQuery={getPreReportQuery}
-                      id={params.id}
-                      type={REPORT_ENTITY.Pet}
-                      handleClose={() => setShowReport(false)}
-                    />
-                  </Popup>
-
                   <div className="w-full flex justify-end">
-                    <button
-                      className="hover:bg-gray-100 p-2 rounded-full border"
-                      onClick={handleShowReport}
-                    >
-                      <GoReport size={30} className="" />
-                    </button>
+                    <ReportBlock id={params.id} type={REPORT_ENTITY.Pet} />
                   </div>
                 </div>
               </div>
             </div>
-            {petPost.length ||
-              (userStore.userContext?.id === petDetail.ownerId && (
-                <div className="container max-w-5xl mx-auto p-5 shadow-2xl rounded-2xl my-5">
-                  <CreatePetPostButton
-                    petId={params.id}
-                    query={getPostQuery}
-                    show={userStore.userContext?.id === petDetail.ownerId}
-                  />
-                  <CarouselDefault posts={petPost} query={getPostQuery} />
-                </div>
-              ))}
+            {(petPost.length ||
+              userStore.userContext?.id === petDetail.ownerId) && (
+              <div className="container max-w-5xl mx-auto p-5 shadow-2xl rounded-2xl my-5">
+                <CreatePetPostButton
+                  petId={params.id}
+                  query={getPostQuery}
+                  show={userStore.userContext?.id === petDetail.ownerId}
+                />
+                <CarouselDefault posts={petPost} query={getPostQuery} />
+              </div>
+            )}
             <SeeMore petList={petDetail.seeMore} />
           </div>
         )}
