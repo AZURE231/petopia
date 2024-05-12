@@ -1,31 +1,35 @@
 export enum NORMAL_ACCOUNT {
-    EMAIL = 'mhung.contact@gmail.com',
-    PASSWORD = '123456789'
-  }
+  EMAIL = 'mhung.contact@gmail.com',
+  PASSWORD = '123456789',
+}
 
+export enum ORG_ACCOUNT {
+  EMAIL = 'jayoki3306@facais.com',
+  PASSWORD = '123456789',
+}
 
 export enum USER_INFO {
-    FIRST_NAME = 'First',
-    LAST_NAME = 'Last',
-    PHONE = '123456789',
-    PROVINCE = 'Hà Nội',
-    DISTRICT = 'Ba Đình',
-    WARD='Cống Vị',
-    STREET = 'Street'
-  }
+  FIRST_NAME = 'First',
+  LAST_NAME = 'Last',
+  PHONE = '123456789',
+  PROVINCE = 'Hà Nội',
+  DISTRICT = 'Ba Đình',
+  WARD = 'Cống Vị',
+  STREET = 'Street',
+}
 
 export enum ORG_INFO {
-    NAME = 'Org Name',
-    OWNER_NAME = 'Owner Name',
-    TAX_CODE = '123456789',
-    WEBSITE = 'test.org.com',
-    PHONE = '123456789',
-    ADDRESS = '69',
-    MISSION = 'Description',
-    PROVINCE = 'Hà Nội',
-    DISTRICT = 'Ba Đình',
-    WARD='Cống Vị',
-    TYPE = 'Khác',
+  NAME = 'Org Name',
+  OWNER_NAME = 'Owner Name',
+  TAX_CODE = '123456789',
+  WEBSITE = 'test.org.com',
+  PHONE = '123456789',
+  ADDRESS = '69',
+  MISSION = 'Description',
+  PROVINCE = 'Hà Nội',
+  DISTRICT = 'Ba Đình',
+  WARD = 'Cống Vị',
+  TYPE = 'Khác',
 }
 
 export enum PET_INFO {
@@ -38,16 +42,25 @@ export enum PET_INFO {
   SEX = 'Đực',
   SIZE = 'Nhỏ',
   AGE = 'Dưới 1 năm',
+  AGE_NUMBER = '< 1',
   VACCINE = 'Đã tiêm',
   SPAY = 'Chưa triệt sản',
   BREED = 'Shiba Inu',
-  DESCRIPTION = 'Test Pet Description'
+  DESCRIPTION = 'Test Pet Description',
 }
-
-
 
 export enum KEYWORDS {
   SUCCESS = 'Thành công',
   FAIL = 'Thất bại',
   TERMS = 'điều khoản',
+  SPECIES = 'Loài',
+  COLOR = 'Màu sắc',
+  SIZE = 'Kích thước',
+  AGE = 'Độ tuổi',
+  BREED = 'Giống',
+  SEX = 'Giới tính',
+  VACCINE = 'Tiêm chủng',
+  SPAY = 'Triệt sản',
+  LOG_OUT = 'Đăng xuất',
+  LOG_IN = 'Đăng nhập',
 }

@@ -2,6 +2,10 @@
 
 import 'cypress-file-upload';
 
+Cypress.config({
+  viewportWidth: 1280,
+  viewportHeight: 720,
+})
 
 Cypress.Commands.add('login', (email: string, password: string) => {
     cy.visit('http://localhost:3000');
@@ -12,10 +16,7 @@ Cypress.Commands.add('login', (email: string, password: string) => {
     cy.wait(1500);
   });
 
-Cypress.config({
-  viewportWidth: 1280,
-  viewportHeight: 720,
-})
+
 
 
 

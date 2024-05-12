@@ -138,7 +138,7 @@ const page = observer(
                 <div className="md:pl-10">
                   <div>
                     <div className="flex flex-row gap-2">
-                      <h1 test-id="pet-profile-name" className="mt-5 md:mt-0 font-bold text-4xl">
+                      <h1 test-id="pet-detail-name" className="mt-5 md:mt-0 font-bold text-4xl">
                         {petDetail.name}
                       </h1>
                       {petDetail.isOrgOwned && (
@@ -165,63 +165,63 @@ const page = observer(
                   <div className="flex flex-col divide-y">
                     <div className="flex flex-row py-2">
                       <div className="w-1/3 font-bold">Loài</div>
-                      <div className="w-2/3">
+                      <div test-id="pet-detail-species" className="w-2/3">
                         <span>: </span>
                         {renderPetSpecies(petDetail.species)}
                       </div>
                     </div>
                     <div className="flex flex-row py-2">
                       <div className="w-1/3 font-bold">Giống</div>
-                      <div className="w-2/3">
+                      <div test-id="pet-detail-breed" className="w-2/3">
                         <span>: </span>
                         {petDetail.breed}
                       </div>
                     </div>
                     <div className="flex flex-row py-2">
                       <div className="w-1/3 font-bold">Giới tính</div>
-                      <div className="w-2/3">
+                      <div test-id="pet-detail-sex" className="w-2/3">
                         <span>: </span>
                         {getPetSexText(petDetail.sex)}
                       </div>
                     </div>
                     <div className="flex flex-row py-2">
                       <div className="w-1/3 font-bold">Tuổi</div>
-                      <div className="w-2/3">
+                      <div className="w-2/3" test-id="pet-detail-age">
                         <span>: </span>
                         {getPetAgeText(petDetail.age)}
                       </div>
                     </div>
                     <div className="flex flex-row py-2">
                       <div className="w-1/3 font-bold">Kích thước</div>
-                      <div className="w-2/3">
+                      <div className="w-2/3" test-id="pet-detail-size">
                         <span>: </span>
                         {getPetSizeText(petDetail.size)}
                       </div>
                     </div>
                     <div className="flex flex-row py-2">
                       <div className="w-1/3 font-bold">Màu</div>
-                      <div className="w-2/3">
+                      <div className="w-2/3" test-id="pet-detail-color">
                         <span>: </span>
                         {getPetColorText(petDetail.color)}
                       </div>
                     </div>
                     <div className="flex flex-row py-2">
                       <div className="w-1/3 font-bold">Tiêm chủng</div>
-                      <div className="w-2/3">
+                      <div className="w-2/3" test-id="pet-detail-vaccine">
                         <span>: </span>
                         {getPetMedicalStatusText(petDetail.isVaccinated)}
                       </div>
                     </div>
                     <div className="flex flex-row py-2">
                       <div className="w-1/3 font-bold">Triệt sản</div>
-                      <div className="w-2/3">
+                      <div className="w-2/3" test-id="pet-detail-spay">
                         <span>: </span>
                         {getPetSterillizedText(petDetail.isSterillized)}
                       </div>
                     </div>
                     <div className="flex flex-row py-2">
                       <div className="w-1/3 font-bold">Địa chỉ</div>
-                      <div className="w-2/3">
+                      <div className="w-2/3" test-id="pet-detail-address">
                         <span>: </span>
                         {petDetail.address}
                       </div>

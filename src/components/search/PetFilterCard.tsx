@@ -10,6 +10,7 @@ interface IPetFilterCard {
   filterForm: UseFormReturn<IPetFilterRequest, any, undefined>;
   handleSetSpecies: (speciesList: PET_SPECIES[]) => void;
   isMobile: boolean;
+  testId?: string;
 }
 
 export const PetFilterCard = (props: IPetFilterCard) => {
@@ -132,13 +133,14 @@ export const PetFilterCard = (props: IPetFilterCard) => {
       </h3>
       {/* <!-- Filter section, show/hide based on section state. --> */}
       {showFilter[filter.id as keyof typeof showFilter] && (
-        <div className="pt-6" id="filter-section-0">
+        <div  className="pt-6" id="filter-section-0">
           <div className="space-y-4">
             {filter.items.map((item) => (
-              <div key={item.id} className="flex items-center">
+              <div test-id={`filter-card`} key={item.id} className="flex items-center">
                 <input
+                  
                   id={`filter-${filter.label}-${item.id}`}
-                  name={`${filter.label}[]`}
+                  name={`${filter.label}`}
                   type="checkbox"
                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                   onClick={() => handleClickFilter(filter.id, item.value)}

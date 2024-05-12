@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { NORMAL_ACCOUNT } from "../support/constant";
+import { KEYWORDS, NORMAL_ACCOUNT } from "../support/constant";
 
 describe('Navigation - Guest', () => {
   beforeEach(() => {
@@ -53,7 +53,7 @@ describe('Navigation - Authenticated', () => {
 
   it('Logout - OK', () => {
     cy.get('[test-id=user-picture-button]').click();
-    cy.get('a').contains('Đăng xuất').click();
+    cy.get('a').contains(KEYWORDS.LOG_OUT).click();
     cy.wait(500);
     cy.getCookie('accessTokenServer').should('not.exist');
   });

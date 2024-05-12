@@ -123,8 +123,9 @@ export const SearchPetSection = QueryProvider(() => {
                 {
                   !getPetsQuery.isLoading &&
                   pets.length > 0 &&
-                  pets.map((pet) => (
+                  pets.map((pet,index) => (
                     <PetCard
+                      testId={`pet-card-${index}`}
                       isEditable={false}
                       key={pet.id}
                       id={pet.id}
