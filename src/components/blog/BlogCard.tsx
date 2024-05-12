@@ -94,7 +94,7 @@ const BlogCard = ({
               </button>
             }
           >
-            <div className="max-w-3xl rounded-2xl bg-yellow-100 p-5">
+            <div className="container max-w-xs md:max-w-3xl rounded-2xl bg-yellow-100 p-5">
               <div
                 className="w-full p-5 mb-5 bg-gray-50 rounded-lg overflow-auto"
                 style={{ maxHeight: '400px' }}

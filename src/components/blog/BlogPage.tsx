@@ -26,7 +26,7 @@ const BlogPage: React.FC<Props> = ({
   // Modify only the images within the htmlContent
   const styledHTMLContent = htmlContent.replace(
     /<img/g,
-    '<img style="display: block; margin: 0 auto; max-width: 100%; height: auto; object-fit:contain;"'
+    '<img style="display: block; margin: 0 auto; max-width: 90%; height: auto; object-fit:contain; margin-top: 20px; margin-bottom: 20px;"'
   );
 
 

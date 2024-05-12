@@ -22,7 +22,7 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/news" className="hover:underline w-fit">
+              <Link href="/blog" className="hover:underline w-fit">
                 Tin tức
               </Link>
             </li>

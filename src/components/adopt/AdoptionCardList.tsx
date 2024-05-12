@@ -4,8 +4,6 @@ import { getAdoptCard } from '@/src/services/adopt.api';
 import { QUERY_KEYS } from '@/src/utils/constants';
 import { useQuery } from '@/src/utils/hooks';
 import { Dispatch, SetStateAction, useState } from 'react';
-import Popup from 'reactjs-popup';
-import PetAdoptionInfo from './PetAdoptionInfo';
 import { AdoptionCard } from './AdoptionCard';
 
 export default function AdoptionCardList({
@@ -54,22 +52,18 @@ export default function AdoptionCardList({
     <div>
       <div>
         {getAdoptCardQuery.isLoading && <div>Loading...</div>}
-        {
-          !getAdoptCardQuery.isLoading &&
-          adoptCard.length > 0 &&
-          (<div className="flex flex-col gap-2">
-            {
-              adoptCard.map((card) => (
-                <AdoptionCard
-                  key={card.id}
-                  card={card}
-                  refetch={handleIsSeen}
-                  type={type}
-                />
-              ))
-            }
-          </div>)
-        }
+        {!getAdoptCardQuery.isLoading && adoptCard.length > 0 && (
+          <div className="flex flex-col gap-2">
+            {adoptCard.map((card) => (
+              <AdoptionCard
+                key={card.id}
+                card={card}
+                refetch={handleIsSeen}
+                type={type}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
