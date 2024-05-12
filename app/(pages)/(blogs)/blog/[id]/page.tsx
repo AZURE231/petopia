@@ -11,6 +11,7 @@ import { observer } from 'mobx-react-lite';
 import { QueryProvider } from '@/src/components/general/QueryProvider';
 import { NoResultBackground } from '@/src/components/general/NoResultBackground';
 import BlogDetailSkeleton from '@/src/components/blog/BlogDetailSkeleton';
+import AdvertisementCarousel from '@/src/components/blog/AdvertisementCarousel';
 
 const page = observer(
   QueryProvider(({ params }: { params: { id: string } }) => {
@@ -34,12 +35,7 @@ const page = observer(
       <div>
         <div className="container mx-auto my-10">
           <div className="flex items-center justify-center mt-5">
-            <Image
-              alt="banner search"
-              src={STATIC_URLS.BANNER}
-              width={1180}
-              height={378}
-            />
+           <AdvertisementCarousel />
           </div>
           {getBlogQuery.isLoading && <BlogDetailSkeleton />}
           {!getBlogQuery.isLoading && blogContent && (

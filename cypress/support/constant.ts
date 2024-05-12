@@ -8,7 +8,6 @@ export enum ORG_ACCOUNT {
   PASSWORD = '123456789',
 }
 
-
 export enum USER_INFO {
   FIRST_NAME = 'First',
   LAST_NAME = 'Last',
@@ -64,6 +63,13 @@ export enum KEYWORDS {
   SPAY = 'Triệt sản',
   LOG_OUT = 'Đăng xuất',
   LOG_IN = 'Đăng nhập',
+}
+
+export enum BLOG_CATEGORIES {
+  HEALTH = 'Sức khỏe',
+  TRAINING = 'Huấn luyện',
+  PRODUCT = 'Sản phẩm',
+  ART = 'Nghệ thuật',
 }
 
 export enum RESOLUTION {

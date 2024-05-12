@@ -20,6 +20,7 @@ interface IBlogCard extends IBlogCardResponse {
     AxiosResponse<IApiResponse<IBlogResponse[]>, any>,
     AxiosResponse<IApiErrorResponse, any>
   >;
+  testId?: string;
 }
 
 const BlogCard = ({
@@ -30,6 +31,7 @@ const BlogCard = ({
   excerpt,
   isEditable,
   query,
+  testId,
 }: IBlogCard) => {
   const [showAlert, setShowAlert] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
@@ -54,7 +56,10 @@ const BlogCard = ({
   return (
     <div className="relative">
       <Link href={`/blog/${id}`}>
-        <div className="max-w-xs p-2 h-full bg-white border border-gray-200 rounded-2xl shadow-lg">
+        <div
+          className="max-w-xs p-2 h-full bg-white border border-gray-200 rounded-2xl shadow-lg"
+          test-id={testId}
+        >
           <div className="flex flex-col" key={id}>
             {/* Image with rounded corners */}
             <div className="relative w-full pt-[100%]">
@@ -66,14 +71,22 @@ const BlogCard = ({
                 className="w-full h-full top-0 left-0 object-cover rounded-2xl"
               />
               {/* Category */}
-              <div className="bg-yellow-400 text-black text-xs font-bold uppercase px-2 py-1 absolute top-0 left-0 rounded-br-lg">
+              <div
+                test-id="blog-category-tag"
+                className="bg-yellow-400 text-black text-xs font-bold uppercase px-2 py-1 absolute top-0 left-0 rounded-br-lg"
+              >
                 {BLOG_CATEGORIES_OPTION[category + 1].label}
               </div>
             </div>
             {/* Content */}
             <div className="p-2 md:p-4">
               {/* Title */}
-              <h2 className="text-lg font-bold mb-2 line-clamp-2">{title}</h2>
+              <h2
+                test-id={testId+'-title'}
+                className="text-lg font-bold mb-2 line-clamp-2"
+              >
+                {title}
+              </h2>
               {/* Excerpt */}
               <p className="text-sm text-gray-600 line-clamp-3">{excerpt}</p>
             </div>

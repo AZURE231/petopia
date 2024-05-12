@@ -78,6 +78,7 @@ const BlogSection = QueryProvider(() => {
             <ul className="flex">
               {BLOG_CATEGORIES_OPTION.map((category, index) => (
                 <li
+                  test-id={`blog-category-filter-option`}
                   key={index}
                   className={`mr-5 cursor-pointer ${
                     selectedCategory === category.value ? 'underline' : ''
@@ -103,8 +104,9 @@ const BlogSection = QueryProvider(() => {
               <CardSkeleton key={index} />
             ))}
           {!getBlogsQuery.isLoading &&
-            blogs.map((blog) => (
+            blogs.map((blog, index) => (
               <BlogCard
+                testId={`blog-card-${index}`}
                 key={blog.id}
                 id={blog.id}
                 image={blog.image}
