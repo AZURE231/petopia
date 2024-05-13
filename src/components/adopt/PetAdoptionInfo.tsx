@@ -4,6 +4,7 @@ import { actOnAdoptRequest, getAdoptFormInfo } from '@/src/services/adopt.api';
 import {
   ADOPT_ACTION,
   ADOPT_DELAY_DURATION,
+  ADOPT_STATUS,
   HOUSE_TYPE,
   QUERY_KEYS,
 } from '@/src/utils/constants';
@@ -31,10 +32,11 @@ export default function PetAdoptionInfo({
   const [alertMessage, setAlertMessage] = useState<string>('');
   const [alertFailed, setAlertFailed] = useState<boolean>(false);
 
-  const cancelAdoptMutation = useMutation<
-    IApiResponse<string>,
-    { id: string; action: string }
-  >(actOnAdoptRequest, {
+  const cancelAdoptMutation = useMutation<IApiResponse<string>, undefined>(
+    () => actOnAdoptRequest({
+      id: id,
+      action: ADOPT_ACTION.CANCEL
+    }), {
     onSuccess: () => {
       setAlertShow(true);
       setAlertFailed(false);
@@ -48,10 +50,11 @@ export default function PetAdoptionInfo({
     },
   });
 
-  const rejectAdoptMutation = useMutation<
-    IApiResponse<string>,
-    { id: string; action: string }
-  >(actOnAdoptRequest, {
+  const rejectAdoptMutation = useMutation<IApiResponse<string>, undefined>(
+    () => actOnAdoptRequest({
+      id: id,
+      action: ADOPT_ACTION.REJECT
+    }), {
     onSuccess: () => {
       setAlertShow(true);
       setAlertFailed(false);
@@ -65,10 +68,11 @@ export default function PetAdoptionInfo({
     },
   });
 
-  const acceptAdoptMutation = useMutation<
-    IApiResponse<string>,
-    { id: string; action: string }
-  >(actOnAdoptRequest, {
+  const acceptAdoptMutation = useMutation<IApiResponse<string>, undefined>(
+    () => actOnAdoptRequest({
+      id: id,
+      action: ADOPT_ACTION.ACCEPT
+    }), {
     onSuccess: () => {
       setAlertShow(true);
       setAlertFailed(false);
@@ -78,6 +82,24 @@ export default function PetAdoptionInfo({
     onError: () => {
       setAlertShow(true);
       setAlertMessage('Chấp nhận đơn nhận nuôi thất bại');
+      setAlertFailed(true);
+    },
+  });
+
+  const confirmAdoptMutation = useMutation<IApiResponse<string>, undefined>(
+    () => actOnAdoptRequest({
+      id: id,
+      action: ADOPT_ACTION.CONFIRM
+    }), {
+    onSuccess: () => {
+      setAlertShow(true);
+      setAlertFailed(false);
+      setAlertMessage('Hoàn thành đơn nhận nuôi thành công');
+      close();
+    },
+    onError: () => {
+      setAlertShow(true);
+      setAlertMessage('Hoàn thành đơn nhận nuôi thất bại');
       setAlertFailed(true);
     },
   });
@@ -93,7 +115,7 @@ export default function PetAdoptionInfo({
     }
   );
 
-  const petCardQuery = useQuery<IApiResponse<IPetDetailResponse>>(
+  useQuery<IApiResponse<IPetDetailResponse>>(
     [QUERY_KEYS.GET_PET_DETAIL, formInfo],
     () => formInfo && getPetDetail({ id: formInfo.petId }),
     {
@@ -112,18 +134,6 @@ export default function PetAdoptionInfo({
       enabled: !!formInfo,
     }
   );
-
-  const handleCancelAdopt = () => {
-    cancelAdoptMutation.mutate({ id: id, action: ADOPT_ACTION.CANCEL });
-  };
-
-  const handleRejectAdopt = () => {
-    rejectAdoptMutation.mutate({ id: id, action: ADOPT_ACTION.REJECT });
-  };
-
-  const handleAcceptAdopt = () => {
-    acceptAdoptMutation.mutate({ id: id, action: ADOPT_ACTION.ACCEPT });
-  };
 
   return (
     <div className="container p-5 mx-auto">
@@ -180,22 +190,23 @@ export default function PetAdoptionInfo({
                   <div className="text-md font-medium">
                     Tình trạng:{' '}
                     <span className="text-sm font-normal">
-                      {formInfo.status === 0 && 'Đang chờ'}
-                      {formInfo.status === 1 && 'Đã xác nhận'}
-                      {formInfo.status === 2 && 'Đã từ chối'}
-                      {formInfo.status === 4 && 'Hoàn thành'}
+                      {formInfo.status === ADOPT_STATUS.Pending && 'Đang chờ'}
+                      {formInfo.status === ADOPT_STATUS.Accepted && 'Đã xác nhận'}
+                      {formInfo.status === ADOPT_STATUS.Rejected && 'Đã từ chối'}
+                      {formInfo.status === ADOPT_STATUS.Adopted && 'Hoàn thành'}
+                      {formInfo.status === ADOPT_STATUS.Cancel && 'Đã huỷ'}
                     </span>
                   </div>
 
                   <div className="text-md font-medium">
                     Loại nhà ở:{' '}
                     <span className="text-sm font-normal">
-                      {formInfo.status === HOUSE_TYPE.Apartment && 'Chung cư'}
-                      {formInfo.status === HOUSE_TYPE.Dormitory && 'Ký túc xá'}
-                      {formInfo.status === HOUSE_TYPE.House && 'Nhà riêng'}
-                      {formInfo.status === HOUSE_TYPE.Shelter &&
+                      {formInfo.houseType === HOUSE_TYPE.Apartment && 'Chung cư'}
+                      {formInfo.houseType === HOUSE_TYPE.Dormitory && 'Ký túc xá'}
+                      {formInfo.houseType === HOUSE_TYPE.House && 'Nhà riêng'}
+                      {formInfo.houseType === HOUSE_TYPE.Shelter &&
                         'Trại thú cưng'}
-                      {formInfo.status === HOUSE_TYPE.Other && 'Khác'}
+                      {formInfo.houseType === HOUSE_TYPE.Other && 'Khác'}
                     </span>
                   </div>
                   <div className="text-md font-medium">
@@ -237,36 +248,36 @@ export default function PetAdoptionInfo({
             </div>
             {type === 'Sent' && (
               <div className="flex justify-center">
-                {formInfo.status === 0 && (
+                {formInfo.status === ADOPT_STATUS.Pending && (
                   <button
                     className="bg-red-500 text-white px-5 py-2 rounded-lg"
-                    onClick={handleCancelAdopt}
+                    onClick={() => cancelAdoptMutation.mutate(undefined)}
                   >
                     Huỷ đơn nhận nuôi
                   </button>
                 )}
-                {formInfo.status === 4 && (
+                {formInfo.status === ADOPT_STATUS.Accepted && (
                   <button
                     className="bg-yellow-500 text-black px-5 py-2 rounded-lg"
-                    onClick={handleCancelAdopt}
+                    onClick={() => confirmAdoptMutation.mutate(undefined)}
                   >
                     Hoàn thành
                   </button>
                 )}
               </div>
             )}
-            {type === 'Incoming' && formInfo.status === 0 && (
+            {type === 'Incoming' && formInfo.status === ADOPT_STATUS.Pending && (
               <div className="flex justify-center space-x-2">
                 <button
                   className="bg-red-300 hover:bg-red-400 text-white px-5 py-2 rounded-lg"
-                  onClick={handleRejectAdopt}
+                  onClick={() => rejectAdoptMutation.mutate(undefined)}
                 >
                   Không đồng ý
                 </button>
 
                 <button
                   className="bg-yellow-300 hover:bg-yellow-400 text-black px-5 py-2 rounded-lg"
-                  onClick={handleAcceptAdopt}
+                  onClick={() => acceptAdoptMutation.mutate(undefined)}
                 >
                   Đồng ý
                 </button>

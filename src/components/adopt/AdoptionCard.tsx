@@ -2,6 +2,7 @@ import Popup from 'reactjs-popup';
 import PetAdoptionInfo from './PetAdoptionInfo';
 import { IAdoptCardResponse } from '@/src/interfaces/adopt';
 import { useState } from 'react';
+import { ADOPT_ACTION, ADOPT_STATUS } from '@/src/utils/constants';
 
 interface IAdoptionCard {
   card: IAdoptCardResponse;
@@ -16,9 +17,8 @@ export const AdoptionCard = (props: IAdoptionCard) => {
   return (
     <>
       <div
-        className={`flex justify-between w-full p-3  ${
-          card.isSeen ? 'bg-white' : 'bg-gray-100'
-        } border border-gray-200 rounded-lg shadow hover:bg-gray-200 cursor-pointer`}
+        className={`flex justify-between w-full p-3  ${card.isSeen ? 'bg-white' : 'bg-gray-100'
+          } border border-gray-200 rounded-lg shadow hover:bg-gray-200 cursor-pointer`}
         onClick={() => setShow(true)}
       >
         <div className="w-2/3">
@@ -38,24 +38,29 @@ export const AdoptionCard = (props: IAdoptionCard) => {
           </p>
         </div>
         <div className="w-1/3">
-          {card.status === 1 && (
+          {card.status === ADOPT_STATUS.Accepted && (
             <div className="bg-green-300 font-bold w-full text-center p-3 rounded-lg flex items-center justify-center">
               Đã xác nhận
             </div>
           )}
-          {card.status === 2 && (
+          {card.status === ADOPT_STATUS.Rejected && (
             <div className="bg-red-300 font-bold w-full text-center p-3 rounded-lg flex items-center justify-center">
               Đã từ chối
             </div>
           )}
-          {card.status === 0 && (
+          {card.status === ADOPT_STATUS.Pending && (
             <div className="bg-yellow-300 font-bold w-full text-center p-3 rounded-lg flex items-center justify-center">
               Đang chờ
             </div>
           )}
-          {card.status === 4 && (
+          {card.status === ADOPT_STATUS.Adopted && (
             <div className="bg-green-400 font-bold w-full text-center p-3 rounded-lg flex items-center justify-center">
               Hoàn thành
+            </div>
+          )}
+          {card.status === ADOPT_STATUS.Cancel && (
+            <div className="bg-green-400 font-bold w-full text-center p-3 rounded-lg flex items-center justify-center">
+              Đã huỷ
             </div>
           )}
         </div>
