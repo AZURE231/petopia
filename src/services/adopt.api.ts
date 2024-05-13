@@ -1,4 +1,3 @@
-import { ADOPT_ACTION } from './../utils/constants';
 import { IAdoptPetRequest } from '../interfaces/adopt';
 import { http } from './http';
 

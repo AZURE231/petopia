@@ -406,6 +406,14 @@ export const ADOPT_ACTION = {
   CANCEL: 'Cancel',
 };
 
+export enum ADOPT_STATUS {
+  Pending = 0,
+  Accepted = 1,
+  Rejected = 2,
+  Adopted = 3,
+  Cancel = 4,
+}
+
 export const BLOG_CATEGORIES_OPTION = [
   {
     label: 'Tất cả',

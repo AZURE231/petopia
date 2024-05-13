@@ -41,23 +41,8 @@ const page = observer(
     const [displayedImage, setDisplayedImage] = useState<string>('');
     const { userStore } = useStores();
     const [petPost, setPetPost] = useState<IGetPostResponse[]>([]);
-    const [isReported, setIsReported] = useState<boolean>(true);
-    const [showReport, setShowReport] = useState(false);
-    const [alertShow, setAlertShow] = useState<boolean>(false);
-    const [alertMessage, setAlertMessage] = useState<string>('');
-    const [alertFailed, setAlertFailed] = useState<boolean>(false);
 
     // HANDLERS
-    const handleShowReport = () => {
-      if (!isReported) {
-        setAlertMessage('Bạn đã báo cáo thú cưng này');
-        setAlertFailed(true);
-        setAlertShow(true);
-        return;
-      }
-      setShowReport(true);
-    };
-
     const renderPetSpecies = (species: number) => {
       switch (species) {
         case PET_SPECIES.DOG:
@@ -237,27 +222,21 @@ const page = observer(
             </div>
             {(petPost.length ||
               userStore.userContext?.id === petDetail.ownerId) && (
-              <div className="container max-w-5xl mx-auto p-5 shadow-2xl rounded-2xl my-5">
-                <CreatePetPostButton
-                  petId={params.id}
-                  query={getPostQuery}
-                  show={userStore.userContext?.id === petDetail.ownerId}
-                />
-                <CarouselDefault posts={petPost} query={getPostQuery} />
-              </div>
-            )}
+                <div className="container max-w-5xl mx-auto p-5 shadow-2xl rounded-2xl my-5">
+                  <CreatePetPostButton
+                    petId={params.id}
+                    query={getPostQuery}
+                    show={userStore.userContext?.id === petDetail.ownerId}
+                  />
+                  <CarouselDefault posts={petPost} query={getPostQuery} />
+                </div>
+              )}
             <SeeMore petList={petDetail.seeMore} />
           </div>
         )}
         {error && (
           <NoResultBackground className="h-fit-screen w-full items-center" />
         )}
-        <Alert
-          message={alertMessage}
-          show={alertShow}
-          setShow={setAlertShow}
-          failed={alertFailed}
-        />
       </div>
     );
   })
