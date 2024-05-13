@@ -45,6 +45,7 @@ export const PetAdoptButton = observer(() => {
         }}
       />
       <button
+        test-id="adopt-pet-button"
         className="w-fit flex items-center p-3 px-8 rounded-full font-bold shadow-md bg-yellow-300 hover:bg-yellow-400 my-5"
         onClick={checkLoggedIn}
       >

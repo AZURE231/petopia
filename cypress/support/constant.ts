@@ -1,5 +1,5 @@
 export enum NORMAL_ACCOUNT {
-  EMAIL = 'mhung.contact@gmail.com',
+  EMAIL = 'vejox62251@facais.com',
   PASSWORD = '123456789',
 }
 
@@ -7,6 +7,8 @@ export enum ORG_ACCOUNT {
   EMAIL = 'jayoki3306@facais.com',
   PASSWORD = '123456789',
 }
+
+export const OWNED_PET_ID = 'baf3745f-d0d7-40c7-8084-5b55cb2f2ce3';
 
 export enum USER_INFO {
   FIRST_NAME = 'First',
