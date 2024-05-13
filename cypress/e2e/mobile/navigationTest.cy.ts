@@ -1,18 +1,17 @@
 /// <reference types="cypress" />
 
-import { KEYWORDS, NORMAL_ACCOUNT, RESOLUTION } from "../support/constant";
+import { KEYWORDS, NORMAL_ACCOUNT, RESOLUTION } from '../../support/constant';
 
 describe('Navigation - Guest', () => {
   beforeEach(() => {
-    cy.viewport(RESOLUTION.PC_WIDTH, RESOLUTION.PC_HEIGHT);
+    cy.viewport(RESOLUTION.MOBILE_WIDTH, RESOLUTION.MOBILE_HEIGHT);
     cy.visit('http://localhost:3000');
   });
-  
+
   it('Navigate to Home page - OK', () => {
     cy.get('[test-id=home-link]').click();
     cy.url().should('include', '/');
     cy.get('[test-id=authentication-layout]').should('not.exist');
-    
   });
 
   it('Navigate to Search page - OK', () => {
@@ -32,7 +31,6 @@ describe('Navigation - Guest', () => {
     cy.url().should('include', '/blog');
     cy.get('[test-id=authentication-layout]').should('not.exist');
   });
-  
 });
 
 describe('Navigation - Authenticated', () => {
@@ -59,5 +57,4 @@ describe('Navigation - Authenticated', () => {
     cy.wait(500);
     cy.getCookie('accessTokenServer').should('not.exist');
   });
-
 });

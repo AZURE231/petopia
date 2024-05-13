@@ -1,6 +1,11 @@
 //use cypress config
 /// <reference types="cypress" />
-import { KEYWORDS, NORMAL_ACCOUNT, PET_INFO, RESOLUTION } from '../support/constant';
+import {
+  KEYWORDS,
+  NORMAL_ACCOUNT,
+  PET_INFO,
+  RESOLUTION,
+} from '../../support/constant';
 
 describe('Search Pet - Filterbar', () => {
   beforeEach(() => {
@@ -30,7 +35,9 @@ describe('Search Pet - Filterbar', () => {
     cy.get('[test-id="pet-card-0"]').should('be.visible');
     cy.get('[test-id=filter-card').contains(PET_INFO.SPECIES).click();
     cy.get('button').contains(KEYWORDS.BREED).click();
-    cy.get('[test-id=filter-card').should('be.visible').should('contain.text', PET_INFO.BREED);
+    cy.get('[test-id=filter-card')
+      .should('be.visible')
+      .should('contain.text', PET_INFO.BREED);
   });
 
   it('Pet list filtered by Species - OK', () => {
@@ -38,7 +45,10 @@ describe('Search Pet - Filterbar', () => {
     cy.get('[test-id=filter-card').contains(PET_INFO.SPECIES).click();
     cy.get('[test-id="pet-card-0"]').should('be.visible');
     cy.get('[test-id="pet-card-0"]').click();
-    cy.get('[test-id="pet-detail-species"]').should('contain.text', PET_INFO.SPECIES);
+    cy.get('[test-id="pet-detail-species"]').should(
+      'contain.text',
+      PET_INFO.SPECIES
+    );
   });
 
   it('Pet list filtered by Breed - OK', () => {
@@ -50,7 +60,10 @@ describe('Search Pet - Filterbar', () => {
     cy.get('[test-id=filter-card').contains(PET_INFO.BREED).click();
     cy.get('[test-id="pet-card-0"]').should('be.visible');
     cy.get('[test-id="pet-card-0"]').click();
-    cy.get('[test-id="pet-detail-breed"]').should('contain.text', PET_INFO.BREED);
+    cy.get('[test-id="pet-detail-breed"]').should(
+      'contain.text',
+      PET_INFO.BREED
+    );
   });
 
   it('Pet list filtered by Size - OK', () => {
@@ -66,7 +79,10 @@ describe('Search Pet - Filterbar', () => {
     cy.get('[test-id=filter-card').contains(PET_INFO.COLOR).click();
     cy.get('[test-id="pet-card-0"]').should('be.visible');
     cy.get('[test-id="pet-card-0"]').click();
-    cy.get('[test-id="pet-detail-color"]').should('contain.text', PET_INFO.COLOR);
+    cy.get('[test-id="pet-detail-color"]').should(
+      'contain.text',
+      PET_INFO.COLOR
+    );
   });
 
   it('Pet list filtered by Age - OK', () => {
@@ -74,7 +90,10 @@ describe('Search Pet - Filterbar', () => {
     cy.get('[test-id=filter-card').contains(PET_INFO.AGE).click();
     cy.get('[test-id="pet-card-0"]').should('be.visible');
     cy.get('[test-id="pet-card-0"]').click();
-    cy.get('[test-id="pet-detail-age"]').should('contain.text', PET_INFO.AGE_NUMBER);
+    cy.get('[test-id="pet-detail-age"]').should(
+      'contain.text',
+      PET_INFO.AGE_NUMBER
+    );
   });
 
   it('Pet list filtered by Vaccine - OK', () => {
@@ -82,7 +101,10 @@ describe('Search Pet - Filterbar', () => {
     cy.get('[test-id=filter-card').contains(PET_INFO.VACCINE).click();
     cy.get('[test-id="pet-card-0"]').should('be.visible');
     cy.get('[test-id="pet-card-0"]').click();
-    cy.get('[test-id="pet-detail-vaccine"]').should('contain.text', PET_INFO.VACCINE);
+    cy.get('[test-id="pet-detail-vaccine"]').should(
+      'contain.text',
+      PET_INFO.VACCINE
+    );
   });
 
   it('Pet list filtered by Spay - OK', () => {
@@ -93,7 +115,6 @@ describe('Search Pet - Filterbar', () => {
     cy.get('[test-id="pet-detail-spay"]').should('contain.text', PET_INFO.SPAY);
   });
 
-  
   it('Pet list filtered by Sex - OK', () => {
     cy.get('button').contains(KEYWORDS.SEX).click();
     cy.get('[test-id=filter-card').contains(PET_INFO.SEX).click();
@@ -101,7 +122,4 @@ describe('Search Pet - Filterbar', () => {
     cy.get('[test-id="pet-card-0"]').click();
     cy.get('[test-id="pet-detail-sex"]').should('contain.text', PET_INFO.SEX);
   });
-
-
-
 });

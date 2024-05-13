@@ -42,7 +42,7 @@ export enum PET_INFO {
   SEX = 'Đực',
   SIZE = 'Nhỏ',
   AGE = 'Dưới 1 năm',
-  AGE_NUMBER = '< 1',
+  AGE_NUMBER = '< 1 tuổi',
   VACCINE = 'Đã tiêm',
   SPAY = 'Chưa triệt sản',
   BREED = 'Shiba Inu',

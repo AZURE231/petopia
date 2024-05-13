@@ -4,7 +4,7 @@ import {
   ORG_INFO,
   RESOLUTION,
   USER_INFO,
-} from '../support/constant';
+} from '../../support/constant';
 
 describe('Update User infomation', () => {
   beforeEach(() => {
@@ -74,8 +74,6 @@ describe('Update User infomation', () => {
     cy.get('[test-id=alert-ok]').click();
   });
 });
-
-
 
 describe('Upgrade to Partner', () => {
   beforeEach(() => {

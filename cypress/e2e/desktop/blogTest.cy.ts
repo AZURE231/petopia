@@ -6,7 +6,7 @@ import {
   ORG_ACCOUNT,
   PET_INFO,
   RESOLUTION,
-} from '../support/constant';
+} from '../../support/constant';
 
 describe('Blog page browsing', () => {
   beforeEach(() => {
