@@ -33,7 +33,7 @@ export const ReportBlock = (props: IReportBlock) => {
         } else {
           setAlertShow(true);
           setAlertFailed(true);
-          setAlertMessage('Bạn đã report nội dung này rồi!');
+          setAlertMessage('Bạn không thể report nội dung này.');
         }
       },
       refetchOnWindowFocus: false,
