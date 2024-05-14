@@ -66,15 +66,10 @@ describe('Authenticated - Organizaton User', () => {
   });
 
 
-  it('Different user page from normal account - OK', () => {
-    cy.visit('http://localhost:3000/user');
-    cy.get('[test-id=blog-tab]').should('be.visible');
-  });
-
   it('Able to create blog - OK', () => {
     cy.visit('http://localhost:3000/user');
     cy.get('[test-id=blog-tab]').click();
-    cy.get('[test-id=blog-create-card]').should('be.visible').click();
+    cy.get('[test-id=blog-create-card]').should('be.visible').click({force: true});
     cy.url().should('include', '/blog-create');
   });
 

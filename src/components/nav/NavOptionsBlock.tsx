@@ -90,6 +90,7 @@ export const NavOptionsBlock = observer((props: INavOptionsBlock) => {
           <>
             <li>
               <a
+                test-id="user-profile-link-mobile"
                 onClick={() => window.location.replace('/user')}
                 className="block py-2 px-3 text-yellow-500 rounded hover:bg-gray-100 md:hidden cursor-pointer"
               >
@@ -98,6 +99,7 @@ export const NavOptionsBlock = observer((props: INavOptionsBlock) => {
             </li>
             <li>
               <a
+                test-id="logout-link"
                 onClick={() => logoutMutation.mutate(undefined)}
                 className="block py-2 px-3 text-yellow-500 rounded hover:bg-gray-100 md:hidden cursor-pointer"
               >
