@@ -9,8 +9,9 @@ import {
 
 describe('Search Pet - Filterbar', () => {
   beforeEach(() => {
-    cy.viewport(RESOLUTION.PC_HEIGHT, RESOLUTION.PC_WIDTH);
+    cy.viewport(RESOLUTION.MOBILE_WIDTH, RESOLUTION.MOBILE_HEIGHT);
     cy.visit('http://localhost:3000/search');
+    cy.get('[test-id=filter-button-mobile]').click();
   });
 
   it('Show the filter options when clicked - OK', () => {
@@ -42,7 +43,6 @@ describe('Search Pet - Filterbar', () => {
 
   it('Pet list filtered by Species - OK', () => {
     cy.get('button').contains(KEYWORDS.SPECIES).click();
-    cy.get('[test-id="pet-card-0"]').should('be.visible');
     cy.get('[test-id=filter-card').contains(PET_INFO.SPECIES).click();
     cy.get('[test-id="pet-card-0"]').should('be.visible');
     cy.get('[test-id="pet-card-0"]').click();
@@ -69,7 +69,6 @@ describe('Search Pet - Filterbar', () => {
 
   it('Pet list filtered by Size - OK', () => {
     cy.get('button').contains(KEYWORDS.SIZE).click();
-    cy.get('[test-id="pet-card-0"]').should('be.visible');
     cy.get('[test-id=filter-card').contains(PET_INFO.SIZE).click();
     cy.get('[test-id="pet-card-0"]').should('be.visible');
     cy.get('[test-id="pet-card-0"]').click();
@@ -78,7 +77,6 @@ describe('Search Pet - Filterbar', () => {
 
   it('Pet list filtered by Color - OK', () => {
     cy.get('button').contains(KEYWORDS.COLOR).click();
-    cy.get('[test-id="pet-card-0"]').should('be.visible');
     cy.get('[test-id=filter-card').contains(PET_INFO.COLOR).click();
     cy.get('[test-id="pet-card-0"]').should('be.visible');
     cy.get('[test-id="pet-card-0"]').click();
@@ -90,7 +88,6 @@ describe('Search Pet - Filterbar', () => {
 
   it('Pet list filtered by Age - OK', () => {
     cy.get('button').contains(KEYWORDS.AGE).click();
-    cy.get('[test-id="pet-card-0"]').should('be.visible');
     cy.get('[test-id=filter-card').contains(PET_INFO.AGE).click();
     cy.get('[test-id="pet-card-0"]').should('be.visible');
     cy.get('[test-id="pet-card-0"]').click();
@@ -102,7 +99,6 @@ describe('Search Pet - Filterbar', () => {
 
   it('Pet list filtered by Vaccine - OK', () => {
     cy.get('button').contains(KEYWORDS.VACCINE).click();
-    cy.get('[test-id="pet-card-0"]').should('be.visible');
     cy.get('[test-id=filter-card').contains(PET_INFO.VACCINE).click();
     cy.get('[test-id="pet-card-0"]').should('be.visible');
     cy.get('[test-id="pet-card-0"]').click();
@@ -114,7 +110,6 @@ describe('Search Pet - Filterbar', () => {
 
   it('Pet list filtered by Spay - OK', () => {
     cy.get('button').contains(KEYWORDS.SPAY).click();
-    cy.get('[test-id="pet-card-0"]').should('be.visible');
     cy.get('[test-id=filter-card').contains(PET_INFO.SPAY).click();
     cy.get('[test-id="pet-card-0"]').should('be.visible');
     cy.get('[test-id="pet-card-0"]').click();
@@ -123,7 +118,6 @@ describe('Search Pet - Filterbar', () => {
 
   it('Pet list filtered by Sex - OK', () => {
     cy.get('button').contains(KEYWORDS.SEX).click();
-    cy.get('[test-id="pet-card-0"]').should('be.visible');
     cy.get('[test-id=filter-card').contains(PET_INFO.SEX).click();
     cy.get('[test-id="pet-card-0"]').should('be.visible');
     cy.get('[test-id="pet-card-0"]').click();
