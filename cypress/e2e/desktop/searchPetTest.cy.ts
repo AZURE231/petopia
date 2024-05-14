@@ -9,7 +9,7 @@ import {
 
 describe('Search Pet - Filterbar', () => {
   beforeEach(() => {
-    cy.viewport(RESOLUTION.PC_HEIGHT, RESOLUTION.PC_WIDTH);
+    cy.viewport(RESOLUTION.PC_WIDTH, RESOLUTION.PC_HEIGHT );
     cy.visit('http://localhost:3000/search');
   });
 

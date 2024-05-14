@@ -14,6 +14,7 @@ describe('Search Pet - Filterbar', () => {
     cy.get('[test-id=filter-button-mobile]').click();
   });
 
+
   it('Show the filter options when clicked - OK', () => {
     cy.get('button').contains(KEYWORDS.SPECIES).click();
     cy.get('label').contains(PET_INFO.SPECIES);
