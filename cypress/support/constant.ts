@@ -77,8 +77,8 @@ export enum BLOG_CATEGORIES {
 export enum RESOLUTION {
   PC_WIDTH = 1280,
   PC_HEIGHT = 720,
-  MOBILE_WIDTH = 375,
-  MOBILE_HEIGHT = 667,
+  MOBILE_WIDTH = 430,
+  MOBILE_HEIGHT = 932,
 }
 
 export enum BLOG_INFO {

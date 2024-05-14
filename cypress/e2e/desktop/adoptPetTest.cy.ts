@@ -10,7 +10,7 @@ const random = Math.floor(Math.random() * 10);
 
 describe('Adopt Pet', () => {
   beforeEach(() => {
-    cy.viewport(RESOLUTION.PC_HEIGHT, RESOLUTION.PC_WIDTH);
+    cy.viewport(RESOLUTION.PC_WIDTH, RESOLUTION.PC_HEIGHT);
     cy.login(NORMAL_ACCOUNT.EMAIL, NORMAL_ACCOUNT.PASSWORD);
     cy.visit('http://localhost:3000/search');
   });
