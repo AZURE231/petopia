@@ -41,7 +41,7 @@ export const PetAdoptButton = observer(() => {
         action={() => {
           // Redirecting to the login page when the alert is closed
           setCookie(COOKIES_NAME.REDIRECT, pathname);
-          window.location.href = '/login';
+          window.location.replace('/login');
         }}
       />
       <button

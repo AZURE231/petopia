@@ -1,4 +1,4 @@
-import { HOUSE_TYPE, USER_ROLE } from '../utils/constants';
+import { ADOPT_STATUS, HOUSE_TYPE, USER_ROLE } from '../utils/constants';
 
 export interface IAdoptPetRequest {
   phone: string;
@@ -28,7 +28,7 @@ export interface IAdoptFormInfo {
   adopterId: string;
   isCreatedAt: string;
   isUpdatedAt: string;
-  status: number;
+  status: ADOPT_STATUS;
   houseType: HOUSE_TYPE;
   delayDuration: number;
   message: string;
