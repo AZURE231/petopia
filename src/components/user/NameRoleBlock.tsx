@@ -46,7 +46,7 @@ export const NameRoleBlock = (props: INameRoleBlock) => {
           </span>
         )}
       </h1>
-      <div className="mt-4 w-full flex justify-end flex-col md:flex-row gap-2">
+      <div className="mt-4 w-full flex flex-col md:flex-row gap-2">
         {role === USER_ROLE.ORGANIZATION && (
           <>
             {renderRole()}
