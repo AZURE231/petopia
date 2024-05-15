@@ -12,10 +12,17 @@ import Popup from 'reactjs-popup';
 import PetProfileForm from '../pet/PetProfileForm';
 import { FaShieldDog } from 'react-icons/fa6';
 import { Tooltip, Button } from '@material-tailwind/react';
+import { UseQueryResult } from 'react-query';
+import { AxiosResponse } from 'axios';
+import { IApiErrorResponse, IApiResponse } from '@/src/interfaces/common';
 
 interface IPetCard extends IPetResponse {
   isEditable?: boolean;
   simple?: boolean;
+  getPetQuery?: UseQueryResult<
+    AxiosResponse<IApiResponse<IPetResponse[]>, any>,
+    AxiosResponse<IApiErrorResponse, any>
+  >;
 }
 
 export function PetCard(props: IPetCard) {
@@ -29,6 +36,7 @@ export function PetCard(props: IPetCard) {
     isEditable = false,
     simple = false,
     isOrgOwned,
+    getPetQuery,
   } = props;
   const [showAlert, setShowAlert] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
@@ -47,7 +55,7 @@ export function PetCard(props: IPetCard) {
 
   const deletePetMutation = useMutation(deletePet, {
     onSuccess: () => {
-      window.location.reload();
+      getPetQuery?.refetch();
     },
   });
 
