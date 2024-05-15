@@ -11,12 +11,6 @@ import { QueryProvider } from '@/src/components/general/QueryProvider';
 import { NoResultBackground } from '@/src/components/general/NoResultBackground';
 import BlogDetailSkeleton from '@/src/components/blog/BlogDetailSkeleton';
 import AdvertisementCarousel from '@/src/components/blog/AdvertisementCarousel';
-import { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Xem tin tức - Petopia',
-  description: 'Nền tảng nhận nuôi thú cưng trực tuyến',
-};
 
 const page = observer(
   QueryProvider(({ params }: { params: { id: string } }) => {

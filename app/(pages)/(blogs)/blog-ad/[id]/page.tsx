@@ -13,12 +13,6 @@ import { QUERY_KEYS } from '@/src/utils/constants';
 import QueryButton from '@/src/components/general/QueryButton';
 import { useForm } from 'react-hook-form';
 import { Alert } from '@/src/components/general/Alert';
-import { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Quảng báo bài viết - Petopia',
-  description: 'Nền tảng nhận nuôi thú cưng trực tuyến',
-};
 
 const BlogAdPage = QueryProvider(({ params }: { params: { id: string } }) => {
   // STATES

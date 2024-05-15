@@ -9,14 +9,8 @@ import { IResetPasswordRequest } from '@/src/interfaces/user';
 import { resetPassword } from '@/src/services/user.api';
 import { SEARCH_PARAMS } from '@/src/utils/constants';
 import { useMutation } from '@/src/utils/hooks';
-import { Metadata } from 'next';
 import { useSearchParams } from 'next/navigation';
 import { FormEvent, useEffect, useState } from 'react';
-
-export const metadata: Metadata = {
-  title: 'Quên mật khẩu - Petopia',
-  description: 'Nền tảng nhận nuôi thú cưng trực tuyến',
-};
 
 const ResetPasswordPage = QueryProvider(() => {
   const [error, setError] = useState<string>('');

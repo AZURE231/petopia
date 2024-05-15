@@ -10,12 +10,6 @@ import { QueryProvider } from '@/src/components/general/QueryProvider';
 import { Alert } from '@/src/components/general/Alert';
 import { checkPasswordFormat } from '@/src/helpers/inputValidator';
 import QueryButton from '@/src/components/general/QueryButton';
-import { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Đổi mật khẩu - Petopia',
-  description: 'Nền tảng nhận nuôi thú cưng trực tuyến',
-};
 
 const page = QueryProvider(() => {
   // ALERT STATES

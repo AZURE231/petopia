@@ -7,13 +7,7 @@ import { isEmail } from '@/src/helpers/inputValidator';
 import { IApiResponse } from '@/src/interfaces/common';
 import { forgotPassword } from '@/src/services/user.api';
 import { useMutation } from '@/src/utils/hooks';
-import { Metadata } from 'next';
 import { FormEvent, useState } from 'react';
-
-export const metadata: Metadata = {
-  title: 'Quên mật khẩu - Petopia',
-  description: 'Nền tảng nhận nuôi thú cưng trực tuyến',
-};
 
 const ForgotPasswordPage = QueryProvider(() => {
   const [email, setEmail] = useState<string>('');

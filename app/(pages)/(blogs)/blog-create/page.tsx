@@ -1,12 +1,6 @@
 'use client';
 import React from 'react';
 import BlogEditor from '@/src/components/text-editor/BlogEditor';
-import { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Tạo blog - Petopia',
-  description: 'Nền tảng nhận nuôi thú cưng trực tuyến',
-};
 
 export default function page() {
   return (
