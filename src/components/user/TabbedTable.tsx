@@ -204,6 +204,7 @@ export default function TabbedTable({
                 pets.map((item) => (
                   <PetCard
                     isEditable={true}
+                    getPetQuery={getPetsQuery}
                     key={item.id}
                     simple
                     id={item.id}
