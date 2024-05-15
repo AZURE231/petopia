@@ -1,5 +1,11 @@
 import { STATIC_URLS } from '@/src/utils/constants';
+import { Metadata } from 'next';
 import Image from 'next/image';
+
+export const metadata: Metadata = {
+  title: 'Trang chủ - Petopia',
+  description: 'Nền tảng nhận nuôi thú cưng trực tuyến',
+};
 
 export default function Home() {
   return (

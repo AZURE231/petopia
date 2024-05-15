@@ -1,7 +1,12 @@
-import Breadscrum from '@/src/components/general/Breadscrum';
 import Image from 'next/image';
 import { SearchPetSection } from '@/src/components/search/SearchPetSection';
 import { STATIC_URLS } from '@/src/utils/constants';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Tìm kiếm - Petopia',
+  description: 'Nền tảng nhận nuôi thú cưng trực tuyến',
+};
 
 export default function page() {
   return (

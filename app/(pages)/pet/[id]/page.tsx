@@ -30,7 +30,6 @@ import { observer } from 'mobx-react-lite';
 import { useStores } from '@/src/stores';
 import { IGetPostResponse } from '@/src/interfaces/post';
 import { getPetPosts } from '@/src/services/post.api';
-import { Alert } from '@/src/components/general/Alert';
 import { ReportBlock } from '@/src/components/general/ReportBlock';
 
 const page = observer(

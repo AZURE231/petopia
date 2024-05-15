@@ -7,7 +7,7 @@ import { isEmail } from '@/src/helpers/inputValidator';
 import { IApiResponse } from '@/src/interfaces/common';
 import { forgotPassword } from '@/src/services/user.api';
 import { useMutation } from '@/src/utils/hooks';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 const ForgotPasswordPage = QueryProvider(() => {
   const [email, setEmail] = useState<string>('');
@@ -57,7 +57,7 @@ const ForgotPasswordPage = QueryProvider(() => {
             required
             onBlur={handleCheckEmail}
           />
-          <button 
+          <button
             className="border border-black p-3 rounded-lg font-bold shadow-md bg-yellow-300 hover:bg-yellow-400 ml-2"
             type='submit'
           >

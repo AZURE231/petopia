@@ -62,7 +62,7 @@ const ResetPasswordPage = QueryProvider(() => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button 
+          <button
             className="border border-black p-3 rounded-lg font-bold shadow-md bg-yellow-300 hover:bg-yellow-400 ml-2"
             type='submit'
           >
