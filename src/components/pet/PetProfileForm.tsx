@@ -94,7 +94,7 @@ const PetProfileForm = QueryProvider(
       let errorMessage = '';
 
       errorMessage +=
-        getValues('files').length == 0 ? 'Ảnh không được để trống;\n' : '';
+        getValues('showImages').length == 0 ? 'Ảnh không được để trống;\n' : '';
       errorMessage += isEmpty(getValues('name'))
         ? 'Tên không được để trống;\n'
         : '';
