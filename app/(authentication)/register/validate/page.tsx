@@ -11,6 +11,12 @@ import { getErrorMessage } from '@/src/helpers/getErrorMessage';
 import { Alert } from '@/src/components/general/Alert';
 import Link from 'next/link';
 import { SEARCH_PARAMS } from '@/src/utils/constants';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Xác minh email - Petopia',
+  description: 'Nền tảng nhận nuôi thú cưng trực tuyến',
+};
 
 const ValidatePage = QueryProvider(() => {
   const [showAlert, setShowALert] = useState<boolean>(false);

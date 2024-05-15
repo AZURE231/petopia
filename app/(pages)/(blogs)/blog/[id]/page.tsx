@@ -1,6 +1,5 @@
 'use client';
-import Image from 'next/image';
-import { QUERY_KEYS, STATIC_URLS } from '@/src/utils/constants';
+import { QUERY_KEYS } from '@/src/utils/constants';
 import BlogPage from '@/src/components/blog/BlogPage';
 import { useState } from 'react';
 import { IApiResponse } from '@/src/interfaces/common';
@@ -12,6 +11,12 @@ import { QueryProvider } from '@/src/components/general/QueryProvider';
 import { NoResultBackground } from '@/src/components/general/NoResultBackground';
 import BlogDetailSkeleton from '@/src/components/blog/BlogDetailSkeleton';
 import AdvertisementCarousel from '@/src/components/blog/AdvertisementCarousel';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Xem tin tức - Petopia',
+  description: 'Nền tảng nhận nuôi thú cưng trực tuyến',
+};
 
 const page = observer(
   QueryProvider(({ params }: { params: { id: string } }) => {

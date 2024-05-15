@@ -1,4 +1,10 @@
 import PetProfileForm from '@/src/components/pet/PetProfileForm';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Cho thú cưng - Petopia',
+  description: 'Nền tảng nhận nuôi thú cưng trực tuyến',
+};
 
 export default function Adopt() {
   return (

@@ -9,8 +9,14 @@ import { IResetPasswordRequest } from '@/src/interfaces/user';
 import { resetPassword } from '@/src/services/user.api';
 import { SEARCH_PARAMS } from '@/src/utils/constants';
 import { useMutation } from '@/src/utils/hooks';
+import { Metadata } from 'next';
 import { useSearchParams } from 'next/navigation';
 import { FormEvent, useEffect, useState } from 'react';
+
+export const metadata: Metadata = {
+  title: 'Quên mật khẩu - Petopia',
+  description: 'Nền tảng nhận nuôi thú cưng trực tuyến',
+};
 
 const ResetPasswordPage = QueryProvider(() => {
   const [error, setError] = useState<string>('');
@@ -62,7 +68,7 @@ const ResetPasswordPage = QueryProvider(() => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button 
+          <button
             className="border border-black p-3 rounded-lg font-bold shadow-md bg-yellow-300 hover:bg-yellow-400 ml-2"
             type='submit'
           >

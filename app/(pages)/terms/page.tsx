@@ -1,5 +1,10 @@
-//Reference from: https://www.Petopia.com.au/terms_of_use
+import { Metadata } from 'next';
 import React from 'react';
+
+export const metadata: Metadata = {
+  title: 'Điều khoản - Petopia',
+  description: 'Nền tảng nhận nuôi thú cưng trực tuyến',
+};
 
 const TermsOfUse: React.FC = () => {
   return (

@@ -1,15 +1,9 @@
-import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '../globals.css';
 import { Navbar } from '@/src/components/nav';
 import { Footer } from '@/src/components/general/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
-
-export const metadata: Metadata = {
-  title: 'Petopia - Nhận nuôi thú cưng',
-  description: 'Nền tảng nhận nuôi thú cưng trực tuyến',
-};
 
 export default function RootLayout({
   children,
