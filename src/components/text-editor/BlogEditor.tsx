@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import uploadAdapter from './UploadAdapter';
 import { IBlog, IBlogResponse, IBlogUpdate } from '@/src/interfaces/blog';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import { BLOG_CATEGORIES_OPTION, QUERY_KEYS } from '@/src/utils/constants';
 import Dropzone from '../general/Dropzone';
 import { IApiResponse, IUploadImage } from '@/src/interfaces/common';
@@ -22,6 +22,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isAd, setIsAd] = useState<boolean>(false);
   const [showAdOption, setShowAdOption] = useState<boolean>(true);
+  const [action, setAction] = useState(() => () => {});
 
   // FORMS
   const uploadImageForm = useForm<IUploadImage>({
@@ -99,6 +100,13 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
       setAlertFailed(false);
       setAlertShow(true);
       blogForm.setValue('id', res.data.data);
+      setAction(() =>
+        window.location.replace(
+          isAd
+            ? `/blog-ad/${blogForm.getValues('id')}`
+            : `/blog/${blogForm.getValues('id')}`
+        )
+      );
     },
   });
 
@@ -114,6 +122,13 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
         setAlertMessage('Cập nhật bài viết thành công');
         setAlertFailed(false);
         setAlertShow(true);
+        setAction(() =>
+          window.location.replace(
+            isAd
+              ? `/blog-ad/${blogForm.getValues('id')}`
+              : `/blog/${blogForm.getValues('id')}`
+          )
+        );
       },
     }
   );
@@ -243,14 +258,8 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
         show={alertShow}
         setShow={setAlertShow}
         failed={alertFailed}
-        action={() =>
-          window.location.replace(
-            isAd
-              ? `/blog-ad/${blogForm.getValues('id')}`
-              : `/blog/${blogForm.getValues('id')}`
-          )
-        }
         showCancel={false}
+        action={action}
       />
     </div>
   );
