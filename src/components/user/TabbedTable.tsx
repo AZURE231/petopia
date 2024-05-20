@@ -141,7 +141,8 @@ export default function TabbedTable({
               <span className="hidden md:inline-block ml-1"> Của bạn</span>
             </button>
           </li>
-          {userInfo?.role === USER_ROLE.ORGANIZATION && (
+          {(userInfo?.role === USER_ROLE.ORGANIZATION ||
+            userInfo?.role === USER_ROLE.SYSTEM_ADMIN) && (
             <li>
               <button
                 className={`${
