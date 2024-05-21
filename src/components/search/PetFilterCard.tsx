@@ -36,6 +36,7 @@ export const PetFilterCard = (props: IPetFilterCard) => {
   };
 
   const handleClickFilter = (filterId: number, itemValue: number | string) => {
+    setValue('text', '');
     switch (filterId) {
       case 1:
         let speciesList = getValues('species');

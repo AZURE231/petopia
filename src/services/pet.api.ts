@@ -33,3 +33,6 @@ export const getAvailableBreeds = async (data: { species: PET_SPECIES }) =>
 
 export const getBreed = async (data: PET_SPECIES) =>
   await http.get('/Pet/Breed', { species: data });
+
+export const getKeywords = async () =>
+  await http.get('/Pet/Keywords');
