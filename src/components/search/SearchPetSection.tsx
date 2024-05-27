@@ -17,8 +17,6 @@ import { PAGE_SIZE, QUERY_KEYS } from '@/src/utils/constants';
 import CardSkeleton from '../general/CardSkeleton';
 import { ImageSearch } from './ImageSearch';
 import { FaFilter } from 'react-icons/fa';
-import { ImageSearch } from './ImageSearch';
-import { FaFilter } from 'react-icons/fa';
 
 export const SearchPetSection = QueryProvider(() => {
   // STATES

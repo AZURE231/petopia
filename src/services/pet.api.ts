@@ -8,8 +8,6 @@ import {
 import { PET_SPECIES } from '../utils/constants';
 import axios from 'axios';
 import { DETECTION_ROUTE } from '@/settings';
-import axios from 'axios';
-import { DETECTION_ROUTE } from '@/settings';
 
 export const getPets = async (data: IPaginationRequest<IPetFilterRequest>) =>
   await http.post('/Pet/Get', data);
