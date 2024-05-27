@@ -88,7 +88,7 @@ export const SearchPetSection = QueryProvider(() => {
                   disable={getPetsQuery.isFetching}
                 />
                 <ImageSearch 
-                  disable={getPetsQuery.isFetching}
+                  disable={getPetsQuery.isLoading}
                   filterForm={filterFrom}
                 />
               </div>
