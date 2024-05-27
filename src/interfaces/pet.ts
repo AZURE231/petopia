@@ -75,6 +75,8 @@ export interface ICreatePetProfileRequest {
   isAvailable: boolean;
   address: string;
   breed: string;
+  predictedBreed: string;
+  presetBreed: string;
   files: File[];
   images: string[];
   showImages: string[];
@@ -132,6 +134,6 @@ export interface ICreatePetResponse {
 export interface IUpdatePeResponse extends ICreatePetResponse {}
 
 export interface IPredictResponse {
-  animalType: 'Dog' | 'Cat',
-  breed: string,
-};
+  animalType: 'Dog' | 'Cat';
+  breed: string;
+}

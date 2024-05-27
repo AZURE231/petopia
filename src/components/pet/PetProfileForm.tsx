@@ -22,7 +22,6 @@ import { GivePetHeaderBar } from './GivePetHeaderBar';
 
 const PetProfileForm = QueryProvider(
   ({ id = '' }: { id?: string; handleClose?: () => void }) => {
-
     // STATES
     const [error, setError] = useState<string>('');
     const [showAlert, setShowAlert] = useState<boolean>(false);
@@ -43,6 +42,8 @@ const PetProfileForm = QueryProvider(
         isAvailable: true,
         address: 'chưa điền',
         breed: '',
+        predictedBreed: '',
+        presetBreed: '',
         files: [],
         images: [],
         showImages: [],
@@ -143,7 +144,7 @@ const PetProfileForm = QueryProvider(
           setValue('isVaccinated', res.data.data.isVaccinated);
           setValue('isAvailable', res.data.data.isAvailable);
           setValue('address', res.data.data.address);
-          setValue('breed', res.data.data.breed);
+          setValue('presetBreed', res.data.data.breed);
           setValue('images', res.data.data.images);
           setValue('showImages', res.data.data.images);
         },
@@ -201,6 +202,7 @@ const PetProfileForm = QueryProvider(
             handleBack={handleBack}
             setValue={setValue}
             watch={watch}
+            enableAI={id === ''}
           />
         )}
 

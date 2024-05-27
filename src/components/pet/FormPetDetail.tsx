@@ -1,21 +1,52 @@
 import AttributeSelect from './AttributeSelect';
 import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import ControlForm from './ControlForm';
-import { GIVE_PET_STEP, PET_SELECT } from '@/src/utils/constants';
-import { ICreatePetProfileRequest } from '@/src/interfaces/pet';
+import {
+  GIVE_PET_STEP,
+  PET_SELECT,
+  PET_SPECIES,
+  QUERY_KEYS,
+} from '@/src/utils/constants';
+import {
+  ICreatePetProfileRequest,
+  IPredictResponse,
+} from '@/src/interfaces/pet';
 import BreedInput from './BreedInput';
+import { useQuery } from '@/src/utils/hooks';
+import { predict } from '@/src/services/pet.api';
 
 export default function FormPetDetail({
   handleNext,
   handleBack,
   setValue,
   watch,
+  enableAI,
 }: {
   handleNext: () => void;
   handleBack: () => void;
   setValue: UseFormSetValue<ICreatePetProfileRequest>;
   watch: UseFormWatch<ICreatePetProfileRequest>;
+  enableAI: boolean;
 }) {
+  const formData = new FormData();
+  formData.append('', watch('files')[0]);
+
+  const getPetBreed = useQuery<IPredictResponse, FormData>(
+    [QUERY_KEYS.GET_PET_BREED_AI],
+    () => predict(formData),
+    {
+      onSuccess: (res) => {
+        console.log('data', res);
+        setValue('predictedBreed', res.data.breed);
+        setValue(
+          'species',
+          res.data.animalType == 'Dog' ? PET_SPECIES.DOG : PET_SPECIES.CAT
+        );
+      },
+      enabled: watch('files').length > 0 && enableAI,
+      refetchOnWindowFocus: false,
+    }
+  );
   return (
     <div className="w-full rounded-2xl bg-yellow-100 p-5">
       <h2 className="font-bold mb-2">Thông tin về thú cưng của bạn</h2>
@@ -48,9 +79,16 @@ export default function FormPetDetail({
               label={filter.label}
               value={filter.kind}
               options={filter.items}
+              aiQuery={getPetBreed}
+              enableAI={enableAI}
             />
           ))}
-          <BreedInput watch={watch} setValue={setValue} />
+          <BreedInput
+            watch={watch}
+            setValue={setValue}
+            aiQuery={getPetBreed}
+            enableAI={enableAI}
+          />
 
           <div className="flex flex-col space-y-2">
             <label htmlFor="pet-description" className="text-sm font-medium">
@@ -81,7 +119,11 @@ export default function FormPetDetail({
         </div>
       </div>
       {/* Controller */}
-      <ControlForm handleBack={handleBack} handleNext={handleNext} step={GIVE_PET_STEP.PET_DETAIL} />
+      <ControlForm
+        handleBack={handleBack}
+        handleNext={handleNext}
+        step={GIVE_PET_STEP.PET_DETAIL}
+      />
     </div>
   );
 }

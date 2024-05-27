@@ -33,11 +33,11 @@ const config: Config = {
         },
         spin: {
           '0%': {
-            transform: 'rotate(0deg)'
+            transform: 'rotate(0deg)',
           },
           '100%': {
-            transform: 'rotate(-360deg)'
-          }
+            transform: 'rotate(-360deg)',
+          },
         },
         pulse: {
           '0%': {
@@ -48,7 +48,7 @@ const config: Config = {
           },
           '50%': {
             opacity: '0.6',
-          }
+          },
         },
         'pulse-plus': {
           '0%': {
@@ -56,13 +56,13 @@ const config: Config = {
           },
           '100%': {
             opacity: '1',
-            color: '#01FFFF'
+            color: '#01FFFF',
           },
           '50%': {
             opacity: '0.6',
-            color: 'red'
-          }
-        }
+            color: 'red',
+          },
+        },
       },
       animation: {
         fade_in: 'fade_in 0.2s linear',
