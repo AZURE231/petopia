@@ -17,6 +17,8 @@ import { PAGE_SIZE, QUERY_KEYS } from '@/src/utils/constants';
 import CardSkeleton from '../general/CardSkeleton';
 import { ImageSearch } from './ImageSearch';
 import { FaFilter } from 'react-icons/fa';
+import { ImageSearch } from './ImageSearch';
+import { FaFilter } from 'react-icons/fa';
 
 export const SearchPetSection = QueryProvider(() => {
   // STATES
@@ -82,13 +84,13 @@ export const SearchPetSection = QueryProvider(() => {
               disable={getPetsQuery.isFetching}
             />
             <div className="lg:col-span-3">
-              <div className='flex w-full mb-10'>
+              <div className="flex w-full mb-10">
                 <PetSearchBar
                   filterForm={filterFrom}
                   disable={getPetsQuery.isFetching}
                 />
-                <ImageSearch 
-                  disable={getPetsQuery.isFetching}
+                <ImageSearch
+                  disable={getPetsQuery.isLoading}
                   filterForm={filterFrom}
                 />
               </div>
@@ -110,7 +112,8 @@ export const SearchPetSection = QueryProvider(() => {
                   className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
                   onClick={() => setShowFilterMobile(true)}
                 >
-                  <FaFilter color='grey' size={24}/>
+                  <FaFilter color="grey" size={24} />
+                  <FaFilter color="grey" size={24} />
                 </button>
               </div>
               <div className="mt-6 grid grid-cols-2 gap-y-5 gap-x-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 xl:gap-x-8">
