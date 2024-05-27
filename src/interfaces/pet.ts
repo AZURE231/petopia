@@ -75,6 +75,8 @@ export interface ICreatePetProfileRequest {
   isAvailable: boolean;
   address: string;
   breed: string;
+  predictedBreed: string;
+  presetBreed: string;
   files: File[];
   images: string[];
   showImages: string[];

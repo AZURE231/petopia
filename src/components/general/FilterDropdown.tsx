@@ -1,6 +1,10 @@
+import { IApiErrorResponse } from '@/src/interfaces/common';
+import { IPredictResponse } from '@/src/interfaces/pet';
 import { useClickOutside } from '@/src/utils/hooks';
+import { AxiosResponse } from 'axios';
 import { useEffect, useRef, useState } from 'react';
-import { set } from 'react-hook-form';
+import { BsStars } from 'react-icons/bs';
+import { UseQueryResult } from 'react-query';
 
 interface IFilterDropDownOption {
   label: string;
@@ -13,10 +17,23 @@ interface IFilterDropDown {
   setValue: (value: string) => void;
   title?: string;
   disabled?: boolean;
+  aiQuery?: UseQueryResult<
+    AxiosResponse<IPredictResponse, any>,
+    AxiosResponse<IApiErrorResponse, any>
+  >;
+  enableAI?: boolean;
 }
 
 export const FilterDropDown = (props: IFilterDropDown) => {
-  const { title = '', options, value, setValue, disabled } = props;
+  const {
+    title = '',
+    options,
+    value,
+    setValue,
+    disabled,
+    aiQuery,
+    enableAI = false,
+  } = props;
 
   // STATES
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
@@ -57,7 +74,19 @@ export const FilterDropDown = (props: IFilterDropDown) => {
 
   return (
     <div className="relative inline-block text-left">
-      {title && <div className="text-sm font-medium mb-2">{title}</div>}
+      {title && (
+        <div className="text-sm flex font-medium mb-2">
+          {title}{' '}
+          {!aiQuery?.isLoading && enableAI && (
+            <span className="ml-3 flex text-yellow-500 relative">
+              Hỗ trợ bởi AI{' '}
+              <span className="text-lg animate-pulse absolute bottom-3 -right-5">
+                <BsStars />
+              </span>
+            </span>
+          )}
+        </div>
+      )}
       <div>
         <span className="rounded-md shadow-sm">
           <input
