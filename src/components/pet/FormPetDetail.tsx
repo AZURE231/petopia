@@ -1,9 +1,16 @@
 import AttributeSelect from './AttributeSelect';
 import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import ControlForm from './ControlForm';
-import { GIVE_PET_STEP, PET_SELECT } from '@/src/utils/constants';
-import { ICreatePetProfileRequest } from '@/src/interfaces/pet';
+import { GIVE_PET_STEP, PET_SELECT, QUERY_KEYS } from '@/src/utils/constants';
+import {
+  ICreatePetProfileRequest,
+  IPetBreedAIResponse,
+} from '@/src/interfaces/pet';
 import BreedInput from './BreedInput';
+import { useQuery } from '@/src/utils/hooks';
+import { IApiResponse } from '@/src/interfaces/common';
+import { predictPet } from '@/src/services/pet.api';
+import { useState } from 'react';
 
 export default function FormPetDetail({
   handleNext,
@@ -16,6 +23,18 @@ export default function FormPetDetail({
   setValue: UseFormSetValue<ICreatePetProfileRequest>;
   watch: UseFormWatch<ICreatePetProfileRequest>;
 }) {
+  const getPetBreed = useQuery<IApiResponse<IPetBreedAIResponse>>(
+    [QUERY_KEYS.GET_PET_BREED_AI],
+    () => predictPet(watch('files')[0]),
+    {
+      onSuccess: (res) => {
+        setValue('breed', res.data.data.breed);
+        setValue('species', res.data.data.animalType);
+      },
+      enabled: watch('files').length > 0,
+      refetchOnWindowFocus: false,
+    }
+  );
   return (
     <div className="w-full rounded-2xl bg-yellow-100 p-5">
       <h2 className="font-bold mb-2">Thông tin về thú cưng của bạn</h2>
@@ -81,7 +100,11 @@ export default function FormPetDetail({
         </div>
       </div>
       {/* Controller */}
-      <ControlForm handleBack={handleBack} handleNext={handleNext} step={GIVE_PET_STEP.PET_DETAIL} />
+      <ControlForm
+        handleBack={handleBack}
+        handleNext={handleNext}
+        step={GIVE_PET_STEP.PET_DETAIL}
+      />
     </div>
   );
 }
