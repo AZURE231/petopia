@@ -5,6 +5,8 @@ import { QUERY_KEYS } from '@/src/utils/constants';
 import { useClickOutside, useQuery } from '@/src/utils/hooks';
 import { useEffect, useRef, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
+import { IoSearchOutline as SearchIcon } from 'react-icons/io5';
+import { ImageSearch } from './ImageSearch';
 
 interface IPetSearchBar {
   filterForm: UseFormReturn<IPetFilterRequest, any, undefined>;
@@ -52,33 +54,21 @@ export function PetSearchBar(props: IPetSearchBar) {
   }, [watch('text')]);
 
   return (
-    <div className="flex items-center justify-center mb-10">
-      <div className="relative w-2/3">
+    <div className="flex-1">
+      <div className="relative w-full">
+        <label htmlFor='text-search' className='absolute top-4 left-4'>
+          <SearchIcon color='grey' size={20} />
+        </label>
         <input
           type="search"
           ref={buttonRef}
-          className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:ring-blue-500 focus:border-blue-500   "
+          className="block w-full p-4 ps-12 text-sm text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:ring-blue-500 focus:border-blue-500   "
           placeholder="Tìm kiếm..."
           value={text}
+          id={'text-search'}
           onChange={(e) => setText(e.target.value)}
           onClick={() => setShowDropdown(true)}
         />
-        <div className="text-white absolute end-2.5 bottom-2.5 bg-none font-medium rounded-lg text-sm px-4 py-2 ">
-          <svg
-            className="w-4 h-4 text-gray-500"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 20 20"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-            />
-          </svg>
-        </div>
         {showDropdown && showedKeywords.length !== 0 && (
           <div
             ref={listRef}

@@ -131,7 +131,7 @@ export interface ICreatePetResponse {
 
 export interface IUpdatePeResponse extends ICreatePetResponse {}
 
-export interface IPetBreedAIResponse {
-  animalType: PET_SPECIES;
+export interface IPredictResponse {
+  animalType: 'Dog' | 'Cat';
   breed: string;
 }

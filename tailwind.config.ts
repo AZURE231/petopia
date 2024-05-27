@@ -31,10 +31,19 @@ const config: Config = {
             opacity: '0',
           },
         },
+        spin: {
+          '0%': {
+            transform: 'rotate(0deg)'
+          },
+          '100%': {
+            transform: 'rotate(-360deg)'
+          }
+        },
       },
       animation: {
         fade_in: 'fade_in 0.2s linear',
         fade_out: 'fade_out 0.2s linear',
+        spin: 'spin 3s linear infinite',
       },
     },
   },

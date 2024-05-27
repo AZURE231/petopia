@@ -15,6 +15,8 @@ import { NoResultBackground } from '../general/NoResultBackground';
 import { IPetFilterRequest, IPetResponse } from '@/src/interfaces/pet';
 import { PAGE_SIZE, QUERY_KEYS } from '@/src/utils/constants';
 import CardSkeleton from '../general/CardSkeleton';
+import { ImageSearch } from './ImageSearch';
+import { FaFilter } from 'react-icons/fa';
 
 export const SearchPetSection = QueryProvider(() => {
   // STATES
@@ -80,10 +82,16 @@ export const SearchPetSection = QueryProvider(() => {
               disable={getPetsQuery.isFetching}
             />
             <div className="lg:col-span-3">
-              <PetSearchBar
-                filterForm={filterFrom}
-                disable={getPetsQuery.isFetching}
-              />
+              <div className='flex w-full mb-10'>
+                <PetSearchBar
+                  filterForm={filterFrom}
+                  disable={getPetsQuery.isFetching}
+                />
+                <ImageSearch 
+                  disable={getPetsQuery.isFetching}
+                  filterForm={filterFrom}
+                />
+              </div>
               <div className="flex items-center justify-end w-full">
                 {filterFrom.getValues('text') ? (
                   <div className="flex-1 text-xl italic font-light">
@@ -102,18 +110,7 @@ export const SearchPetSection = QueryProvider(() => {
                   className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
                   onClick={() => setShowFilterMobile(true)}
                 >
-                  <svg
-                    className="h-5 w-5"
-                    aria-hidden="true"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M2.628 1.601C5.028 1.206 7.49 1 10 1s4.973.206 7.372.601a.75.75 0 01.628.74v2.288a2.25 2.25 0 01-.659 1.59l-4.682 4.683a2.25 2.25 0 00-.659 1.59v3.037c0 .684-.31 1.33-.844 1.757l-1.937 1.55A.75.75 0 018 18.25v-5.757a2.25 2.25 0 00-.659-1.591L2.659 6.22A2.25 2.25 0 012 4.629V2.34a.75.75 0 01.628-.74z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <FaFilter color='grey' size={24}/>
                 </button>
               </div>
               <div className="mt-6 grid grid-cols-2 gap-y-5 gap-x-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 xl:gap-x-8">

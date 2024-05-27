@@ -6,7 +6,8 @@ import {
   IPetFilterRequest,
 } from '../interfaces/pet';
 import { PET_SPECIES } from '../utils/constants';
-import { API_ROUTE_AI } from '@/settings';
+import axios from 'axios';
+import { DETECTION_ROUTE } from '@/settings';
 
 export const getPets = async (data: IPaginationRequest<IPetFilterRequest>) =>
   await http.post('/Pet/Get', data);
@@ -36,3 +37,11 @@ export const getBreed = async (data: PET_SPECIES) =>
   await http.get('/Pet/Breed', { species: data });
 
 export const getKeywords = async () => await http.get('/Pet/Keywords');
+
+export const predict = async (data: FormData) =>
+  await axios.post(DETECTION_ROUTE + '/predict', data, {
+    headers: {
+      'Access-Control-Allow-Credentials': true,
+      'ngrok-skip-browser-warning': true,
+    },
+  });
