@@ -45,3 +45,5 @@ export const predict = async (data: FormData) =>
       'ngrok-skip-browser-warning': true,
     },
   });
+
+export const getVaccine = async () => await http.get('/Pet/Vaccines');
