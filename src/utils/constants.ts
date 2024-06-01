@@ -69,6 +69,7 @@ export const QUERY_KEYS = {
   GET_PRE_REPORT: 'GET_PRE_REPORT',
   GET_KEYWORDS: 'GET_KEYWORDS',
   GET_PET_BREED_AI: 'GET_PET_BREED_AI',
+  GET_VACCINE: 'GET_VACCINE',
 };
 
 export const EVENT_NAMES = {
@@ -343,6 +344,7 @@ export const PET_SELECT: IPetSelect[] = [
   { ...PET_SIZE_FILTER, kind: 'size' },
   { ...PET_AGE_FILTER, kind: 'age' },
   { ...PET_STERILIZED_FILTER, kind: 'isSterillized' },
+  { ...PET_VACCINATED_FILTER, kind: 'isVaccinated' },
 ];
 
 export const SEARCH_PARAMS = {

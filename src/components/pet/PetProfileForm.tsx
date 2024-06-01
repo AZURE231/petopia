@@ -49,6 +49,7 @@ const PetProfileForm = QueryProvider(
         showImages: [],
         id: id,
         listBreed: [],
+        vaccineIds: [],
       },
     });
 
@@ -147,6 +148,10 @@ const PetProfileForm = QueryProvider(
           setValue('presetBreed', res.data.data.breed);
           setValue('images', res.data.data.images);
           setValue('showImages', res.data.data.images);
+          setValue(
+            'vaccineIds',
+            res.data.data.vaccines.map((v) => v.id)
+          );
         },
         refetchOnWindowFocus: false,
         enabled: !!id,
@@ -175,7 +180,7 @@ const PetProfileForm = QueryProvider(
         setShowAlert(true);
       },
       onSuccess: (res) => {
-        window.location.replace(`/pet/${res.data.data.id}`);
+        // window.location.replace(`/pet/${res.data.data.id}`);
       },
     });
 

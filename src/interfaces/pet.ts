@@ -82,6 +82,7 @@ export interface ICreatePetProfileRequest {
   showImages: string[];
   id?: string;
   listBreed: string[];
+  vaccineIds: string[];
 }
 
 export interface ILocationResponse {
@@ -113,6 +114,7 @@ export interface IPetDetailResponse {
   address: string;
   seeMore: IPetResponse[];
   isOrgOwned: boolean;
+  vaccines: IVaccine[];
 }
 
 export interface ICreatePetResponse {
@@ -136,4 +138,13 @@ export interface IUpdatePeResponse extends ICreatePetResponse {}
 export interface IPredictResponse {
   animalType: 'Dog' | 'Cat';
   breed: string;
+}
+
+export interface IVaccinesResponse {
+  data: IVaccine[];
+}
+
+export interface IVaccine {
+  id: string;
+  name: string;
 }

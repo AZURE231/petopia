@@ -1,19 +1,27 @@
 import AttributeSelect from './AttributeSelect';
-import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
+import { UseFormSetValue, UseFormWatch, set } from 'react-hook-form';
 import ControlForm from './ControlForm';
 import {
   GIVE_PET_STEP,
   PET_SELECT,
+  PET_SEX_FILTER,
   PET_SPECIES,
+  PET_SPECIES_FILTER,
   QUERY_KEYS,
 } from '@/src/utils/constants';
 import {
   ICreatePetProfileRequest,
   IPredictResponse,
+  IVaccine,
+  IVaccinesResponse,
 } from '@/src/interfaces/pet';
 import BreedInput from './BreedInput';
 import { useQuery } from '@/src/utils/hooks';
-import { predict } from '@/src/services/pet.api';
+import { getVaccine, predict } from '@/src/services/pet.api';
+import Dropdown from '../general/Dropdown';
+import { IApiResponse } from '@/src/interfaces/common';
+
+import { useState } from 'react';
 
 export default function FormPetDetail({
   handleNext,
@@ -28,6 +36,7 @@ export default function FormPetDetail({
   watch: UseFormWatch<ICreatePetProfileRequest>;
   enableAI: boolean;
 }) {
+  const [vaccines, setVaccines] = useState<IVaccine[]>();
   const formData = new FormData();
   formData.append('', watch('files')[0]);
 
@@ -36,7 +45,6 @@ export default function FormPetDetail({
     () => predict(formData),
     {
       onSuccess: (res) => {
-        console.log('data', res);
         setValue('predictedBreed', res.data.breed);
         setValue(
           'species',
@@ -44,6 +52,17 @@ export default function FormPetDetail({
         );
       },
       enabled: watch('files').length > 0 && enableAI,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  useQuery<IApiResponse<IVaccine[]>>(
+    [QUERY_KEYS.GET_VACCINE],
+    () => getVaccine(),
+    {
+      onSuccess: (data) => {
+        setVaccines(data.data.data);
+      },
       refetchOnWindowFocus: false,
     }
   );
@@ -75,7 +94,7 @@ export default function FormPetDetail({
             watch={watch}
             label="Loài"
             value="species"
-            options={PET_SELECT[0].items}
+            options={{ ...PET_SPECIES_FILTER, kind: 'species' }.items}
             aiQuery={getPetBreed}
             enableAI={enableAI}
           />
@@ -96,6 +115,13 @@ export default function FormPetDetail({
               aiQuery={getPetBreed}
             />
           ))}
+          {vaccines && watch('isVaccinated') == 0 && (
+            <Dropdown
+              optionsList={vaccines}
+              setValue={setValue}
+              watch={watch}
+            />
+          )}
 
           <div className="flex flex-col space-y-2">
             <label htmlFor="pet-description" className="text-sm font-medium">

@@ -185,6 +185,17 @@ const page = observer(
                       </div>
                     </div>
                     <div className="flex flex-row py-2">
+                      <div className="w-1/3 font-bold">Vắc xin đã tiêm</div>
+                      <div className="w-2/3">
+                        <span>: </span>
+                        {petDetail.vaccines.length === 0 && 'Chưa rõ'}
+                        {petDetail.vaccines.length !== 0 &&
+                          petDetail.vaccines
+                            .map((vaccine) => vaccine.name)
+                            .join(', ')}
+                      </div>
+                    </div>
+                    <div className="flex flex-row py-2">
                       <div className="w-1/3 font-bold">Triệt sản</div>
                       <div className="w-2/3">
                         <span>: </span>
@@ -221,15 +232,15 @@ const page = observer(
             </div>
             {(petPost.length ||
               userStore.userContext?.id === petDetail.ownerId) && (
-                <div className="container max-w-5xl mx-auto p-5 shadow-2xl rounded-2xl my-5">
-                  <CreatePetPostButton
-                    petId={params.id}
-                    query={getPostQuery}
-                    show={userStore.userContext?.id === petDetail.ownerId}
-                  />
-                  <CarouselDefault posts={petPost} query={getPostQuery} />
-                </div>
-              )}
+              <div className="container max-w-5xl mx-auto p-5 shadow-2xl rounded-2xl my-5">
+                <CreatePetPostButton
+                  petId={params.id}
+                  query={getPostQuery}
+                  show={userStore.userContext?.id === petDetail.ownerId}
+                />
+                <CarouselDefault posts={petPost} query={getPostQuery} />
+              </div>
+            )}
             <SeeMore petList={petDetail.seeMore} />
           </div>
         )}
