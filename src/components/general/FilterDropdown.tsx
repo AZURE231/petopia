@@ -77,7 +77,7 @@ export const FilterDropDown = (props: IFilterDropDown) => {
       {title && (
         <div className="text-sm flex font-medium mb-2">
           {title}{' '}
-          {!aiQuery?.isLoading && enableAI && (
+          {aiQuery?.isSuccess && enableAI && (
             <span className="ml-3 flex text-yellow-500 relative">
               Hỗ trợ bởi AI{' '}
               <span className="text-lg animate-pulse absolute bottom-3 -right-5">
@@ -96,7 +96,13 @@ export const FilterDropDown = (props: IFilterDropDown) => {
             value={filterText}
             onChange={(e) => setFilterText(e.target.value)}
             onClick={() => setShowDropdown(!showDropdown)}
-            className="text-black placeholder-black w-full text-center hover:bg-slate-100 border border-gray-300  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center"
+            className={`text-black placeholder-black w-full text-center  
+            border border-gray-300 ${
+              aiQuery?.isLoading && enableAI
+                ? 'border-yellow-600 animate-pulse bg-yellow-200'
+                : 'border-gray-300 hover:bg-slate-100'
+            } focus:ring-4 focus:outline-none focus:ring-blue-300 
+            font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center`}
           />
         </span>
       </div>
