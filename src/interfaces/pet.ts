@@ -140,10 +140,6 @@ export interface IPredictResponse {
   breed: string;
 }
 
-export interface IVaccinesResponse {
-  data: IVaccine[];
-}
-
 export interface IVaccine {
   id: string;
   name: string;

@@ -1,10 +1,9 @@
 import AttributeSelect from './AttributeSelect';
-import { UseFormSetValue, UseFormWatch, set } from 'react-hook-form';
+import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import ControlForm from './ControlForm';
 import {
   GIVE_PET_STEP,
   PET_SELECT,
-  PET_SEX_FILTER,
   PET_SPECIES,
   PET_SPECIES_FILTER,
   QUERY_KEYS,
@@ -13,7 +12,6 @@ import {
   ICreatePetProfileRequest,
   IPredictResponse,
   IVaccine,
-  IVaccinesResponse,
 } from '@/src/interfaces/pet';
 import BreedInput from './BreedInput';
 import { useQuery } from '@/src/utils/hooks';
