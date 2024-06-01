@@ -70,7 +70,21 @@ export default function FormPetDetail({
               required
             />
           </div>
-
+          <AttributeSelect
+            setValue={setValue}
+            watch={watch}
+            label="Loài"
+            value="species"
+            options={PET_SELECT[0].items}
+            aiQuery={getPetBreed}
+            enableAI={enableAI}
+          />
+          <BreedInput
+            watch={watch}
+            setValue={setValue}
+            aiQuery={getPetBreed}
+            enableAI={enableAI}
+          />
           {PET_SELECT.map((filter) => (
             <AttributeSelect
               key={filter.id}
@@ -80,15 +94,8 @@ export default function FormPetDetail({
               value={filter.kind}
               options={filter.items}
               aiQuery={getPetBreed}
-              enableAI={enableAI}
             />
           ))}
-          <BreedInput
-            watch={watch}
-            setValue={setValue}
-            aiQuery={getPetBreed}
-            enableAI={enableAI}
-          />
 
           <div className="flex flex-col space-y-2">
             <label htmlFor="pet-description" className="text-sm font-medium">

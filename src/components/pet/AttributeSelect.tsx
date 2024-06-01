@@ -26,7 +26,7 @@ interface AttributeSelectProps {
     AxiosResponse<IPredictResponse, any>,
     AxiosResponse<IApiErrorResponse, any>
   >;
-  enableAI: boolean;
+  enableAI?: boolean;
 }
 
 export default function AttributeSelect({
