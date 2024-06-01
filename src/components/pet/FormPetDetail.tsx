@@ -16,7 +16,7 @@ import {
 import BreedInput from './BreedInput';
 import { useQuery } from '@/src/utils/hooks';
 import { getVaccine, predict } from '@/src/services/pet.api';
-import Dropdown from '../general/Dropdown';
+import Dropdown from '../general/VaccineDropdown';
 import { IApiResponse } from '@/src/interfaces/common';
 
 import { useState } from 'react';
