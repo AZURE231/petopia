@@ -180,7 +180,7 @@ const PetProfileForm = QueryProvider(
         setShowAlert(true);
       },
       onSuccess: (res) => {
-        // window.location.replace(`/pet/${res.data.data.id}`);
+        window.location.replace(`/pet/${res.data.data.id}`);
       },
     });
 

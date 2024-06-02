@@ -111,7 +111,6 @@ export const SearchPetSection = QueryProvider(() => {
                   onClick={() => setShowFilterMobile(true)}
                 >
                   <FaFilter color="grey" size={24} />
-                  <FaFilter color="grey" size={24} />
                 </button>
               </div>
               <div className="mt-6 grid grid-cols-2 gap-y-5 gap-x-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 xl:gap-x-8">
