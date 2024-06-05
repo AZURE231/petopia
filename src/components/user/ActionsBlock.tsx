@@ -25,7 +25,6 @@ export const ActionsBlock = (props: IActionsBlock) => {
   // HANDLERS
   const handleClickUpgrade = () => {
     if (alowUpgrade) {
-      console.log('okokokok');
       setShowUpgradeForm(true);
     } else {
       setShowAlert(true);
@@ -33,12 +32,16 @@ export const ActionsBlock = (props: IActionsBlock) => {
   };
 
   // QUERIES
-  const preUpgradeQuery = useQuery<IApiResponse<boolean>>([QUERY_KEYS.GET_PRE_UPGRADE], getPreUpgrade, {
-    onSuccess: (res) => {
-      setAllowUpgrade(res.data.data);
-    },
-    refetchOnWindowFocus: false,
-  });
+  const preUpgradeQuery = useQuery<IApiResponse<boolean>>(
+    [QUERY_KEYS.GET_PRE_UPGRADE],
+    getPreUpgrade,
+    {
+      onSuccess: (res) => {
+        setAllowUpgrade(res.data.data);
+      },
+      refetchOnWindowFocus: false,
+    }
+  );
 
   return (
     <div className="mt-5 w-full flex flex-col md:flex-row items-end justify-end gap-2 md:gap-3">

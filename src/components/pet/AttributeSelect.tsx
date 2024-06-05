@@ -26,7 +26,7 @@ interface AttributeSelectProps {
     AxiosResponse<IPredictResponse, any>,
     AxiosResponse<IApiErrorResponse, any>
   >;
-  enableAI: boolean;
+  enableAI?: boolean;
 }
 
 export default function AttributeSelect({
@@ -42,7 +42,7 @@ export default function AttributeSelect({
     <div className="flex flex-col space-y-2">
       <label htmlFor="pet-age" className="text-sm flex font-medium">
         {label}
-        {!aiQuery?.isLoading && value === 'species' && enableAI && (
+        {aiQuery?.isSuccess && value === 'species' && enableAI && (
           <span className="ml-3 flex text-yellow-500 relative">
             Hỗ trợ bởi AI{' '}
             <span className="text-lg animate-pulse absolute bottom-3 -right-5">
@@ -53,10 +53,10 @@ export default function AttributeSelect({
       </label>
       <select
         onChange={(e) => setValue(value, e.target.value)}
-        className={`text-black hover:bg-slate-100 border ${
+        className={`text-black  border ${
           aiQuery?.isLoading && value === 'species'
             ? 'border-yellow-600 animate-pulse bg-yellow-200'
-            : 'border-gray-300'
+            : 'border-gray-300 hover:bg-slate-100'
         } focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center`}
         value={watch(value)}
         disabled={aiQuery?.isLoading && value === 'species'}
