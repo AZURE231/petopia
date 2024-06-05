@@ -99,6 +99,7 @@ export const LoginForm = QueryProvider(() => {
                 Email của bạn
               </label>
               <input
+                test-id="login-email-input"
                 type="email"
                 id="email"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 :bg-gray-700 "
@@ -115,6 +116,7 @@ export const LoginForm = QueryProvider(() => {
                 Mật khẩu
               </label>
               <input
+                test-id="login-password-input"
                 type="password"
                 id="password"
                 placeholder="••••••••"

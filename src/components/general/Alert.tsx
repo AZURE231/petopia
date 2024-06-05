@@ -9,6 +9,7 @@ interface IAlert {
   setShow: Dispatch<SetStateAction<boolean>>;
   action?: () => void;
   showCancel?: boolean;
+  testId?: string;
 }
 
 export function Alert(props: IAlert) {
@@ -20,6 +21,7 @@ export function Alert(props: IAlert) {
     failed = false,
     action,
     showCancel = true,
+    testId,
   } = props;
   const [className, setClassName] = useState<string>('animate-fade_in');
 
@@ -36,6 +38,7 @@ export function Alert(props: IAlert) {
   return (
     show && (
       <div
+        test-id={testId}
         className={`transition ${className} z-50 !fixed top-0 bottom-0 right-0 left-0`}
         onAnimationEnd={handleOnAnimationEnd}
       >
@@ -43,7 +46,10 @@ export function Alert(props: IAlert) {
 
         <div className="h-full w-full absolute inset-0 z-10 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-            <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+            <div
+              test-id="alert"
+              className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
+            >
               <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start">
                   {failed ? (
@@ -110,6 +116,7 @@ export function Alert(props: IAlert) {
                   </button>
                 )}
                 <button
+                  test-id="alert-ok"
                   type="button"
                   onClick={() => handleOnClose(true)}
                   className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"

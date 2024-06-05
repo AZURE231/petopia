@@ -34,7 +34,7 @@ const BlogPage: React.FC<Props> = ({
     <div
       className="relative container max-w-5xl mx-auto mt-10 p-5 justify-center w-full"
     >
-      <h1 className="text-4xl font-bold">{blogTitle}</h1>
+      <h1 test-id="blog-page-title" className="text-4xl font-bold">{blogTitle}</h1>
       <div className="flex justify-between items-center mt-5">
         <div className="text-gray-400 text-sm flex justify-center items-center">
           <div className="relative h-9 w-9">

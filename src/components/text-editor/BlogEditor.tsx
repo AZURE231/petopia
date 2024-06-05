@@ -164,6 +164,12 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
             editor.model.document.on('change:data', () => {
               blogForm.setValue('content', editor.getData());
             });
+
+            // Add test-id attribute to the CKEditor instance
+            const editorElement = document.querySelector('#editor');
+            if (editorElement) {
+              editorElement.setAttribute('test-id', 'ckeditor');
+            }
           })
           .catch(() => {});
       })
@@ -180,6 +186,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
     <div className="max-w-3xl">
       <form onSubmit={handleSubmit}>
         <input
+          test-id="blog-title-input"
           type="text"
           placeholder="Nhập tiêu đề bài viết"
           value={blogForm.watch('title')}
@@ -189,6 +196,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
           maxLength={50}
         />
         <input
+          test-id="blog-excerpt-input"
           type="text"
           placeholder="Nhập mô tả ngắn cho bài viết"
           value={blogForm.watch('excerpt')}
@@ -209,6 +217,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
           Chọn danh mục
         </label>
         <select
+          test-id="blog-category-select"
           id="category"
           name="owner-time"
           className="w-fit px-10 p-3 border border-gray-300 rounded-lg mb-5"
@@ -226,6 +235,7 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
           <div>
             <label className="block font-bold mb-2">Quảng cáo</label>
             <input
+              test-id="blog-ad-input"
               type="radio"
               id="isAd"
               name="isAd"
@@ -242,18 +252,21 @@ const BlogEditor = QueryProvider(({ id = '' }: { id?: string }) => {
         <div className="mt-5" />
         {id === '' && (
           <QueryButton
+            testId="blog-post-button"
             name={'Đăng bài'}
             isLoading={postBlogMutation.isLoading || isLoading}
           />
         )}
         {id !== '' && (
           <QueryButton
+            testId="blog-update-button"
             name={'Cập nhật'}
             isLoading={updateBlogMutation.isLoading || isLoading}
           />
         )}
       </form>
       <Alert
+        testId="blog-create-alert"
         message={alertMessage}
         show={alertShow}
         setShow={setAlertShow}

@@ -10,7 +10,7 @@ export default function ControlForm({
 }: {
   handleBack: () => void;
   handleNext: () => void;
-  step: number,
+  step: number;
   isLoading?: boolean;
 }) {
   return (
@@ -43,7 +43,13 @@ export default function ControlForm({
           </div>
         </div>
       )}
-      {step === GIVE_PET_STEP.RULE && <QueryButton name={'Hoàn thành'} isLoading={isLoading} />}
+      {step === GIVE_PET_STEP.RULE && (
+        <QueryButton
+          testId="submit-give-pet-button"
+          name={'Hoàn thành'}
+          isLoading={isLoading}
+        />
+      )}
     </div>
   );
 }

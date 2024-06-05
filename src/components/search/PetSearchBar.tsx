@@ -60,6 +60,7 @@ export function PetSearchBar(props: IPetSearchBar) {
           <SearchIcon color='grey' size={20} />
         </label>
         <input
+          test-id="search-pet-bar"
           type="search"
           ref={buttonRef}
           className="block w-full p-4 ps-12 text-sm text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:ring-blue-500 focus:border-blue-500   "

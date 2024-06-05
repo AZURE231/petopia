@@ -90,13 +90,14 @@ const BlogAdPage = QueryProvider(({ params }: { params: { id: string } }) => {
             </p>
           </div>
           <div className="space-y-8 lg:grid lg:grid-cols-4 sm:gap-6 xl:gap-10 lg:space-y-0">
-            {paymentTypes.map((paymentType) => {
+            {paymentTypes.map((paymentType,index) => {
               return (
                 <div
                   className={`flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 rounded-lg border ${paymentForm.watch('advertisementId') === paymentType.id
                     && 'border-yellow-300 border-spacing-1 bg-gray-100'
                     } shadow hover:bg-gray-100 cursor-pointer`}
                   key={paymentType.id}
+                  test-id={`payment-type-${index}`}
                   onClick={() => paymentForm.setValue('advertisementId', paymentType.id)}
                 >
                   <h3 className="mb-4 text-2xl font-semibold">

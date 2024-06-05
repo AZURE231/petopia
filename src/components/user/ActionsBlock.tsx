@@ -48,6 +48,7 @@ export const ActionsBlock = (props: IActionsBlock) => {
       {showUpgradeButton && !preUpgradeQuery.isLoading && (
         <div>
           <button
+          test-id="show-upgrade-button"
             className="w-fit border border-black hover:bg-gray-100 font-medium rounded-lg text-md md:text-lg px-5 py-2.5 text-center"
             onClick={handleClickUpgrade}
           >
@@ -72,6 +73,7 @@ export const ActionsBlock = (props: IActionsBlock) => {
       </Link>
 
       <button
+        test-id="show-edit-button"
         onClick={() => setShowEdit((pre) => !pre)}
         className="border border-black bg-yellow-300 hover:bg-yellow-400 px-5 py-2.5 text-center rounded-lg"
       >
@@ -79,6 +81,7 @@ export const ActionsBlock = (props: IActionsBlock) => {
       </button>
 
       <Alert
+        testId="already-submit-org-alert"
         failed={true}
         message={'Bạn đã gửi yêu cầu cộng tác viên rồi!'}
         show={showAlert}

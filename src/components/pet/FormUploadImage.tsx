@@ -63,6 +63,7 @@ export default function FormUploadImage({
             <p className="text-xs text-gray-500 ">PNG, JPG, JPEG</p>
           </div>
           <input
+            test-id="image-dropzone"
             id="dropzone-file"
             disabled={watch('showImages').length >= 3}
             type="file"
@@ -76,7 +77,11 @@ export default function FormUploadImage({
       <div className="flex gap-3 mb-5">
         {watch('showImages').length > 0 &&
           watch('showImages').map((file, index) => (
-            <div key={index} className="relative w-1/3 h-24">
+            <div
+              test-id="show-images-dropzone"
+              key={index}
+              className="relative w-1/3 h-24"
+            >
               <Image
                 src={file}
                 alt="preview"
@@ -86,6 +91,7 @@ export default function FormUploadImage({
               <div
                 className="absolute top-0 bg-red-300 right-0 p-1 rounded-full flex justify-center items-center cursor-pointer"
                 onClick={() => deleteFile(index)}
+                test-id="delete-image-dropzone"
               >
                 <IoClose color="black" />
               </div>
@@ -94,7 +100,11 @@ export default function FormUploadImage({
       </div>
 
       {/* Controller */}
-      <ControlForm handleBack={() => { }} handleNext={handleNext} step={GIVE_PET_STEP.UPLOAD_IMAGE} />
+      <ControlForm
+        handleBack={() => {}}
+        handleNext={handleNext}
+        step={GIVE_PET_STEP.UPLOAD_IMAGE}
+      />
     </div>
   );
 }

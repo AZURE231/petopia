@@ -91,6 +91,7 @@ export default function AddressDropdown({
         </label>
         {provinces && (
           <AddressInput
+            testId ="province-input-dropdown"
             options={provinces}
             onChange={handleProvinceChange}
             title="Chọn Tỉnh/Thành phố"
@@ -110,6 +111,7 @@ export default function AddressDropdown({
         </label>
         {districts && (
           <AddressInput
+            testId ="district-input-dropdown"
             options={districts}
             onChange={handleDistrictChange}
             title="Chọn Quận/huyện"
@@ -129,6 +131,7 @@ export default function AddressDropdown({
         </label>
         {wards && (
           <AddressInput
+            testId ="ward-input-dropdown"
             options={wards}
             onChange={handleWardChange}
             title="Chọn xã/phường"

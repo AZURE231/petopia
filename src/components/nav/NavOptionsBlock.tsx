@@ -33,8 +33,9 @@ export const NavOptionsBlock = observer((props: INavOptionsBlock) => {
 
   return (
     <div
-      className={`items-center ${isOpenMenu ? '' : 'hidden'
-        } justify-between w-full md:flex md:w-auto md:order-1`}
+      className={`items-center ${
+        isOpenMenu ? '' : 'hidden'
+      } justify-between w-full md:flex md:w-auto md:order-1`}
     >
       <ul
         className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white "
@@ -42,9 +43,11 @@ export const NavOptionsBlock = observer((props: INavOptionsBlock) => {
       >
         <li>
           <Link
+            test-id="home-link"
             href="/"
-            className={`block py-2 px-3 ${pathname == '/' ? activeTab : 'md:hover:text-yellow-400'
-              } text-black  rounded md:bg-transparent md:text-black  md:p-0 `}
+            className={`block py-2 px-3 ${
+              pathname == '/' ? activeTab : 'md:hover:text-yellow-400'
+            } text-black  rounded md:bg-transparent md:text-black  md:p-0 `}
             aria-current="page"
           >
             Trang chủ
@@ -52,27 +55,33 @@ export const NavOptionsBlock = observer((props: INavOptionsBlock) => {
         </li>
         <li>
           <Link
+            test-id="search-link"
             href="/search"
-            className={`block py-2 px-3 ${pathname == '/search' ? activeTab : 'md:hover:text-yellow-400'
-              } text-black  rounded md:bg-transparent md:text-black  md:p-0 `}
+            className={`block py-2 px-3 ${
+              pathname == '/search' ? activeTab : 'md:hover:text-yellow-400'
+            } text-black  rounded md:bg-transparent md:text-black  md:p-0 `}
           >
             Nhận nuôi
           </Link>
         </li>
         <li>
           <Link
+            test-id="adopt-link"
             href="/give-pet"
-            className={`block py-2 px-3 ${pathname == '/give-pet' ? activeTab : 'md:hover:text-yellow-400'
-              } text-black  rounded md:bg-transparent md:text-black  md:p-0 `}
+            className={`block py-2 px-3 ${
+              pathname == '/give-pet' ? activeTab : 'md:hover:text-yellow-400'
+            } text-black  rounded md:bg-transparent md:text-black  md:p-0 `}
           >
             Cho thú cưng
           </Link>
         </li>
         <li>
           <Link
+            test-id="blog-link"
             href="/blog"
-            className={`block py-2 px-3 ${pathname == '/blog' ? activeTab : 'md:hover:text-yellow-400'
-              } text-black  rounded md:bg-transparent md:text-black  md:p-0 `}
+            className={`block py-2 px-3 ${
+              pathname == '/blog' ? activeTab : 'md:hover:text-yellow-400'
+            } text-black  rounded md:bg-transparent md:text-black  md:p-0 `}
           >
             Tin tức
           </Link>
@@ -81,6 +90,7 @@ export const NavOptionsBlock = observer((props: INavOptionsBlock) => {
           <>
             <li>
               <a
+                test-id="user-profile-link-mobile"
                 onClick={() => window.location.replace('/user')}
                 className="block py-2 px-3 text-yellow-500 rounded hover:bg-gray-100 md:hidden cursor-pointer"
               >
@@ -89,6 +99,7 @@ export const NavOptionsBlock = observer((props: INavOptionsBlock) => {
             </li>
             <li>
               <a
+                test-id="logout-link"
                 onClick={() => logoutMutation.mutate(undefined)}
                 className="block py-2 px-3 text-yellow-500 rounded hover:bg-gray-100 md:hidden cursor-pointer"
               >

@@ -145,6 +145,7 @@ export default function TabbedTable({
             userInfo?.role === USER_ROLE.SYSTEM_ADMIN) && (
             <li>
               <button
+              test-id="blog-tab"
                 className={`${
                   tab === TAB.BLOG ? activeTab : inactiveTab
                 } relative`}
@@ -236,8 +237,9 @@ export default function TabbedTable({
               <BlogCreateCard />
               {!getUserBlogsQuery.isLoading &&
                 blogs.length > 0 &&
-                blogs.map((item) => (
+                blogs.map((item, index) => (
                   <BlogCard
+                    testId={`blog-card-${index}`}
                     key={item.id}
                     id={item.id}
                     title={item.title}
