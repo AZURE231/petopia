@@ -23,6 +23,7 @@ interface IPetCard extends IPetResponse {
     AxiosResponse<IApiResponse<IPetResponse[]>, any>,
     AxiosResponse<IApiErrorResponse, any>
   >;
+  testId?: string;
 }
 
 export function PetCard(props: IPetCard) {
@@ -37,6 +38,7 @@ export function PetCard(props: IPetCard) {
     simple = false,
     isOrgOwned,
     getPetQuery,
+    testId,
   } = props;
   const [showAlert, setShowAlert] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
@@ -66,7 +68,10 @@ export function PetCard(props: IPetCard) {
   return (
     <div className="relative">
       <Link href={`/pet/${id}`}>
-        <div className="max-w-xs h-full p-2 bg-white border border-gray-200 rounded-2xl shadow-lg ">
+        <div
+          test-id={testId}
+          className="max-w-xs h-full p-2 bg-white border border-gray-200 rounded-2xl shadow-lg"
+        >
           <div className="flex flex-col">
             <div className="w-full relative pt-[100%]">
               <Image

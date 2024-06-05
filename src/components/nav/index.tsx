@@ -53,13 +53,17 @@ export const Navbar = observer(
                 <button className="mx-4">Đăng kí</button>
               </Link>
               <Link href="/login">
-                <button className="text-black bg-yellow-300 rounded-full py-2 px-4 hover:bg-yellow-400">
+                <button
+                  test-id="login-button"
+                  className="text-black bg-yellow-300 rounded-full py-2 px-4 hover:bg-yellow-400"
+                >
                   Đăng nhập
                 </button>
               </Link>
             </div>
           )}
           <button
+            test-id="menu-button"
             type="button"
             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 "
             onClick={() => setIsOpenMenu(!isOpenMenu)}

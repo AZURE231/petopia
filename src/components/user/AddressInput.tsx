@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { FilterDropDown } from '../general/FilterDropdown';
 
 interface IAddressInput {
+  testId: string;
   options: ILocationResponse[];
   onChange: (code: string) => void;
   title: string;
@@ -13,6 +14,7 @@ interface IAddressInput {
 }
 
 export const AddressInput = ({
+  testId,
   options,
   onChange,
   value,
@@ -30,6 +32,7 @@ export const AddressInput = ({
       options={options.map(option => ({ value: option.code, label: option.name }))}
       value={value}
       setValue={onChange}
+      testId={testId}
     />
   );
 };

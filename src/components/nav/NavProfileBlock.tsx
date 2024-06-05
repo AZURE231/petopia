@@ -45,6 +45,7 @@ export const NavProfileBlock = ({
       <NavNotificationBlock />
       <div className="flex flex-col relative">
         <button
+          test-id="user-picture-button"
           className="flex text-sm bg-gray-800 rounded-full overflow-hidden md:me-0 focus:ring-4 focus:ring-gray-300 w-8 h-8 relative"
           onClick={() => setIsOpenProfile(!isOpenProfile)}
           ref={buttonRef}
@@ -62,6 +63,7 @@ export const NavProfileBlock = ({
             } text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow `}
         >
           <div
+            test-id="user-profile-link"
             className="px-4 py-3 select-none cursor-pointer"
             onClick={() => window.location.replace('/user')}
           >

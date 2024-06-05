@@ -12,6 +12,7 @@ interface IFilterDropDownOption {
 }
 
 interface IFilterDropDown {
+  testId?: string;
   options: IFilterDropDownOption[];
   value: string;
   setValue: (value: string) => void;
@@ -90,6 +91,7 @@ export const FilterDropDown = (props: IFilterDropDown) => {
       <div>
         <span className="rounded-md shadow-sm">
           <input
+            test-id={props.testId}
             disabled={disabled}
             ref={buttonRef}
             type="text"
@@ -114,6 +116,7 @@ export const FilterDropDown = (props: IFilterDropDown) => {
           <div className="py-1" role="menu">
             {displayedOptions.map((option, index) => (
               <div
+                test-id="dropdown-option"
                 key={index}
                 className="block px-4 py-2 text-sm text-black hover:bg-gray-100 cursor-pointer"
                 role="menuitem"

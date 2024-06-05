@@ -20,7 +20,7 @@ export default function BlogCreateCard() {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="max-w-xs p-2 h-full bg-white border border-gray-200 rounded-2xl shadow-lg">
+      <div test-id="blog-create-card" className="max-w-xs p-2 h-full bg-white border border-gray-200 rounded-2xl shadow-lg">
         <div className="flex flex-col">
           {/* Image with rounded corners */}
           <div className="relative w-full pt-[100%]">

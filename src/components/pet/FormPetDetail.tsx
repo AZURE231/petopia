@@ -77,6 +77,7 @@ export default function FormPetDetail({
               Tên thú cưng
             </label>
             <input
+              test-id="pet-name-give-form"
               id="pet-name"
               name="pet-name"
               type="text"
@@ -104,6 +105,7 @@ export default function FormPetDetail({
           />
           {PET_SELECT.map((filter) => (
             <AttributeSelect
+              testId={`dropdown-option-${filter.kind}`}
               key={filter.id}
               setValue={setValue}
               watch={watch}
@@ -126,6 +128,7 @@ export default function FormPetDetail({
               Giới thiệu về thú cưng
             </label>
             <textarea
+              test-id="pet-description-give-form"
               id="pet-description"
               name="pet-description"
               value={watch('description')}

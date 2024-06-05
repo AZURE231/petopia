@@ -107,6 +107,7 @@ export const PetAdoptForm = observer(({ handleClose }: Props) => {
     <div className="container p-5 mx-auto">
       {preCheckQuery.isSuccess && (
         <form
+        test-id="adopt-form"
           className="w-full rounded-2xl bg-yellow-100 p-5"
           onSubmit={handleOnSubmit}
         >
@@ -262,6 +263,7 @@ export const PetAdoptForm = observer(({ handleClose }: Props) => {
                   Ghi chú
                 </label>
                 <textarea
+                  test-id = "adopt-form-note"
                   id="owner-note"
                   name="owner-note"
                   required
@@ -273,6 +275,7 @@ export const PetAdoptForm = observer(({ handleClose }: Props) => {
           </div>
           <div className="flex justify-center">
             <button
+              test-id="adopt-form-submit"
               type="submit"
               className="w-fit p-3 flex text-black bg-yellow-300 hover:bg-yellow-400 rounded-lg font-bold"
             >
@@ -282,6 +285,7 @@ export const PetAdoptForm = observer(({ handleClose }: Props) => {
         </form>
       )}
       <Alert
+        testId='adopt-form-alert'
         failed={alertFail}
         message={alertMessage}
         show={alertShow}

@@ -27,6 +27,7 @@ interface AttributeSelectProps {
     AxiosResponse<IApiErrorResponse, any>
   >;
   enableAI?: boolean;
+  testId?: string;
 }
 
 export default function AttributeSelect({
@@ -35,6 +36,7 @@ export default function AttributeSelect({
   label,
   value,
   options,
+  testId,
   aiQuery,
   enableAI,
 }: AttributeSelectProps) {
@@ -52,6 +54,7 @@ export default function AttributeSelect({
         )}
       </label>
       <select
+        test-id={testId}
         onChange={(e) => setValue(value, e.target.value)}
         className={`text-black  border ${
           aiQuery?.isLoading && value === 'species'
