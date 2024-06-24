@@ -1,6 +1,6 @@
 import { IPetFilter, IPetFilterRequest } from '@/src/interfaces/pet';
 import { useRef, useState, useEffect } from 'react';
-import { UseFormReturn, set } from 'react-hook-form';
+import { UseFormReturn } from 'react-hook-form';
 import { PET_FILTERS, PET_SPECIES, QUERY_KEYS } from '@/src/utils/constants';
 import { useClickOutside, useQuery } from '@/src/utils/hooks';
 import { PetFilterCard } from './PetFilterCard';

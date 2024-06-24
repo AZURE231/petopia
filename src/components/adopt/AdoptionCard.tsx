@@ -2,7 +2,7 @@ import Popup from 'reactjs-popup';
 import PetAdoptionInfo from './PetAdoptionInfo';
 import { IAdoptCardResponse } from '@/src/interfaces/adopt';
 import { useState } from 'react';
-import { ADOPT_ACTION, ADOPT_STATUS } from '@/src/utils/constants';
+import { ADOPT_STATUS } from '@/src/utils/constants';
 
 interface IAdoptionCard {
   card: IAdoptCardResponse;

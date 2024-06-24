@@ -34,7 +34,7 @@ class UploadAdapter {
 
     xhr.open(
       'POST',
-      'https://api.imgbb.com/1/upload?key=375280be5017acaf5d4d8561abc4f13b',
+      process.env.NEXT_PUBLIC_STORAGE_ENDPOINT || '',
       true
     );
     xhr.responseType = 'json';

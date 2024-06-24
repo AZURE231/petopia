@@ -1,7 +1,6 @@
 import { IPetFilter, IPetFilterRequest } from '@/src/interfaces/pet';
 import { PET_SPECIES } from '@/src/utils/constants';
-import { get } from 'http';
-import { use, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
 interface IPetFilterCard {
@@ -91,11 +90,10 @@ export const PetFilterCard = (props: IPetFilterCard) => {
   return (
     <div
       key={filter.id}
-      className={`${
-        isMobile
+      className={`${isMobile
           ? 'border-t border-gray-200 px-4 py-6'
           : 'border-b border-gray-200 py-6'
-      }`}
+        }`}
     >
       <h3
         className={`S${isMobile ? '-mx-2 -my-3 flow-root' : '-my-3 flow-root'}`}
@@ -134,12 +132,12 @@ export const PetFilterCard = (props: IPetFilterCard) => {
       </h3>
       {/* <!-- Filter section, show/hide based on section state. --> */}
       {showFilter[filter.id as keyof typeof showFilter] && (
-        <div  className="pt-6" id="filter-section-0">
+        <div className="pt-6" id="filter-section-0">
           <div className="space-y-4">
             {filter.items.map((item) => (
               <div test-id={'filter-card'} key={item.id} className="flex items-center">
                 <input
-                  
+
                   id={`filter-${filter.label}-${item.id}`}
                   name={`${filter.label}`}
                   type="checkbox"
