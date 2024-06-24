@@ -1,4 +1,4 @@
-import { set, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { IApiResponse, IUploadImage } from '@/src/interfaces/common';
 import Dropzone from '../general/Dropzone';
 import { IPostPetPost } from '@/src/interfaces/post';

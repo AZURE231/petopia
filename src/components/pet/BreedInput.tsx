@@ -3,7 +3,7 @@ import { useQuery } from '@/src/utils/hooks';
 import { PET_SPECIES, QUERY_KEYS } from '@/src/utils/constants';
 import { IApiErrorResponse, IApiResponse } from '@/src/interfaces/common';
 import { getBreed } from '@/src/services/pet.api';
-import { UseFormSetValue, UseFormWatch, set } from 'react-hook-form';
+import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import {
   ICreatePetProfileRequest,
   IPredictResponse,

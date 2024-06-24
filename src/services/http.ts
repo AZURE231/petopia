@@ -1,5 +1,4 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { API_ROUTE } from '@/settings';
 import { deleteCookie, getCookie } from 'cookies-next';
 import { COOKIES_NAME } from '../utils/constants';
 
@@ -14,7 +13,7 @@ const headers: Readonly<Record<string, string | boolean>> = {
 
 class Http {
   private instance: AxiosInstance | null = null;
-  private urlAPI: string = API_ROUTE;
+  private urlAPI: string | undefined = process.env.NEXT_PUBLIC_API_ENDPOINT;
   private get http(): AxiosInstance {
     return this.instance ? this.instance : this.initHttp();
   }
@@ -26,8 +25,8 @@ class Http {
         for (const v in params[p]) {
           str.push(
             encodeURIComponent(`${p}.${v}`) +
-              '=' +
-              encodeURIComponent(params[p][v])
+            '=' +
+            encodeURIComponent(params[p][v])
           );
         }
       } else {

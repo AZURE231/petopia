@@ -6,7 +6,6 @@ import { useClickOutside, useQuery } from '@/src/utils/hooks';
 import { useEffect, useRef, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { IoSearchOutline as SearchIcon } from 'react-icons/io5';
-import { ImageSearch } from './ImageSearch';
 
 interface IPetSearchBar {
   filterForm: UseFormReturn<IPetFilterRequest, any, undefined>;

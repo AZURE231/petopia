@@ -1,5 +1,4 @@
 import React from 'react';
-import SeeMore from './SeeMore';
 import CardSkeleton from './CardSkeleton';
 
 export default function PetDetailSkeleton() {
