@@ -106,12 +106,11 @@ export const SearchPetSection = QueryProvider(() => {
                   disable={getPetsQuery.isFetching}
                 />
                 <button
-                 test-id="filter-button-mobile"
+                  test-id="filter-button-mobile"
                   type="button"
                   className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
                   onClick={() => setShowFilterMobile(true)}
                 >
-                  <FaFilter color="grey" size={24} />
                   <FaFilter color="grey" size={24} />
                 </button>
               </div>
@@ -122,7 +121,7 @@ export const SearchPetSection = QueryProvider(() => {
                   ))}
                 {!getPetsQuery.isLoading &&
                   pets.length > 0 &&
-                  pets.map((pet,index) => (
+                  pets.map((pet, index) => (
                     <PetCard
                       testId={`pet-card-${index}`}
                       isEditable={false}
